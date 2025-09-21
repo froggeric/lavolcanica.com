@@ -1,0 +1,340 @@
+/* --- 1. Global Styles & Variables --- */
+:root {
+    --bg-volcanic-night: #1a1a1a;
+    --text-salt-crystal: #F0F0F0;
+    --accent-lava-glow: #FF4D4D;
+    --accent-canary-teal: #00C2A8;
+    --font-heading: 'Montserrat', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-volcanic-night);
+    font-family: var(--font-body);
+    color: var(--text-salt-crystal);
+    line-height: 1.6;
+}
+
+a {
+    color: var(--text-salt-crystal);
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.hidden {
+    display: none;
+}
+
+/* --- 2. Main Header --- */
+.main-header {
+    background-color: rgba(26, 26, 26, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 1rem 1.5rem;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+/* --- 3. Hamburger Menu (Mobile First) --- */
+.hamburger-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 2rem;
+    height: 1.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1002;
+}
+.hamburger-menu .bar {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: var(--text-salt-crystal);
+    border-radius: 2px;
+    transition: all 0.3s ease-in-out;
+}
+.nav-open .hamburger-menu .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.nav-open .hamburger-menu .bar:nth-child(2) { opacity: 0; }
+.nav-open .hamburger-menu .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* --- 4. Main Navigation (Mobile First) --- */
+.main-nav {
+    position: fixed; top: 0; right: 0; width: 100vw; height: 100vh;
+    background-color: rgba(26, 26, 26, 0.95);
+    z-index: 1001;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+}
+.nav-open .main-nav { transform: translateX(0); }
+.nav-links { text-align: center; }
+.nav-links li { margin: 2rem 0; }
+.nav-links a {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    transition: color 0.2s ease;
+}
+.nav-links a:hover { color: var(--accent-lava-glow); }
+
+/* --- 5. Language Switcher --- */
+.language-switcher { margin-top: 3rem; display: flex; gap: 1rem; }
+.lang-btn {
+    background: none; border: none;
+    color: var(--text-salt-crystal);
+    font-family: var(--font-heading);
+    font-size: 1.1rem; cursor: pointer;
+    padding: 0.5rem; opacity: 0.6;
+    transition: opacity 0.2s ease, border-bottom 0.2s ease;
+    border-bottom: 2px solid transparent;
+}
+.lang-btn.active { opacity: 1; border-bottom-color: var(--accent-lava-glow); }
+
+/* --- 6. Hero Section --- */
+.hero-section {
+    height: 100vh; min-height: 600px;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 0 1.5rem;
+    position: relative; overflow: hidden;
+}
+.hero-section::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('images/hero-background.jpg') no-repeat center center/cover;
+    background-color: var(--bg-volcanic-night);
+    z-index: -2;
+    animation: zoom-in 20s ease-in-out infinite;
+}
+.hero-section::after {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+@keyframes zoom-in {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+.hero-content { max-width: 800px; }
+.hero-logo { max-width: 200px; width: 100%; margin-bottom: 2rem; }
+.hero-tagline {
+    font-family: var(--font-heading); font-weight: 700;
+    font-size: clamp(1.75rem, 5vw, 2.75rem);
+    line-height: 1.2;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+    margin-bottom: 2.5rem;
+}
+.cta-button {
+    /* MODIFIED SECTION */
+    display: inline-block;
+    background-color: var(--accent-lava-glow);
+    color: var(--text-salt-crystal);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem; /* Added for consistency */
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border: none; /* ADDED: Removes default browser border */
+    cursor: pointer; /* ADDED: Ensures pointer cursor on button elements */
+}
+.cta-button:hover {
+    transform: scale(1.05);
+    background-color: #ff6a6a;
+}
+
+/* --- 7. General Page Section Styles --- */
+.page-section { padding: 5rem 1.5rem; }
+.section-title {
+    font-family: var(--font-heading); font-size: 2.5rem; font-weight: 900;
+    text-align: center; margin-bottom: 3rem;
+    text-transform: uppercase; letter-spacing: 1px;
+}
+.section-title::after {
+    content: ''; display: block; width: 60px; height: 4px;
+    background-color: var(--accent-lava-glow);
+    margin: 0.5rem auto 0;
+}
+.alt-bg { background-color: #111; }
+
+/* --- 8. Music Section --- */
+.music-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.music-card {
+    position: relative; overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+}
+.music-card:hover { transform: scale(1.03); }
+.music-card img { display: block; width: 100%; height: auto; }
+.music-card-overlay {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(26, 26, 26, 0.85);
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.3s ease;
+}
+.music-card:hover .music-card-overlay { opacity: 1; }
+.music-card-info {
+    text-align: center; color: var(--text-salt-crystal);
+    transform: translateY(15px);
+    transition: transform 0.3s ease;
+}
+.music-card:hover .music-card-info { transform: translateY(0); }
+.music-card-title {
+    font-family: var(--font-heading); font-size: 1.5rem;
+    font-weight: 700; margin-bottom: 0.5rem;
+}
+.music-card-year {
+    font-family: var(--font-body); opacity: 0.8; margin-bottom: 1.5rem;
+}
+.streaming-links { display: flex; gap: 1.5rem; }
+.streaming-links a .icon {
+    width: 32px; height: 32px;
+    color: var(--text-salt-crystal);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+.streaming-links a:hover .icon {
+    color: var(--accent-canary-teal); transform: scale(1.1);
+}
+.discography-cta { text-align: center; margin-top: 4rem; }
+
+/* --- 9. About Section --- */
+.about-content {
+    display: grid; grid-template-columns: 1fr;
+    gap: 3rem; max-width: 1100px; margin: 0 auto;
+    align-items: center;
+}
+.about-image-container img {
+    width: 100%; height: auto;
+    border-radius: 8px; object-fit: cover;
+}
+.about-text-container .section-title {
+    text-align: left; margin-bottom: 1.5rem;
+}
+.about-text-container .section-title::after { margin: 0.5rem 0 0; }
+.about-text-container p {
+    font-size: 1.1rem; line-height: 1.7; white-space: pre-wrap;
+}
+.about-text-container p + p { margin-top: 1.5rem; }
+
+/* --- 10. Footer --- */
+.main-footer {
+    background-color: #111;
+    padding: 3rem 1.5rem;
+    text-align: center;
+}
+.footer-content { max-width: 1200px; margin: 0 auto; }
+.footer-links {
+    display: flex; justify-content: center;
+    gap: 2rem; margin-bottom: 2rem;
+}
+.footer-links .icon {
+    width: 28px; height: 28px;
+    color: var(--text-salt-crystal); opacity: 0.7;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.footer-links a:hover .icon { opacity: 1; transform: translateY(-3px); }
+.copyright { opacity: 0.6; font-size: 0.9rem; }
+
+/* --- 11. Modal Styles --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 2000; display: flex;
+    align-items: center; justify-content: center;
+    opacity: 1; transition: opacity 0.3s ease;
+}
+.modal-overlay.hidden { opacity: 0; pointer-events: none; }
+.modal-content {
+    background: var(--bg-volcanic-night);
+    padding: 2rem; border-radius: 8px;
+    width: 90%; max-width: 800px;
+    max-height: 90vh; overflow-y: auto;
+    position: relative; transform: scale(1);
+    transition: transform 0.3s ease;
+}
+.modal-overlay.hidden .modal-content { transform: scale(0.95); }
+.close-modal-btn {
+    position: absolute; top: 1rem; right: 1rem;
+    background: none; border: none; font-size: 2.5rem;
+    color: var(--text-salt-crystal); cursor: pointer; line-height: 1;
+}
+.discography-list .music-card { margin-bottom: 2rem; }
+.discography-list .music-card:hover { transform: none; }
+.discography-list .music-card-overlay {
+    position: static; opacity: 1; background: transparent;
+    flex-direction: row; justify-content: space-between;
+    padding: 1.5rem; align-items: center;
+}
+.discography-list .music-card-info { transform: none; text-align: left; }
+.discography-list .music-card-title { font-size: 1.25rem; }
+.discography-list .streaming-links { gap: 1rem; }
+
+/* --- 12. Desktop Styles --- */
+@media (min-width: 768px) {
+    .hamburger-menu { display: none; }
+    .main-nav {
+        position: static; width: auto; height: auto;
+        background-color: transparent; transform: none;
+        flex-direction: row; align-items: center;
+        gap: 2rem;
+    }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links li { margin: 0; }
+    .nav-links a { font-size: 1rem; }
+    .language-switcher { margin-top: 0; }
+    .lang-btn { font-size: 0.9rem; }
+    .hero-logo { max-width: 250px; }
+    .page-section { padding: 6rem 1.5rem; }
+    .section-title { font-size: 3rem; }
+    .about-content { grid-template-columns: 1fr 1.5fr; }
+    .music-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .discography-list .music-card { display: flex; align-items: center; }
+    .discography-list .music-card img { width: 150px; height: 150px; }
+}
