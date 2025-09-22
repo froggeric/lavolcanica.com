@@ -6,6 +6,7 @@
     --accent-canary-teal: #00C2A8;
     --font-heading: 'Montserrat', sans-serif;
     --font-body: 'Roboto', sans-serif;
+    --player-height: 80px;
 }
 
 * {
@@ -23,6 +24,12 @@ body {
     font-family: var(--font-body);
     color: var(--text-salt-crystal);
     line-height: 1.6;
+    padding-bottom: 0;
+    transition: padding-bottom 0.4s ease;
+}
+
+body.player-active {
+    padding-bottom: var(--player-height);
 }
 
 a {
@@ -35,7 +42,7 @@ ul {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 /* --- 2. Main Header --- */
@@ -159,28 +166,39 @@ ul {
     margin-bottom: 2.5rem;
 }
 .cta-button {
-    /* MODIFIED SECTION */
     display: inline-block;
     background-color: var(--accent-lava-glow);
     color: var(--text-salt-crystal);
     font-family: var(--font-heading);
     font-weight: 700;
-    font-size: 1rem; /* Added for consistency */
+    font-size: 1rem;
     padding: 1rem 2.5rem;
     border-radius: 50px;
     text-transform: uppercase;
     letter-spacing: 1px;
     transition: transform 0.3s ease, background-color 0.3s ease;
-    border: none; /* ADDED: Removes default browser border */
-    cursor: pointer; /* ADDED: Ensures pointer cursor on button elements */
+    border: none;
+    cursor: pointer;
 }
 .cta-button:hover {
     transform: scale(1.05);
     background-color: #ff6a6a;
 }
+.cta-button.alt {
+    background-color: transparent;
+    border: 2px solid var(--accent-canary-teal);
+    color: var(--accent-canary-teal);
+}
+.cta-button.alt:hover {
+    background-color: var(--accent-canary-teal);
+    color: var(--text-salt-crystal);
+}
 
 /* --- 7. General Page Section Styles --- */
-.page-section { padding: 5rem 1.5rem; }
+.page-section {
+    padding: 5rem 1.5rem;
+    text-align: center;
+}
 .section-title {
     font-family: var(--font-heading); font-size: 2.5rem; font-weight: 900;
     text-align: center; margin-bottom: 3rem;
@@ -195,20 +213,19 @@ ul {
 
 /* --- 8. Music Section --- */
 .music-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    display: grid; grid-template-columns: 1fr;
+    gap: 2rem; max-width: 1200px; margin: 0 auto 4rem;
 }
 .music-card {
     position: relative; overflow: hidden;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease;
 }
+.music-card img {
+    display: block; width: 100%; height: auto;
+    cursor: pointer;
+}
 .music-card:hover { transform: scale(1.03); }
-.music-card img { display: block; width: 100%; height: auto; }
 .music-card-overlay {
     position: absolute; top: 0; left: 0;
     width: 100%; height: 100%;
@@ -216,6 +233,7 @@ ul {
     display: flex; flex-direction: column;
     justify-content: center; align-items: center;
     opacity: 0; transition: opacity 0.3s ease;
+    pointer-events: none;
 }
 .music-card:hover .music-card-overlay { opacity: 1; }
 .music-card-info {
@@ -231,37 +249,63 @@ ul {
 .music-card-year {
     font-family: var(--font-body); opacity: 0.8; margin-bottom: 1.5rem;
 }
-.streaming-links { display: flex; gap: 1.5rem; }
+.streaming-links { display: flex; gap: 1.5rem; pointer-events: auto; }
 .streaming-links a .icon {
-    width: 32px; height: 32px;
+    width: 24px; height: 24px;
     color: var(--text-salt-crystal);
     transition: color 0.2s ease, transform 0.2s ease;
 }
 .streaming-links a:hover .icon {
     color: var(--accent-canary-teal); transform: scale(1.1);
 }
-.discography-cta { text-align: center; margin-top: 4rem; }
 
 /* --- 9. About Section --- */
 .about-content {
     display: grid; grid-template-columns: 1fr;
     gap: 3rem; max-width: 1100px; margin: 0 auto;
-    align-items: center;
+    align-items: start;
 }
 .about-image-container img {
     width: 100%; height: auto;
     border-radius: 8px; object-fit: cover;
 }
-.about-text-container .section-title {
-    text-align: left; margin-bottom: 1.5rem;
-}
-.about-text-container .section-title::after { margin: 0.5rem 0 0; }
 .about-text-container p {
     font-size: 1.1rem; line-height: 1.7; white-space: pre-wrap;
+    text-align: left;
 }
 .about-text-container p + p { margin-top: 1.5rem; }
 
-/* --- 10. Footer --- */
+/* --- 10. Collaborations Section --- */
+.collabs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.collab-card {
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.collab-card:hover {
+    transform: scale(1.05);
+}
+.collab-card-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid var(--accent-canary-teal);
+    object-fit: cover;
+    margin: 0 auto 1rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.collab-card-name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+}
+
+/* --- 11. Footer --- */
 .main-footer {
     background-color: #111;
     padding: 3rem 1.5rem;
@@ -280,43 +324,223 @@ ul {
 .footer-links a:hover .icon { opacity: 1; transform: translateY(-3px); }
 .copyright { opacity: 0.6; font-size: 0.9rem; }
 
-/* --- 11. Modal Styles --- */
-.modal-overlay {
+/* --- 12. Side Panel --- */
+.side-panel-overlay {
     position: fixed; top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px);
-    z-index: 2000; display: flex;
-    align-items: center; justify-content: center;
-    opacity: 1; transition: opacity 0.3s ease;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1900;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
 }
-.modal-overlay.hidden { opacity: 0; pointer-events: none; }
-.modal-content {
+.side-panel-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+.side-panel {
+    position: fixed;
+    top: 0; right: 0;
+    width: 100%; max-width: 500px;
+    height: 100%;
     background: var(--bg-volcanic-night);
-    padding: 2rem; border-radius: 8px;
-    width: 90%; max-width: 800px;
-    max-height: 90vh; overflow-y: auto;
-    position: relative; transform: scale(1);
-    transition: transform 0.3s ease;
+    z-index: 2000;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+    transform: translateX(100%);
+    transition: transform 0.4s ease;
+    display: flex;
+    flex-direction: column;
 }
-.modal-overlay.hidden .modal-content { transform: scale(0.95); }
-.close-modal-btn {
-    position: absolute; top: 1rem; right: 1rem;
+.side-panel.active {
+    transform: translateX(0);
+}
+.side-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #333;
+    flex-shrink: 0;
+}
+.side-panel-title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    text-align: left;
+}
+.close-panel-btn {
     background: none; border: none; font-size: 2.5rem;
     color: var(--text-salt-crystal); cursor: pointer; line-height: 1;
 }
-.discography-list .music-card { margin-bottom: 2rem; }
-.discography-list .music-card:hover { transform: none; }
-.discography-list .music-card-overlay {
-    position: static; opacity: 1; background: transparent;
-    flex-direction: row; justify-content: space-between;
-    padding: 1.5rem; align-items: center;
+.side-panel-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
 }
-.discography-list .music-card-info { transform: none; text-align: left; }
-.discography-list .music-card-title { font-size: 1.25rem; }
+.discography-list .music-card {
+    display: flex; align-items: center; margin-bottom: 1.5rem;
+    background-color: #222; border-radius: 8px; overflow: hidden;
+}
+.discography-list .music-card:hover { transform: none; }
+.discography-list .music-card img { width: 100px; height: 100px; cursor: pointer; }
+.discography-list .card-content {
+    display: flex; flex-grow: 1; justify-content: space-between;
+    align-items: center; padding: 1rem 1.5rem;
+}
+.discography-list .music-card-info { text-align: left; }
+.discography-list .music-card-title { font-size: 1.25rem; margin-bottom: 0.25rem; }
+.discography-list .music-card-year { margin-bottom: 0; }
 .discography-list .streaming-links { gap: 1rem; }
 
-/* --- 12. Desktop Styles --- */
+/* Styles for Collaborator content inside the panel */
+.collab-details-header {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.collab-details-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+.collab-details-name {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 900;
+}
+.collab-details-song {
+    padding: 1rem;
+    background: #222;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.collab-details-song .cta-button {
+    padding: 0.5rem 1.5rem;
+}
+.collab-details-bio {
+    text-align: left;
+    white-space: pre-wrap;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+.collab-details-visit-btn {
+    display: block;
+    width: 100%;
+}
+
+/* --- 13. Mini Audio Player --- */
+.mini-player {
+    position: fixed;
+    bottom: 0; left: 0;
+    width: 100%; height: var(--player-height);
+    background: #111;
+    z-index: 2100;
+    border-top: 1px solid #333;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+}
+.mini-player.active {
+    transform: translateY(0);
+}
+.player-progress {
+    position: absolute; top: -5px;
+    left: 0; width: 100%;
+}
+.player-progress .seek-slider { width: 100%; height: 5px; margin: 0; }
+.player-content {
+    height: 100%; max-width: 1200px;
+    margin: 0 auto; padding: 0 1rem;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 1rem;
+}
+.player-track-info {
+    display: flex; align-items: center;
+    gap: 1rem; flex-grow: 1; min-width: 0;
+}
+.player-cover-art { width: 50px; height: 50px; border-radius: 4px; }
+.player-text { min-width: 0; }
+.player-title {
+    font-family: var(--font-heading); font-weight: 700;
+    font-size: 0.9rem; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+}
+.player-artist { font-size: 0.8rem; opacity: 0.7; }
+.player-controls .play-pause-btn {
+    width: 45px; height: 45px;
+    background: transparent; border: 2px solid var(--text-salt-crystal);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.2s ease;
+}
+.player-controls .play-pause-btn:hover {
+    background: var(--accent-lava-glow);
+    border-color: var(--accent-lava-glow);
+    transform: scale(1.1);
+}
+.player-controls .icon { width: 18px; height: 18px; color: var(--text-salt-crystal); }
+.player-time-and-close { display: flex; align-items: center; gap: 1.5rem; }
+.time-container { font-size: 0.8rem; opacity: 0.7; width: 85px; }
+.close-player-btn {
+    background: none; border: none;
+    font-size: 1.5rem; color: var(--text-salt-crystal);
+    opacity: 0.7; cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+.close-player-btn:hover { opacity: 1; }
+.mini-player .seek-slider {
+    width: 100%; appearance: none;
+    background: transparent; height: 5px; cursor: pointer;
+}
+.mini-player .seek-slider::-webkit-slider-thumb {
+    appearance: none; width: 12px; height: 12px;
+    background: var(--accent-lava-glow);
+    border-radius: 50%;
+}
+
+/* --- 14. Tooltip --- */
+.tooltip {
+    position: relative;
+}
+.tooltip::before, .tooltip::after {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 3000;
+}
+.tooltip::before {
+    content: '';
+    border: 5px solid transparent;
+    border-top-color: var(--accent-lava-glow);
+    bottom: 100%;
+    margin-bottom: 5px;
+}
+.tooltip::after {
+    content: attr(data-tooltip);
+    background-color: var(--accent-lava-glow);
+    color: var(--text-salt-crystal);
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    bottom: 100%;
+    margin-bottom: 15px;
+}
+.tooltip:hover::before, .tooltip:hover::after {
+    opacity: 1;
+}
+
+/* --- 15. Desktop Styles --- */
 @media (min-width: 768px) {
     .hamburger-menu { display: none; }
     .main-nav {
@@ -335,6 +559,5 @@ ul {
     .section-title { font-size: 3rem; }
     .about-content { grid-template-columns: 1fr 1.5fr; }
     .music-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-    .discography-list .music-card { display: flex; align-items: center; }
-    .discography-list .music-card img { width: 150px; height: 150px; }
+    .discography-list .music-card img { width: 100px; height: 100px; }
 }
