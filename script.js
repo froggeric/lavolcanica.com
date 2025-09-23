@@ -36,7 +36,10 @@
                 link: 'https://open.spotify.com/artist/3jehqC1A1uGwGwOOtUWBSl?si=kruSiF6LSQmWiWxOdmJ3-w',
                 song: {
                     title: 'Tendido Cero Sentido',
-                    audioSrc: 'audio/collab-cututo-song.mp3'
+                    year: '2025',
+                    coverArt: 'images/collab-cututo-cover.jpg',
+                    audioSrc: 'audio/collab-cututo-song.mp3',
+                    links: { spotify: '#', apple: '#', youtube: '#', bandcamp: '#' }
                 },
                 bio: {
                     en: `Some say the world will end in fire, some say in ice. But in the sonic universe of Cututo, the cataclysm is a far more intimate affair—a "Big Bang" of bolero-fueled emotion exploding from the depths of a tormented heart. This is the world of Hernán Alonso Gonzales Valdivia, a troubadour from Trujillo, Peru, who wields tradition like a sharpened blade, carving out a space for the beautifully broken and the defiantly queer.\n\nForged in the crucible of reality television's La Voz Perú, he now wages a far more personal war. His weapons are the ghosts of bolero, the pulse of cumbia, and the sorrowful grace of vals criollo. But this is no history lesson. Cututo drags these classic forms into the heart of modern life, giving voice to the agony of being ghosted online, the righteous fury of political protest, and the defiant struggle of queer identity in a world that demands conformity. From his current base in Buenos Aires, Cututo continues a sacred mission: to prove that the old gods of Latin American music are not dead, but merely waiting for a soul brave enough to make them roar again.`,
@@ -133,7 +136,17 @@
                 panelOverlay.classList.remove('active');
             };
 
+            const getLinkPlatform = (url) => {
+                if (url.includes('spotify.com')) return 'Spotify';
+                if (url.includes('music.apple.com')) return 'Apple Music';
+                if (url.includes('youtube.com')) return 'YouTube';
+                if (url.includes('instagram.com')) return 'Instagram';
+                if (url.includes('tiktok.com')) return 'TikTok';
+                return 'Website';
+            };
+
             const showDiscography = () => {
+                panelTitle.dataset.key = 'fullDiscographyTitle';
                 panelTitle.textContent = translations[currentLang].fullDiscographyTitle;
                 panelContent.innerHTML = `<div class="discography-list"></div>`;
                 const listContainer = panelContent.querySelector('.discography-list');
@@ -142,21 +155,40 @@
             };
 
             const showCollaborator = (collab) => {
+                panelTitle.removeAttribute('data-key');
                 panelTitle.textContent = collab.name;
-                const listenBtnText = translations[currentLang].collabListenBtn.replace('%s', collab.song.title);
-                const visitBtnText = translations[currentLang].collabVisitBtn.replace('%s', collab.name);
+                
+                let visitBtnText = translations[currentLang].collabVisitBtn;
+                const platform = getLinkPlatform(collab.link);
+                if (platform !== 'Website') {
+                    visitBtnText = visitBtnText.replace('%s', `${collab.name} on ${platform}`);
+                } else {
+                    visitBtnText = visitBtnText.replace('%s', `${collab.name}'s Website`);
+                }
 
                 panelContent.innerHTML = `
-                    <div class="collab-details-header">
-                        <img src="${collab.photoSrc}" alt="Photo of ${collab.name}" class="collab-details-photo">
-                        <h3 class="collab-details-name">${collab.name}</h3>
+                    <img src="${collab.photoSrc}" alt="Photo of ${collab.name}" class="side-panel-hero-image">
+                    <div class="side-panel-text-content">
+                        <div class="discography-list">
+                             <div class="music-card">
+                                <img src="${collab.song.coverArt}" alt="Cover art for ${collab.song.title}" data-action="play-track">
+                                <div class="card-content">
+                                    <div class="music-card-info">
+                                        <h3 class="music-card-title">${collab.song.title}</h3>
+                                        <p class="music-card-year">${collab.song.year}</p>
+                                    </div>
+                                    <div class="streaming-links">
+                                        <a href="${collab.song.links.spotify}" target="_blank" class="tooltip" data-tooltip="Spotify"><svg class="icon"><use href="#icon-spotify"></use></svg></a>
+                                        <a href="${collab.song.links.apple}" target="_blank" class="tooltip" data-tooltip="Apple Music"><svg class="icon"><use href="#icon-apple-music"></use></svg></a>
+                                        <a href="${collab.song.links.youtube}" target="_blank" class="tooltip" data-tooltip="YouTube"><svg class="icon"><use href="#icon-youtube"></use></svg></a>
+                                        <a href="${collab.song.links.bandcamp}" target="_blank" class="tooltip" data-tooltip="Download / Buy"><svg class="icon"><use href="#icon-cart"></use></svg></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="collab-details-bio">${collab.bio[currentLang].replace(/\n\n/g, '</p><p>')}</p>
+                        <a href="${collab.link}" target="_blank" class="cta-button collab-details-visit-btn">${visitBtnText}</a>
                     </div>
-                    <div class="collab-details-song">
-                        <span>${collab.song.title}</span>
-                        <button class="cta-button" data-action="play-track" data-cover-src="${collab.photoSrc}" data-title="${collab.song.title}" data-audio-src="${collab.song.audioSrc}">${listenBtnText}</button>
-                    </div>
-                    <p class="collab-details-bio">${collab.bio[currentLang].replace(/\n\n/g, '</p><p>')}</p>
-                    <a href="${collab.link}" target="_blank" class="cta-button alt collab-details-visit-btn">${visitBtnText}</a>
                 `;
                 openPanel();
             };
@@ -192,7 +224,7 @@
                 playerElements.iconPause.classList.toggle('hidden', playerElements.audio.paused);
             };
             const loadTrack = (track) => {
-                playerElements.coverArt.src = track.coverSrc;
+                playerElements.coverArt.src = track.coverArt;
                 playerElements.title.textContent = track.title;
                 playerElements.audio.src = track.audioSrc;
                 miniPlayer.classList.add('active');
@@ -231,27 +263,18 @@
             const action = actionTarget.dataset.action;
 
             if (action === 'play-track') {
-                let trackData = {};
-                const releaseCard = actionTarget.closest('.music-card');
-                if (releaseCard) {
-                    const imgSrc = releaseCard.querySelector('img').getAttribute('src');
+                const musicCard = actionTarget.closest('.music-card');
+                if (musicCard) {
+                    const imgSrc = musicCard.querySelector('img').getAttribute('src');
                     const release = releases.find(r => r.coverArt === imgSrc);
-                    if (release) {
-                        trackData = {
-                            coverSrc: release.coverArt,
-                            title: release.title,
-                            audioSrc: release.audioSrc
-                        };
+                    const collab = collaborators.find(c => c.song.coverArt === imgSrc);
+                    
+                    if(release && window.loadTrack) {
+                        window.loadTrack(release);
+                    } else if (collab && window.loadTrack) {
+                        window.loadTrack(collab.song);
                     }
-                } else {
-                    trackData = {
-                        coverSrc: actionTarget.dataset.coverSrc,
-                        title: actionTarget.dataset.title,
-                        audioSrc: actionTarget.dataset.audioSrc
-                    };
                 }
-                if (window.loadTrack) window.loadTrack(trackData);
-
             } else if (action === 'open-collab-panel') {
                 const collabId = actionTarget.dataset.collabId;
                 const collabData = collaborators.find(c => c.id === collabId);
@@ -277,7 +300,6 @@
                 aboutTitle: "The Story",
                 aboutBio: `Forget the quiet start. This begins in 1985, with a 14-year-old pushing raw data through primitive sound chips, bending silicon to his will on the computer demo scene. Two years later, Frédéric Guigand strapped on a guitar and mainlined the raw voltage of rock and blues.\n\nThe signal led him to England, where he chased the ghost of jazz, not just to play it, but to crack its code, decoding its sacred geometry through theory. Then, a hard left turn: back to France for a civil service stint that was anything but civil. He ran away and joined the circus—literally—trading the stage for the big top, blasting notes with the circus orchestra.\n\nBut the real rewiring was yet to come. As a DJ and later as the music curator for ZipDJ, he became a sonic shaman for DJs worldwide. He didn't just listen to Latin music; he mainlined it—a river of salsa, bachata, and merengue, and tens of thousands of cumbia tracks that permanently altered his musical DNA. He learned what makes a track ignite a dance floor, what makes a rhythm possess you.\n\nIn 2024, that knowledge exploded. La Sonora Volcánica was born. The first project: a series of instrumental albums paying tribute to the surf spots of Fuerteventura, fusing the psychedelic heat of '60s Peruvian chicha with the salt-sprayed cool of surf guitar.\n\nNow, the stories are being set loose, starting with the electrocumbia fever dream "Sol Sol." Collaborations are igniting with Mexico's cumbia outlaws, Los Mexaterrestres, and the soul-drenched Peruvian troubadour, Cututo. As Frédéric says, "Every rhythm, every lyric is a story waiting to be told."\n\nThis isn't background music. It's a seismic event. The only question is: are you ready for the shockwave?`,
                 collabsTitle: "Collaborations",
-                collabListenBtn: "Listen to %s",
                 collabVisitBtn: "Visit %s",
             },
             es: {
@@ -287,7 +309,6 @@
                 aboutTitle: "La Historia",
                 aboutBio: `Olvida los comienzos tranquilos. Esto arranca en 1985, con un chaval de 14 años forzando datos crudos a través de chips de sonido primitivos, doblegando el silicio a su voluntad en la escena demo de ordenadores. Dos años después, Frédéric Guigand se colgó una guitarra y se inyectó en vena el voltaje puro del rock y el blues.\n\nLa señal lo llevó a Inglaterra, donde persiguió el fantasma del jazz, no solo para tocarlo, sino para descifrar su código, decodificando su geometría sagrada a través de la teoría. Luego, un giro brusco: de vuelta a Francia para un servicio civil que fue de todo menos civilizado. Se escapó para unirse al circo —literalmente— cambiando el escenario por la carpa, disparando notas con la orquesta del circo.\n\nPero el verdadero recableado neuronal estaba por llegar. Como DJ y más tarde como curador musical para ZipDJ, se convirtió en un chamán sónico para DJs de todo el mundo. No solo escuchaba música latina; se la metió en vena: un río de salsa, bachata y merengue, y decenas de miles de cumbias que alteraron permanentemente su ADN musical. Aprendió qué hace que un tema incendie una pista de baile, qué hace que un ritmo te posea.\n\nEn 2024, ese conocimiento explotó. Nació La Sonora Volcánica. El primer proyecto: una serie de álbumes instrumentales en tributo a los spots de surf de Fuerteventura, fusionando el calor psicodélico de la chicha peruana de los 60 con la frescura salada de la guitarra surf.\n\nAhora, las historias andan sueltas, empezando con el sueño febril de electrocumbia "Sol Sol". Se están encendiendo colaboraciones con los forajidos de la cumbia de México, Los Mexaterrestres, y el trovador peruano con alma de bolero, Cututo. Como dice Frédéric: "Cada ritmo, cada letra es una historia esperando ser contada".\n\nEsto no es música de fondo. Es un evento sísmico. La única pregunta es: ¿estás listo para la onda expansiva?`,
                 collabsTitle: "Colaboraciones",
-                collabListenBtn: "Escuchar %s",
                 collabVisitBtn: "Visitar a %s",
             },
             fr: {
@@ -295,9 +316,8 @@
                 heroTagline: "La Sonora Volcánica—la cumbia à la limite, des histoires en liberté et sans freins en vue.", heroButton: "Explorer La Musique",
                 musicTitle: "Musique", discographyBtn: "Voir la Discographie", fullDiscographyTitle: "Discographie",
                 aboutTitle: "L'Histoire",
-                aboutBio: `Oubliez les débuts tranquilles. Ça commence en 1985, avec un gamin de 14 ans qui pousse des données brutes à travers des puces sonores primitives, pliant le silicium à sa volonté sur la scène démo informatique. Deux ans plus tard, Frédéric Guigand s'empare d'une guitare et s'injecte la tension brute du rock et du blues.\n\nLe signal l'a mené en Angleterre, où il a chassé le fantôme du jazz, non pas juste pour le jouer, mais pour en percer le code, décodant sa géométrie sacrée par la théorie. Puis, un virage serré : retour en France pour un service civil tout sauf civilisé. Il a fugué pour rejoindre le cirque — littéralement — troquant la scène pour le chapiteau, balançant des notes avec l'orchestre du cirque.\n\nMais le vrai recâblage était à venir. En tant que DJ, puis curateur musical pour ZipDJ, il est devenu un chaman sonique pour les DJ du monde entier. Il n'a pas seulement écouté la musique latine ; il se l'est injectée en intraveineuse — un fleuve de salsa, de bachata et de merengue, et des dizaines de milliers de morceaux de cumbia qui ont altéré à jamais son ADN musical. Il a appris ce qui enflamme un dancefloor, ce qui fait qu'un rythme vous possède.\n\nEn 2024, cette connaissance a explosé. La Sonora Volcánica est née. Le premier projet : une série d'albums instrumentaux en hommage aux spots de surf de Fuerteventura, fusionnant la chaleur psychédélique de la chicha péruvienne des années 60 avec la fraîcheur salée de la guitare surf.\n\nMaintenant, les histoires sont lâchées, à commencer par le rêve fiévreux d'électrocumbia "Sol Sol". Des collaborations s'embrasent avec les hors-la-loi de la cumbia du Mexique, Los Mexaterrestres, et le troubadour péruvien à l'âme de boléro, Cututo. Comme le dit Frédéric : « Chaque rythme, chaque parole est une histoire qui attend d'être racontée. »\n\nCe n'est pas de la musique de fond. C'est un événement sismique. La seule question est : êtes-vous prêt pour l'onde de choc ?`,
+                aboutBio: `Oubliez les débuts tranquilles. Ça commence en 1985, avec un gamin de 14 ans qui pousse des données brutes à travers des puces sonores primitives, pliant le silicium à sa volonté sur la scène démo informatique. Deux ans plus tard, Frédéric Guigand s'empare d'une guitare et s'injecte la tension brute du rock et du blues.\n\nLe signal l'a mené en Angleterre, où il a chassé le fantôme du jazz, non pas juste pour le jouer, mais pour en percer le code, décodant sa géométrie sacrée par la théorie. Puis, un virage serré : retour en France pour un service civil tout sauf civilisé. Il a fugué pour rejoindre le circo — littéralement — troquant la scène pour le chapiteau, balançant des notes avec l'orchestre du circo.\n\nMais le vrai recâblage était à venir. En tant que DJ, puis curateur musical pour ZipDJ, il est devenu un chaman sonique pour les DJ du monde entier. Il n'a pas seulement écouté la musique latine ; il se l'est injectée en intraveineuse — un fleuve de salsa, de bachata et de merengue, et des dizaines de milliers de morceaux de cumbia qui ont altéré à jamais son ADN musical. Il a appris ce qui enflamme un dancefloor, ce qui fait qu'un rythme vous possède.\n\nEn 2024, cette connaissance a explosé. La Sonora Volcánica est née. Le premier projet : une série d'albums instrumentaux en hommage aux spots de surf de Fuerteventura, fusionnant la chaleur psychédélique de la chicha péruvienne des années 60 avec la fraîcheur salée de la guitare surf.\n\nMaintenant, les histoires sont lâchées, à commencer par le rêve fiévreux d'électrocumbia "Sol Sol". Des collaborations s'embrasent avec les hors-la-loi de la cumbia du Mexique, Los Mexaterrestres, et le troubadour péruvien à l'âme de boléro, Cututo. Comme le dit Frédéric : « Chaque rythme, chaque parole est une histoire qui attend d'être racontée. »\n\nCe n'est pas de la musique de fond. C'est un événement sismique. La seule question est : êtes-vous prêt pour l'onde de choc ?`,
                 collabsTitle: "Collaborations",
-                collabListenBtn: "Écouter %s",
                 collabVisitBtn: "Visiter %s",
             }
         };
