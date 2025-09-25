@@ -1,4 +1,4 @@
-## **La Sonora Volcánica: Website Design & Development Handover Guide**
+## **La Sonora Volcánica: Website Design & Development Guide**
 
 **Project:** Official Website for the music artist "La Sonora Volcánica"
 **Version:** 1.0 (Completion of core sections)
