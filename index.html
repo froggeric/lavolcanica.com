@@ -4,15 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Sonora Volcánica</title>
+    
+    <!-- Link to the main stylesheet -->
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Preconnect to Google Fonts for performance optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Import selected fonts: Montserrat (Bold, Black) and Roboto (Regular) -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700,900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <!-- 
       SVG Icon Definitions (Sprite) 
+      This block contains all SVG icons used on the site in a single, efficient sprite.
+      Each icon is wrapped in a <symbol> with a unique ID.
+      To use an icon, reference its ID with the <use> tag: <svg><use href="#icon-id"></use></svg>
       Good sources for high-quality, free SVG icons include:
       - https://icons.getbootstrap.com
       - https://www.svgrepo.com
@@ -37,6 +45,7 @@
         <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" id="icon-pause"><path d="M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z" fill="currentColor"/></symbol>
     </svg>
 
+    <!-- Header: Contains Logo, Main Navigation, and Language Switcher -->
     <header class="main-header">
         <div class="header-content">
             <a href="#" class="logo" data-key="logoText"></a>
@@ -53,13 +62,17 @@
                     <button class="lang-btn" data-lang="fr">FR</button>
                 </div>
             </nav>
+            <!-- Hamburger button for mobile navigation, with ARIA attributes for accessibility -->
             <button class="hamburger-menu" aria-label="Open navigation menu" aria-expanded="false" aria-controls="main-nav">
                 <span class="bar"></span><span class="bar"></span><span class="bar"></span>
             </button>
         </div>
     </header>
 
+    <!-- Main Content Wrapper -->
     <main id="main-content">
+
+        <!-- Hero Section: Full-screen introductory visual -->
         <section id="hero" class="hero-section">
             <div class="hero-content">
                 <img src="images/logo.png" alt="La Sonora Volcánica Logo" class="hero-logo">
@@ -68,6 +81,7 @@
             </div>
         </section>
 
+        <!-- Music Section: Displays featured releases -->
         <section id="music" class="page-section">
             <h2 class="section-title" data-key="musicTitle"></h2>
             <div class="music-grid">
@@ -76,6 +90,7 @@
             <button class="cta-button discography-btn" data-key="discographyBtn"></button>
         </section>
 
+        <!-- About Section: Artist photo and biography -->
         <section id="about" class="page-section alt-bg">
              <h2 class="section-title" data-key="aboutTitle"></h2>
              <div class="about-content">
@@ -88,14 +103,17 @@
             </div>
         </section>
         
+        <!-- Collaborations Section: Grid of collaborator cards -->
         <section id="collabs" class="page-section">
             <h2 class="section-title" data-key="collabsTitle"></h2>
             <div class="collabs-grid">
                 <!-- Collaborator cards will be injected here by JavaScript -->
             </div>
         </section>
+
     </main>
 
+    <!-- Footer: Contains social/streaming links and copyright info -->
     <footer class="main-footer">
         <div class="footer-content">
             <div class="footer-links">
@@ -119,7 +137,7 @@
         </div>
     </footer>
 
-    <!-- Side Panel (for Discography and Collaborator Details) -->
+    <!-- Side Panel: A reusable container for Discography and Collaborator Details -->
     <div class="side-panel-overlay" id="side-panel-overlay"></div>
     <div class="side-panel" id="side-panel">
         <div class="side-panel-header">
@@ -131,7 +149,7 @@
         </div>
     </div>
     
-    <!-- Persistent Mini Audio Player -->
+    <!-- Persistent Mini Audio Player: Appears at the bottom when a track is played -->
     <div class="mini-player" id="mini-player">
         <div class="player-progress">
             <input type="range" class="seek-slider" value="0" max="100">
@@ -160,6 +178,7 @@
         <audio class="audio-element"></audio>
     </div>
 
+    <!-- Main script file -->
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,9 +1,15 @@
+// IIFE (Immediately Invoked Function Expression) to create a private scope
+// and prevent polluting the global namespace.
 (function() {
-    'use strict';
+    'use strict'; // Enforces stricter parsing and error handling in JavaScript.
 
+    // Wait for the HTML document to be fully loaded and parsed.
     document.addEventListener('DOMContentLoaded', () => {
 
-        // --- 1. Data ---
+        // --- 1. DATA: SINGLE SOURCE OF TRUTH ---
+        // All dynamic content is managed from these arrays.
+        // To update the site, only this section needs to be edited.
+
         const releases = [
             {
                 title: 'Sol Sol', year: '2024',
@@ -51,12 +57,13 @@
         
         let currentLang = 'en';
 
-        // --- 2. Element Selectors ---
+        // --- 2. Element Selectors (Cached for performance) ---
         const body = document.body;
         const musicGrid = document.querySelector('.music-grid');
         const collabsGrid = document.querySelector('.collabs-grid');
 
-        // --- 3. Dynamic Content Population ---
+        // --- 3. Dynamic Content Population Functions ---
+        // Populates the featured releases on the main page.
         function populateFeaturedGrid() {
             if (!musicGrid) return;
             musicGrid.innerHTML = '';
@@ -81,6 +88,7 @@
             });
         }
 
+        // Populates the full list of releases inside the side panel.
         function populateDiscographyList(listContainer) {
             if (!listContainer) return;
             listContainer.innerHTML = '';
@@ -96,7 +104,6 @@
                             <div class="streaming-links">
                                 <a href="${release.links.spotify}" target="_blank" class="tooltip" data-tooltip="Spotify" aria-label="Listen to ${release.title} on Spotify"><svg class="icon"><use href="#icon-spotify"></use></svg></a>
                                 <a href="${release.links.apple}" target="_blank" class="tooltip" data-tooltip="Apple Music" aria-label="Listen to ${release.title} on Apple Music"><svg class="icon"><use href="#icon-apple-music"></use></svg></a>
-                                <a href="${release.links.youtube}" target="_blank" class="tooltip" data-tooltip="YouTube" aria-label="Watch ${release.title} on YouTube"><svg class="icon"><use href="#icon-youtube"></use></svg></a>
                                 <a href="${release.links.bandcamp}" target="_blank" class="tooltip" data-tooltip="Download / Buy" aria-label="Download or Buy ${release.title} on Bandcamp"><svg class="icon"><use href="#icon-cart"></use></svg></a>
                             </div>
                         </div>
@@ -104,6 +111,7 @@
             });
         }
 
+        // Populates the grid of collaborators on the main page.
         function populateCollabsGrid() {
             if (!collabsGrid) return;
             collabsGrid.innerHTML = '';
@@ -122,6 +130,7 @@
         const panelOverlay = document.getElementById('side-panel-overlay');
         const openDiscographyBtn = document.querySelector('.discography-btn');
         
+        // Null-check ensures this block only runs if the panel elements exist.
         if (sidePanel && panelOverlay) {
             const panelTitle = sidePanel.querySelector('.side-panel-title');
             const panelContent = sidePanel.querySelector('.side-panel-content');
@@ -136,6 +145,7 @@
                 panelOverlay.classList.remove('active');
             };
 
+            // Helper function to create smarter text for the "Visit" button.
             const getLinkPlatform = (url) => {
                 if (url.includes('spotify.com')) return 'Spotify';
                 if (url.includes('music.apple.com')) return 'Apple Music';
@@ -145,6 +155,7 @@
                 return 'Website';
             };
 
+            // Populates the panel with the full discography.
             const showDiscography = () => {
                 panelTitle.dataset.key = 'fullDiscographyTitle';
                 panelTitle.textContent = translations[currentLang].fullDiscographyTitle;
@@ -154,13 +165,13 @@
                 openPanel();
             };
 
+            // Populates the panel with a specific collaborator's details.
             const showCollaborator = (collab) => {
                 panelTitle.removeAttribute('data-key');
                 panelTitle.textContent = collab.name;
                 
-                let visitBtnText = translations[currentLang].collabVisitBtn;
                 const platform = getLinkPlatform(collab.link);
-                visitBtnText = visitBtnText.replace('%s', `${collab.name} on ${platform}`);
+                const visitBtnText = translations[currentLang].collabVisitBtn.replace('%s', `${collab.name} on ${platform}`);
 
                 panelContent.innerHTML = `
                     <img src="${collab.photoSrc}" alt="Photo of ${collab.name}" class="side-panel-hero-image">
@@ -195,6 +206,7 @@
             closePanelBtn.addEventListener('click', closePanel);
             panelOverlay.addEventListener('click', closePanel);
 
+            // Make showCollaborator function available to the global event listener.
             window.showCollaborator = showCollaborator;
         }
 
@@ -254,6 +266,7 @@
         }
 
         // --- 6. Event Delegation for Actions ---
+        // A single event listener on the body handles clicks for multiple actions.
         document.body.addEventListener('click', (e) => {
             const actionTarget = e.target.closest('[data-action]');
             if (!actionTarget) return;
@@ -264,6 +277,7 @@
                 const musicCard = actionTarget.closest('.music-card');
                 if (musicCard) {
                     const imgSrc = musicCard.querySelector('img').getAttribute('src');
+                    // Check if the clicked song belongs to a release or a collaborator
                     const release = releases.find(r => r.coverArt === imgSrc);
                     const collab = collaborators.find(c => c.song.coverArt === imgSrc);
                     
@@ -346,6 +360,7 @@
         });
 
         // --- 9. Initial Setup ---
+        // Run all population functions and set the initial language.
         populateFeaturedGrid();
         populateCollabsGrid();
         updateContent('en');

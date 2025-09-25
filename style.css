@@ -1,4 +1,5 @@
 /* --- 1. Global Styles & Variables --- */
+/* These variables define the core design system for the site. */
 :root {
     --bg-volcanic-night: #1a1a1a;
     --text-salt-crystal: #F0F0F0;
@@ -6,28 +7,33 @@
     --accent-canary-teal: #00C2A8;
     --font-heading: 'Montserrat', sans-serif;
     --font-body: 'Roboto', sans-serif;
-    --player-height: 80px;
+    --player-height: 80px; /* Controls the height of the mini-player */
 }
 
+/* A modern CSS reset and default box-sizing behavior */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Enable smooth scrolling for anchor links (e.g., #music) */
 html {
     scroll-behavior: smooth;
 }
 
+/* Default body styles */
 body {
     background-color: var(--bg-volcanic-night);
     font-family: var(--font-body);
     color: var(--text-salt-crystal);
     line-height: 1.6;
-    padding-bottom: 0;
-    transition: padding-bottom 0.4s ease;
+    padding-bottom: 0; /* No padding by default */
+    transition: padding-bottom 0.4s ease; /* Animate the padding change when player appears */
 }
 
+/* This class is added by JS to the body when the mini-player is active,
+   preventing the player from overlapping footer content. */
 body.player-active {
     padding-bottom: var(--player-height);
 }
@@ -41,15 +47,17 @@ ul {
     list-style: none;
 }
 
+/* Utility class to hide elements visually and from screen readers */
 .hidden {
     display: none !important;
 }
 
 /* --- 2. Main Header --- */
+/* The header is fixed to the top and has a modern frosted-glass effect. */
 .main-header {
     background-color: rgba(26, 26, 26, 0.85);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari compatibility */
     padding: 1rem 1.5rem;
     position: fixed;
     top: 0;
@@ -82,7 +90,7 @@ ul {
     background: transparent;
     border: none;
     cursor: pointer;
-    z-index: 1002;
+    z-index: 1002; /* Must be above the nav overlay */
 }
 .hamburger-menu .bar {
     display: block;
@@ -92,11 +100,13 @@ ul {
     border-radius: 2px;
     transition: all 0.3s ease-in-out;
 }
+/* Animation for hamburger transforming into an 'X' */
 .nav-open .hamburger-menu .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
 .nav-open .hamburger-menu .bar:nth-child(2) { opacity: 0; }
 .nav-open .hamburger-menu .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
 /* --- 4. Main Navigation (Mobile First) --- */
+/* The navigation is a full-screen overlay on mobile for a focused experience. */
 .main-nav {
     position: fixed; top: 0; right: 0; width: 100vw; height: 100vh;
     background-color: rgba(26, 26, 26, 0.95);
@@ -106,6 +116,7 @@ ul {
     transform: translateX(100%);
     transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
 }
+/* The .nav-open class (toggled by JS on the body) slides the menu in. */
 .nav-open .main-nav { transform: translateX(0); }
 .nav-links { text-align: center; }
 .nav-links li { margin: 2rem 0; }
@@ -135,22 +146,25 @@ ul {
     height: 100vh; min-height: 600px;
     display: flex; align-items: center; justify-content: center;
     text-align: center; padding: 0 1.5rem;
-    position: relative; overflow: hidden;
+    position: relative; overflow: hidden; /* Contains the animated background */
 }
+/* The ::before pseudo-element holds the background image and animation */
 .hero-section::before {
     content: ''; position: absolute; top: 0; left: 0;
     width: 100%; height: 100%;
     background: url('images/hero-background.jpg') no-repeat center center/cover;
-    background-color: var(--bg-volcanic-night);
+    background-color: var(--bg-volcanic-night); /* Fallback color */
     z-index: -2;
     animation: zoom-in 20s ease-in-out infinite;
 }
+/* The ::after pseudo-element is a dark overlay for text contrast */
 .hero-section::after {
     content: ''; position: absolute; top: 0; left: 0;
     width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: -1;
 }
+/* Subtle zooming ("Ken Burns") effect for the background */
 @keyframes zoom-in {
     0% { transform: scale(1); }
     50% { transform: scale(1.1); }
@@ -160,11 +174,12 @@ ul {
 .hero-logo { max-width: 200px; width: 100%; margin-bottom: 2rem; }
 .hero-tagline {
     font-family: var(--font-heading); font-weight: 700;
-    font-size: clamp(1.75rem, 5vw, 2.75rem);
+    font-size: clamp(1.75rem, 5vw, 2.75rem); /* Responsive font size */
     line-height: 1.2;
     text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
     margin-bottom: 2.5rem;
 }
+/* The main call-to-action button style, used across the site */
 .cta-button {
     display: inline-block;
     background-color: var(--accent-lava-glow);
@@ -184,6 +199,15 @@ ul {
     transform: scale(1.05);
     background-color: #ff6a6a;
 }
+.cta-button.alt {
+    background-color: transparent;
+    border: 2px solid var(--accent-canary-teal);
+    color: var(--accent-canary-teal);
+}
+.cta-button.alt:hover {
+    background-color: var(--accent-canary-teal);
+    color: var(--text-salt-crystal);
+}
 
 /* --- 7. General Page Section Styles --- */
 .page-section {
@@ -200,7 +224,7 @@ ul {
     background-color: var(--accent-lava-glow);
     margin: 0.5rem auto 0;
 }
-.alt-bg { background-color: #111; }
+.alt-bg { background-color: #111; /* Provides visual separation between sections */ }
 
 /* --- 8. Music Section --- */
 .music-grid {
@@ -217,6 +241,7 @@ ul {
     cursor: pointer;
 }
 .music-card:hover { transform: scale(1.03); }
+/* The overlay appears on hover and contains streaming links */
 .music-card-overlay {
     position: absolute; top: 0; left: 0;
     width: 100%; height: 100%;
@@ -224,7 +249,7 @@ ul {
     display: flex; flex-direction: column;
     justify-content: center; align-items: center;
     opacity: 0; transition: opacity 0.3s ease;
-    pointer-events: none;
+    pointer-events: none; /* Allows clicks to pass through to the image below */
 }
 .music-card:hover .music-card-overlay { opacity: 1; }
 .music-card-info {
@@ -240,7 +265,8 @@ ul {
 .music-card-year {
     font-family: var(--font-body); opacity: 0.8; margin-bottom: 1.5rem;
 }
-.streaming-links { display: flex; gap: 1.5rem; pointer-events: auto; }
+/* Re-enables clicks only for the links inside the overlay */
+.streaming-links { display: flex; gap: 1.5rem; pointer-events: auto; } 
 .streaming-links a .icon {
     width: 24px; height: 24px;
     color: var(--text-salt-crystal);
@@ -254,7 +280,7 @@ ul {
 .about-content {
     display: grid; grid-template-columns: 1fr;
     gap: 3rem; max-width: 1100px; margin: 0 auto;
-    align-items: start;
+    align-items: start; /* Aligns image and text to the top */
 }
 .about-image-container img {
     width: 100%; height: auto;
@@ -316,11 +342,12 @@ ul {
 .copyright { opacity: 0.6; font-size: 0.9rem; }
 
 /* --- 12. Side Panel --- */
+/* The dark overlay behind the panel */
 .side-panel-overlay {
     position: fixed; top: 0; left: 0;
     width: 100%; height: 100%;
     background: rgba(0,0,0,0.5);
-    z-index: 1900;
+    z-index: 1900; /* Below the panel */
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;
@@ -329,6 +356,7 @@ ul {
     opacity: 1;
     pointer-events: auto;
 }
+/* The panel itself, slides in from the right */
 .side-panel {
     position: fixed;
     top: 0; right: 0;
@@ -351,7 +379,7 @@ ul {
     align-items: center;
     padding: 1rem 1.5rem;
     border-bottom: 1px solid #333;
-    flex-shrink: 0;
+    flex-shrink: 0; /* Prevents header from shrinking */
 }
 .side-panel-title {
     margin: 0;
@@ -369,6 +397,7 @@ ul {
     padding: 0;
     transition: padding-bottom 0.4s ease;
 }
+/* Add padding to the bottom of the panel content when the player is active */
 body.player-active .side-panel-content {
     padding-bottom: var(--player-height);
 }
@@ -378,7 +407,7 @@ body.player-active .side-panel-content {
     aspect-ratio: 16 / 9;
     object-fit: cover;
     display: block;
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 8px 8px; /* Soften bottom corners */
 }
 .side-panel-text-content {
     padding: 1.5rem;
@@ -415,7 +444,7 @@ body.player-active .side-panel-content {
     bottom: 0; left: 0;
     width: 100%; height: var(--player-height);
     background: #111;
-    z-index: 2100;
+    z-index: 2100; /* Highest z-index to stay on top of everything */
     border-top: 1px solid #333;
     transform: translateY(100%);
     transition: transform 0.4s ease;
@@ -423,6 +452,7 @@ body.player-active .side-panel-content {
 .mini-player.active {
     transform: translateY(0);
 }
+/* The seek bar sits just on top of the player bar */
 .player-progress {
     position: absolute; top: -5px;
     left: 0; width: 100%;
@@ -436,14 +466,14 @@ body.player-active .side-panel-content {
 }
 .player-track-info {
     display: flex; align-items: center;
-    gap: 1rem; flex-grow: 1; min-width: 0;
+    gap: 1rem; flex-grow: 1; min-width: 0; /* Prevents overflow */
 }
 .player-cover-art { width: 50px; height: 50px; border-radius: 4px; }
 .player-text { min-width: 0; }
 .player-title {
     font-family: var(--font-heading); font-weight: 700;
     font-size: 0.9rem; white-space: nowrap;
-    overflow: hidden; text-overflow: ellipsis;
+    overflow: hidden; text-overflow: ellipsis; /* Truncates long titles */
 }
 .player-artist { font-size: 0.8rem; opacity: 0.7; }
 .player-controls .play-pause-btn {
@@ -467,6 +497,7 @@ body.player-active .side-panel-content {
     transition: opacity 0.2s ease;
 }
 .close-player-btn:hover { opacity: 1; }
+/* Custom styling for the range input (seek slider) */
 .mini-player .seek-slider {
     width: 100%; appearance: none;
     background: transparent; height: 5px; cursor: pointer;
@@ -478,6 +509,7 @@ body.player-active .side-panel-content {
 }
 
 /* --- 14. Tooltip --- */
+/* Pure CSS tooltips for icons using pseudo-elements */
 .tooltip {
     position: relative;
 }
@@ -490,6 +522,7 @@ body.player-active .side-panel-content {
     transition: opacity 0.2s ease;
     z-index: 3000;
 }
+/* The little triangle arrow */
 .tooltip::before {
     content: '';
     border: 5px solid transparent;
@@ -497,6 +530,7 @@ body.player-active .side-panel-content {
     bottom: 100%;
     margin-bottom: 5px;
 }
+/* The text box */
 .tooltip::after {
     content: attr(data-tooltip);
     background-color: var(--accent-lava-glow);
@@ -515,6 +549,7 @@ body.player-active .side-panel-content {
 }
 
 /* --- 15. Desktop Styles --- */
+/* Media query for screens 768px and wider */
 @media (min-width: 768px) {
     .hamburger-menu { display: none; }
     .main-nav {
