@@ -184,15 +184,6 @@ ul {
     transform: scale(1.05);
     background-color: #ff6a6a;
 }
-.cta-button.alt {
-    background-color: transparent;
-    border: 2px solid var(--accent-canary-teal);
-    color: var(--accent-canary-teal);
-}
-.cta-button.alt:hover {
-    background-color: var(--accent-canary-teal);
-    color: var(--text-salt-crystal);
-}
 
 /* --- 7. General Page Section Styles --- */
 .page-section {
@@ -375,7 +366,11 @@ ul {
 .side-panel-content {
     flex-grow: 1;
     overflow-y: auto;
-    padding: 0; /* Full width hero image */
+    padding: 0;
+    transition: padding-bottom 0.4s ease;
+}
+body.player-active .side-panel-content {
+    padding-bottom: var(--player-height);
 }
 .side-panel-hero-image {
     width: 100%;
@@ -383,6 +378,7 @@ ul {
     aspect-ratio: 16 / 9;
     object-fit: cover;
     display: block;
+    border-radius: 0 0 8px 8px;
 }
 .side-panel-text-content {
     padding: 1.5rem;
@@ -408,9 +404,8 @@ ul {
     margin-top: 2rem;
     margin-bottom: 2rem;
 }
-.collab-details-visit-btn {
-    display: block;
-    width: 100%;
+.collab-details-visit-btn-container {
+    text-align: center;
     margin-top: 2rem;
 }
 

@@ -148,7 +148,7 @@
             const showDiscography = () => {
                 panelTitle.dataset.key = 'fullDiscographyTitle';
                 panelTitle.textContent = translations[currentLang].fullDiscographyTitle;
-                panelContent.innerHTML = `<div class="discography-list"></div>`;
+                panelContent.innerHTML = `<div class="side-panel-text-content"><div class="discography-list"></div></div>`;
                 const listContainer = panelContent.querySelector('.discography-list');
                 populateDiscographyList(listContainer);
                 openPanel();
@@ -160,11 +160,7 @@
                 
                 let visitBtnText = translations[currentLang].collabVisitBtn;
                 const platform = getLinkPlatform(collab.link);
-                if (platform !== 'Website') {
-                    visitBtnText = visitBtnText.replace('%s', `${collab.name} on ${platform}`);
-                } else {
-                    visitBtnText = visitBtnText.replace('%s', `${collab.name}'s Website`);
-                }
+                visitBtnText = visitBtnText.replace('%s', `${collab.name} on ${platform}`);
 
                 panelContent.innerHTML = `
                     <img src="${collab.photoSrc}" alt="Photo of ${collab.name}" class="side-panel-hero-image">
@@ -187,7 +183,9 @@
                             </div>
                         </div>
                         <p class="collab-details-bio">${collab.bio[currentLang].replace(/\n\n/g, '</p><p>')}</p>
-                        <a href="${collab.link}" target="_blank" class="cta-button collab-details-visit-btn">${visitBtnText}</a>
+                        <div class="collab-details-visit-btn-container">
+                            <a href="${collab.link}" target="_blank" class="cta-button">${visitBtnText}</a>
+                        </div>
                     </div>
                 `;
                 openPanel();
