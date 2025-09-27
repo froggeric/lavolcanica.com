@@ -12,6 +12,16 @@
 
         const releases = [
             {
+                title: 'Cumbia del Barrio', year: '2025',
+                coverArt: 'images/album-cumbia-del-barrio.jpg',
+                audioSrc: 'audio/La Sonora Volcánica - Cumbia del Barrio.mp3',
+                featured: true,
+                links: { spotify: '#',
+                         apple: '#',
+                         youtube: '#',
+                         bandcamp: 'https://lasonoravolcanica.bandcamp.com/track/cumbia-del-barrio' }
+            },
+            {
                 title: 'Sol Sol', year: '2024',
                 coverArt: 'images/album-sol-sol.jpg',
                 audioSrc: 'audio/La Sonora Volcánica - Sol Sol.mp3',
