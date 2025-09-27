@@ -13,8 +13,8 @@
         const releases = [
             {
                 title: 'Cumbia del Barrio', year: '2025',
-                coverArt: 'images/album-cumbia-del-barrio.jpg',
-                audioSrc: 'audio/La%20Sonora%20Volcánica%20-%20Cumbia%20del%20Barrio.mp3',
+                coverArt: 'images/art-cumbia-del-barrio.jpg',
+                audioSrc: 'audio/single-cumbia-del-barrio.mp3',
                 featured: true,
                 links: { spotify: '#',
                          apple: '#',
@@ -23,8 +23,8 @@
             },
             {
                 title: 'Sol Sol', year: '2024',
-                coverArt: 'images/album-sol-sol.jpg',
-                audioSrc: 'audio/La%20Sonora%20Volcánica%20-%20Sol%20Sol.mp3',
+                coverArt: 'images/art-sol-sol.jpg',
+                audioSrc: 'audio/single-sol-sol.mp3',
                 featured: true,
                 links: { spotify: 'https://open.spotify.com/track/7sZ4YZulX0C2PsF9Z2RX7J?si=7444364b275d4196',
                          apple: 'https://music.apple.com/us/album/sol-sol/1784468155?i=1784468156',
@@ -32,16 +32,16 @@
                          bandcamp: 'https://lasonoravolcanica.bandcamp.com/track/sol-sol' }
             },
             {
-                title: 'Fuerteventura Vol. 2', year: '2024',
-                coverArt: 'images/album-fuerte-vol-2.jpg',
-                audioSrc: 'audio/fuerte-vol-2.mp3',
+                title: 'Costa del Norte', year: '2024',
+                coverArt: 'images/art-costal-del-norte.jpg',
+                audioSrc: 'audio/album-costa-del-norte.mp3',
                 featured: false,
                 links: { spotify: '#', apple: '#', youtube: '#', bandcamp: '#' }
             },
             {
-                title: 'Fuerteventura Vol. 1', year: '2024',
-                coverArt: 'images/album-fuerte-vol-1.jpg',
-                audioSrc: 'audio/fuerte-vol-1.mp3',
+                title: 'Surf Fuerteventura', year: '2024',
+                coverArt: 'images/art-surf-fuerteventura.jpg',
+                audioSrc: 'audio/album-surf-fuerteventura.mp3',
                 featured: false,
                 links: { spotify: '#', apple: '#', youtube: '#', bandcamp: '#' }
             }
