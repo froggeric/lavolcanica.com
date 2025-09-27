@@ -32,8 +32,22 @@
                          bandcamp: 'https://lasonoravolcanica.bandcamp.com/track/sol-sol' }
             },
             {
+                title: 'Tindaya', year: '2026',
+                coverArt: 'images/art-tindaya.jpg',
+                audioSrc: 'audio/album-tindaya.mp3',
+                featured: false,
+                links: { spotify: '#', apple: '#', youtube: '#', bandcamp: '#' }
+            },
+            {
+                title: 'Secreto del Sur', year: '2025',
+                coverArt: 'images/art-secreto-del-sur.jpg',
+                audioSrc: 'audio/album-secreto-del-sur.mp3',
+                featured: false,
+                links: { spotify: '#', apple: '#', youtube: '#', bandcamp: '#' }
+            },
+            {
                 title: 'Costa del Norte', year: '2024',
-                coverArt: 'images/art-costal-del-norte.jpg',
+                coverArt: 'images/art-costa-del-norte.jpg',
                 audioSrc: 'audio/album-costa-del-norte.mp3',
                 featured: false,
                 links: { spotify: '#', apple: '#', youtube: '#', bandcamp: '#' }
@@ -56,8 +70,8 @@
                 song: {
                     title: 'Tendido Cero Sentido',
                     year: '2025',
-                    coverArt: 'images/collab-cututo-cover.jpg',
-                    audioSrc: 'audio/collab-cututo-song.mp3',
+                    coverArt: 'images/art-tendido-cero-sentido.jpg',
+                    audioSrc: 'audio/single-tendido-cero-sentido.mp3',
                     links: { spotify: '#', apple: '#', youtube: '#', bandcamp: '#' }
                 },
                 bio: {
