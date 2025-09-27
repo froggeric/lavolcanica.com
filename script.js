@@ -14,22 +14,25 @@
             {
                 title: 'Sol Sol', year: '2024',
                 coverArt: 'images/album-sol-sol.jpg',
-                audioSrc: 'audio/sol-sol.mp3',
+                audioSrc: 'audio/La Sonora Volcánica - Sol Sol.mp3',
                 featured: true,
-                links: { spotify: '#', apple: '#', youtube: '#', bandcamp: '#' }
+                links: { spotify: 'https://open.spotify.com/track/7sZ4YZulX0C2PsF9Z2RX7J?si=7444364b275d4196',
+                         apple: 'https://music.apple.com/us/album/sol-sol/1784468155?i=1784468156',
+                         youtube: 'https://youtu.be/0qwddtff0iQ?si=BdvSkA0Hr7ACD8n_',
+                         bandcamp: 'https://lasonoravolcanica.bandcamp.com/track/sol-sol' }
             },
             {
                 title: 'Fuerteventura Vol. 2', year: '2024',
                 coverArt: 'images/album-fuerte-vol-2.jpg',
                 audioSrc: 'audio/fuerte-vol-2.mp3',
-                featured: true,
+                featured: false,
                 links: { spotify: '#', apple: '#', youtube: '#', bandcamp: '#' }
             },
             {
                 title: 'Fuerteventura Vol. 1', year: '2024',
                 coverArt: 'images/album-fuerte-vol-1.jpg',
                 audioSrc: 'audio/fuerte-vol-1.mp3',
-                featured: true,
+                featured: false,
                 links: { spotify: '#', apple: '#', youtube: '#', bandcamp: '#' }
             }
         ];
