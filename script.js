@@ -14,7 +14,7 @@
             {
                 title: 'Cumbia del Barrio', year: '2025',
                 coverArt: 'images/album-cumbia-del-barrio.jpg',
-                audioSrc: 'audio/La Sonora Volcánica - Cumbia del Barrio.mp3',
+                audioSrc: 'audio/La%20Sonora%20Volcánica%20-%20Cumbia%20del%20Barrio.mp3',
                 featured: true,
                 links: { spotify: '#',
                          apple: '#',
@@ -24,7 +24,7 @@
             {
                 title: 'Sol Sol', year: '2024',
                 coverArt: 'images/album-sol-sol.jpg',
-                audioSrc: 'audio/La Sonora Volcánica - Sol Sol.mp3',
+                audioSrc: 'audio/La%20Sonora%20Volcánica%20-%20Sol%20Sol.mp3',
                 featured: true,
                 links: { spotify: 'https://open.spotify.com/track/7sZ4YZulX0C2PsF9Z2RX7J?si=7444364b275d4196',
                          apple: 'https://music.apple.com/us/album/sol-sol/1784468155?i=1784468156',
