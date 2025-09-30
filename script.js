@@ -1,6 +1,6 @@
-// --- Version: 1.0.1 ---
+// --- Version: 1.0.3 ---
 // --- La Sonora Volcánica Website Script ---
-// --- Fixed: SVG icons not displaying and missing YouTube in discography ---
+// --- Fixed: Error message showing when closing player ---
 
 // IIFE (Immediately Invoked Function Expression) to create a private scope
 // and prevent polluting the global namespace.
@@ -547,6 +547,9 @@
                 errorMessage: miniPlayer.querySelector('.player-error-message')
             };
             
+            // Flag to track if we're intentionally closing the player
+            let isClosingPlayer = false;
+            
             const formatTime = (s) => `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
             const togglePlay = () => playerElements.audio.src && (playerElements.audio.paused ? playerElements.audio.play() : playerElements.audio.pause());
             const updatePlayButton = () => {
@@ -556,6 +559,9 @@
             };
             
             const showError = (message) => {
+                // Don't show error if we're intentionally closing the player
+                if (isClosingPlayer) return;
+                
                 playerElements.errorMessage.textContent = message;
                 playerElements.errorMessage.classList.remove('hidden');
                 setTimeout(() => {
@@ -589,11 +595,25 @@
             };
             
             const closePlayer = () => {
+                // Set flag to prevent error messages during cleanup
+                isClosingPlayer = true;
+                
                 playerElements.audio.pause();
-                playerElements.audio.src = '';
+                playerElements.audio.currentTime = 0;
+                
+                // Instead of setting src to empty string, which causes errors,
+                // we'll use the suspend method and then remove the source
+                playerElements.audio.removeAttribute('src');
+                playerElements.audio.load(); // This stops any ongoing network activity
+                
                 miniPlayer.classList.remove('active');
                 miniPlayer.classList.remove('loading');
                 body.classList.remove('player-active');
+                
+                // Reset the flag after a short delay
+                setTimeout(() => {
+                    isClosingPlayer = false;
+                }, 100);
             };
             
             // Audio event listeners with error handling
