@@ -1,21 +1,8 @@
+// La Sonora Volcánica Website - v1.0.1
 // IIFE (Immediately Invoked Function Expression) to create a private scope
 // and prevent polluting the global namespace.
 (function() {
     'use strict'; // Enforces stricter parsing and error handling in JavaScript.
-
-    // --- CONFIGURATION AND CONSTANTS ---
-    const CONFIG = {
-        PLAYER_HEIGHT: 80,
-        MOBILE_BREAKPOINT: 768,
-        ANIMATION_DURATION: 400,
-        SWIPE_THRESHOLD: 100,
-        SEEK_MAX: 100,
-        SUPPORTED_LANGUAGES: ['en', 'es', 'fr']
-    };
-
-    // Environment detection
-    const IS_DEVELOPMENT = window.location.hostname === 'localhost' || 
-                          window.location.hostname === '127.0.0.1';
 
     // --- DATA: SINGLE SOURCE OF TRUTH ---
     // All dynamic content is managed from these arrays.
@@ -113,423 +100,96 @@
     
     let currentLang = 'en';
 
-    // --- ELEMENT SELECTORS (Cached for performance) ---
-    const elements = {
-        body: document.body,
-        musicGrid: document.querySelector('.music-grid'),
-        collabsGrid: document.querySelector('.collabs-grid'),
-        sidePanel: document.getElementById('side-panel'),
-        panelOverlay: document.getElementById('side-panel-overlay'),
-        openDiscographyBtn: document.querySelector('.discography-btn'),
-        miniPlayer: document.getElementById('mini-player'),
-        hamburger: document.querySelector('.hamburger-menu'),
-        langButtons: document.querySelectorAll('.lang-btn'),
-        translatableElements: document.querySelectorAll('[data-key]')
-    };
+    // --- Element Selectors (Cached for performance) ---
+    const body = document.body;
+    const musicGrid = document.querySelector('.music-grid');
+    const collabsGrid = document.querySelector('.collabs-grid');
 
-    // --- INITIALIZATION ---
-    // Wait for the HTML document to be fully loaded and parsed.
-    document.addEventListener('DOMContentLoaded', () => {
-        try {
-            initializeApp();
-            if (IS_DEVELOPMENT) {
-                runSmokeTests();
-            }
-        } catch (error) {
-            console.error('Failed to initialize app:', error);
-            showErrorToUser('Failed to load website content. Please refresh the page.');
-        }
-    });
-
-    /**
-     * Initializes the entire application
-     * @throws {Error} When critical components fail to initialize
-     */
-    function initializeApp() {
-        // Initialize all components
-        initializeSidePanel();
-        initializeMiniPlayer();
-        initializeNavigation();
-        initializeLanguageSystem();
-        
-        // Populate content
-        populateFeaturedGrid();
-        populateCollabsGrid();
-        updateContent('en');
-        
-        // Initialize touch gestures
-        initializeTouchGestures();
-        
-        // Initialize performance optimizations
-        initializePerformanceOptimizations();
-        
-        // Track initialization for analytics
-        trackEvent('app', 'initialized', 'success');
-    }
-
-    /**
-     * Runs basic smoke tests to ensure critical functionality works
-     */
-    function runSmokeTests() {
-        const tests = {
-            releasesData: () => releases.every(r => r.title && r.year && r.coverArt),
-            collaboratorsData: () => collaborators.every(c => c.id && c.name && c.photoSrc),
-            domElements: () => Object.values(elements).every(el => el !== null),
-            translations: () => Object.keys(translations).every(lang => translations[lang].logoText)
-        };
-        
-        Object.entries(tests).forEach(([name, test]) => {
-            try {
-                if (!test()) {
-                    throw new Error(`Smoke test failed: ${name}`);
-                }
-            } catch (error) {
-                console.warn('Development warning:', error.message);
-            }
-        });
-    }
-
-    // --- PERFORMANCE OPTIMIZATIONS ---
-    
-    /**
-     * Initializes performance optimizations
-     */
-    function initializePerformanceOptimizations() {
-        // Optimize hero animation with Intersection Observer
-        if ('IntersectionObserver' in window) {
-            const heroSection = document.querySelector('.hero-section');
-            if (heroSection) {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        entry.target.style.animationPlayState = 
-                            entry.isIntersecting ? 'running' : 'paused';
-                    });
-                });
-                observer.observe(heroSection);
-            }
-        }
-        
-        // Implement image loading optimization
-        optimizeImageLoading();
-    }
-
-    /**
-     * Optimizes image loading with lazy loading and error handling
-     */
-    function optimizeImageLoading() {
-        const images = document.querySelectorAll('img[loading="lazy"]');
-        
-        images.forEach(img => {
-            // Add loading state
-            img.addEventListener('load', () => {
-                img.classList.add('loaded');
-            });
-            
-            // Add error handling
-            img.addEventListener('error', () => {
-                console.warn('Failed to load image:', img.src);
-                img.alt = 'Image failed to load';
-                img.classList.add('loaded'); // Still show as loaded to avoid broken layout
-            });
-        });
-    }
-
-    // --- DYNAMIC CONTENT POPULATION FUNCTIONS ---
-    
-    /**
-     * Populates the featured releases on the main page.
-     * @throws {Error} When music grid is not found or data is invalid
-     */
+    // --- Dynamic Content Population Functions ---
+    // Populates the featured releases on the main page.
     function populateFeaturedGrid() {
-        if (!elements.musicGrid) {
-            throw new Error('Music grid element not found');
-        }
-        
-        try {
-            const featuredReleases = releases.filter(r => r.featured);
-            const fragment = document.createDocumentFragment();
-            
-            featuredReleases.forEach(release => {
-                const card = createMusicCard(release, true);
-                if (card) {
-                    fragment.appendChild(card);
-                }
-            });
-            
-            elements.musicGrid.innerHTML = '';
-            elements.musicGrid.appendChild(fragment);
-            
-            trackEvent('content', 'featured_grid_populated', `cards: ${featuredReleases.length}`);
-        } catch (error) {
-            console.error('Failed to populate featured grid:', error);
-            elements.musicGrid.innerHTML = '<p class="error-message">Error loading music content</p>';
-            throw error;
-        }
-    }
-
-    /**
-     * Creates a music card element
-     * @param {Object} release - The release data object
-     * @param {boolean} isFeatured - Whether this is for the featured grid
-     * @returns {HTMLElement} The created music card element
-     */
-    function createMusicCard(release, isFeatured = false) {
-        const card = document.createElement('div');
-        card.className = 'music-card';
-        
-        const img = document.createElement('img');
-        img.src = release.coverArt;
-        img.alt = `Cover art for ${release.title}`;
-        img.loading = 'lazy';
-        img.setAttribute('data-action', 'play-track');
-        
-        img.addEventListener('load', () => img.classList.add('loaded'));
-        img.addEventListener('error', () => {
-            console.warn('Failed to load cover art:', release.coverArt);
-            img.alt = 'Cover art failed to load';
-            img.classList.add('loaded');
+        if (!musicGrid) return;
+        musicGrid.innerHTML = '';
+        const featuredReleases = releases.filter(r => r.featured);
+        featuredReleases.forEach(release => {
+            musicGrid.innerHTML += `
+                <div class="music-card">
+                    <img src="${release.coverArt}" alt="Cover art for ${release.title}" data-action="play-track">
+                    <div class="music-card-overlay">
+                        <div class="music-card-info">
+                            <h3 class="music-card-title">${release.title}</h3>
+                            <p class="music-card-year">${release.year}</p>
+                        </div>
+                        <div class="streaming-links">
+                            ${release.links.spotify !== '#' ? `<a href="${release.links.spotify}" target="_blank" class="tooltip" data-tooltip="Spotify" aria-label="Listen to ${release.title} on Spotify"><svg class="icon"><use href="#icon-spotify"></use></svg></a>` : ''}
+                            ${release.links.apple !== '#' ? `<a href="${release.links.apple}" target="_blank" class="tooltip" data-tooltip="Apple Music" aria-label="Listen to ${release.title} on Apple Music"><svg class="icon"><use href="#icon-apple-music"></use></svg></a>` : ''}
+                            ${release.links.youtube !== '#' ? `<a href="${release.links.youtube}" target="_blank" class="tooltip" data-tooltip="YouTube" aria-label="Watch ${release.title} on YouTube"><svg class="icon"><use href="#icon-youtube"></use></svg></a>` : ''}
+                            ${release.links.bandcamp !== '#' ? `<a href="${release.links.bandcamp}" target="_blank" class="tooltip" data-tooltip="Download / Buy" aria-label="Download or Buy ${release.title} on Bandcamp"><svg class="icon"><use href="#icon-cart"></use></svg></a>` : ''}
+                        </div>
+                    </div>
+                </div>`;
         });
-        
-        if (isFeatured) {
-            const overlay = createMusicCardOverlay(release);
-            card.appendChild(img);
-            card.appendChild(overlay);
-        } else {
-            const cardContent = createDiscographyCardContent(release);
-            card.appendChild(img);
-            card.appendChild(cardContent);
-        }
-        
-        return card;
     }
 
-    /**
-     * Creates the overlay content for featured music cards
-     * @param {Object} release - The release data object
-     * @returns {HTMLElement} The overlay element
-     */
-    function createMusicCardOverlay(release) {
-        const overlay = document.createElement('div');
-        overlay.className = 'music-card-overlay';
-        
-        const infoDiv = document.createElement('div');
-        infoDiv.className = 'music-card-info';
-        
-        const title = document.createElement('h3');
-        title.className = 'music-card-title';
-        title.textContent = release.title;
-        
-        const year = document.createElement('p');
-        year.className = 'music-card-year';
-        year.textContent = release.year;
-        
-        infoDiv.appendChild(title);
-        infoDiv.appendChild(year);
-        
-        const linksDiv = createStreamingLinks(release.links, release.title, true);
-        
-        overlay.appendChild(infoDiv);
-        overlay.appendChild(linksDiv);
-        
-        return overlay;
-    }
-
-    /**
-     * Creates the content for discography list cards
-     * @param {Object} release - The release data object
-     * @returns {HTMLElement} The card content element
-     */
-    function createDiscographyCardContent(release) {
-        const content = document.createElement('div');
-        content.className = 'card-content';
-        
-        const infoDiv = document.createElement('div');
-        infoDiv.className = 'music-card-info';
-        
-        const title = document.createElement('h3');
-        title.className = 'music-card-title';
-        title.textContent = release.title;
-        
-        const year = document.createElement('p');
-        year.className = 'music-card-year';
-        year.textContent = release.year;
-        
-        infoDiv.appendChild(title);
-        infoDiv.appendChild(year);
-        
-        // FIX: Include YouTube for discography cards too
-        const linksDiv = createStreamingLinks(release.links, release.title, true);
-        
-        content.appendChild(infoDiv);
-        content.appendChild(linksDiv);
-        
-        return content;
-    }
-
-    /**
-     * Creates streaming links element
-     * @param {Object} links - The links object
-     * @param {string} title - The track title for ARIA labels
-     * @param {boolean} includeYouTube - Whether to include YouTube link
-     * @returns {HTMLElement} The streaming links element
-     */
-    function createStreamingLinks(links, title, includeYouTube = true) {
-        const linksDiv = document.createElement('div');
-        linksDiv.className = 'streaming-links';
-        
-        const platforms = [
-            { key: 'spotify', icon: 'spotify', label: `Listen to ${title} on Spotify` },
-            { key: 'apple', icon: 'apple-music', label: `Listen to ${title} on Apple Music` },
-            ...(includeYouTube ? [{ key: 'youtube', icon: 'youtube', label: `Watch ${title} on YouTube` }] : []),
-            { key: 'bandcamp', icon: 'cart', label: `Download or Buy ${title} on Bandcamp` }
-        ];
-        
-        // FIX: Use innerHTML to properly create the SVG structure
-        let linksHTML = '';
-        platforms.forEach(platform => {
-            if (links[platform.key] && links[platform.key] !== '#') {
-                const tooltipText = platform.label.split(' on ')[1];
-                linksHTML += `
-                    <a href="${links[platform.key]}" target="_blank" rel="noopener noreferrer" class="tooltip" data-tooltip="${tooltipText}" aria-label="${platform.label}">
-                        <svg class="icon"><use href="#icon-${platform.icon}"></use></svg>
-                    </a>
-                `;
-            }
-        });
-        
-        linksDiv.innerHTML = linksHTML;
-        return linksDiv;
-    }
-
-    /**
-     * Populates the full list of releases inside the side panel.
-     * @param {HTMLElement} listContainer - The container element for the list
-     */
+    // Populates the full list of releases inside the side panel.
     function populateDiscographyList(listContainer) {
-        if (!listContainer) {
-            console.error('Discography list container not found');
-            return;
-        }
-        
-        try {
-            const fragment = document.createDocumentFragment();
-            
-            releases.forEach(release => {
-                const card = createMusicCard(release, false);
-                if (card) {
-                    fragment.appendChild(card);
-                }
-            });
-            
-            listContainer.innerHTML = '';
-            listContainer.appendChild(fragment);
-        } catch (error) {
-            console.error('Failed to populate discography list:', error);
-            listContainer.innerHTML = '<p class="error-message">Error loading discography</p>';
-        }
+        if (!listContainer) return;
+        listContainer.innerHTML = '';
+        releases.forEach(release => {
+            listContainer.innerHTML += `
+                <div class="music-card">
+                    <img src="${release.coverArt}" alt="Cover art for ${release.title}" data-action="play-track">
+                    <div class="card-content">
+                        <div class="music-card-info">
+                            <h3 class="music-card-title">${release.title}</h3>
+                            <p class="music-card-year">${release.year}</p>
+                        </div>
+                        <div class="streaming-links">
+                            ${release.links.spotify !== '#' ? `<a href="${release.links.spotify}" target="_blank" class="tooltip" data-tooltip="Spotify" aria-label="Listen to ${release.title} on Spotify"><svg class="icon"><use href="#icon-spotify"></use></svg></a>` : ''}
+                            ${release.links.apple !== '#' ? `<a href="${release.links.apple}" target="_blank" class="tooltip" data-tooltip="Apple Music" aria-label="Listen to ${release.title} on Apple Music"><svg class="icon"><use href="#icon-apple-music"></use></svg></a>` : ''}
+                            ${release.links.youtube !== '#' ? `<a href="${release.links.youtube}" target="_blank" class="tooltip" data-tooltip="YouTube" aria-label="Watch ${release.title} on YouTube"><svg class="icon"><use href="#icon-youtube"></use></svg></a>` : ''}
+                            ${release.links.bandcamp !== '#' ? `<a href="${release.links.bandcamp}" target="_blank" class="tooltip" data-tooltip="Download / Buy" aria-label="Download or Buy ${release.title} on Bandcamp"><svg class="icon"><use href="#icon-cart"></use></svg></a>` : ''}
+                        </div>
+                    </div>
+                </div>`;
+        });
     }
 
-    /**
-     * Populates the grid of collaborators on the main page.
-     */
+    // Populates the grid of collaborators on the main page.
     function populateCollabsGrid() {
-        if (!elements.collabsGrid) {
-            console.warn('Collaborations grid element not found');
-            return;
-        }
-        
-        try {
-            const fragment = document.createDocumentFragment();
-            
-            collaborators.forEach(collab => {
-                const card = document.createElement('div');
-                card.className = 'collab-card';
-                card.setAttribute('data-action', 'open-collab-panel');
-                card.setAttribute('data-collab-id', collab.id);
-                card.tabIndex = 0; // Make focusable for keyboard navigation
-                card.setAttribute('role', 'button');
-                card.setAttribute('aria-label', `View details for ${collab.name}`);
-                
-                const img = document.createElement('img');
-                img.src = collab.photoSrc;
-                img.alt = `Photo of ${collab.name}`;
-                img.className = 'collab-card-photo';
-                img.loading = 'lazy';
-                
-                img.addEventListener('load', () => img.classList.add('loaded'));
-                img.addEventListener('error', () => {
-                    console.warn('Failed to load collaborator photo:', collab.photoSrc);
-                    img.alt = 'Photo failed to load';
-                    img.classList.add('loaded');
-                });
-                
-                const name = document.createElement('h3');
-                name.className = 'collab-card-name';
-                name.textContent = collab.name;
-                
-                card.appendChild(img);
-                card.appendChild(name);
-                fragment.appendChild(card);
-            });
-            
-            elements.collabsGrid.innerHTML = '';
-            elements.collabsGrid.appendChild(fragment);
-        } catch (error) {
-            console.error('Failed to populate collaborations grid:', error);
-            elements.collabsGrid.innerHTML = '<p class="error-message">Error loading collaborations</p>';
-        }
+        if (!collabsGrid) return;
+        collabsGrid.innerHTML = '';
+        collaborators.forEach(collab => {
+            collabsGrid.innerHTML += `
+                <div class="collab-card" data-action="open-collab-panel" data-collab-id="${collab.id}">
+                    <img src="${collab.photoSrc}" alt="Photo of ${collab.name}" class="collab-card-photo">
+                    <h3 class="collab-card-name">${collab.name}</h3>
+                </div>
+            `;
+        });
     }
 
-    // --- SIDE PANEL LOGIC ---
+    // --- Side Panel Logic ---
+    const sidePanel = document.getElementById('side-panel');
+    const panelOverlay = document.getElementById('side-panel-overlay');
+    const openDiscographyBtn = document.querySelector('.discography-btn');
     
-    /**
-     * Initializes the side panel functionality
-     */
-    function initializeSidePanel() {
-        const { sidePanel, panelOverlay } = elements;
-        
-        if (!sidePanel || !panelOverlay) {
-            console.warn('Side panel elements not found');
-            return;
-        }
-
+    // Null-check ensures this block only runs if the panel elements exist.
+    if (sidePanel && panelOverlay) {
         const panelTitle = sidePanel.querySelector('.side-panel-title');
         const panelContent = sidePanel.querySelector('.side-panel-content');
         const closePanelBtn = sidePanel.querySelector('.close-panel-btn');
 
-        if (!panelTitle || !panelContent || !closePanelBtn) {
-            console.error('Side panel sub-elements not found');
-            return;
-        }
-
         const openPanel = () => {
             sidePanel.classList.add('active');
             panelOverlay.classList.add('active');
-            document.addEventListener('keydown', handlePanelEscapeKey);
         };
-
         const closePanel = () => {
             sidePanel.classList.remove('active');
             panelOverlay.classList.remove('active');
-            document.removeEventListener('keydown', handlePanelEscapeKey);
-            // FIX: Remove focus restoration to prevent scrolling to top
         };
 
-        /**
-         * Handles escape key to close panel
-         * @param {KeyboardEvent} e - The keyboard event
-         */
-        function handlePanelEscapeKey(e) {
-            if (e.key === 'Escape') {
-                closePanel();
-            }
-        }
-
-        /**
-         * Helper function to create smarter text for the "Visit" button.
-         * @param {string} url - The URL to analyze
-         * @returns {string} The platform name
-         */
+        // Helper function to create smarter text for the "Visit" button.
         const getLinkPlatform = (url) => {
             if (url.includes('spotify.com')) return 'Spotify';
             if (url.includes('music.apple.com')) return 'Apple Music';
@@ -539,150 +199,64 @@
             return 'Website';
         };
 
-        /**
-         * Populates the panel with the full discography.
-         */
+        // Populates the panel with the full discography.
         const showDiscography = () => {
-            try {
-                panelTitle.setAttribute('data-key', 'fullDiscographyTitle');
-                panelTitle.textContent = translations[currentLang].fullDiscographyTitle;
-                panelTitle.id = 'side-panel-title';
-                
-                // Use safe DOM methods instead of innerHTML
-                panelContent.innerHTML = ''; // Clear safely
-                
-                const textContent = document.createElement('div');
-                textContent.className = 'side-panel-text-content';
-                
-                const listContainer = document.createElement('div');
-                listContainer.className = 'discography-list';
-                
-                textContent.appendChild(listContainer);
-                panelContent.appendChild(textContent);
-                
-                populateDiscographyList(listContainer);
-                openPanel();
-                
-                trackEvent('navigation', 'discography_opened');
-            } catch (error) {
-                console.error('Failed to show discography:', error);
-                showErrorToUser('Failed to load discography');
-            }
+            panelTitle.dataset.key = 'fullDiscographyTitle';
+            panelTitle.textContent = translations[currentLang].fullDiscographyTitle;
+            panelContent.innerHTML = `<div class="side-panel-text-content"><div class="discography-list"></div></div>`;
+            const listContainer = panelContent.querySelector('.discography-list');
+            populateDiscographyList(listContainer);
+            openPanel();
         };
 
-        /**
-         * Populates the panel with a specific collaborator's details.
-         * @param {Object} collab - The collaborator data object
-         */
+        // Populates the panel with a specific collaborator's details.
         const showCollaborator = (collab) => {
-            try {
-                panelTitle.removeAttribute('data-key');
-                panelTitle.textContent = collab.name;
-                panelTitle.id = 'side-panel-title';
-                
-                const platform = getLinkPlatform(collab.link);
-                const visitBtnText = translations[currentLang].collabVisitBtn.replace('%s', `${collab.name} on ${platform}`);
+            panelTitle.removeAttribute('data-key');
+            panelTitle.textContent = collab.name;
+            
+            const platform = getLinkPlatform(collab.link);
+            const visitBtnText = translations[currentLang].collabVisitBtn.replace('%s', `${collab.name} on ${platform}`);
 
-                // Use safe DOM methods instead of innerHTML
-                panelContent.innerHTML = ''; // Clear safely
-                
-                // Create hero image
-                const heroImg = document.createElement('img');
-                heroImg.src = collab.photoSrc;
-                heroImg.alt = `Photo of ${collab.name}`;
-                heroImg.className = 'side-panel-hero-image';
-                heroImg.loading = 'lazy';
-                
-                heroImg.addEventListener('error', () => {
-                    console.warn('Failed to load collaborator hero image:', collab.photoSrc);
-                    heroImg.alt = 'Photo failed to load';
-                });
-                
-                panelContent.appendChild(heroImg);
-                
-                // Create text content
-                const textContent = document.createElement('div');
-                textContent.className = 'side-panel-text-content';
-                
-                // Create song card
-                const listContainer = document.createElement('div');
-                listContainer.className = 'discography-list';
-                
-                const songCard = createMusicCard({
-                    ...collab.song,
-                    featured: false
-                }, false);
-                
-                if (songCard) {
-                    listContainer.appendChild(songCard);
-                }
-                
-                textContent.appendChild(listContainer);
-                
-                // Create bio paragraphs safely
-                const bioParagraphs = collab.bio[currentLang].split('\n\n');
-                bioParagraphs.forEach(paragraph => {
-                    if (paragraph.trim()) {
-                        const p = document.createElement('p');
-                        p.className = 'collab-details-bio';
-                        p.textContent = paragraph;
-                        textContent.appendChild(p);
-                    }
-                });
-                
-                // Create visit button
-                const visitBtnContainer = document.createElement('div');
-                visitBtnContainer.className = 'collab-details-visit-btn-container';
-                
-                const visitBtn = document.createElement('a');
-                visitBtn.href = collab.link;
-                visitBtn.target = '_blank';
-                visitBtn.rel = 'noopener noreferrer';
-                visitBtn.className = 'cta-button';
-                visitBtn.textContent = visitBtnText;
-                
-                visitBtnContainer.appendChild(visitBtn);
-                textContent.appendChild(visitBtnContainer);
-                
-                panelContent.appendChild(textContent);
-                openPanel();
-                
-                trackEvent('navigation', 'collaborator_opened', collab.id);
-            } catch (error) {
-                console.error('Failed to show collaborator:', error);
-                showErrorToUser('Failed to load collaborator details');
-            }
+            panelContent.innerHTML = `
+                <img src="${collab.photoSrc}" alt="Photo of ${collab.name}" class="side-panel-hero-image">
+                <div class="side-panel-text-content">
+                    <div class="discography-list">
+                         <div class="music-card">
+                            <img src="${collab.song.coverArt}" alt="Cover art for ${collab.song.title}" data-action="play-track">
+                            <div class="card-content">
+                                <div class="music-card-info">
+                                    <h3 class="music-card-title">${collab.song.title}</h3>
+                                    <p class="music-card-year">${collab.song.year}</p>
+                                </div>
+                                <div class="streaming-links">
+                                    ${collab.song.links.spotify !== '#' ? `<a href="${collab.song.links.spotify}" target="_blank" class="tooltip" data-tooltip="Spotify"><svg class="icon"><use href="#icon-spotify"></use></svg></a>` : ''}
+                                    ${collab.song.links.apple !== '#' ? `<a href="${collab.song.links.apple}" target="_blank" class="tooltip" data-tooltip="Apple Music"><svg class="icon"><use href="#icon-apple-music"></use></svg></a>` : ''}
+                                    ${collab.song.links.youtube !== '#' ? `<a href="${collab.song.links.youtube}" target="_blank" class="tooltip" data-tooltip="YouTube"><svg class="icon"><use href="#icon-youtube"></use></svg></a>` : ''}
+                                    ${collab.song.links.bandcamp !== '#' ? `<a href="${collab.song.links.bandcamp}" target="_blank" class="tooltip" data-tooltip="Download / Buy"><svg class="icon"><use href="#icon-cart"></use></svg></a>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="collab-details-bio">${collab.bio[currentLang].replace(/\n\n/g, '</p><p>')}</p>
+                    <div class="collab-details-visit-btn-container">
+                        <a href="${collab.link}" target="_blank" class="cta-button">${visitBtnText}</a>
+                    </div>
+                </div>
+            `;
+            openPanel();
         };
 
-        // Event listeners
-        if (elements.openDiscographyBtn) {
-            elements.openDiscographyBtn.addEventListener('click', showDiscography);
-        }
-        
+        if (openDiscographyBtn) openDiscographyBtn.addEventListener('click', showDiscography);
         closePanelBtn.addEventListener('click', closePanel);
         panelOverlay.addEventListener('click', closePanel);
 
-        // Use custom events instead of global functions
-        document.addEventListener('collaboratorSelected', (e) => {
-            if (e.detail && e.detail.collab) {
-                showCollaborator(e.detail.collab);
-            }
-        });
+        // Make showCollaborator function available to the global event listener.
+        window.showCollaborator = showCollaborator;
     }
 
-    // --- MINI-PLAYER LOGIC ---
-    
-    /**
-     * Initializes the mini-player functionality
-     */
-    function initializeMiniPlayer() {
-        const { miniPlayer } = elements;
-        
-        if (!miniPlayer) {
-            console.warn('Mini player element not found');
-            return;
-        }
-
+    // --- Mini-Player Logic ---
+    const miniPlayer = document.getElementById('mini-player');
+    if (miniPlayer) {
         const playerElements = {
             coverArt: miniPlayer.querySelector('.player-cover-art'),
             title: miniPlayer.querySelector('.player-title'),
@@ -695,190 +269,111 @@
             totalTimeEl: miniPlayer.querySelector('.total-time'),
             closePlayerBtn: miniPlayer.querySelector('.close-player-btn')
         };
-
-        // Validate all player elements exist
-        if (Object.values(playerElements).some(el => !el)) {
-            console.error('Some mini-player elements are missing');
-            return;
-        }
-
-        /**
-         * Formats time in seconds to MM:SS format
-         * @param {number} seconds - Time in seconds
-         * @returns {string} Formatted time string
-         */
-        const formatTime = (seconds) => {
-            if (isNaN(seconds)) return '0:00';
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${mins}:${String(secs).padStart(2, '0')}`;
+        
+        const formatTime = (s) => `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+        const togglePlay = () => playerElements.audio.src && (playerElements.audio.paused ? playerElements.audio.play() : playerElements.audio.pause());
+        const updatePlayButton = () => {
+            if(!playerElements.iconPlay || !playerElements.iconPause) return;
+            playerElements.iconPlay.classList.toggle('hidden', !playerElements.audio.paused);
+            playerElements.iconPause.classList.toggle('hidden', playerElements.audio.paused);
         };
-
-        /**
-         * Toggles play/pause state
-         */
-        const togglePlay = () => {
-            if (!playerElements.audio.src) return;
+        
+        // FIX: Simplified loadTrack function - only show player if audio loads successfully
+        const loadTrack = (track) => {
+            // Set the source first
+            playerElements.audio.src = track.audioSrc;
             
-            if (playerElements.audio.paused) {
+            // When metadata is loaded, setup the player
+            playerElements.audio.addEventListener('loadedmetadata', function onLoad() {
+                playerElements.coverArt.src = track.coverArt;
+                playerElements.title.textContent = track.title;
+                miniPlayer.classList.add('active');
+                body.classList.add('player-active');
+                
+                // Try to play, but if it fails, keep the player visible
                 playerElements.audio.play().catch(error => {
                     console.error('Playback failed:', error);
-                    showErrorToUser('Failed to play audio');
+                    // Player remains visible but in paused state
                 });
-            } else {
-                playerElements.audio.pause();
-            }
-        };
-
-        /**
-         * Updates the play/pause button state
-         */
-        const updatePlayButton = () => {
-            if (!playerElements.iconPlay || !playerElements.iconPause) return;
+                
+                // Remove this event listener after first use
+                playerElements.audio.removeEventListener('loadedmetadata', onLoad);
+            }, { once: true });
             
-            const isPlaying = !playerElements.audio.paused;
-            playerElements.iconPlay.classList.toggle('hidden', isPlaying);
-            playerElements.iconPause.classList.toggle('hidden', !isPlaying);
-            
-            // Update ARIA label for accessibility
-            playerElements.playPauseBtn.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
+            // Handle case where audio fails to load entirely
+            playerElements.audio.addEventListener('error', function onError() {
+                console.error('Audio failed to load:', track.audioSrc);
+                // Don't show the player if audio can't load
+                playerElements.audio.removeEventListener('loadedmetadata', onLoad);
+            }, { once: true });
         };
-
-        /**
-         * Loads a track into the player
-         * @param {Object} track - The track data object
-         */
-        const loadTrack = async (track) => {
-            try {
-                if (!track.audioSrc) {
-                    throw new Error('No audio source provided');
-                }
-                
-                playerElements.coverArt.src = track.coverArt;
-                playerElements.coverArt.alt = `Cover art for ${track.title}`;
-                playerElements.title.textContent = track.title;
-                playerElements.audio.src = track.audioSrc;
-                
-                // Reset UI
-                playerElements.seekSlider.value = 0;
-                playerElements.currentTimeEl.textContent = '0:00';
-                playerElements.totalTimeEl.textContent = '0:00';
-                
-                miniPlayer.classList.add('active');
-                elements.body.classList.add('player-active');
-                
-                // Wait for audio to be ready
-                await playerElements.audio.play();
-                
-                trackEvent('audio', 'track_loaded', track.title);
-            } catch (error) {
-                console.error('Failed to load track:', error);
-                showErrorToUser('Failed to load audio track');
-                
-                // Ensure player is visible even if audio fails
-                miniPlayer.classList.add('active');
-                elements.body.classList.add('player-active');
-            }
-        };
-
-        /**
-         * Closes the player and cleans up
-         */
+        
+        // FIX: Proper close player function
         const closePlayer = () => {
             playerElements.audio.pause();
             playerElements.audio.src = '';
             miniPlayer.classList.remove('active');
-            elements.body.classList.remove('player-active');
-            
-            trackEvent('audio', 'player_closed');
+            body.classList.remove('player-active');
         };
-
-        // FIX: Use direct event listeners without AbortController for close button
+        
         playerElements.playPauseBtn.addEventListener('click', togglePlay);
         playerElements.audio.addEventListener('play', updatePlayButton);
         playerElements.audio.addEventListener('pause', updatePlayButton);
         playerElements.audio.addEventListener('loadedmetadata', () => {
             playerElements.totalTimeEl.textContent = formatTime(playerElements.audio.duration);
-            playerElements.seekSlider.max = Math.floor(playerElements.audio.duration);
+            playerElements.seekSlider.max = playerElements.audio.duration;
         });
-        
         playerElements.audio.addEventListener('timeupdate', () => {
             playerElements.currentTimeEl.textContent = formatTime(playerElements.audio.currentTime);
-            playerElements.seekSlider.value = Math.floor(playerElements.audio.currentTime);
+            playerElements.seekSlider.value = playerElements.audio.currentTime;
         });
+        playerElements.seekSlider.addEventListener('input', () => playerElements.audio.currentTime = playerElements.seekSlider.value);
         
-        playerElements.audio.addEventListener('error', (e) => {
-            console.error('Audio element error:', e);
-            showErrorToUser('Audio playback error');
-        });
-        
-        playerElements.seekSlider.addEventListener('input', () => {
-            playerElements.audio.currentTime = playerElements.seekSlider.value;
-        });
-        
-        // FIX: Ensure close player button works properly
+        // FIX: Simple event listener for close button
         playerElements.closePlayerBtn.addEventListener('click', closePlayer);
 
-        // Use custom events instead of global functions
-        document.addEventListener('trackSelected', (e) => {
-            if (e.detail && e.detail.track) {
-                loadTrack(e.detail.track);
-            }
-        });
+        window.loadTrack = loadTrack;
     }
 
-    // --- NAVIGATION AND TOUCH GESTURES ---
-    
-    /**
-     * Initializes navigation functionality
-     */
-    function initializeNavigation() {
-        const { hamburger, body } = elements;
-        
-        if (!hamburger) return;
+    // --- Event Delegation for Actions ---
+    // A single event listener on the body handles clicks for multiple actions.
+    document.body.addEventListener('click', (e) => {
+        const actionTarget = e.target.closest('[data-action]');
+        if (!actionTarget) return;
 
+        const action = actionTarget.dataset.action;
+
+        if (action === 'play-track') {
+            const musicCard = actionTarget.closest('.music-card');
+            if (musicCard) {
+                const imgSrc = musicCard.querySelector('img').getAttribute('src');
+                // Check if the clicked song belongs to a release or a collaborator
+                const release = releases.find(r => r.coverArt === imgSrc);
+                const collab = collaborators.find(c => c.song.coverArt === imgSrc);
+                
+                if(release && window.loadTrack) {
+                    window.loadTrack(release);
+                } else if (collab && window.loadTrack) {
+                    window.loadTrack(collab.song);
+                }
+            }
+        } else if (action === 'open-collab-panel') {
+            const collabId = actionTarget.dataset.collabId;
+            const collabData = collaborators.find(c => c.id === collabId);
+            if (collabData && window.showCollaborator) window.showCollaborator(collabData);
+        }
+    });
+
+    // --- Mobile Navigation Toggle ---
+    const hamburger = document.querySelector('.hamburger-menu');
+    if (hamburger) {
         hamburger.addEventListener('click', () => {
-            const isOpening = !body.classList.contains('nav-open');
             body.classList.toggle('nav-open');
             hamburger.setAttribute('aria-expanded', body.classList.contains('nav-open'));
         });
     }
-
-    /**
-     * Initializes touch gestures for mobile
-     */
-    function initializeTouchGestures() {
-        const { sidePanel } = elements;
-        if (!sidePanel) return;
-
-        let touchStartX = 0;
-        let touchStartY = 0;
-
-        sidePanel.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
-        }, { passive: true });
-
-        sidePanel.addEventListener('touchend', (e) => {
-            const touchEndX = e.changedTouches[0].clientX;
-            const touchEndY = e.changedTouches[0].clientY;
-            
-            const diffX = touchEndX - touchStartX;
-            const diffY = touchEndY - touchStartY;
-            
-            // Only handle horizontal swipes with minimal vertical movement
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffY) < 30) {
-                if (diffX > CONFIG.SWIPE_THRESHOLD) {
-                    // Swipe right to close
-                    const closePanelBtn = sidePanel.querySelector('.close-panel-btn');
-                    if (closePanelBtn) closePanelBtn.click();
-                }
-            }
-        }, { passive: true });
-    }
-
-    // --- MULTILINGUAL CONTENT MANAGEMENT ---
     
+    // --- Multilingual Content Management ---
     const translations = {
         en: {
             logoText: "La Sonora Volcánica", navMusic: "Music", navMap: "Surf Map", navAbout: "About", navCollabs: "Collaborations",
@@ -903,128 +398,41 @@
             heroTagline: "La Sonora Volcánica—la cumbia à la limite, des histoires en liberté et sans freins en vue.", heroButton: "Explorer La Musique",
             musicTitle: "Musique", discographyBtn: "Voir la Discographie", fullDiscographyTitle: "Discographie",
             aboutTitle: "L'Histoire",
-            aboutBio: `Oubliez les débuts tranquilles. Ça commence en 1985, avec un gamin de 14 ans qui pousse des données brutes à travers des puces sonores primitives, pliant le silicium à sa volonté sur la scène démo informatique. Deux ans plus tard, Frédéric Guigand s'empare d'une guitare et s'injecte la tension brute du rock et du blues.\n\nLe signal l'a mené en Angleterre, où il a chassé le fantasma du jazz, non pas juste pour le jouer, mais pour en percer le code, décodant sa géométrie sacrée par la théorie. Puis, un virage serré : retour en France pour un service civil tout sauf civilisé. Il a fugué pour rejoindre le circo — littéralement — troquant la scène pour le chapiteau, balançant des notes avec l'orchestre du circo.\n\nMais le vrai recâblage était à venir. En tant que DJ, puis curateur musical pour ZipDJ, il est devenu un chaman sonique pour les DJ du monde entier. Il n'a pas seulement écouté la musique latine ; il se l'est injectée en intraveineuse — un fleuve de salsa, de bachata et de merengue, et des dizaines de milliers de morceaux de cumbia qui ont altéré à jamais son ADN musical. Il a appris ce qui enflamme un dancefloor, ce qui fait qu'un rythme vous possède.\n\nEn 2024, cette connaissance a explosé. La Sonora Volcánica est née. Le premier projet : une série d'albums instrumentaux en hommage aux spots de surf de Fuerteventura, fusionnant la chaleur psychédélique de la chicha péruvienne des années 60 avec la fraîcheur salée de la guitare surf.\n\nMaintenant, les histoires sont lâchées, à commencer par le rêve fiévreux d'électrocumbia "Sol Sol". Des collaborations s'embrasent avec les hors-la-loi de la cumbia du Mexique, Los Mexaterrestres, et le troubadour péruvien à l'âme de boléro, Cututo. Comme le dit Frédéric : « Chaque rythme, chaque parole est une histoire qui attend d'être racontée. »\n\nCe n'est pas de la musique de fond. C'est un événement sismique. La seule question est : êtes-vous prêt pour l'onde de choc ?`,
+            aboutBio: `Oubliez les débuts tranquilles. Ça commence en 1985, avec un gamin de 14 ans qui pousse des données brutes à travers des puces sonores primitives, pliant le silicium à sa volonté sur la scène démo informatique. Deux ans plus tard, Frédéric Guigand s'empare d'une guitare et s'injecte la tension brute du rock et du blues.\n\nLe signal l'a mené en Angleterre, où il a chassé le fantôme du jazz, non pas juste pour le jouer, mais pour en percer le code, décodant sa géométrie sacrée par la théorie. Puis, un virage serré : retour en France pour un service civil tout sauf civilisé. Il a fugué pour rejoindre le circo — littéralement — troquant la scène pour le chapiteau, balançant des notes avec l'orchestre du circo.\n\nMais le vrai recâblage était à venir. En tant que DJ, puis curateur musical pour ZipDJ, il est devenu un chaman sonique pour les DJ du monde entier. Il n'a pas seulement écouté la musique latine ; il se l'est injectée en intraveineuse — un fleuve de salsa, de bachata et de merengue, et des dizaines de milliers de morceaux de cumbia qui ont altéré à jamais son ADN musical. Il a appris ce qui enflamme un dancefloor, ce qui fait qu'un rythme vous possède.\n\nEn 2024, cette connaissance a explosé. La Sonora Volcánica est née. Le premier projet : une série d'albums instrumentaux en hommage aux spots de surf de Fuerteventura, fusionnant la chaleur psychédélique de la chicha péruvienne des années 60 avec la fraîcheur salée de la guitare surf.\n\nMaintenant, les histoires sont lâchées, à commencer par le rêve fiévreux d'électrocumbia "Sol Sol". Des collaborations s'embrasent avec les hors-la-loi de la cumbia du Mexique, Los Mexaterrestres, et le troubadour péruvien à l'âme de boléro, Cututo. Comme le dit Frédéric : « Chaque rythme, chaque parole est une histoire qui attend d'être racontée. »\n\nCe n'est pas de la musique de fond. C'est un événement sismique. La seule question est : êtes-vous prêt pour l'onde de choc ?`,
             collabsTitle: "Collaborations",
             collabVisitBtn: "Visiter %s",
         }
     };
-
-    /**
-     * Initializes the language switching system
-     */
-    function initializeLanguageSystem() {
-        elements.langButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const selectedLang = button.getAttribute('data-lang');
-                if (selectedLang && CONFIG.SUPPORTED_LANGUAGES.includes(selectedLang)) {
-                    elements.langButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    updateContent(selectedLang);
-                    
-                    trackEvent('language', 'switched', selectedLang);
-                }
-            });
-        });
-    }
-
-    /**
-     * Updates all content to the specified language
-     * @param {string} lang - The language code to switch to
-     */
-    function updateContent(lang) {
+    const langButtons = document.querySelectorAll('.lang-btn');
+    const translatableElements = document.querySelectorAll('[data-key]');
+    const updateContent = (lang) => {
         currentLang = lang;
-        document.documentElement.lang = lang; // Update HTML lang attribute
-        
-        elements.translatableElements.forEach(element => {
+        document.documentElement.lang = lang; // Update HTML lang attribute for accessibility
+        translatableElements.forEach(element => {
             const key = element.getAttribute('data-key');
             if (translations[lang] && translations[lang][key]) {
                 if (key === 'aboutBio') {
-                    // Use safe method for bio content
-                    element.innerHTML = ''; // Clear first
-                    const paragraphs = translations[lang][key].split('\n\n');
-                    paragraphs.forEach(paragraph => {
-                        if (paragraph.trim()) {
-                            const p = document.createElement('p');
-                            p.textContent = paragraph;
-                            element.appendChild(p);
-                        }
-                    });
+                    element.innerHTML = translations[lang][key].replace(/\n\n/g, '</p><p>');
                 } else {
                     element.textContent = translations[lang][key];
                 }
             }
         });
-    }
-
-    // --- EVENT DELEGATION AND ERROR HANDLING ---
-    
-    /**
-     * Shows error message to user
-     * @param {string} message - The error message to display
-     */
-    function showErrorToUser(message) {
-        // In a real implementation, this would show a user-friendly error message
-        console.error('User error:', message);
-    }
-
-    /**
-     * Tracks events for analytics
-     * @param {string} category - The event category
-     * @param {string} action - The event action
-     * @param {string} label - The event label
-     */
-    function trackEvent(category, action, label = '') {
-        if (IS_DEVELOPMENT) {
-            console.log('Event tracked:', { category, action, label });
-        }
-    }
-
-    // A single event listener on the body handles clicks for multiple actions.
-    document.body.addEventListener('click', (e) => {
-        const actionTarget = e.target.closest('[data-action]');
-        if (!actionTarget) return;
-
-        const action = actionTarget.dataset.action;
-
-        if (action === 'play-track') {
-            const musicCard = actionTarget.closest('.music-card');
-            if (musicCard) {
-                const imgSrc = musicCard.querySelector('img').getAttribute('src');
-                // Check if the clicked song belongs to a release or a collaborator
-                const release = releases.find(r => r.coverArt === imgSrc);
-                const collab = collaborators.find(c => c.song.coverArt === imgSrc);
-                
-                if (release) {
-                    document.dispatchEvent(new CustomEvent('trackSelected', {
-                        detail: { track: release }
-                    }));
-                } else if (collab) {
-                    document.dispatchEvent(new CustomEvent('trackSelected', {
-                        detail: { track: collab.song }
-                    }));
-                }
+    };
+    langButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const selectedLang = button.getAttribute('data-lang');
+            if (selectedLang) {
+                langButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                updateContent(selectedLang);
             }
-        } else if (action === 'open-collab-panel') {
-            const collabId = actionTarget.dataset.collabId;
-            const collabData = collaborators.find(c => c.id === collabId);
-            if (collabData) {
-                document.dispatchEvent(new CustomEvent('collaboratorSelected', {
-                    detail: { collab: collabData }
-                }));
-            }
-        }
+        });
     });
 
-    // Handle unhandled errors
-    window.addEventListener('error', (e) => {
-        console.error('Unhandled error:', e.error);
-        trackEvent('error', 'unhandled', e.message);
-    });
-
-    // Handle promise rejections
-    window.addEventListener('unhandledrejection', (e) => {
-        console.error('Unhandled promise rejection:', e.reason);
-        trackEvent('error', 'unhandled_promise', e.reason?.message || 'Unknown');
-    });
-
+    // --- Initial Setup ---
+    // Run all population functions and set the initial language.
+    populateFeaturedGrid();
+    populateCollabsGrid();
+    updateContent('en');
 })();

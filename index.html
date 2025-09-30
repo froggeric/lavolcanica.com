@@ -145,7 +145,7 @@
                     <svg class="icon"><use href="#icon-envelope"></use></svg>
                 </a>
             </div>
-            <p class="copyright">&copy; 2025 Frédéric Guigand. All Rights Reserved.</p>
+            <p class="copyright">&copy; 2025 Frédéric Guigand. All Rights Reserved. <span class="version">v1.0.1</span></p>
         </div>
     </footer>
 
@@ -168,7 +168,8 @@
         </div>
         <div class="player-content">
             <div class="player-track-info">
-                <img src="images/album-sol-sol.jpg" alt="Current track cover" class="player-cover-art">
+                <!-- FIX: Remove hardcoded src to prevent auto-loading -->
+                <img src="" alt="Current track cover" class="player-cover-art">
                 <div class="player-text">
                     <h4 class="player-title">Track Title</h4>
                     <p class="player-artist">La Sonora Volcánica</p>
@@ -187,6 +188,7 @@
                  <button class="close-player-btn" aria-label="Close player" data-action="close-player">&times;</button>
             </div>
         </div>
+        <!-- FIX: Remove hardcoded src to prevent auto-loading -->
         <audio class="audio-element"></audio>
     </div>
 

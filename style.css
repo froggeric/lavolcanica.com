@@ -1,3 +1,4 @@
+/* --- La Sonora Volcánica Website - v1.0.1 --- */
 /* --- 1. Global Styles & Variables --- */
 /* These variables define the core design system for the site. */
 :root {
@@ -62,6 +63,13 @@ ul {
 /* Utility class to hide elements visually and from screen readers */
 .hidden {
     display: none !important;
+}
+
+/* Version number styling */
+.version {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    margin-left: 0.5rem;
 }
 
 /* --- 2. Main Header --- */
