@@ -1,6 +1,6 @@
-/* --- Version: 1.0.4 --- */
+/* --- Version: 1.0.6 --- */
 /* --- La Sonora Volcánica Website Styles --- */
-/* --- Fixed: Scroll position reset when opening overlays --- */
+/* --- Fixed: Scroll jumping when overlays open/close --- */
 
 /* --- 1. Global Styles & Variables --- */
 /* These variables define the core design system for the site. */
@@ -13,6 +13,7 @@
     --font-body: 'Roboto', sans-serif;
     --player-height: 80px; /* Controls the height of the mini-player */
     --animation-state: running; /* For reduced motion support */
+    --scrollbar-width: 0px; /* For scroll lock calculation */
 }
 
 /* A modern CSS reset and default box-sizing behavior */
@@ -27,6 +28,18 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Initial calculation of scrollbar width */
+html.scroll-lock-init {
+    --scrollbar-width: calc(100vw - 100%);
+}
+
+/* Scroll lock for when overlays are open */
+html.scroll-lock {
+    overflow: hidden;
+    /* Maintain scrollbar width to prevent layout shift */
+    margin-right: var(--scrollbar-width, 0);
+}
+
 /* Default body styles */
 body {
     background-color: var(--bg-volcanic-night);
@@ -35,14 +48,6 @@ body {
     line-height: 1.6;
     padding-bottom: 0; /* No padding by default */
     transition: padding-bottom 0.4s ease; /* Animate the padding change when player appears */
-}
-
-/* Prevent body scroll when overlays are open - UPDATED FIX */
-body.nav-open,
-body.panel-open {
-    overflow: hidden;
-    /* Remove position: fixed to prevent scroll reset */
-    /* Instead, we'll handle scroll prevention differently */
 }
 
 /* This class is added by JS to the body when the mini-player is active,
@@ -429,7 +434,7 @@ ul {
     opacity: 1;
     pointer-events: auto;
 }
-/* The panel itself, slides in from the right */
+/* The panel itself, slides in from the right by default */
 .side-panel {
     position: fixed;
     top: 0; right: 0;
@@ -443,7 +448,17 @@ ul {
     display: flex;
     flex-direction: column;
 }
+/* Left panel variant for collaborator details */
+.side-panel.from-left {
+    left: 0;
+    right: auto;
+    transform: translateX(-100%);
+    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+}
 .side-panel.active {
+    transform: translateX(0);
+}
+.side-panel.from-left.active {
     transform: translateX(0);
 }
 .side-panel-header {
@@ -474,10 +489,11 @@ ul {
 body.player-active .side-panel-content {
     padding-bottom: var(--player-height);
 }
+/* Square aspect ratio for collaborator hero images */
 .side-panel-hero-image {
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 1 / 1; /* Changed from 16/9 to square */
     object-fit: cover;
     display: block;
     border-radius: 0 0 8px 8px; /* Soften bottom corners */

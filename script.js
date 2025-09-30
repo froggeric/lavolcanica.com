@@ -1,6 +1,6 @@
-// --- Version: 1.0.4 ---
+// --- Version: 1.0.6 ---
 // --- La Sonora Volcánica Website Script ---
-// --- Fixed: Scroll position reset when opening overlays ---
+// --- Fixed: Scroll jumping when overlays open/close ---
 
 // IIFE (Immediately Invoked Function Expression) to create a private scope
 // and prevent polluting the global namespace.
@@ -32,27 +32,31 @@
         return svg;
     };
 
-    // Scroll position management
-    let scrollPosition = 0;
-
-    const preventScroll = () => {
-        scrollPosition = window.pageYOffset;
-        document.body.style.overflow = 'hidden';
-        document.body.style.position = 'fixed';
-        document.body.style.top = `-${scrollPosition}px`;
-        document.body.style.width = '100%';
-    };
-
-    const allowScroll = () => {
-        document.body.style.removeProperty('overflow');
-        document.body.style.removeProperty('position');
-        document.body.style.removeProperty('top');
-        document.body.style.removeProperty('width');
-        window.scrollTo(0, scrollPosition);
+    // Scroll lock utility to prevent background scrolling
+    const scrollLock = {
+        enable() {
+            const html = document.documentElement;
+            const scrollY = window.scrollY;
+            
+            html.classList.add('scroll-lock');
+            // Restore scroll position (safety measure)
+            window.scrollTo(0, scrollY);
+        },
+        
+        disable() {
+            const html = document.documentElement;
+            const scrollY = window.scrollY;
+            
+            html.classList.remove('scroll-lock');
+            // Restore scroll position (safety measure)
+            window.scrollTo(0, scrollY);
+        }
     };
 
     // Wait for the HTML document to be fully loaded and parsed.
     document.addEventListener('DOMContentLoaded', () => {
+        // Initialize scrollbar width calculation
+        document.documentElement.classList.add('scroll-lock-init');
 
         // --- 1. DATA: SINGLE SOURCE OF TRUTH ---
         // All dynamic content is managed from these arrays.
@@ -142,7 +146,7 @@
                 },
                 bio: {
                     en: `Covid came. The world went dark. And in that suffocating silence, Piero—a painter, a warrior of ink who marks skin for a living—looked up at the stars and saw not escape, but a reflection. He saw Taurus, the bull, burning in the cosmos, pure and eternal. And down on a blood-soaked Earth, he saw its sacred form defiled in the ring.\n\nThis isn't just a poem. It's a midnight confession, a primal scream against the "art" of the slaughterhouse. It's a hymn to the noble beast he revered as a child, channeled into lyrics so raw they could only have been born in confinement. He handed this shard of his soul to La Sonora Volcánica, who forged it into sonic fire. The message is simple, brutal, and true: life is sacred. Suffering will never be art.`,
-                    es: `En plena oscuridad, cuando el mundo se encerró, Piero encontró su grito en las estrellas. Tatuador de profesión, pintor de alma, miró al cielo et vo en la constelación de Tauro el reflejo de una nobleza ancestral, una fuerza pura que recordaba desde niño. Y en la tierra, vio a esa misma bestia sagrada profanada en el ruedo.\n\nEstas letras no nacieron de la tinta, sino de las entrañas. Son una confesión a oscuras, una rabia destilada contra la carnicería disfrazada de arte. Es un manifiesto forjado en el silencio de la pandemia, un arma lírica que La Sonora Volcánica transformó en incendio sonoro. Su mensaje es brutalmente simple, un juramento de corazón: la vida es sagrada. El sufrimiento jamás será arte.`,
+                    es: `En plena oscuridad, cuando el mundo se encerró, Piero encontró su grito en las estrellas. Tatuador de profesión, pintor de alma, miró al cielo y vio en la constelación de Tauro el reflejo de una nobleza ancestral, una fuerza pura que recordaba desde niño. Y en la tierra, vio a esa misma bestia sagrada profanada en el ruedo.\n\nEstas letras no nacieron de la tinta, sino de las entrañas. Son una confesión a oscuras, una rabia destilada contra la carnicería disfrazada de arte. Es un manifiesto forjado en el silencio de la pandemia, un arma lírica que La Sonora Volcánica transformó en incendio sonoro. Su mensaje es brutalmente simple, un juramento de corazón: la vida es sagrada. El sufrimiento jamás será arte.`,
                     fr: `Quand le monde s'est arrêté, Piero a trouvé ses armes dans l'obscurité. Artiste-tatoueur, habitué à marquer les corps, il a tourné son encre vers le ciel. Contemplant la constellation du Taureau, il a vu un symbole cosmique de noblesse trahie sur Terre, dans l'arène sanglante.\n\nCe n'est pas qu'un poème ; c'est une déclaration de guerre née du confinement, une rage pure contre le spectacle de la mort. C'est l'écho de son enfance, un hommage à la force tranquille de la nature, transformé en un réquisitoire féroce. Mis en musique par La Sonora Volcánica, son message résonne comme une vérité première, une évidence du cœur : la souffrance ne sera jamais un art.`
                 }
             }
@@ -154,6 +158,7 @@
         const body = document.body;
         const musicGrid = document.querySelector('.music-grid');
         const collabsGrid = document.querySelector('.collabs-grid');
+        const mainNav = document.querySelector('.main-nav');
 
         // --- 3. Dynamic Content Population Functions ---
         // Create music card element safely
@@ -396,13 +401,18 @@
                 }
             };
 
-            const openPanel = () => {
-                // Prevent scroll and save position
-                preventScroll();
+            const openPanel = (fromLeft = false) => {
+                scrollLock.enable();
+                
+                // Set panel direction
+                if (fromLeft) {
+                    sidePanel.classList.add('from-left');
+                } else {
+                    sidePanel.classList.remove('from-left');
+                }
                 
                 sidePanel.classList.add('active');
                 panelOverlay.classList.add('active');
-                body.classList.add('panel-open');
                 
                 // Set up focus trap
                 focusableElements = sidePanel.querySelectorAll(
@@ -447,12 +457,9 @@
             };
             
             const closePanel = () => {
+                scrollLock.disable();
                 sidePanel.classList.remove('active');
                 panelOverlay.classList.remove('active');
-                body.classList.remove('panel-open');
-                
-                // Allow scroll and restore position
-                allowScroll();
                 
                 // Remove focus trap
                 sidePanel.removeEventListener('keydown', trapFocus);
@@ -482,7 +489,7 @@
                 panelContent.innerHTML = `<div class="side-panel-text-content"><div class="discography-list"></div></div>`;
                 const listContainer = panelContent.querySelector('.discography-list');
                 populateDiscographyList(listContainer);
-                openPanel();
+                openPanel(false); // Open from right
             };
 
             // Populates the panel with a specific collaborator's details.
@@ -543,7 +550,7 @@
                 
                 panelContent.innerHTML = '';
                 panelContent.appendChild(contentFragment);
-                openPanel();
+                openPanel(true); // Open from left
             };
 
             if (openDiscographyBtn) openDiscographyBtn.addEventListener('click', showDiscography);
@@ -686,25 +693,7 @@
             window.loadTrack = loadTrack;
         }
 
-        // --- 6. Mobile Navigation Scroll Management ---
-        const hamburger = document.querySelector('.hamburger-menu');
-        if (hamburger) {
-            hamburger.addEventListener('click', () => {
-                if (body.classList.contains('nav-open')) {
-                    // Closing nav - restore scroll
-                    body.classList.remove('nav-open');
-                    allowScroll();
-                    hamburger.setAttribute('aria-expanded', 'false');
-                } else {
-                    // Opening nav - prevent scroll and save position
-                    preventScroll();
-                    body.classList.add('nav-open');
-                    hamburger.setAttribute('aria-expanded', 'true');
-                }
-            });
-        }
-        
-        // --- 7. Event Delegation for Actions ---
+        // --- 6. Event Delegation for Actions ---
         // A single event listener on the body handles clicks for multiple actions.
         document.body.addEventListener('click', (e) => {
             const actionTarget = e.target.closest('[data-action]');
@@ -736,6 +725,43 @@
                 // Handled by individual element listener
             }
         });
+
+        // --- 7. Mobile Navigation Toggle ---
+        const hamburger = document.querySelector('.hamburger-menu');
+        
+        // Function to close mobile navigation
+        const closeMobileNav = () => {
+            body.classList.remove('nav-open');
+            scrollLock.disable();
+            if (hamburger) {
+                hamburger.setAttribute('aria-expanded', 'false');
+            }
+        };
+
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                const isOpening = !body.classList.contains('nav-open');
+                
+                if (isOpening) {
+                    scrollLock.enable();
+                } else {
+                    scrollLock.disable();
+                }
+                
+                body.classList.toggle('nav-open');
+                hamburger.setAttribute('aria-expanded', body.classList.contains('nav-open'));
+            });
+        }
+        
+        // Close mobile nav when navigation links or language buttons are clicked
+        if (mainNav) {
+            mainNav.addEventListener('click', (e) => {
+                // Check if clicked element is a nav link or language button
+                if (e.target.matches('.nav-links a') || e.target.matches('.language-switcher .lang-btn')) {
+                    closeMobileNav();
+                }
+            });
+        }
         
         // --- 8. Multilingual Content Management ---
         const translations = {
