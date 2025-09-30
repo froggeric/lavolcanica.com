@@ -1,6 +1,6 @@
-/* --- Version: 1.0.0 --- */
+/* --- Version: 1.0.2 --- */
 /* --- La Sonora Volcánica Website Styles --- */
-/* --- Updated with security, accessibility, and performance improvements --- */
+/* --- Fixed: Tooltip clipping on small music cards --- */
 
 /* --- 1. Global Styles & Variables --- */
 /* These variables define the core design system for the site. */
@@ -487,18 +487,39 @@ body.player-active .side-panel-content {
 }
 .discography-list .music-card {
     display: flex; align-items: center; margin-bottom: 1.5rem;
-    background-color: #222; border-radius: 8px; overflow: hidden;
+    background-color: #222; border-radius: 8px; overflow: visible; /* CHANGED: overflow visible for tooltips */
+    position: relative; /* Ensure tooltips are positioned relative to card */
 }
 .discography-list .music-card:hover { transform: none; }
-.discography-list .music-card img { width: 100px; height: 100px; cursor: pointer; }
+.discography-list .music-card img { 
+    width: 100px; height: 100px; cursor: pointer; 
+    flex-shrink: 0; /* Prevent image from shrinking */
+}
 .discography-list .card-content {
     display: flex; flex-grow: 1; justify-content: space-between;
     align-items: center; padding: 1rem 1.5rem;
+    overflow: visible; /* CHANGED: Allow tooltips to extend beyond content */
 }
-.discography-list .music-card-info { text-align: left; }
-.discography-list .music-card-title { font-size: 1.25rem; margin-bottom: 0.25rem; }
+.discography-list .music-card-info { 
+    text-align: left; 
+    min-width: 0; /* Allow text truncation */
+    flex: 1; /* Take available space */
+    margin-right: 1rem; /* Space between info and links */
+}
+.discography-list .music-card-title { 
+    font-size: 1.25rem; 
+    margin-bottom: 0.25rem; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .discography-list .music-card-year { margin-bottom: 0; }
-.discography-list .streaming-links { gap: 1rem; }
+.discography-list .streaming-links { 
+    gap: 1rem; 
+    flex-shrink: 0; /* Prevent links from shrinking */
+    position: relative; /* Create stacking context for tooltips */
+    z-index: 10; /* Ensure links are above other content */
+}
 .collab-details-bio {
     text-align: left;
     white-space: pre-wrap;
@@ -619,6 +640,17 @@ body.player-active .side-panel-content {
 }
 .tooltip:hover::before, .tooltip:hover::after {
     opacity: 1;
+}
+
+/* Special tooltip handling for discography list to prevent clipping */
+.discography-list .tooltip::before,
+.discography-list .tooltip::after {
+    z-index: 3001; /* Higher z-index for discography tooltips */
+}
+
+/* Ensure tooltips in discography list are fully visible */
+.discography-list .streaming-links {
+    position: relative;
 }
 
 /* --- 15. Desktop Styles --- */
