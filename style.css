@@ -8,6 +8,11 @@
     --font-heading: 'Montserrat', sans-serif;
     --font-body: 'Roboto', sans-serif;
     --player-height: 80px; /* Controls the height of the mini-player */
+    
+    /* Breakpoints for responsive design */
+    --breakpoint-mobile: 768px;
+    --breakpoint-tablet: 1024px;
+    --breakpoint-desktop: 1200px;
 }
 
 /* A modern CSS reset and default box-sizing behavior */
@@ -36,6 +41,13 @@ body {
    preventing the player from overlapping footer content. */
 body.player-active {
     padding-bottom: var(--player-height);
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+    outline: 2px solid var(--accent-canary-teal);
+    outline-offset: 2px;
+    border-radius: 2px;
 }
 
 a {
@@ -125,6 +137,8 @@ ul {
     font-size: 2rem;
     font-weight: 700;
     transition: color 0.2s ease;
+    display: block;
+    padding: 0.5rem 1rem;
 }
 .nav-links a:hover { color: var(--accent-lava-glow); }
 
@@ -138,8 +152,10 @@ ul {
     padding: 0.5rem; opacity: 0.6;
     transition: opacity 0.2s ease, border-bottom 0.2s ease;
     border-bottom: 2px solid transparent;
+    border-radius: 4px;
 }
 .lang-btn.active { opacity: 1; border-bottom-color: var(--accent-lava-glow); }
+.lang-btn:hover { opacity: 0.8; }
 
 /* --- 6. Hero Section --- */
 .hero-section {
@@ -156,6 +172,7 @@ ul {
     background-color: var(--bg-volcanic-night); /* Fallback color */
     z-index: -2;
     animation: zoom-in 20s ease-in-out infinite;
+    animation-play-state: running;
 }
 /* The ::after pseudo-element is a dark overlay for text contrast */
 .hero-section::after {
@@ -239,6 +256,13 @@ ul {
 .music-card img {
     display: block; width: 100%; height: auto;
     cursor: pointer;
+    background: #222; /* Loading background */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    aspect-ratio: 1;
+}
+.music-card img.loaded {
+    opacity: 1;
 }
 .music-card:hover { transform: scale(1.03); }
 /* The overlay appears on hover and contains streaming links */
@@ -304,6 +328,9 @@ ul {
     text-align: center;
     cursor: pointer;
     transition: transform 0.2s ease;
+    border: none;
+    background: none;
+    color: inherit;
 }
 .collab-card:hover {
     transform: scale(1.05);
@@ -316,6 +343,12 @@ ul {
     object-fit: cover;
     margin: 0 auto 1rem;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    background: #222; /* Loading background */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.collab-card-photo.loaded {
+    opacity: 1;
 }
 .collab-card-name {
     font-family: var(--font-heading);
@@ -339,7 +372,7 @@ ul {
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
 .footer-links a:hover .icon { opacity: 1; transform: translateY(-3px); }
-.copyright { opacity: 0.6; font-size: 0.9rem; }
+.copyright { opacity: 0.8; font-size: 0.9rem; }
 
 /* --- 12. Side Panel --- */
 /* The dark overlay behind the panel */
@@ -351,6 +384,7 @@ ul {
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;
+    -webkit-tap-highlight-color: transparent;
 }
 .side-panel-overlay.active {
     opacity: 1;
@@ -369,6 +403,7 @@ ul {
     transition: transform 0.4s ease;
     display: flex;
     flex-direction: column;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 .side-panel.active {
     transform: translateX(0);
@@ -390,7 +425,10 @@ ul {
 .close-panel-btn {
     background: none; border: none; font-size: 2.5rem;
     color: var(--text-salt-crystal); cursor: pointer; line-height: 1;
+    padding: 0.5rem;
+    border-radius: 4px;
 }
+.close-panel-btn:hover { background-color: rgba(255,255,255,0.1); }
 .side-panel-content {
     flex-grow: 1;
     overflow-y: auto;
@@ -448,6 +486,8 @@ body.player-active .side-panel-content {
     border-top: 1px solid #333;
     transform: translateY(100%);
     transition: transform 0.4s ease;
+    -webkit-transform: translateZ(0); /* Hardware acceleration */
+    transform: translateZ(0);
 }
 .mini-player.active {
     transform: translateY(0);
@@ -475,7 +515,7 @@ body.player-active .side-panel-content {
     font-size: 0.9rem; white-space: nowrap;
     overflow: hidden; text-overflow: ellipsis; /* Truncates long titles */
 }
-.player-artist { font-size: 0.8rem; opacity: 0.7; }
+.player-artist { font-size: 0.8rem; opacity: 0.9; }
 .player-controls .play-pause-btn {
     width: 45px; height: 45px;
     background: transparent; border: 2px solid var(--text-salt-crystal);
@@ -489,14 +529,16 @@ body.player-active .side-panel-content {
 }
 .player-controls .icon { width: 18px; height: 18px; color: var(--text-salt-crystal); }
 .player-time-and-close { display: flex; align-items: center; gap: 1.5rem; }
-.time-container { font-size: 0.8rem; opacity: 0.7; width: 85px; }
+.time-container { font-size: 0.8rem; opacity: 0.9; width: 85px; }
 .close-player-btn {
     background: none; border: none;
     font-size: 1.5rem; color: var(--text-salt-crystal);
     opacity: 0.7; cursor: pointer;
     transition: opacity 0.2s ease;
+    padding: 0.5rem;
+    border-radius: 4px;
 }
-.close-player-btn:hover { opacity: 1; }
+.close-player-btn:hover { opacity: 1; background-color: rgba(255,255,255,0.1); }
 /* Custom styling for the range input (seek slider) */
 .mini-player .seek-slider {
     width: 100%; appearance: none;
@@ -506,6 +548,12 @@ body.player-active .side-panel-content {
     appearance: none; width: 12px; height: 12px;
     background: var(--accent-lava-glow);
     border-radius: 50%;
+}
+.mini-player .seek-slider::-moz-range-thumb {
+    width: 12px; height: 12px;
+    background: var(--accent-lava-glow);
+    border-radius: 50%;
+    border: none;
 }
 
 /* --- 14. Tooltip --- */
@@ -569,4 +617,20 @@ body.player-active .side-panel-content {
     .about-content { grid-template-columns: 1fr 1.5fr; }
     .music-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
     .discography-list .music-card img { width: 100px; height: 100px; }
+}
+
+/* --- 16. Print Styles --- */
+@media print {
+    .main-header, .main-footer, .mini-player, .side-panel {
+        display: none !important;
+    }
+    body {
+        background: white;
+        color: black;
+        padding: 0;
+    }
+    .page-section {
+        padding: 2rem 0;
+        break-inside: avoid;
+    }
 }
