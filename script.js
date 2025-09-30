@@ -357,7 +357,8 @@
         infoDiv.appendChild(title);
         infoDiv.appendChild(year);
         
-        const linksDiv = createStreamingLinks(release.links, release.title, false);
+        // FIX: Include YouTube for discography cards too
+        const linksDiv = createStreamingLinks(release.links, release.title, true);
         
         content.appendChild(infoDiv);
         content.appendChild(linksDiv);
@@ -383,27 +384,20 @@
             { key: 'bandcamp', icon: 'cart', label: `Download or Buy ${title} on Bandcamp` }
         ];
         
+        // FIX: Use innerHTML to properly create the SVG structure
+        let linksHTML = '';
         platforms.forEach(platform => {
             if (links[platform.key] && links[platform.key] !== '#') {
-                const link = document.createElement('a');
-                link.href = links[platform.key];
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer';
-                link.className = 'tooltip';
-                link.setAttribute('data-tooltip', platform.label.split(' on ')[1]);
-                link.setAttribute('aria-label', platform.label);
-                
-                const svg = document.createElement('svg');
-                svg.className = 'icon';
-                const use = document.createElement('use');
-                use.setAttribute('href', `#icon-${platform.icon}`);
-                svg.appendChild(use);
-                
-                link.appendChild(svg);
-                linksDiv.appendChild(link);
+                const tooltipText = platform.label.split(' on ')[1];
+                linksHTML += `
+                    <a href="${links[platform.key]}" target="_blank" rel="noopener noreferrer" class="tooltip" data-tooltip="${tooltipText}" aria-label="${platform.label}">
+                        <svg class="icon"><use href="#icon-${platform.icon}"></use></svg>
+                    </a>
+                `;
             }
         });
         
+        linksDiv.innerHTML = linksHTML;
         return linksDiv;
     }
 
@@ -512,16 +506,13 @@
             sidePanel.classList.add('active');
             panelOverlay.classList.add('active');
             document.addEventListener('keydown', handlePanelEscapeKey);
-            // Trap focus inside panel
-            trapFocus(sidePanel);
         };
 
         const closePanel = () => {
             sidePanel.classList.remove('active');
             panelOverlay.classList.remove('active');
             document.removeEventListener('keydown', handlePanelEscapeKey);
-            // Restore focus to the element that opened the panel
-            restoreFocus();
+            // FIX: Remove focus restoration to prevent scrolling to top
         };
 
         /**
@@ -531,49 +522,6 @@
         function handlePanelEscapeKey(e) {
             if (e.key === 'Escape') {
                 closePanel();
-            }
-        }
-
-        /**
-         * Traps focus inside the panel for accessibility
-         * @param {HTMLElement} panel - The panel element
-         */
-        function trapFocus(panel) {
-            const focusableElements = panel.querySelectorAll(
-                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-            );
-            const firstElement = focusableElements[0];
-            const lastElement = focusableElements[focusableElements.length - 1];
-
-            panel.addEventListener('keydown', function(e) {
-                if (e.key === 'Tab') {
-                    if (e.shiftKey) {
-                        if (document.activeElement === firstElement) {
-                            e.preventDefault();
-                            lastElement.focus();
-                        }
-                    } else {
-                        if (document.activeElement === lastElement) {
-                            e.preventDefault();
-                            firstElement.focus();
-                        }
-                    }
-                }
-            });
-
-            if (firstElement) firstElement.focus();
-        }
-
-        /**
-         * Restores focus to the element that opened the panel
-         */
-        function restoreFocus() {
-            // This would be implemented to remember which element opened the panel
-            // For now, we'll focus on the first focusable element in the main content
-            const mainContent = document.querySelector('main');
-            if (mainContent) {
-                const firstFocusable = mainContent.querySelector('button, [href], input, [tabindex]');
-                if (firstFocusable) firstFocusable.focus();
             }
         }
 
@@ -598,7 +546,7 @@
             try {
                 panelTitle.setAttribute('data-key', 'fullDiscographyTitle');
                 panelTitle.textContent = translations[currentLang].fullDiscographyTitle;
-                panelTitle.id = 'side-panel-title'; // Ensure ID is set for ARIA
+                panelTitle.id = 'side-panel-title';
                 
                 // Use safe DOM methods instead of innerHTML
                 panelContent.innerHTML = ''; // Clear safely
@@ -630,7 +578,7 @@
             try {
                 panelTitle.removeAttribute('data-key');
                 panelTitle.textContent = collab.name;
-                panelTitle.id = 'side-panel-title'; // Ensure ID is set for ARIA
+                panelTitle.id = 'side-panel-title';
                 
                 const platform = getLinkPlatform(collab.link);
                 const visitBtnText = translations[currentLang].collabVisitBtn.replace('%s', `${collab.name} on ${platform}`);
@@ -720,13 +668,6 @@
                 showCollaborator(e.detail.collab);
             }
         });
-
-        // Store references for cleanup
-        window.lsSidePanel = {
-            showDiscography,
-            showCollaborator,
-            closePanel
-        };
     }
 
     // --- MINI-PLAYER LOGIC ---
@@ -760,10 +701,6 @@
             console.error('Some mini-player elements are missing');
             return;
         }
-
-        // Use AbortController for clean event listener cleanup
-        const abortController = new AbortController();
-        const signal = abortController.signal;
 
         /**
          * Formats time in seconds to MM:SS format
@@ -856,30 +793,31 @@
             trackEvent('audio', 'player_closed');
         };
 
-        // Event listeners with cleanup support
-        playerElements.playPauseBtn.addEventListener('click', togglePlay, { signal });
-        playerElements.audio.addEventListener('play', updatePlayButton, { signal });
-        playerElements.audio.addEventListener('pause', updatePlayButton, { signal });
+        // FIX: Use direct event listeners without AbortController for close button
+        playerElements.playPauseBtn.addEventListener('click', togglePlay);
+        playerElements.audio.addEventListener('play', updatePlayButton);
+        playerElements.audio.addEventListener('pause', updatePlayButton);
         playerElements.audio.addEventListener('loadedmetadata', () => {
             playerElements.totalTimeEl.textContent = formatTime(playerElements.audio.duration);
             playerElements.seekSlider.max = Math.floor(playerElements.audio.duration);
-        }, { signal });
+        });
         
         playerElements.audio.addEventListener('timeupdate', () => {
             playerElements.currentTimeEl.textContent = formatTime(playerElements.audio.currentTime);
             playerElements.seekSlider.value = Math.floor(playerElements.audio.currentTime);
-        }, { signal });
+        });
         
         playerElements.audio.addEventListener('error', (e) => {
             console.error('Audio element error:', e);
             showErrorToUser('Audio playback error');
-        }, { signal });
+        });
         
         playerElements.seekSlider.addEventListener('input', () => {
             playerElements.audio.currentTime = playerElements.seekSlider.value;
-        }, { signal });
+        });
         
-        playerElements.closePlayerBtn.addEventListener('click', closePlayer, { signal });
+        // FIX: Ensure close player button works properly
+        playerElements.closePlayerBtn.addEventListener('click', closePlayer);
 
         // Use custom events instead of global functions
         document.addEventListener('trackSelected', (e) => {
@@ -887,13 +825,6 @@
                 loadTrack(e.detail.track);
             }
         });
-
-        // Store references for cleanup
-        window.lsMiniPlayer = {
-            loadTrack,
-            closePlayer,
-            abortController // For cleanup
-        };
     }
 
     // --- NAVIGATION AND TOUCH GESTURES ---
@@ -910,12 +841,6 @@
             const isOpening = !body.classList.contains('nav-open');
             body.classList.toggle('nav-open');
             hamburger.setAttribute('aria-expanded', body.classList.contains('nav-open'));
-            
-            if (isOpening) {
-                // Trap focus in navigation when open
-                const firstNavLink = document.querySelector('.nav-links a');
-                if (firstNavLink) firstNavLink.focus();
-            }
         });
     }
 
@@ -945,9 +870,8 @@
             if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffY) < 30) {
                 if (diffX > CONFIG.SWIPE_THRESHOLD) {
                     // Swipe right to close
-                    if (window.lsSidePanel && window.lsSidePanel.closePanel) {
-                        window.lsSidePanel.closePanel();
-                    }
+                    const closePanelBtn = sidePanel.querySelector('.close-panel-btn');
+                    if (closePanelBtn) closePanelBtn.click();
                 }
             }
         }, { passive: true });
@@ -970,7 +894,7 @@
             heroTagline: "La Sonora Volcánica—cumbia al límite, historias sueltas y sin frenos a la vista.", heroButton: "Explorar La Música",
             musicTitle: "Música", discographyBtn: "Ver Discografía Completa", fullDiscographyTitle: "Discografía",
             aboutTitle: "La Historia",
-            aboutBio: `Olvida los comienzos tranquilos. Esto arranca en 1985, con un chaval de 14 años forzando datos crudos a través de chips de sonido primitivos, doblegando el silicio a su voluntad en la escena demo de ordenadores. Dos años después, Frédéric Guigand se colgó una guitarra y se inyectó en vena el voltaje puro del rock y el blues.\n\nLa señal lo llevó a Inglaterra, donde persiguió el fantasma del jazz, no solo para tocarlo, sino para descifrar su código, decodificando su geometría sagrada a través de la teoría. Luego, un giro brusco: de vuelta a Francia para un servicio civil que fue de todo menos civilizado. Se escapó para unirse al circo —literalmente— cambiando el escenario por la carpa, disparando notas con la orquesta del circo.\n\nPero el verdadero recableado neuronal estaba por llegar. Como DJ y más tarde como curador musical para ZipDJ, se convirtió en un chamán sónico para DJs de todo el mundo. No solo escuchaba música latina; se la metió en vena: un río de salsa, bachata y merengue, y decenas de miles de cumbias que alteraron permanentemente su ADN musical. Aprendió qué hace que un tema incendie una pista de baile, qué hace que un ritmo te posea.\n\nEn 2024, ese conocimiento explotó. Nació La Sonora Volcánica. El primer proyecto: una serie de álbumes instrumentales en tributo a los spots de surf de Fuerteventura, fusionando el calor psicodélico de la chicha peruana de los 60 con la frescura salada de la guitarra surf.\n\nAhora, las historias andan sueltas, empezando con el sueño febril de electrocumbia "Sol Sol". Se están encendiendo colaboraciones con los forajidos de la cumbia de México, Los Mexaterrestres, y el trovador peruano con alma de bolero, Cututo. Como dice Frédéric: "Cada ritmo, cada letra es una historia esperando ser contada".\n\nEsto no es música de fondo. Es un evento sísmico. La única pregunta es: ¿estás listo para la onda expansiva?`,
+            aboutBio: `Olvida los comienzos tranquilos. Esto arranca en 1985, con un chaval de 14 años forzando datos crudos a través de chips de sonido primitivos, doblegando el silicio a su voluntad en la escena demo de ordenadores. Dos años después, Frédéric Guigand se colgó una guitarra y se inyectó en vena el voltaje puro del rock y del blues.\n\nLa señal lo llevó a Inglaterra, donde persiguió el fantasma del jazz, no solo para tocarlo, sino para descifrar su código, decodificando su geometría sagrada a través de la teoría. Luego, un giro brusco: de vuelta a Francia para un servicio civil que fue de todo menos civilizado. Se escapó para unirse al circo —literalmente— cambiando el escenario por la carpa, disparando notas con la orquesta del circo.\n\nPero el verdadero recableado neuronal estaba por llegar. Como DJ y más tarde como curador musical para ZipDJ, se convirtió en un chamán sónico para DJs de todo el mundo. No solo escuchaba música latina; se la metió en vena: un río de salsa, bachata y merengue, y decenas de miles de cumbias que alteraron permanentemente su ADN musical. Aprendió qué hace que un tema incendie una pista de baile, qué hace que un ritmo te posea.\n\nEn 2024, ese conocimiento explotó. Nació La Sonora Volcánica. El primer proyecto: una serie de álbumes instrumentales en tributo a los spots de surf de Fuerteventura, fusionando el calor psicodélico de la chicha peruana de los 60 con la frescura salada de la guitarra surf.\n\nAhora, las historias andan sueltas, empezando con el sueño febril de electrocumbia "Sol Sol". Se están encendiendo colaboraciones con los forajidos de la cumbia de México, Los Mexaterrestres, y el trovador peruano con alma de bolero, Cututo. Como dice Frédéric: "Cada ritmo, cada letra es una historia esperando ser contada".\n\nEsto no es música de fondo. Es un evento sísmico. La única pregunta es: ¿estás listo para la onda expansiva?`,
             collabsTitle: "Colaboraciones",
             collabVisitBtn: "Visitar a %s",
         },
@@ -979,7 +903,7 @@
             heroTagline: "La Sonora Volcánica—la cumbia à la limite, des histoires en liberté et sans freins en vue.", heroButton: "Explorer La Musique",
             musicTitle: "Musique", discographyBtn: "Voir la Discographie", fullDiscographyTitle: "Discographie",
             aboutTitle: "L'Histoire",
-            aboutBio: `Oubliez les débuts tranquilles. Ça commence en 1985, avec un gamin de 14 ans qui pousse des données brutes à travers des puces sonores primitives, pliant le silicium à sa volonté sur la scène démo informatique. Deux ans plus tard, Frédéric Guigand s'empare d'une guitare et s'injecte la tension brute du rock et du blues.\n\nLe signal l'a mené en Angleterre, où il a chassé le fantôme du jazz, non pas juste pour le jouer, mais pour en percer le code, décodant sa géométrie sacrée par la théorie. Puis, un virage serré : retour en France pour un service civil tout sauf civilisé. Il a fugué pour rejoindre le circo — littéralement — troquant la scène pour le chapiteau, balançant des notes avec l'orchestre du circo.\n\nMais le vrai recâblage était à venir. En tant que DJ, puis curateur musical pour ZipDJ, il est devenu un chaman sonique pour les DJ du monde entier. Il n'a pas seulement écouté la musique latine ; il se l'est injectée en intraveineuse — un fleuve de salsa, de bachata et de merengue, et des dizaines de milliers de morceaux de cumbia qui ont altéré à jamais son ADN musical. Il a appris ce qui enflamme un dancefloor, ce qui fait qu'un rythme vous possède.\n\nEn 2024, cette connaissance a explosé. La Sonora Volcánica est née. Le premier projet : une série d'albums instrumentaux en hommage aux spots de surf de Fuerteventura, fusionnant la chaleur psychédélique de la chicha péruvienne des années 60 avec la fraîcheur salée de la guitare surf.\n\nMaintenant, les histoires sont lâchées, à commencer par le rêve fiévreux d'électrocumbia "Sol Sol". Des collaborations s'embrasent avec les hors-la-loi de la cumbia du Mexique, Los Mexaterrestres, et le troubadour péruvien à l'âme de boléro, Cututo. Comme le dit Frédéric : « Chaque rythme, chaque parole est une histoire qui attend d'être racontée. »\n\nCe n'est pas de la musique de fond. C'est un événement sismique. La seule question est : êtes-vous prêt pour l'onde de choc ?`,
+            aboutBio: `Oubliez les débuts tranquilles. Ça commence en 1985, avec un gamin de 14 ans qui pousse des données brutes à travers des puces sonores primitives, pliant le silicium à sa volonté sur la scène démo informatique. Deux ans plus tard, Frédéric Guigand s'empare d'une guitare et s'injecte la tension brute du rock et du blues.\n\nLe signal l'a mené en Angleterre, où il a chassé le fantasma du jazz, non pas juste pour le jouer, mais pour en percer le code, décodant sa géométrie sacrée par la théorie. Puis, un virage serré : retour en France pour un service civil tout sauf civilisé. Il a fugué pour rejoindre le circo — littéralement — troquant la scène pour le chapiteau, balançant des notes avec l'orchestre du circo.\n\nMais le vrai recâblage était à venir. En tant que DJ, puis curateur musical pour ZipDJ, il est devenu un chaman sonique pour les DJ du monde entier. Il n'a pas seulement écouté la musique latine ; il se l'est injectée en intraveineuse — un fleuve de salsa, de bachata et de merengue, et des dizaines de milliers de morceaux de cumbia qui ont altéré à jamais son ADN musical. Il a appris ce qui enflamme un dancefloor, ce qui fait qu'un rythme vous possède.\n\nEn 2024, cette connaissance a explosé. La Sonora Volcánica est née. Le premier projet : une série d'albums instrumentaux en hommage aux spots de surf de Fuerteventura, fusionnant la chaleur psychédélique de la chicha péruvienne des années 60 avec la fraîcheur salée de la guitare surf.\n\nMaintenant, les histoires sont lâchées, à commencer par le rêve fiévreux d'électrocumbia "Sol Sol". Des collaborations s'embrasent avec les hors-la-loi de la cumbia du Mexique, Los Mexaterrestres, et le troubadour péruvien à l'âme de boléro, Cututo. Comme le dit Frédéric : « Chaque rythme, chaque parole est une histoire qui attend d'être racontée. »\n\nCe n'est pas de la musique de fond. C'est un événement sismique. La seule question est : êtes-vous prêt pour l'onde de choc ?`,
             collabsTitle: "Collaborations",
             collabVisitBtn: "Visiter %s",
         }
@@ -1041,31 +965,6 @@
     function showErrorToUser(message) {
         // In a real implementation, this would show a user-friendly error message
         console.error('User error:', message);
-        
-        // Could implement a toast notification system here
-        if (IS_DEVELOPMENT) {
-            // Only show in development for now
-            const errorDiv = document.createElement('div');
-            errorDiv.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: #ff4444;
-                color: white;
-                padding: 1rem;
-                border-radius: 4px;
-                z-index: 10000;
-                max-width: 300px;
-            `;
-            errorDiv.textContent = message;
-            document.body.appendChild(errorDiv);
-            
-            setTimeout(() => {
-                if (errorDiv.parentNode) {
-                    errorDiv.parentNode.removeChild(errorDiv);
-                }
-            }, 5000);
-        }
     }
 
     /**
@@ -1077,14 +976,6 @@
     function trackEvent(category, action, label = '') {
         if (IS_DEVELOPMENT) {
             console.log('Event tracked:', { category, action, label });
-        }
-        
-        // In production, this would send to Google Analytics or similar
-        if (typeof gtag !== 'undefined') {
-            gtag('event', action, {
-                event_category: category,
-                event_label: label
-            });
         }
     }
 
@@ -1121,10 +1012,6 @@
                     detail: { collab: collabData }
                 }));
             }
-        } else if (action === 'toggle-play') {
-            // Handled by mini-player initialization
-        } else if (action === 'close-player') {
-            // Handled by mini-player initialization
         }
     });
 
@@ -1138,14 +1025,6 @@
     window.addEventListener('unhandledrejection', (e) => {
         console.error('Unhandled promise rejection:', e.reason);
         trackEvent('error', 'unhandled_promise', e.reason?.message || 'Unknown');
-    });
-
-    // Cleanup on page unload
-    window.addEventListener('beforeunload', () => {
-        // Clean up mini-player event listeners
-        if (window.lsMiniPlayer && window.lsMiniPlayer.abortController) {
-            window.lsMiniPlayer.abortController.abort();
-        }
     });
 
 })();
