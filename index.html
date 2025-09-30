@@ -3,28 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Sonora Volcánica</title>
+    <title>La Sonora Volcánica - Cumbia on the Edge</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="La Sonora Volcánica - Cumbia on the edge, stories on the loose, and no brakes in sight. Experience tropical noir music.">
+    <meta name="description" content="La Sonora Volcánica - Cumbia on the edge, blending surf guitar with Peruvian chicha and Latin rhythms from Fuerteventura">
+    <meta name="keywords" content="cumbia, latin music, surf music, chicha, La Sonora Volcánica">
+    <meta name="author" content="Frédéric Guigand">
+    
+    <!-- Open Graph -->
     <meta property="og:title" content="La Sonora Volcánica">
-    <meta property="og:description" content="Cumbia on the edge, stories on the loose, and no brakes in sight.">
-    <meta property="og:image" content="images/og-image.jpg">
+    <meta property="og:description" content="Cumbia on the edge - stories on the loose">
+    <meta property="og:image" content="https://lasonoravolcanica.com/images/og-image.jpg">
     <meta property="og:url" content="https://lasonoravolcanica.com">
     <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
     
-    <!-- Security -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="La Sonora Volcánica">
+    <meta name="twitter:description" content="Cumbia on the edge - stories on the loose">
+    <meta name="twitter:image" content="https://lasonoravolcanica.com/images/twitter-card.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://lasonoravolcanica.com">
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MusicGroup",
+      "name": "La Sonora Volcánica",
+      "genre": ["Cumbia", "Surf Rock", "Chicha"],
+      "member": {
+        "@type": "Person",
+        "name": "Frédéric Guigand"
+      },
+      "foundingLocation": {
+        "@type": "Place",
+        "name": "Fuerteventura, Canary Islands"
+      },
+      "sameAs": [
+        "https://open.spotify.com/artist/...",
+        "https://music.apple.com/artist/...",
+        "https://lasonoravolcanica.bandcamp.com"
+      ]
+    }
+    </script>
+    
+    <!-- Link to the main stylesheet -->
+    <link rel="stylesheet" href="style.css">
     
     <!-- Preconnect to Google Fonts for performance optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Import selected fonts: Montserrat (Bold, Black) and Roboto (Regular) -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- Link to the main stylesheet -->
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700,900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -61,7 +93,7 @@
     <header class="main-header">
         <div class="header-content">
             <a href="#" class="logo" data-key="logoText"></a>
-            <nav class="main-nav" id="main-nav" role="navigation" aria-label="Main navigation">
+            <nav class="main-nav">
                 <ul class="nav-links">
                     <li><a href="#music" data-key="navMusic"></a></li>
                     <li><a href="#map" data-key="navMap"></a></li>
@@ -87,7 +119,7 @@
         <!-- Hero Section: Full-screen introductory visual -->
         <section id="hero" class="hero-section">
             <div class="hero-content">
-                <img src="images/logo.png" alt="La Sonora Volcánica Logo" class="hero-logo">
+                <img src="images/logo.png" alt="La Sonora Volcánica Logo" class="hero-logo" loading="lazy" decoding="async">
                 <h1 class="hero-tagline" data-key="heroTagline"></h1>
                 <a href="#music" class="cta-button" data-key="heroButton"></a>
             </div>
@@ -107,7 +139,7 @@
              <h2 class="section-title" data-key="aboutTitle"></h2>
              <div class="about-content">
                 <div class="about-image-container">
-                    <img src="images/artist-photo.jpg" alt="Photo of Frédéric Guigand of La Sonora Volcánica" loading="lazy">
+                    <img src="images/artist-photo.jpg" alt="Photo of Frédéric Guigand of La Sonora Volcánica" loading="lazy" decoding="async">
                 </div>
                 <div class="about-text-container">
                     <p data-key="aboutBio"></p>
@@ -129,32 +161,32 @@
     <footer class="main-footer">
         <div class="footer-content">
             <div class="footer-links">
-                <a href="#" target="_blank" class="tooltip" data-tooltip="Spotify" aria-label="Listen on Spotify" rel="noopener noreferrer">
+                <a href="#" target="_blank" rel="noopener noreferrer" class="tooltip" data-tooltip="Spotify" aria-label="Listen on Spotify">
                     <svg class="icon"><use href="#icon-spotify"></use></svg>
                 </a>
-                <a href="#" target="_blank" class="tooltip" data-tooltip="Apple Music" aria-label="Listen on Apple Music" rel="noopener noreferrer">
+                <a href="#" target="_blank" rel="noopener noreferrer" class="tooltip" data-tooltip="Apple Music" aria-label="Listen on Apple Music">
                     <svg class="icon"><use href="#icon-apple-music"></use></svg>
                 </a>
-                <a href="#" target="_blank" class="tooltip" data-tooltip="YouTube" aria-label="Watch on YouTube" rel="noopener noreferrer">
+                <a href="#" target="_blank" rel="noopener noreferrer" class="tooltip" data-tooltip="YouTube" aria-label="Watch on YouTube">
                     <svg class="icon"><use href="#icon-youtube"></use></svg>
                 </a>
-                <a href="#" target="_blank" class="tooltip" data-tooltip="Download / Buy" aria-label="Download or Buy on Bandcamp" rel="noopener noreferrer">
+                <a href="#" target="_blank" rel="noopener noreferrer" class="tooltip" data-tooltip="Download / Buy" aria-label="Download or Buy on Bandcamp">
                     <svg class="icon"><use href="#icon-cart"></use></svg>
                 </a>
                 <a href="mailto:frederic@guigand.com" class="tooltip" data-tooltip="Contact" aria-label="Send an email">
                     <svg class="icon"><use href="#icon-envelope"></use></svg>
                 </a>
             </div>
-            <p class="copyright">&copy; 2025 Frédéric Guigand. All Rights Reserved. <span class="version">v1.0.1</span></p>
+            <p class="copyright">&copy; 2025 Frédéric Guigand. All Rights Reserved.</p>
         </div>
     </footer>
 
     <!-- Side Panel: A reusable container for Discography and Collaborator Details -->
     <div class="side-panel-overlay" id="side-panel-overlay"></div>
-    <div class="side-panel" id="side-panel" role="dialog" aria-labelledby="side-panel-title" aria-modal="true">
+    <div class="side-panel" id="side-panel" role="dialog" aria-modal="true" aria-labelledby="side-panel-title">
         <div class="side-panel-header">
             <h2 class="side-panel-title" id="side-panel-title"></h2>
-            <button class="close-panel-btn" aria-label="Close details">&times;</button>
+            <button class="close-panel-btn" aria-label="Close panel">&times;</button>
         </div>
         <div class="side-panel-content">
             <!-- Content will be injected here by JavaScript -->
@@ -162,14 +194,13 @@
     </div>
     
     <!-- Persistent Mini Audio Player: Appears at the bottom when a track is played -->
-    <div class="mini-player" id="mini-player" role="region" aria-label="Audio Player">
+    <div class="mini-player" id="mini-player" role="region" aria-label="Audio player" aria-live="polite">
         <div class="player-progress">
             <input type="range" class="seek-slider" value="0" max="100" aria-label="Track progress">
         </div>
         <div class="player-content">
             <div class="player-track-info">
-                <!-- FIX: Remove hardcoded src to prevent auto-loading -->
-                <img src="" alt="Current track cover" class="player-cover-art">
+                <img src="images/album-sol-sol.jpg" alt="Current track cover" class="player-cover-art" loading="lazy" decoding="async">
                 <div class="player-text">
                     <h4 class="player-title">Track Title</h4>
                     <p class="player-artist">La Sonora Volcánica</p>
@@ -188,22 +219,9 @@
                  <button class="close-player-btn" aria-label="Close player" data-action="close-player">&times;</button>
             </div>
         </div>
-        <!-- FIX: Remove hardcoded src to prevent auto-loading -->
         <audio class="audio-element"></audio>
+        <div class="player-error-message hidden"></div>
     </div>
-
-    <!-- Structured Data for SEO -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "MusicGroup",
-        "name": "La Sonora Volcánica",
-        "genre": "Cumbia",
-        "url": "https://lasonoravolcanica.com",
-        "description": "Cumbia on the edge, stories on the loose, and no brakes in sight.",
-        "sameAs": []
-    }
-    </script>
 
     <!-- Main script file -->
     <script src="script.js"></script>
