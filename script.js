@@ -1,6 +1,6 @@
-// --- Version: 1.0.0 ---
+// --- Version: 1.0.1 ---
 // --- La Sonora Volcánica Website Script ---
-// --- Updated with security, accessibility, and performance improvements ---
+// --- Fixed: SVG icons not displaying and missing YouTube in discography ---
 
 // IIFE (Immediately Invoked Function Expression) to create a private scope
 // and prevent polluting the global namespace.
@@ -20,6 +20,16 @@
             clearTimeout(timeout);
             timeout = setTimeout(() => func(...args), wait);
         };
+    };
+
+    // Helper function to create SVG elements with proper namespace
+    const createSVGIcon = (iconId) => {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.classList.add('icon');
+        const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+        use.setAttribute('href', `#${iconId}`);
+        svg.appendChild(use);
+        return svg;
     };
 
     // Wait for the HTML document to be fully loaded and parsed.
@@ -96,7 +106,7 @@
                 bio: {
                     en: `Some say the world will end in fire, some say in ice. But in the sonic universe of Cututo, the cataclysm is a far more intimate affair—a "Big Bang" of bolero-fueled emotion exploding from the depths of a tormented heart. This is the world of Hernán Alonso Gonzales Valdivia, a troubadour from Trujillo, Peru, who wields tradition like a sharpened blade, carving out a space for the beautifully broken and the defiantly queer.\n\nForged in the crucible of reality television's La Voz Perú, he now wages a far more personal war. His weapons are the ghosts of bolero, the pulse of cumbia, and the sorrowful grace of vals criollo. But this is no history lesson. Cututo drags these classic forms into the heart of modern life, giving voice to the agony of being ghosted online, the righteous fury of political protest, and the defiant struggle of queer identity in a world that demands conformity. From his current base in Buenos Aires, Cututo continues a sacred mission: to prove that the old gods of Latin American music are not dead, but merely waiting for a soul brave enough to make them roar again.`,
                     es: `Algunos dicen que el mundo acabará en fuego, otros que en hielo. Pero en el universo sónico de Cututo, el cataclismo es un asunto mucho más íntimo: un "Big Bang" de emoción alimentada por boleros que explota desde las profundidades de un corazón atormentado. Este es el mundo de Hernán Alonso Gonzales Valdivia, un trovador de Trujillo, Perú, que empuña la tradición como una cuchilla afilada, abriendo un espacio para lo hermosamente roto y lo desafiantemente queer.\n\nForjado en el crisol del reality show La Voz Perú, ahora libra una guerra mucho más personal. Sus armas son los fantasmas del bolero, el pulso de la cumbia y la dolorosa gracia del vals criollo. Pero esto no es una lección de historia. Cututo arrastra estas formas clásicas al corazón de la vida moderna, dando voz a la agonía de ser ignorado en línea, a la furia justa de la protesta política y a la lucha desafiante de la identidad queer en un mundo que exige conformidad. Desde su base actual en Buenos Aires, Cututo continúa una misión sagrada: demostrar que los viejos dioses de la música latinoamericana no están muertos, sino simplemente esperando un alma lo suficientemente valiente como para hacerlos rugir de nuevo.`,
-                    fr: `Certains disent que le monde finira dans le feu, d'autres dans la glace. Mais dans l'univers sonore de Cututo, le cataclysme est une affaire bien plus intime : un « Big Bang » d'émotion nourrie au boléro, explosant des profondeurs d'un cœur tourmenté. C'est le monde d'Hernán Alonso Gonzales Valdivia, un troubadour de Trujillo, au Pérou, qui manie la tradition comme une lame aiguisée, créant un espace pour les magnifiquement brisés et les fièrement queer.\n\nForgé dans le creuset de la télé-réalité La Voz Perú, il mène désormais une guerre bien plus personnelle. Ses armes sont les fantômes du boléro, le pouls de la cumbia et la grâce douloureuse du vals criollo. Mais ce n'est pas une leçon d'histoire. Cututo transpose ces formes classiques au cœur de la vie moderne, donnant une voix à l'agonie d'être « ghosté » en ligne, à la fureur juste de la protestation politique et à la lutte provocante de l'identité queer dans un monde qui exige la conformité. Depuis sa base actuelle à Buenos Aires, Cututo poursuit une mission sacrée : prouver que les anciens dieux de la musique latino-américaine ne sont pas morts, mais attendent simplement une âme assez courageuse pour les faire rugir à nouveau.`
+                    fr: `Certains disent que le monde finira dans le feu, d'autres dans la glace. Mais dans l'univers sonore de Cututo, le cataclysme est une affaire bien plus intime : un « Big Bang » d'émotion nourrie au boléro, explosant des profondeurs d'un cœur tourmenté. C'est le monde d'Hernán Alonso Gonzales Valdivia, un troubadour de Trujillo, au Pérou, qui manie la tradition comme une lame aiguisée, créant un espacio pour les magnifiquement brisés et les fièrement queer.\n\nForgé dans le creuset de la télé-réalité La Voz Perú, il mène désormais une guerre bien plus personnelle. Ses armes sont les fantômes du boléro, le pouls de la cumbia et la grâce douloureuse du vals criollo. Mais ce n'est pas une leçon d'histoire. Cututo transpose ces formes classiques au cœur de la vie moderne, donnant une voix à l'agonie d'être « ghosté » en ligne, à la fureur juste de la protestation politique et à la lutte provocante de l'identité queer dans un monde qui exige la conformité. Depuis sa base actuelle à Buenos Aires, Cututo poursuit une mission sacrée : prouver que les anciens dieux de la musique latino-américaine ne sont pas morts, mais attendent simplement une âme assez courageuse pour les faire rugir à nouveau.`
                 }
             },
             {
@@ -147,6 +157,14 @@
             
             card.appendChild(img);
             
+            // Common platforms configuration for both featured and non-featured
+            const platforms = [
+                { key: 'spotify', icon: 'icon-spotify', tooltip: 'Spotify' },
+                { key: 'apple', icon: 'icon-apple-music', tooltip: 'Apple Music' },
+                { key: 'youtube', icon: 'icon-youtube', tooltip: 'YouTube' },
+                { key: 'bandcamp', icon: 'icon-cart', tooltip: 'Download / Buy' }
+            ];
+            
             if (isFeatured) {
                 const overlay = document.createElement('div');
                 overlay.className = 'music-card-overlay';
@@ -168,15 +186,9 @@
                 const linksDiv = document.createElement('div');
                 linksDiv.className = 'streaming-links';
                 
-                // Create streaming links with security attributes
-                const platforms = [
-                    { key: 'spotify', icon: 'icon-spotify', tooltip: 'Spotify' },
-                    { key: 'apple', icon: 'icon-apple-music', tooltip: 'Apple Music' },
-                    { key: 'youtube', icon: 'icon-youtube', tooltip: 'YouTube' },
-                    { key: 'bandcamp', icon: 'icon-cart', tooltip: 'Download / Buy' }
-                ];
-                
+                // Create streaming links for all platforms
                 platforms.forEach(platform => {
+                    // Only create link if it has a valid URL (not '#' or empty)
                     if (release.links[platform.key] && release.links[platform.key] !== '#') {
                         const link = document.createElement('a');
                         link.href = release.links[platform.key];
@@ -186,12 +198,8 @@
                         link.setAttribute('data-tooltip', platform.tooltip);
                         link.setAttribute('aria-label', `Listen to ${release.title} on ${platform.tooltip}`);
                         
-                        const svg = document.createElement('svg');
-                        svg.className = 'icon';
-                        const use = document.createElement('use');
-                        use.setAttribute('href', `#${platform.icon}`);
-                        svg.appendChild(use);
-                        
+                        // Use SVG namespace for creating SVG elements
+                        const svg = createSVGIcon(platform.icon);
                         link.appendChild(svg);
                         linksDiv.appendChild(link);
                     }
@@ -201,7 +209,7 @@
                 overlay.appendChild(linksDiv);
                 card.appendChild(overlay);
             } else {
-                // For discography list
+                // For discography list - same platforms as featured
                 const contentDiv = document.createElement('div');
                 contentDiv.className = 'card-content';
                 
@@ -222,14 +230,9 @@
                 const linksDiv = document.createElement('div');
                 linksDiv.className = 'streaming-links';
                 
-                // Limited links for discography view
-                const discographyPlatforms = [
-                    { key: 'spotify', icon: 'icon-spotify', tooltip: 'Spotify' },
-                    { key: 'apple', icon: 'icon-apple-music', tooltip: 'Apple Music' },
-                    { key: 'bandcamp', icon: 'icon-cart', tooltip: 'Download / Buy' }
-                ];
-                
-                discographyPlatforms.forEach(platform => {
+                // Create streaming links for all platforms (same as featured)
+                platforms.forEach(platform => {
+                    // Only create link if it has a valid URL (not '#' or empty)
                     if (release.links[platform.key] && release.links[platform.key] !== '#') {
                         const link = document.createElement('a');
                         link.href = release.links[platform.key];
@@ -237,13 +240,10 @@
                         link.rel = 'noopener noreferrer';
                         link.className = 'tooltip';
                         link.setAttribute('data-tooltip', platform.tooltip);
+                        link.setAttribute('aria-label', `Listen to ${release.title} on ${platform.tooltip}`);
                         
-                        const svg = document.createElement('svg');
-                        svg.className = 'icon';
-                        const use = document.createElement('use');
-                        use.setAttribute('href', `#${platform.icon}`);
-                        svg.appendChild(use);
-                        
+                        // Use SVG namespace for creating SVG elements
+                        const svg = createSVGIcon(platform.icon);
                         link.appendChild(svg);
                         linksDiv.appendChild(link);
                     }
