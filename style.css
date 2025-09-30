@@ -1,6 +1,6 @@
-/* --- Version: 1.0.2 --- */
+/* --- Version: 1.0.4 --- */
 /* --- La Sonora Volcánica Website Styles --- */
-/* --- Fixed: Tooltip clipping on small music cards --- */
+/* --- Fixed: Scroll position reset when opening overlays --- */
 
 /* --- 1. Global Styles & Variables --- */
 /* These variables define the core design system for the site. */
@@ -37,12 +37,12 @@ body {
     transition: padding-bottom 0.4s ease; /* Animate the padding change when player appears */
 }
 
-/* Prevent body scroll when overlays are open */
+/* Prevent body scroll when overlays are open - UPDATED FIX */
 body.nav-open,
 body.panel-open {
     overflow: hidden;
-    position: fixed;
-    width: 100%;
+    /* Remove position: fixed to prevent scroll reset */
+    /* Instead, we'll handle scroll prevention differently */
 }
 
 /* This class is added by JS to the body when the mini-player is active,
