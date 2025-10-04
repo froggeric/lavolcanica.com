@@ -1,6 +1,6 @@
 # **La Sonora Volcánica: Technical Documentation**
 
-**Version:** 1.0.7
+**Version:** 1.0.9
 **Audience:** Senior Software Engineers
 
 This document provides a definitive technical analysis of the La Sonora Volcánica web project. It deconstructs the application's architecture, implementation patterns, and design rationale, serving as the primary onboarding resource for new developers.

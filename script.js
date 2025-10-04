@@ -1,6 +1,6 @@
-// --- Version: 1.0.7 ---
+// --- Version: 1.0.9 ---
 // --- La Sonora Volcánica Website Script ---
-// --- Fixed: Tooltip text truncation in overlays ---
+// --- Added: Dynamic progress bar for mini audio player ---
 
 // IIFE (Immediately Invoked Function Expression) to create a private scope
 // and prevent polluting the global namespace.
@@ -848,6 +848,9 @@
                 if (!playerElements.seekSlider.matches(':active')) {
                     playerElements.seekSlider.value = playerElements.audio.currentTime;
                 }
+                // Update progress bar CSS variable
+                const progress = (playerElements.audio.currentTime / playerElements.audio.duration) * 100;
+                playerElements.seekSlider.style.setProperty('--seek-progress', `${progress}%`);
             }, 250));
             
             playerElements.audio.addEventListener('error', (e) => {

@@ -1,6 +1,6 @@
-/* --- Version: 1.0.7 --- */
+/* --- Version: 1.0.9 --- */
 /* --- La Sonora Volcánica Website Styles --- */
-/* --- Fixed: Tooltip text truncation in overlays --- */
+/* --- Added: Dynamic progress bar for mini audio player --- */
 
 /* --- 1. Global Styles & Variables --- */
 /* These variables define the core design system for the site. */
@@ -576,6 +576,21 @@ body.player-active .side-panel-content {
     /* Ensure tooltips can escape the card boundary */
     transform: translateZ(0);
 }
+
+/*
+ * Layout Consistency Fix (v1.0.8)
+ *
+ * The release info overlay's header card was expanding to full width without margins,
+ * creating a visual inconsistency with the discography and collaborator overlays.
+ * This was because the header card's wrapper (.discography-list) was a direct child
+ * of .side-panel-content, which lacks padding.
+ *
+ * This rule specifically targets that unique case, applying the same padding
+ * as .side-panel-text-content to ensure visual consistency across all overlays.
+ */
+.side-panel-content > .discography-list {
+    padding: 1.5rem;
+}
 .discography-list .music-card:hover { transform: none; }
 .discography-list .music-card img {
     width: 100px; height: 100px; cursor: pointer;
@@ -727,11 +742,53 @@ body.player-active .side-panel-content {
 .mini-player .seek-slider {
     width: 100%; appearance: none;
     background: transparent; height: 5px; cursor: pointer;
+    /* Define the CSS variable for progress */
+    --seek-progress: 0%;
+}
+/*
+ * Dynamic Progress Bar Styling (v1.0.9)
+ *
+ * The track of the seek slider is styled using a linear-gradient.
+ * The gradient's color stop position is controlled by the --seek-progress
+ * CSS variable, which is dynamically updated by JavaScript on the 'timeupdate' event.
+ * This creates a smooth, performant visual representation of the track's playback progress.
+ */
+.mini-player .seek-slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 5px;
+    cursor: pointer;
+    background: linear-gradient(to right,
+        var(--accent-lava-glow) var(--seek-progress),
+        #555 var(--seek-progress)
+    );
+    border-radius: 2.5px;
+}
+.mini-player .seek-slider::-moz-range-track {
+    width: 100%;
+    height: 5px;
+    cursor: pointer;
+    background: linear-gradient(to right,
+        var(--accent-lava-glow) var(--seek-progress),
+        #555 var(--seek-progress)
+    );
+    border-radius: 2.5px;
+    border: none;
 }
 .mini-player .seek-slider::-webkit-slider-thumb {
     appearance: none; width: 12px; height: 12px;
     background: var(--accent-lava-glow);
     border-radius: 50%;
+    margin-top: -3.5px; /* Center the thumb on the track */
+    /* Add a subtle glow for better visibility */
+    box-shadow: 0 0 5px rgba(255, 77, 77, 0.5);
+}
+.mini-player .seek-slider::-moz-range-thumb {
+    width: 12px; height: 12px;
+    background: var(--accent-lava-glow);
+    border-radius: 50%;
+    border: none;
+    /* Add a subtle glow for better visibility */
+    box-shadow: 0 0 5px rgba(255, 77, 77, 0.5);
 }
 
 /* --- 14. Tooltip --- */
