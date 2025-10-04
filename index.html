@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Version: 1.0.6 -->
+    <!-- Version: 1.0.7 -->
     <!-- La Sonora Volcánica Website main page -->
     <!-- (Don't forget to update the version number in the footer) -->
 
@@ -63,12 +63,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700,900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- 
-      SVG Icon Definitions (Sprite) 
+    <!--
+      SVG Icon Definitions (Sprite)
       This block contains all SVG icons used on the site in a single, efficient sprite.
       Each icon is wrapped in a <symbol> with a unique ID.
       To use an icon, reference its ID with the <use> tag: <svg><use href="#icon-id"></use></svg>
+      This approach reduces HTTP requests and allows for easy styling via CSS.
       Good sources for high-quality, free SVG icons include:
       - https://icons.getbootstrap.com
       - https://www.svgrepo.com
@@ -123,7 +126,7 @@
         <!-- Hero Section: Full-screen introductory visual -->
         <section id="hero" class="hero-section">
             <div class="hero-content">
-                <img src="images/logo.png" alt="La Sonora Volcánica Logo" class="hero-logo" loading="lazy" decoding="async">
+                <img src="images/logo.png" alt="" class="hero-logo" decoding="async">
                 <h1 class="hero-tagline" data-key="heroTagline"></h1>
                 <a href="#music" class="cta-button" data-key="heroButton"></a>
             </div>
@@ -181,7 +184,7 @@
                     <svg class="icon"><use href="#icon-envelope"></use></svg>
                 </a>
             </div>
-            <p class="copyright">&copy; 2025 Frédéric Guigand. All Rights Reserved.<span class="version">v1.0.6</span></p>
+            <p class="copyright">&copy; 2025 Frédéric Guigand. All Rights Reserved.<span class="version">v1.0.7</span></p>
         </div>
     </footer>
 
@@ -228,6 +231,6 @@
     </div>
 
     <!-- Main script file -->
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>

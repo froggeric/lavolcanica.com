@@ -1,6 +1,6 @@
-// --- Version: 1.0.6 ---
+// --- Version: 1.0.7 ---
 // --- La Sonora Volcánica Website Script ---
-// --- Fixed: Scroll jumping when overlays open/close ---
+// --- Fixed: Tooltip text truncation in overlays ---
 
 // IIFE (Immediately Invoked Function Expression) to create a private scope
 // and prevent polluting the global namespace.
@@ -33,6 +33,8 @@
     };
 
     // Scroll lock utility to prevent background scrolling
+    // This is a sophisticated solution that prevents layout shift when modals open
+    // by calculating the scrollbar width and applying it as a margin to the html element
     const scrollLock = {
         enable() {
             const html = document.documentElement;
@@ -71,7 +73,15 @@
                 links: { spotify: '#',
                          apple: '#',
                          youtube: '#',
-                         bandcamp: 'https://lasonoravolcanica.bandcamp.com/track/cumbia-del-barrio' }
+                         bandcamp: 'https://lasonoravolcanica.bandcamp.com/track/cumbia-del-barrio' },
+                // New fields for the song info overlay
+                story: `Born from the late-night energy of a bustling neighborhood, 'Cumbia del Barrio' is a tribute to the streets. The rhythm is a heartbeat, the melody a conversation between friends under a dim streetlight. It's the sound of community, of shared stories, of the simple joy of being together.`,
+                lyrics: `(Coro)\nEn el barrio, la cumbia suena,\nBailamos hasta la luna llena.\nCon el ritmo que nos mantiene unidos,\nEste es nuestro pueblo, nuestro destino.\n\n(Verso 1)\nLas sombras bailan en la pared,\nLos tambores suenan, no hay que temer.\nDesde la esquina hasta el final,\nUn solo ritmo, un solo ritual.`,
+                galleryImages: [
+                    'images/gallery/cumbia-del-barrio-1.jpg',
+                    'images/gallery/cumbia-del-barrio-2.jpg'
+                ],
+                visibleSections: ["story", "lyrics"] // Example: Only show story and lyrics
             },
             {
                 title: 'Sol Sol', year: '2024',
@@ -81,7 +91,16 @@
                 links: { spotify: 'https://open.spotify.com/track/7sZ4YZulX0C2PsF9Z2RX7J?si=7444364b275d4196',
                          apple: 'https://music.apple.com/us/album/sol-sol/1784468155?i=1784468156',
                          youtube: 'https://youtu.be/0qwddtff0iQ?si=BdvSkA0Hr7ACD8n_',
-                         bandcamp: 'https://lasonoravolcanica.bandcamp.com/track/sol-sol' }
+                         bandcamp: 'https://lasonoravolcanica.bandcamp.com/track/sol-sol' },
+                // New fields for the song info overlay
+                story: `An electrocumbia fever dream, 'Sol Sol' is an invocation to the sun. It captures the relentless, vibrant energy of a day on the island, from the first light of dawn to the final, fiery sunset. It's a track built for movement, for dancing, for losing yourself in the heat of the moment.`,
+                lyrics: `(Coro)\nSol sol, calienta mi piel,\nCon tu luz, no hay noche en mi ser.\nSol sol, danzamos en el areal,\nBajo tu cielo, sin final.\n\n(Verso 1)\nDespierta la arena, la brisa del mar,\nUn eco lejano, me hace suspirar.\nEl ritmo del pulso, la vida en la flor,\nTú eres el centro, mi gran amor.`,
+                galleryImages: [
+                    'images/gallery/sol-sol-1.jpg',
+                    'images/gallery/sol-sol-2.jpg',
+                    'images/gallery/sol-sol-3.jpg'
+                ]
+                // No visibleSections property, so it will default to showing all available sections
             },
             {
                 title: 'Tindaya', year: '2026',
@@ -124,7 +143,10 @@
                     year: '2025',
                     coverArt: 'images/art-tendido-cero-sentido.jpg',
                     audioSrc: 'audio/single-tendido-cero-sentido.mp3',
-                    links: { spotify: '#', apple: '#', youtube: '#', bandcamp: '#' }
+                    links: { spotify: '#', apple: '#', youtube: '#', bandcamp: '#' },
+                    story: `In the silent, suffocating darkness of the pandemic, Piero, a painter and tattoo artist, looked to the stars and found a reflection of a noble beast in the cosmos—Taurus. This vision clashed with the cruel reality of the bullfighting ring, sparking a primal scream against the spectacle of slaughter. 'Tendido Cero Sentido' is a midnight confession, a hymn to the sacredness of life, and a raw testament to the belief that suffering can never be art.`,
+                    lyrics: `Taurus, burning in the sky so far,\nA sacred bull, a guiding star.\nBut down on Earth, a cruel display,\nThey steal your light and turn your day to gray.\n\nTendido Cero, senseless pain,\nA fallen hero in the dust and rain.\nYour noble heart, a silent plea,\nThis is not art, it's cruelty.`,
+                    visibleSections: ["story", "lyrics"]
                 },
                 bio: {
                     en: `Some say the world will end in fire, some say in ice. But in the sonic universe of Cututo, the cataclysm is a far more intimate affair—a "Big Bang" of bolero-fueled emotion exploding from the depths of a tormented heart. This is the world of Hernán Alonso Gonzales Valdivia, a troubadour from Trujillo, Peru, who wields tradition like a sharpened blade, carving out a space for the beautifully broken and the defiantly queer.\n\nForged in the crucible of reality television's La Voz Perú, he now wages a far more personal war. His weapons are the ghosts of bolero, the pulse of cumbia, and the sorrowful grace of vals criollo. But this is no history lesson. Cututo drags these classic forms into the heart of modern life, giving voice to the agony of being ghosted online, the righteous fury of political protest, and the defiant struggle of queer identity in a world that demands conformity. From his current base in Buenos Aires, Cututo continues a sacred mission: to prove that the old gods of Latin American music are not dead, but merely waiting for a soul brave enough to make them roar again.`,
@@ -142,7 +164,10 @@
                     year: '2025',
                     coverArt: 'images/art-tendido-cero-sentido.jpg',
                     audioSrc: 'audio/single-tendido-cero-sentido.mp3',
-                    links: { spotify: '#', apple: '#', youtube: '#', bandcamp: '#' }
+                    links: { spotify: '#', apple: '#', youtube: '#', bandcamp: '#' },
+                    story: `In the silent, suffocating darkness of the pandemic, Piero, a painter and tattoo artist, looked to the stars and found a reflection of a noble beast in the cosmos—Taurus. This vision clashed with the cruel reality of the bullfighting ring, sparking a primal scream against the spectacle of slaughter. 'Tendido Cero Sentido' is a midnight confession, a hymn to the sacredness of life, and a raw testament to the belief that suffering can never be art.`,
+                    lyrics: `Taurus, burning in the sky so far,\nA sacred bull, a guiding star.\nBut down on Earth, a cruel display,\nThey steal your light and turn your day to gray.\n\nTendido Cero, senseless pain,\nA fallen hero in the dust and rain.\nYour noble heart, a silent plea,\nThis is not art, it's cruelty.`,
+                    visibleSections: ["story", "lyrics"]
                 },
                 bio: {
                     en: `Covid came. The world went dark. And in that suffocating silence, Piero—a painter, a warrior of ink who marks skin for a living—looked up at the stars and saw not escape, but a reflection. He saw Taurus, the bull, burning in the cosmos, pure and eternal. And down on a blood-soaked Earth, he saw its sacred form defiled in the ring.\n\nThis isn't just a poem. It's a midnight confession, a primal scream against the "art" of the slaughterhouse. It's a hymn to the noble beast he revered as a child, channeled into lyrics so raw they could only have been born in confinement. He handed this shard of his soul to La Sonora Volcánica, who forged it into sonic fire. The message is simple, brutal, and true: life is sacred. Suffering will never be art.`,
@@ -162,7 +187,7 @@
 
         // --- 3. Dynamic Content Population Functions ---
         // Create music card element safely
-        function createMusicCard(release, isFeatured = false) {
+        function createMusicCard(release, isFeatured = false, disableTitleAction = false) {
             const card = document.createElement('div');
             card.className = 'music-card';
             
@@ -175,7 +200,7 @@
             
             // Fallback for missing images
             img.onerror = () => {
-                img.src = 'images/placeholder-album.jpg';
+                img.src = 'images/placeholder-album.svg';
                 img.alt = 'Album artwork unavailable';
             };
             
@@ -199,6 +224,10 @@
                 const title = document.createElement('h3');
                 title.className = 'music-card-title';
                 title.textContent = release.title;
+                if (!disableTitleAction) {
+                    title.setAttribute('data-action', 'open-release-panel');
+                    title.setAttribute('data-release-title', release.title);
+                }
                 
                 const year = document.createElement('p');
                 year.className = 'music-card-year';
@@ -233,16 +262,17 @@
                 overlay.appendChild(linksDiv);
                 card.appendChild(overlay);
             } else {
-                // For discography list - same platforms as featured
-                const contentDiv = document.createElement('div');
-                contentDiv.className = 'card-content';
-                
+                // For discography list - restore original compact layout
                 const infoDiv = document.createElement('div');
                 infoDiv.className = 'music-card-info';
                 
                 const title = document.createElement('h3');
                 title.className = 'music-card-title';
                 title.textContent = release.title;
+                if (!disableTitleAction) {
+                    title.setAttribute('data-action', 'open-release-panel');
+                    title.setAttribute('data-release-title', release.title);
+                }
                 
                 const year = document.createElement('p');
                 year.className = 'music-card-year';
@@ -273,9 +303,9 @@
                     }
                 });
                 
-                contentDiv.appendChild(infoDiv);
-                contentDiv.appendChild(linksDiv);
-                card.appendChild(contentDiv);
+                card.appendChild(img);
+                card.appendChild(infoDiv);
+                card.appendChild(linksDiv);
             }
             
             return card;
@@ -285,16 +315,25 @@
         function populateFeaturedGrid() {
             if (!musicGrid) return;
             
-            const fragment = document.createDocumentFragment();
-            const featuredReleases = releases.filter(r => r.featured);
-            
-            featuredReleases.forEach(release => {
-                const card = createMusicCard(release, true);
-                fragment.appendChild(card);
-            });
-            
+            // Show skeleton loaders immediately
             musicGrid.innerHTML = '';
-            musicGrid.appendChild(fragment);
+            for (let i = 0; i < 2; i++) { // Assuming 2 featured releases
+                musicGrid.appendChild(createSkeletonMusicCard());
+            }
+
+            // Simulate network delay to show skeletons, then load content
+            setTimeout(() => {
+                const fragment = document.createDocumentFragment();
+                const featuredReleases = releases.filter(r => r.featured);
+                
+                featuredReleases.forEach(release => {
+                    const card = createMusicCard(release, true);
+                    fragment.appendChild(card);
+                });
+                
+                musicGrid.innerHTML = '';
+                musicGrid.appendChild(fragment);
+            }, 500); // 500ms delay
         }
 
         // Populates the full list of releases inside the side panel.
@@ -339,7 +378,7 @@
             
             // Fallback for missing images
             img.onerror = () => {
-                img.src = 'images/placeholder-person.jpg';
+                img.src = 'images/placeholder-person.svg';
                 img.alt = 'Photo unavailable';
             };
             
@@ -352,20 +391,51 @@
             
             return card;
         }
+        
+        // Helper functions to create skeleton cards
+        function createSkeletonMusicCard() {
+            const card = document.createElement('div');
+            card.className = 'music-card skeleton-card';
+            const img = document.createElement('div');
+            img.className = 'skeleton skeleton-image';
+            card.appendChild(img);
+            return card;
+        }
+
+        function createSkeletonCollabCard() {
+            const card = document.createElement('div');
+            card.className = 'skeleton-card';
+            const avatar = document.createElement('div');
+            avatar.className = 'skeleton skeleton-avatar';
+            const text = document.createElement('div');
+            text.className = 'skeleton skeleton-text short';
+            card.appendChild(avatar);
+            card.appendChild(text);
+            return card;
+        }
 
         // Populates the grid of collaborators on the main page.
         function populateCollabsGrid() {
             if (!collabsGrid) return;
-            
-            const fragment = document.createDocumentFragment();
-            
-            collaborators.forEach(collab => {
-                const card = createCollaboratorCard(collab);
-                fragment.appendChild(card);
-            });
-            
+
+            // Show skeleton loaders immediately
             collabsGrid.innerHTML = '';
-            collabsGrid.appendChild(fragment);
+            for (let i = 0; i < collaborators.length; i++) {
+                collabsGrid.appendChild(createSkeletonCollabCard());
+            }
+
+            // Simulate network delay to show skeletons, then load content
+            setTimeout(() => {
+                const fragment = document.createDocumentFragment();
+                
+                collaborators.forEach(collab => {
+                    const card = createCollaboratorCard(collab);
+                    fragment.appendChild(card);
+                });
+                
+                collabsGrid.innerHTML = '';
+                collabsGrid.appendChild(fragment);
+            }, 500); // 500ms delay
         }
 
         // --- 4. Side Panel Logic ---
@@ -557,8 +627,123 @@
             closePanelBtn.addEventListener('click', closePanel);
             panelOverlay.addEventListener('click', closePanel);
 
-            // Make showCollaborator function available to the global event listener.
+            // Make functions available to the global event listener.
             window.showCollaborator = showCollaborator;
+
+            // Populates the panel with a specific release's details.
+            const showReleaseInfo = (release) => {
+                panelTitle.textContent = release.title;
+                
+                // Create content safely
+                const contentFragment = document.createDocumentFragment();
+                
+                // --- Optimized Header: Use the small release card component ---
+                const headerWrapper = document.createElement('div');
+                headerWrapper.className = 'discography-list';
+                const headerCard = createMusicCard(release, false, true); // Pass true to disable title action
+                headerWrapper.appendChild(headerCard);
+                contentFragment.appendChild(headerWrapper);
+
+                // Text content container
+                const textContent = document.createElement('div');
+                textContent.className = 'side-panel-text-content';
+
+                // Determine which sections to show
+                const sectionsToShow = release.visibleSections || ['story', 'lyrics', 'gallery'];
+                const hasStory = release.story && sectionsToShow.includes('story');
+                const hasLyrics = release.lyrics && sectionsToShow.includes('lyrics');
+                const hasGallery = release.galleryImages && release.galleryImages.length > 0 && sectionsToShow.includes('gallery');
+
+                // Tabbed Content
+                const tabsContainer = document.createElement('div');
+                tabsContainer.className = 'song-info-tabs';
+                const tabs = [];
+                const panes = [];
+                
+                if (hasStory) {
+                    const storyTab = document.createElement('button');
+                    storyTab.className = 'song-info-tab active';
+                    storyTab.textContent = 'Story';
+                    tabsContainer.appendChild(storyTab);
+                    tabs.push(storyTab);
+
+                    const storyPane = document.createElement('div');
+                    storyPane.className = 'song-info-content active';
+                    const storyP = document.createElement('p');
+                    storyP.className = 'collab-details-bio';
+                    storyP.textContent = release.story;
+                    storyPane.appendChild(storyP);
+                    textContent.appendChild(storyPane);
+                    panes.push(storyPane);
+                }
+
+                if (hasLyrics) {
+                    const lyricsTab = document.createElement('button');
+                    lyricsTab.className = 'song-info-tab';
+                    if (!hasStory) lyricsTab.classList.add('active'); // Make first tab active
+                    lyricsTab.textContent = 'Lyrics';
+                    tabsContainer.appendChild(lyricsTab);
+                    tabs.push(lyricsTab);
+
+                    const lyricsPane = document.createElement('div');
+                    lyricsPane.className = 'song-info-content';
+                    if (!hasStory) lyricsPane.classList.add('active'); // Make first pane active
+                    const lyricsP = document.createElement('p');
+                    lyricsP.className = 'collab-details-bio';
+                    lyricsP.style.whiteSpace = 'pre-wrap';
+                    lyricsP.textContent = release.lyrics;
+                    lyricsPane.appendChild(lyricsP);
+                    textContent.appendChild(lyricsPane);
+                    panes.push(lyricsPane);
+                }
+
+                if (hasGallery) {
+                    const galleryTab = document.createElement('button');
+                    galleryTab.className = 'song-info-tab';
+                    if (!hasStory && !hasLyrics) galleryTab.classList.add('active'); // Make first tab active
+                    galleryTab.textContent = 'Gallery';
+                    tabsContainer.appendChild(galleryTab);
+                    tabs.push(galleryTab);
+
+                    const galleryPane = document.createElement('div');
+                    galleryPane.className = 'song-info-content';
+                    if (!hasStory && !hasLyrics) galleryPane.classList.add('active'); // Make first pane active
+                    const gallery = document.createElement('div');
+                    gallery.className = 'song-info-gallery';
+                    release.galleryImages.forEach(src => {
+                        const img = document.createElement('img');
+                        img.src = src;
+                        img.alt = `Gallery image for ${release.title}`;
+                        img.loading = 'lazy';
+                        gallery.appendChild(img);
+                    });
+                    galleryPane.appendChild(gallery);
+                    textContent.appendChild(galleryPane);
+                    panes.push(galleryPane);
+                }
+                
+                if (tabsContainer.children.length > 0) {
+                    textContent.insertBefore(tabsContainer, textContent.firstChild);
+                }
+                
+                // Tab switching logic
+                tabs.forEach((tab, index) => {
+                    tab.addEventListener('click', () => {
+                        tabs.forEach(t => t.classList.remove('active'));
+                        panes.forEach(p => p.classList.remove('active'));
+                        tab.classList.add('active');
+                        panes[index].classList.add('active');
+                    });
+                });
+
+                contentFragment.appendChild(textContent);
+                
+                panelContent.innerHTML = '';
+                panelContent.appendChild(contentFragment);
+                openPanel(false); // Open from right
+            };
+
+            window.showReleaseInfo = showReleaseInfo;
         }
 
 
@@ -695,6 +880,8 @@
 
         // --- 6. Event Delegation for Actions ---
         // A single event listener on the body handles clicks for multiple actions.
+        // This is a highly efficient pattern that avoids attaching multiple listeners
+        // and works seamlessly with dynamically generated content.
         document.body.addEventListener('click', (e) => {
             const actionTarget = e.target.closest('[data-action]');
             if (!actionTarget) return;
@@ -719,6 +906,10 @@
                 const collabId = actionTarget.dataset.collabId;
                 const collabData = collaborators.find(c => c.id === collabId);
                 if (collabData && window.showCollaborator) window.showCollaborator(collabData);
+            } else if (action === 'open-release-panel') {
+                const releaseTitle = actionTarget.dataset.releaseTitle;
+                const releaseData = releases.find(r => r.title === releaseTitle);
+                if (releaseData && window.showReleaseInfo) window.showReleaseInfo(releaseData);
             } else if (action === 'toggle-play') {
                 // Handled by individual element listener
             } else if (action === 'close-player') {

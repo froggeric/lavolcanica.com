@@ -1,6 +1,6 @@
-/* --- Version: 1.0.6 --- */
+/* --- Version: 1.0.7 --- */
 /* --- La Sonora Volcánica Website Styles --- */
-/* --- Fixed: Scroll jumping when overlays open/close --- */
+/* --- Fixed: Tooltip text truncation in overlays --- */
 
 /* --- 1. Global Styles & Variables --- */
 /* These variables define the core design system for the site. */
@@ -8,6 +8,7 @@
     --bg-volcanic-night: #1a1a1a;
     --text-salt-crystal: #F0F0F0;
     --accent-lava-glow: #FF4D4D;
+    --accent-lava-glow-dark: #e63939; /* Darker shade for hover states */
     --accent-canary-teal: #00C2A8;
     --font-heading: 'Montserrat', sans-serif;
     --font-body: 'Roboto', sans-serif;
@@ -108,6 +109,23 @@ ul {
     display: none !important;
 }
 
+/* Skip to main content link for accessibility */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--accent-lava-glow);
+    color: var(--text-salt-crystal);
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 1003;
+    transition: top 0.3s;
+}
+.skip-link:focus {
+    top: 6px;
+}
+
 /* Player error message styling */
 .player-error-message {
     position: absolute;
@@ -120,6 +138,41 @@ ul {
     text-align: center;
     font-size: 0.8rem;
     border-radius: 4px 4px 0 0;
+}
+
+/* --- 17. Skeleton Loading States --- */
+.skeleton {
+    background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+.skeleton-card {
+    background-color: #222;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+.skeleton-image {
+    width: 100%;
+    height: 300px;
+}
+.skeleton-text {
+    height: 1.2em;
+    margin: 1rem;
+    border-radius: 4px;
+}
+.skeleton-text.short {
+    width: 60%;
+}
+.skeleton-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
 }
 
 /* Loading state for player */
@@ -275,7 +328,7 @@ ul {
 }
 .cta-button:hover {
     transform: scale(1.05);
-    background-color: #ff6a6a;
+    background-color: var(--accent-lava-glow-dark);
 }
 .cta-button.alt {
     background-color: transparent;
@@ -330,6 +383,9 @@ ul {
     pointer-events: none; /* Allows clicks to pass through to the image below */
 }
 .music-card:hover .music-card-overlay { opacity: 1; }
+.music-card:hover .music-card-info {
+    pointer-events: auto;
+}
 .music-card-info {
     text-align: center; color: var(--text-salt-crystal);
     transform: translateY(15px);
@@ -339,6 +395,11 @@ ul {
 .music-card-title {
     font-family: var(--font-heading); font-size: 1.5rem;
     font-weight: 700; margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.music-card-title:hover {
+    color: var(--accent-lava-glow);
 }
 .music-card-year {
     font-family: var(--font-body); opacity: 0.8; margin-bottom: 1.5rem;
@@ -484,6 +545,10 @@ ul {
     overflow-y: auto;
     padding: 0;
     transition: padding-bottom 0.4s ease;
+    /* Create a proper stacking context for tooltips */
+    transform: translateZ(0);
+    /* Allow tooltips to escape the overflow boundary */
+    position: relative;
 }
 /* Add padding to the bottom of the panel content when the player is active */
 body.player-active .side-panel-content {
@@ -500,41 +565,49 @@ body.player-active .side-panel-content {
 }
 .side-panel-text-content {
     padding: 1.5rem;
+    /* Ensure tooltips can escape this container */
+    overflow: visible;
+    position: relative;
 }
 .discography-list .music-card {
     display: flex; align-items: center; margin-bottom: 1.5rem;
-    background-color: #222; border-radius: 8px; overflow: visible; /* CHANGED: overflow visible for tooltips */
-    position: relative; /* Ensure tooltips are positioned relative to card */
+    background-color: #222; border-radius: 8px; overflow: visible;
+    position: relative;
+    /* Ensure tooltips can escape the card boundary */
+    transform: translateZ(0);
 }
 .discography-list .music-card:hover { transform: none; }
-.discography-list .music-card img { 
-    width: 100px; height: 100px; cursor: pointer; 
-    flex-shrink: 0; /* Prevent image from shrinking */
+.discography-list .music-card img {
+    width: 100px; height: 100px; cursor: pointer;
+    flex-shrink: 0;
+    border-radius: 8px 0 0 8px;
 }
-.discography-list .card-content {
-    display: flex; flex-grow: 1; justify-content: space-between;
-    align-items: center; padding: 1rem 1.5rem;
-    overflow: visible; /* CHANGED: Allow tooltips to extend beyond content */
-}
-.discography-list .music-card-info { 
-    text-align: left; 
-    min-width: 0; /* Allow text truncation */
+.discography-list .music-card-info {
+    text-align: left;
+    padding: 1rem 1.5rem;
+    flex-grow: 1;
+    margin-right: 1rem; /* Space between title and links */
     flex: 1; /* Take available space */
-    margin-right: 1rem; /* Space between info and links */
+    min-width: 0; /* Allow text truncation */
 }
-.discography-list .music-card-title { 
-    font-size: 1.25rem; 
-    margin-bottom: 0.25rem; 
+.discography-list .music-card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .discography-list .music-card-year { margin-bottom: 0; }
-.discography-list .streaming-links { 
-    gap: 1rem; 
-    flex-shrink: 0; /* Prevent links from shrinking */
-    position: relative; /* Create stacking context for tooltips */
+.discography-list .streaming-links {
+    display: flex;
+    gap: 1rem;
+    flex-shrink: 0;
+    padding: 1rem 1.5rem;
+    position: relative;
     z-index: 10; /* Ensure links are above other content */
+    justify-content: flex-start;
+    /* Create a stacking context for tooltips */
+    transform: translateZ(0);
 }
 .collab-details-bio {
     text-align: left;
@@ -546,6 +619,49 @@ body.player-active .side-panel-content {
 .collab-details-visit-btn-container {
     text-align: center;
     margin-top: 2rem;
+}
+
+/* --- 16. Song Info Overlay (Tabbed Interface) --- */
+.song-info-tabs {
+    display: flex;
+    border-bottom: 1px solid #444;
+    margin-bottom: 1.5rem;
+}
+.song-info-tab {
+    background: none;
+    border: none;
+    color: var(--text-salt-crystal);
+    padding: 0.75rem 1rem;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, border-bottom 0.2s ease;
+    border-bottom: 3px solid transparent;
+}
+.song-info-tab.active {
+    opacity: 1;
+    border-bottom-color: var(--accent-lava-glow);
+}
+.song-info-tab:hover {
+    opacity: 1;
+}
+.song-info-content {
+    display: none; /* Hide all content by default */
+}
+.song-info-content.active {
+    display: block; /* Show only the active content */
+}
+.song-info-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+}
+.song-info-gallery img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
 }
 
 /* --- 13. Mini Audio Player --- */
@@ -619,7 +735,17 @@ body.player-active .side-panel-content {
 }
 
 /* --- 14. Tooltip --- */
-/* Pure CSS tooltips for icons using pseudo-elements */
+/*
+ * Pure CSS tooltips for icons using pseudo-elements.
+ *
+ * CRITICAL FIX (v1.0.7): A persistent issue with tooltip text being clipped
+ * inside scrollable overlay panels was resolved. The fix involves:
+ * 1. Creating a new stacking context for tooltip containers using `transform: translateZ(0)`
+ * 2. Elevating tooltip z-index to 3001 to appear above other panel content
+ * 3. Ensuring parent containers have `overflow: visible` for tooltips to escape
+ *
+ * DO NOT modify these rules without understanding the stacking context implications.
+ */
 .tooltip {
     position: relative;
 }
@@ -631,6 +757,11 @@ body.player-active .side-panel-content {
     pointer-events: none;
     transition: opacity 0.2s ease;
     z-index: 3000;
+    /* Ensure text is never truncated */
+    max-width: none;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: unset;
 }
 /* The little triangle arrow */
 .tooltip::before {
@@ -653,20 +784,60 @@ body.player-active .side-panel-content {
     white-space: nowrap;
     bottom: 100%;
     margin-bottom: 15px;
+    /* Ensure text is never truncated */
+    max-width: none;
+    overflow: visible;
+    text-overflow: unset;
 }
 .tooltip:hover::before, .tooltip:hover::after {
     opacity: 1;
 }
 
-/* Special tooltip handling for discography list to prevent clipping */
+/* Enhanced tooltip handling for all contexts to prevent clipping */
 .discography-list .tooltip::before,
-.discography-list .tooltip::after {
-    z-index: 3001; /* Higher z-index for discography tooltips */
+.discography-list .tooltip::after,
+.side-panel-content .tooltip::before,
+.side-panel-content .tooltip::after,
+.song-info-content .tooltip::before,
+.song-info-content .tooltip::after {
+    z-index: 3001; /* Higher z-index for all panel tooltips */
 }
 
-/* Ensure tooltips in discography list are fully visible */
-.discography-list .streaming-links {
+/* Ensure tooltips in all contexts are fully visible */
+.discography-list .streaming-links,
+.side-panel-content .streaming-links,
+.song-info-content .streaming-links {
     position: relative;
+    /* Create a new stacking context for tooltips */
+    transform: translateZ(0);
+}
+
+/* Fix for side panel content to prevent tooltip clipping */
+.side-panel-content {
+    /* Ensure proper stacking context */
+    transform: translateZ(0);
+    /* Allow tooltips to escape overflow */
+    overflow: visible;
+}
+
+/* Special handling for scrollable content within panels */
+.side-panel-content > * {
+    overflow: visible;
+}
+
+/* Ensure scrollable containers don't clip tooltips */
+.side-panel-text-content {
+    overflow: visible;
+}
+
+/* Fix for discography list specifically */
+.discography-list {
+    overflow: visible;
+}
+
+/* Fix for song info content */
+.song-info-content {
+    overflow: visible;
 }
 
 /* --- 15. Desktop Styles --- */
