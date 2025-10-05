@@ -1,6 +1,19 @@
-/* --- Version: 1.0.9 --- */
+/* --- Version: 1.1.7 --- */
 /* --- La Sonora Volcánica Website Styles --- */
-/* --- Added: Dynamic progress bar for mini audio player --- */
+/* --- Fixed: Tooltip truncation in overlay panels by correcting overflow and z-index stacking. --- */
+/* --- Fixed: Horizontal scrollbar in discography and collaborator panels. --- */
+/* --- Enhanced: Standardized release-card component layout for visual consistency across all panels. --- */
+/* --- AGGRESSIVE REFACTOR: Completely restructured Discography and Collaborator Info panels to match the working Release Info panel structure. --- */
+
+/* --- Version: 1.1.2 --- */
+/* --- Fixed: Vertical scrolling in overlay panels (discography, release info, collaborator info) --- */
+
+/* --- Version: 1.1.1 --- */
+/* --- Fixed: Vertical scrolling in overlay panels (discography, release info, collaborator info) --- */
+
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 /* --- 1. Global Styles & Variables --- */
 /* These variables define the core design system for the site. */
@@ -508,6 +521,8 @@ ul {
     transition: transform 0.4s ease;
     display: flex;
     flex-direction: column;
+    /* Ensure tooltips can escape the panel boundaries */
+    overflow: visible;
 }
 /* Left panel variant for collaborator details */
 .side-panel.from-left {
@@ -549,11 +564,19 @@ ul {
     transform: translateZ(0);
     /* Allow tooltips to escape the overflow boundary */
     position: relative;
+    /* Ensure scrolling works properly on all devices */
+    -webkit-overflow-scrolling: touch;
 }
 /* Add padding to the bottom of the panel content when the player is active */
 body.player-active .side-panel-content {
     padding-bottom: var(--player-height);
 }
+/* Container for collaborator hero image with consistent padding */
+.side-panel-hero-container {
+    padding: 1.5rem;
+    padding-bottom: 0;
+}
+
 /* Square aspect ratio for collaborator hero images */
 .side-panel-hero-image {
     width: 100%;
@@ -561,7 +584,7 @@ body.player-active .side-panel-content {
     aspect-ratio: 1 / 1; /* Changed from 16/9 to square */
     object-fit: cover;
     display: block;
-    border-radius: 0 0 8px 8px; /* Soften bottom corners */
+    border-radius: 8px; /* All corners rounded since it's now in a container */
 }
 .side-panel-text-content {
     padding: 1.5rem;
@@ -575,45 +598,137 @@ body.player-active .side-panel-content {
     position: relative;
     /* Ensure tooltips can escape the card boundary */
     transform: translateZ(0);
+    /* Standardized dimensions and spacing */
+    min-height: 100px;
+    width: 100%;
+}
+
+/* Standardized release card styling for all contexts */
+.discography-list .music-card,
+.side-panel-content .music-card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    background-color: #222;
+    border-radius: 8px;
+    overflow: visible;
+    position: relative;
+    /* Ensure tooltips can escape the card boundary */
+    transform: translateZ(0);
+    /* Standardized dimensions and spacing */
+    min-height: 100px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    /* Prevent horizontal overflow */
+    flex-wrap: nowrap;
+}
+
+.discography-list .music-card:hover,
+.side-panel-content .music-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 /*
- * Layout Consistency Fix (v1.0.8)
+ * Layout Consistency Fix (v1.1.3)
  *
- * The release info overlay's header card was expanding to full width without margins,
- * creating a visual inconsistency with the discography and collaborator overlays.
- * This was because the header card's wrapper (.discography-list) was a direct child
- * of .side-panel-content, which lacks padding.
+ * Standardizing the layout across all overlay panels (discography, release info, collaborator info)
+ * to ensure consistent behavior and prevent tooltip truncation and horizontal scrollbars.
  *
- * This rule specifically targets that unique case, applying the same padding
- * as .side-panel-text-content to ensure visual consistency across all overlays.
+ * The release info panel was working correctly because it properly wraps its content
+ * in a .discography-list element with proper padding. We're applying this same pattern
+ * to all panels for consistency.
  */
-.side-panel-content > .discography-list {
+
+/* Ensure all direct children of side-panel-content have consistent padding */
+.side-panel-content > .discography-list,
+.side-panel-content > .side-panel-text-content {
     padding: 1.5rem;
 }
-.discography-list .music-card:hover { transform: none; }
+
+/* Ensure the hero container has consistent padding */
+.side-panel-content > .side-panel-hero-container {
+    padding: 1.5rem;
+    padding-bottom: 0;
+}
+
+/* Fix vertical spacing in collaborator panel - remove top padding from text content
+   when it follows a discography list in the left-opening panel */
+.side-panel.from-left .side-panel-content > .discography-list + .side-panel-text-content {
+    padding-top: 0;
+}
+
+/* Remove bottom margin from the last music card in any list to fix spacing */
+.discography-list .music-card:last-child {
+    margin-bottom: 0;
+}
+
+/* Ensure the hero image in collaborator panels has proper spacing */
+.side-panel-content > .side-panel-hero-image {
+    display: block;
+    width: 100%;
+}
+
+/* Fix for collaborator panel to match release info panel structure */
+.side-panel-content .discography-list {
+    width: 100%;
+    box-sizing: border-box;
+}
+/* Remove hover transform override since we want consistent hover effects */
 .discography-list .music-card img {
     width: 100px; height: 100px; cursor: pointer;
     flex-shrink: 0;
     border-radius: 8px 0 0 8px;
+    object-fit: cover;
 }
-.discography-list .music-card-info {
+
+/* Standardized music card info styling */
+.discography-list .music-card-info,
+.side-panel-content .music-card-info {
     text-align: left;
     padding: 1rem 1.5rem;
     flex-grow: 1;
     margin-right: 1rem; /* Space between title and links */
     flex: 1; /* Take available space */
     min-width: 0; /* Allow text truncation */
+    overflow: hidden; /* Prevent text overflow */
+    box-sizing: border-box;
 }
-.discography-list .music-card-title {
+
+/* Standardized music card title styling */
+.discography-list .music-card-title,
+.side-panel-content .music-card-title {
     font-size: 1.25rem;
     margin-bottom: 0.25rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--text-salt-crystal);
+    cursor: pointer;
+    transition: color 0.2s ease;
 }
-.discography-list .music-card-year { margin-bottom: 0; }
-.discography-list .streaming-links {
+
+.discography-list .music-card-title:hover,
+.side-panel-content .music-card-title:hover {
+    color: var(--accent-lava-glow);
+}
+
+/* Standardized music card year styling */
+.discography-list .music-card-year,
+.side-panel-content .music-card-year {
+    margin-bottom: 0;
+    opacity: 0.8;
+    font-family: var(--font-body);
+}
+
+/* Standardized streaming links styling */
+.discography-list .streaming-links,
+.side-panel-content .streaming-links {
     display: flex;
     gap: 1rem;
     flex-shrink: 0;
@@ -623,12 +738,15 @@ body.player-active .side-panel-content {
     justify-content: flex-start;
     /* Create a stacking context for tooltips */
     transform: translateZ(0);
+    /* Prevent overflow */
+    min-width: 0;
+    flex-wrap: nowrap;
 }
 .collab-details-bio {
     text-align: left;
     white-space: pre-wrap;
     line-height: 1.7;
-    margin-top: 2rem;
+    margin-top: 0;
     margin-bottom: 2rem;
 }
 .collab-details-visit-btn-container {
@@ -869,32 +987,112 @@ body.player-active .side-panel-content {
     transform: translateZ(0);
 }
 
-/* Fix for side panel content to prevent tooltip clipping */
+/* Fix for tooltip positioning in all panels */
+.side-panel {
+    /* Ensure tooltips can escape the panel boundaries */
+    overflow: visible;
+}
+
+/* Ensure all panel content containers allow tooltips to escape */
+.side-panel-content,
+.side-panel-text-content,
+.discography-list,
+.song-info-content {
+    overflow-x: visible !important;
+    overflow-y: auto;
+    position: relative;
+    /* Create proper stacking context for tooltips */
+    transform: translateZ(0);
+}
+
+/* Special handling for streaming links to ensure tooltips display properly */
+.streaming-links {
+    position: relative;
+    z-index: 10;
+    /* Create stacking context for tooltips */
+    transform: translateZ(0);
+}
+
+/*
+ * Vertical Scrolling Fix (v1.1.1)
+ *
+ * Root Cause: The tooltip fix (v1.0.7) was setting overflow: visible on all panel containers,
+ * which conflicted with the overflow-y: auto rule needed for vertical scrolling.
+ *
+ * Solution: Changed overflow rules to use overflow-x: visible (for tooltips) while maintaining
+ * overflow-y: auto (for vertical scrolling). Added -webkit-overflow-scrolling: touch for
+ * better mobile scrolling performance.
+ *
+ * This fix ensures that:
+ * 1. Vertical scrolling works properly in all overlay panels
+ * 2. Tooltips can still escape the container boundaries horizontally
+ * 3. Touch scrolling is optimized on mobile devices
+ */
+/* Fix for side panel content to prevent tooltip clipping while maintaining scrollability */
 .side-panel-content {
     /* Ensure proper stacking context */
     transform: translateZ(0);
-    /* Allow tooltips to escape overflow */
-    overflow: visible;
+    /* Allow tooltips to escape overflow but maintain vertical scrolling */
+    overflow-x: visible;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    /* Prevent horizontal scrollbar */
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* Special handling for scrollable content within panels */
 .side-panel-content > * {
-    overflow: visible;
+    overflow-x: visible;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
-/* Ensure scrollable containers don't clip tooltips */
+/* Ensure scrollable containers don't clip tooltips but maintain vertical scrolling */
 .side-panel-text-content {
-    overflow: visible;
+    overflow-x: visible;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    /* Prevent horizontal scrollbar */
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* Fix for discography list specifically */
 .discography-list {
-    overflow: visible;
+    overflow-x: visible;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    /* Prevent horizontal scrollbar */
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* Fix for song info content */
 .song-info-content {
-    overflow: visible;
+    overflow-x: visible;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    /* Prevent horizontal scrollbar */
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Additional fixes for tooltip visibility in all contexts */
+.side-panel-content .tooltip,
+.side-panel-text-content .tooltip,
+.discography-list .tooltip,
+.song-info-content .tooltip {
+    position: relative;
+    /* Ensure tooltip can escape parent container */
+    z-index: 3001;
+}
+
+/* Ensure tooltips have proper positioning in all panels */
+.tooltip::before,
+.tooltip::after {
+    /* Allow tooltips to appear above all content */
+    z-index: 3002 !important;
 }
 
 /* --- 15. Desktop Styles --- */
