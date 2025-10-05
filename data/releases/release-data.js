@@ -39,7 +39,7 @@ export const releaseData = [
     year: "2025",
     type: "single",
     coverArt: "images/art-cumbia-del-barrio.jpg",
-    audioSrc: "audio/single-cumbia-del-barrio.mp3",
+    audioSrc: "audio/single-cumbia-del-barrio.m4a",
     featured: true,
     links: {
       spotify: "#",
