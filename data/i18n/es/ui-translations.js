@@ -1,8 +1,14 @@
 /**
- * Spanish UI translations for La Sonora Volcánica
- * Contains all user interface text in Spanish
+ * @fileoverview Spanish UI translations for La Sonora Volcánica website.
+ * Contains all user interface text in Spanish.
+ * @module data/i18n/es/ui-translations
  */
 
+/**
+ * Object containing all UI text translations for Spanish.
+ * Each key corresponds to a data-key attribute in the HTML.
+ * @type {Object}
+ */
 export const uiTranslations = {
   logoText: "La Sonora Volcánica",
   navMusic: "Música",

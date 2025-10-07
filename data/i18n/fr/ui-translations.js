@@ -1,8 +1,14 @@
 /**
- * French UI translations for La Sonora Volcánica
- * Contains all user interface text in French
+ * @fileoverview French UI translations for La Sonora Volcánica website.
+ * Contains all user interface text in French.
+ * @module data/i18n/fr/ui-translations
  */
 
+/**
+ * Object containing all UI text translations for French.
+ * Each key corresponds to a data-key attribute in the HTML.
+ * @type {Object}
+ */
 export const uiTranslations = {
   logoText: "La Sonora Volcánica",
   navMusic: "Musique",

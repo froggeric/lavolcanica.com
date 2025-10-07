@@ -216,10 +216,12 @@
                 card.appendChild(img);
                 
                 // Create a container for the text and links
+                // <div class="music-card-content">
                 const contentContainer = document.createElement('div');
                 contentContainer.className = 'music-card-content';
                 
                 // Create a container for the title
+                // <div class="music-card-title-container">
                 const titleContainer = document.createElement('div');
                 titleContainer.className = 'music-card-title-container';
                 
@@ -591,7 +593,9 @@
                 heroContainer.appendChild(heroImg);
                 contentFragment.appendChild(heroContainer);
                 
-                // Create discography list wrapper - CRITICAL: This must be a direct child of contentFragment
+                // Create discography list wrapper
+                // CRITICAL: This must be a direct child of contentFragment because the layout
+                // logic expects a flat structure for consistent padding and spacing.
                 const discographyList = document.createElement('div');
                 discographyList.className = 'discography-list';
                 
@@ -667,6 +671,7 @@
                 const contentFragment = document.createDocumentFragment();
                 
                 // --- Optimized Header: Use the small release card component ---
+                // <div class="discography-list">
                 const headerWrapper = document.createElement('div');
                 headerWrapper.className = 'discography-list';
                 const headerCard = createMusicCard(release, false, true); // Pass true to disable title action
@@ -674,6 +679,7 @@
                 contentFragment.appendChild(headerWrapper);
 
                 // Text content container
+                // <div class="side-panel-text-content">
                 const textContent = document.createElement('div');
                 textContent.className = 'side-panel-text-content';
 
@@ -767,8 +773,10 @@
                 // Tab switching logic
                 tabs.forEach((tab, index) => {
                     tab.addEventListener('click', () => {
+                        // Deactivate all tabs and panes
                         tabs.forEach(t => t.classList.remove('active'));
                         panes.forEach(p => p.classList.remove('active'));
+                        // Activate the clicked tab and its corresponding pane
                         tab.classList.add('active');
                         panes[index].classList.add('active');
                     });
@@ -802,7 +810,9 @@
                 errorMessage: miniPlayer.querySelector('.player-error-message')
             };
             
-            // Flag to track if we're intentionally closing the player
+            // Flag to track if we're intentionally closing the player.
+            // This prevents the 'error' event from firing and showing a
+            // misleading error message when the audio source is removed during cleanup.
             let isClosingPlayer = false;
             
             const formatTime = (s) => `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
@@ -1024,6 +1034,7 @@
                     if (key === 'aboutBio') {
                         // Handle bio text with paragraph breaks
                         const paragraphs = translations.ui[key].split('\n\n');
+                        // Convert each paragraph to a sanitized HTML paragraph element
                         element.innerHTML = paragraphs.map(p => `<p>${sanitizeHTML(p)}</p>`).join('');
                     } else {
                         element.textContent = translations.ui[key];
