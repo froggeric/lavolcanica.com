@@ -15,7 +15,7 @@ export const uiTranslations = {
   navMap: "Mapa de Surf",
   navAbout: "Bio",
   navCollabs: "Colaboraciones",
-  heroTagline: "La Sonora Volcánica\nCumbia al filo de la navaja, historias en anfetaminas y sin frenos a la vista.",
+  heroTagline: "La Sonora Volcánica\n\nCumbia al filo de la navaja, historias en anfetaminas y sin frenos a la vista.",
   heroButton: "Explorar La Música",
   musicTitle: "Música",
   discographyBtn: "Ver Discografía Completa",
