@@ -1,6 +1,6 @@
 /**
  * @fileoverview Main application script for La Sonora Volcánica website.
- * @version 1.1.7
+ * @version 1.1.9
  * @description This script handles the entire frontend logic for the La Sonora Volcánica website,
  * AGGRESSIVE REFACTOR: Completely restructured Discography and Collaborator Info panels to match the working Release Info panel structure.
  * including dynamic content loading, UI interactions, audio playback, and internationalization.
@@ -214,9 +214,16 @@
                 overlay.appendChild(linksDiv);
                 card.appendChild(overlay);
             } else {
-                // For discography list - restore original compact layout
-                const infoDiv = document.createElement('div');
-                infoDiv.className = 'music-card-info';
+                // For discography list - new layout with streaming links in bottom right corner
+                card.appendChild(img);
+                
+                // Create a container for the text and links
+                const contentContainer = document.createElement('div');
+                contentContainer.className = 'music-card-content';
+                
+                // Create a container for the title
+                const titleContainer = document.createElement('div');
+                titleContainer.className = 'music-card-title-container';
                 
                 const title = document.createElement('h3');
                 title.className = 'music-card-title';
@@ -226,15 +233,11 @@
                     title.setAttribute('data-release-title', release.title);
                 }
                 
-                const year = document.createElement('p');
-                year.className = 'music-card-year';
-                year.textContent = release.year;
+                titleContainer.appendChild(title);
                 
-                infoDiv.appendChild(title);
-                infoDiv.appendChild(year);
-                
+                // Create streaming links container for bottom right corner
                 const linksDiv = document.createElement('div');
-                linksDiv.className = 'streaming-links';
+                linksDiv.className = 'streaming-links-bottom';
                 
                 // Create streaming links for all platforms (same as featured)
                 platforms.forEach(platform => {
@@ -255,9 +258,9 @@
                     }
                 });
                 
-                card.appendChild(img);
-                card.appendChild(infoDiv);
-                card.appendChild(linksDiv);
+                contentContainer.appendChild(titleContainer);
+                contentContainer.appendChild(linksDiv);
+                card.appendChild(contentContainer);
             }
             
             return card;

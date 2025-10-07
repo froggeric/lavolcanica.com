@@ -1,4 +1,4 @@
-/* --- Version: 1.1.7 --- */
+/* --- Version: 1.1.9 --- */
 /* --- La Sonora Volcánica Website Styles --- */
 /* --- Fixed: Tooltip truncation in overlay panels by correcting overflow and z-index stacking. --- */
 /* --- Fixed: Horizontal scrollbar in discography and collaborator panels. --- */
@@ -607,7 +607,7 @@ body.player-active .side-panel-content {
 .discography-list .music-card,
 .side-panel-content .music-card {
     display: flex;
-    align-items: center;
+    align-items: stretch; /* Changed from center to stretch */
     margin-bottom: 1.5rem;
     background-color: #222;
     border-radius: 8px;
@@ -624,6 +624,14 @@ body.player-active .side-panel-content {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     /* Prevent horizontal overflow */
     flex-wrap: nowrap;
+}
+
+/* Ensure the image maintains its size and doesn't get compressed */
+.discography-list .music-card img {
+    width: 100px; height: 100px; cursor: pointer;
+    flex-shrink: 0;
+    border-radius: 8px 0 0 8px;
+    object-fit: cover;
 }
 
 .discography-list .music-card:hover,
@@ -685,7 +693,118 @@ body.player-active .side-panel-content {
     object-fit: cover;
 }
 
-/* Standardized music card info styling */
+/* New layout for discography cards */
+.music-card-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    position: relative;
+    min-width: 0; /* Allow text truncation */
+    height: 100px; /* Match the image height to maintain card dimensions */
+}
+
+.music-card-title-container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    padding-right: 0.5rem;
+    min-height: 0; /* Allow flex child to shrink if needed */
+}
+
+.discography-list .music-card-title,
+.side-panel-content .music-card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--text-salt-crystal);
+    cursor: pointer;
+    transition: color 0.2s ease;
+    flex-grow: 1;
+}
+
+.streaming-links-bottom {
+   display: flex;
+   gap: 1rem;
+   padding: 0 1.5rem 1rem 0.5rem;
+   position: absolute;
+   bottom: 0;
+   right: 0;
+   z-index: 10; /* Ensure links are above other content */
+   /* Create a stacking context for tooltips */
+   transform: translateZ(0);
+   /* Prevent overflow */
+   min-width: 0;
+   flex-wrap: nowrap;
+   /* Ensure icons are properly sized */
+}
+
+.streaming-links-bottom .icon {
+   width: 24px;
+   height: 24px;
+   color: var(--text-salt-crystal);
+   transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.streaming-links-bottom a:hover .icon {
+   color: var(--accent-canary-teal);
+   transform: scale(1.1);
+}
+
+/* Ensure tooltips in the new streaming links container work properly */
+.streaming-links-bottom .tooltip::before,
+.streaming-links-bottom .tooltip::after {
+    z-index: 3001; /* Higher z-index for all panel tooltips */
+    /* Position tooltips above the links container */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    /* Ensure text is never truncated */
+    max-width: none;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: unset;
+}
+
+.streaming-links-bottom .tooltip::before {
+    content: '';
+    border: 5px solid transparent;
+    border-top-color: var(--accent-lava-glow);
+    bottom: 100%;
+    margin-bottom: 5px;
+}
+
+.streaming-links-bottom .tooltip::after {
+    content: attr(data-tooltip);
+    background-color: var(--accent-lava-glow);
+    color: var(--text-salt-crystal);
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    bottom: 100%;
+    margin-bottom: 15px;
+    /* Ensure text is never truncated */
+    max-width: none;
+    overflow: visible;
+    text-overflow: unset;
+}
+
+.streaming-links-bottom .tooltip:hover::before,
+.streaming-links-bottom .tooltip:hover::after {
+    opacity: 1;
+}
+
+/* Standardized music card info styling (for featured cards only) */
 .discography-list .music-card-info,
 .side-panel-content .music-card-info {
     text-align: left;
@@ -698,27 +817,7 @@ body.player-active .side-panel-content {
     box-sizing: border-box;
 }
 
-/* Standardized music card title styling */
-.discography-list .music-card-title,
-.side-panel-content .music-card-title {
-    font-size: 1.25rem;
-    margin-bottom: 0.25rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-family: var(--font-heading);
-    font-weight: 700;
-    color: var(--text-salt-crystal);
-    cursor: pointer;
-    transition: color 0.2s ease;
-}
-
-.discography-list .music-card-title:hover,
-.side-panel-content .music-card-title:hover {
-    color: var(--accent-lava-glow);
-}
-
-/* Standardized music card year styling */
+/* Standardized music card year styling (for featured cards only) */
 .discography-list .music-card-year,
 .side-panel-content .music-card-year {
     margin-bottom: 0;
