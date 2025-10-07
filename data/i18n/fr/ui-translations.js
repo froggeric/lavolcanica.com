@@ -15,7 +15,7 @@ export const uiTranslations = {
   navMap: "Carte de Surf",
   navAbout: "À Propos",
   navCollabs: "Collaborations",
-  heroTagline: "La Sonora Volcánica\n\nUne cumbia sur le fil du rasoir, des histoires sous amphétamines, et pas de freins en vue.",
+  heroTagline: "La Sonora Volcánica\n\nGroove incandescent, paroles sans muselière, et le tout à tombeau ouvert.",
   heroButton: "Explorer La Musique",
   musicTitle: "Musique",
   discographyBtn: "Voir la Discographie",
