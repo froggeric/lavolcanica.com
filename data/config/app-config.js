@@ -20,6 +20,7 @@
  * @property {string} performance.imageLoadingStrategy - Image loading strategy ("lazy" or "eager").
  */
 export const appConfig = {
+  version: "1.3.0",
   defaultLanguage: "en",
   supportedLanguages: ["en", "es", "fr"],
   featuredReleaseCount: 2,

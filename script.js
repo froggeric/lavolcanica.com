@@ -1,6 +1,6 @@
 /**
  * @fileoverview Main application script for La Sonora Volcánica website.
- * @version 1.2.1
+ * @version 1.3.0
  * @description This script handles the entire frontend logic for the La Sonora Volcánica website,
  * AGGRESSIVE REFACTOR: Completely restructured Discography and Collaborator Info panels to match the working Release Info panel structure.
  * including dynamic content loading, UI interactions, audio playback, and internationalization.
@@ -597,16 +597,28 @@
                 const discographyList = document.createElement('div');
                 discographyList.className = 'discography-list';
                 
-                // Get all songs for this collaborator and create music cards for each
+                // Get all releases for this collaborator and create music cards for each
                 let hasSongs = false;
-                collab.songIds.forEach(songId => {
-                    const song = dataLoader.getCollaboratorSong(songId);
-                    if (song) {
-                        hasSongs = true;
-                        const songCard = createMusicCard(song, false);
-                        discographyList.appendChild(songCard);
-                    }
-                });
+                if (collab.releaseIds) {
+                    collab.releaseIds.forEach(releaseId => {
+                        const release = dataLoader.getRelease(releaseId);
+                        if (release) {
+                            hasSongs = true;
+                            const songCard = createMusicCard(release, false);
+                            discographyList.appendChild(songCard);
+                        }
+                    });
+                } else if (collab.songIds) {
+                    // Fallback to deprecated songIds for backward compatibility
+                    collab.songIds.forEach(songId => {
+                        const song = dataLoader.getCollaboratorSong(songId);
+                        if (song) {
+                            hasSongs = true;
+                            const songCard = createMusicCard(song, false);
+                            discographyList.appendChild(songCard);
+                        }
+                    });
+                }
                 
                 // Only add the discography list if we have songs
                 if (hasSongs) {
@@ -933,22 +945,11 @@
                 const musicCard = actionTarget.closest('.music-card');
                 if (musicCard) {
                     const imgSrc = musicCard.querySelector('img').getAttribute('src');
-                    // Check if the clicked song belongs to a release or a collaborator
+                    // Check if the clicked song belongs to a release (unified approach)
                     const release = dataLoader.releases.find(r => r.coverArt === imgSrc);
                     
                     if(release && window.loadTrack) {
                         window.loadTrack(release);
-                    } else {
-                        // Check collaborator songs
-                        for (const collab of dataLoader.collaborators) {
-                            for (const songId of collab.songIds) {
-                                const song = dataLoader.getCollaboratorSong(songId);
-                                if (song && song.coverArt === imgSrc && window.loadTrack) {
-                                    window.loadTrack(song);
-                                    return;
-                                }
-                            }
-                        }
                     }
                 }
             } else if (action === 'open-collab-panel') {

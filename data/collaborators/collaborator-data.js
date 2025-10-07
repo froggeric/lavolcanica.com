@@ -12,7 +12,11 @@
  * @property {string} link - Link to collaborator's external page (website, social media, etc.).
  * @property {Object} contentIds - IDs for related content in other data modules.
  * @property {string} contentIds.bio - ID for the bio content in collaborator-bios.js.
- * @property {string[]} songIds - Array of song IDs contributed by this collaborator (references in collaborator-songs.js).
+ * @property {string[]} releaseIds - Array of release IDs contributed by this collaborator.
+ * @property {string[]} songIds - Array of song IDs contributed by this collaborator (deprecated, use releaseIds instead).
+ * @property {Object} role - Structured role information with primary and secondary roles.
+ * @property {string} role.primary - Primary role of the collaborator.
+ * @property {string[]} role.secondary - Secondary roles of the collaborator.
  * @property {string[]} tags - Tags for filtering and searching (e.g., origin, genre, role).
  */
 
@@ -31,7 +35,12 @@ export const collaboratorData = [
     contentIds: {
       bio: "cututo-bio"
     },
-    songIds: ["tendido-cero-sentido"],
+    releaseIds: ["tendido-cero-sentido"],
+    songIds: ["tendido-cero-sentido"], // DEPRECATED: Keep for backward compatibility
+    role: {
+      primary: "featured-artist",
+      secondary: ["songwriter", "vocalist"]
+    },
     tags: ["peru", "bolero", "queer", "featured"]
   },
   {
@@ -42,7 +51,12 @@ export const collaboratorData = [
     contentIds: {
       bio: "piero-bio"
     },
-    songIds: ["tendido-cero-sentido"],
+    releaseIds: ["tendido-cero-sentido"],
+    songIds: ["tendido-cero-sentido"], // DEPRECATED: Keep for backward compatibility
+    role: {
+      primary: "songwriter",
+      secondary: ["conceptual-artist"]
+    },
     tags: ["tattoo", "painter", "featured"]
   }
 ];

@@ -18,6 +18,8 @@
  * @property {string} links.apple - Apple Music link URL.
  * @property {string} links.youtube - YouTube link URL.
  * @property {string} links.bandcamp - Bandcamp link URL.
+ * @property {string[]} collaboratorIds - Array of collaborator IDs who contributed to this release.
+ * @property {string} collaborationType - Type of collaboration (featured, co-written, produced, etc.).
  * @property {Object} contentIds - IDs for related content in other data modules.
  * @property {string} contentIds.story - ID for the story content in release-stories.js.
  * @property {string} contentIds.lyrics - ID for the lyrics content in release-lyrics.js.
@@ -47,6 +49,7 @@ export const releaseData = [
       youtube: "#",
       bandcamp: "https://lasonoravolcanica.bandcamp.com/track/cumbia-del-barrio"
     },
+    collaboratorIds: [],
     contentIds: {
       story: "cumbia-del-barrio-story",
       lyrics: "cumbia-del-barrio-lyrics",
@@ -69,6 +72,7 @@ export const releaseData = [
       youtube: "https://youtu.be/0qwddtff0iQ?si=BdvSkA0Hr7ACD8n_",
       bandcamp: "https://lasonoravolcanica.bandcamp.com/track/sol-sol"
     },
+    collaboratorIds: [],
     contentIds: {
       story: "sol-sol-story",
       lyrics: "sol-sol-lyrics",
@@ -91,6 +95,7 @@ export const releaseData = [
       youtube: "#",
       bandcamp: "#"
     },
+    collaboratorIds: [],
     contentIds: {
       story: "tindaya-story",
       lyrics: "tindaya-lyrics",
@@ -113,6 +118,7 @@ export const releaseData = [
       youtube: "#",
       bandcamp: "#"
     },
+    collaboratorIds: [],
     contentIds: {
       story: "secreto-del-sur-story",
       lyrics: "secreto-del-sur-lyrics",
@@ -135,6 +141,7 @@ export const releaseData = [
       youtube: "#",
       bandcamp: "#"
     },
+    collaboratorIds: [],
     contentIds: {
       story: "costa-del-norte-story",
       lyrics: "costa-del-norte-lyrics",
@@ -157,6 +164,7 @@ export const releaseData = [
       youtube: "#",
       bandcamp: "#"
     },
+    collaboratorIds: [],
     contentIds: {
       story: "surf-fuerteventura-story",
       lyrics: "surf-fuerteventura-lyrics",
@@ -179,12 +187,14 @@ export const releaseData = [
       youtube: "https://youtu.be/abcdefghijklmnop",
       bandcamp: "https://lasonoravolcanica.bandcamp.com/track/tendido-cero-sentido"
     },
+    collaboratorIds: ["cututo", "piero"],
+    collaborationType: "featured",
     contentIds: {
       story: "tendido-cero-sentido-story",
       lyrics: "tendido-cero-sentido-lyrics",
       gallery: "tendido-cero-sentido-gallery"
     },
     visibleSections: ["story", "lyrics","gallery"],
-    tags: ["single", "2025", "collaboration"]
+    tags: ["single", "2025", "collaboration", "bolero", "queer"]
   }
 ];

@@ -86,9 +86,55 @@ const getFeaturedReleases = () => {
  * Get collaborator song with full data
  * @param {string} songId - ID of the song
  * @returns {Object|null} - Song object or null if not found
+ * @deprecated Use getRelease instead for unified data access
  */
 const getCollaboratorSong = (songId) => {
-  return collaboratorSongs[songId] || null;
+  console.warn('getCollaboratorSong is deprecated. Use getRelease instead.');
+  return releaseData.find(release => release.id === songId) || null;
+};
+
+/**
+ * Get releases by collaborator ID
+ * @param {string} collaboratorId - ID of the collaborator
+ * @returns {Array} - Array of releases featuring this collaborator
+ */
+const getReleasesByCollaborator = (collaboratorId) => {
+  return releaseData.filter(release =>
+    release.collaboratorIds && release.collaboratorIds.includes(collaboratorId)
+  );
+};
+
+/**
+ * Get collaborators by release ID
+ * @param {string} releaseId - ID of the release
+ * @returns {Array} - Array of collaborators who contributed to this release
+ */
+const getCollaboratorsByRelease = (releaseId) => {
+  const release = releaseData.find(r => r.id === releaseId);
+  if (!release || !release.collaboratorIds) return [];
+  
+  return release.collaboratorIds.map(collabId =>
+    collaboratorData.find(collab => collab.id === collabId)
+  ).filter(Boolean);
+};
+
+/**
+ * Get collaboration releases (releases with collaborators)
+ * @returns {Array} - Array of releases that have collaborators
+ */
+const getCollaborationReleases = () => {
+  return releaseData.filter(release =>
+    release.collaboratorIds && release.collaboratorIds.length > 0
+  );
+};
+
+/**
+ * Unified release getter
+ * @param {string} releaseId - ID of the release
+ * @returns {Object|null} - Release object or null if not found
+ */
+const getRelease = (releaseId) => {
+  return releaseData.find(release => release.id === releaseId) || null;
 };
 
 /**
@@ -118,7 +164,7 @@ export const dataLoader = {
   releases: releaseData,
   featuredReleases,
   collaborators: collaboratorData,
-  collaboratorSongs,
+  collaboratorSongs, // DEPRECATED: Keep for backward compatibility
   content: {
     stories: releaseStories,
     lyrics: releaseLyrics,
@@ -131,7 +177,12 @@ export const dataLoader = {
   loadTranslations,
   resolveContent,
   getFeaturedReleases,
-  getCollaboratorSong,
+  getCollaboratorSong, // DEPRECATED: Keep for backward compatibility
   getReleasesByTag,
-  getCollaboratorsByTag
+  getCollaboratorsByTag,
+  // NEW functions
+  getReleasesByCollaborator,
+  getCollaboratorsByRelease,
+  getCollaborationReleases,
+  getRelease
 };
