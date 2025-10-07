@@ -1,4 +1,4 @@
-/* --- Version: 1.1.9 --- */
+/* --- Version: 1.2.1 --- */
 /* --- La Sonora Volcánica Website Styles --- */
 /* --- Fixed: Tooltip truncation in overlay panels by correcting overflow and z-index stacking. --- */
 /* --- Fixed: Horizontal scrollbar in discography and collaborator panels. --- */
@@ -727,20 +727,25 @@ body.player-active .side-panel-content {
     flex-grow: 1;
 }
 
+.discography-list .music-card-title:hover,
+.side-panel-content .music-card-title:hover {
+    color: var(--accent-lava-glow);
+}
+
 .streaming-links-bottom {
-   display: flex;
-   gap: 1rem;
-   padding: 0 1.5rem 1rem 0.5rem;
-   position: absolute;
-   bottom: 0;
-   right: 0;
-   z-index: 10; /* Ensure links are above other content */
-   /* Create a stacking context for tooltips */
-   transform: translateZ(0);
-   /* Prevent overflow */
-   min-width: 0;
-   flex-wrap: nowrap;
-   /* Ensure icons are properly sized */
+    display: flex;
+    gap: 1rem;
+    padding: 0 1.5rem 0rem 0.5rem; /* No bottom padding to move icons to the very bottom edge */
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 10; /* Ensure links are above other content */
+    /* Create a stacking context for tooltips */
+    transform: translateZ(0);
+    /* Prevent overflow */
+    min-width: 0;
+    flex-wrap: nowrap;
+    /* Ensure icons are properly sized */
 }
 
 .streaming-links-bottom .icon {

@@ -1,6 +1,6 @@
 /**
  * @fileoverview Main application script for La Sonora Volcánica website.
- * @version 1.1.9
+ * @version 1.2.1
  * @description This script handles the entire frontend logic for the La Sonora Volcánica website,
  * AGGRESSIVE REFACTOR: Completely restructured Discography and Collaborator Info panels to match the working Release Info panel structure.
  * including dynamic content loading, UI interactions, audio playback, and internationalization.
