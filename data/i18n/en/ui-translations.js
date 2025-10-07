@@ -17,7 +17,7 @@ export const uiTranslations = {
   navMap: "Surf Map",
   navAbout: "About",
   navCollabs: "Collaborations",
-  heroTagline: "La Sonora Volcánica—cumbia on the edge, stories on the loose, and no brakes in sight.",
+  heroTagline: "La Sonora Volcánica\nCumbia on the edge, storytelling on speed, and no brakes in sight.",
   heroButton: "Explore The Music",
   musicTitle: "Music",
   discographyBtn: "View Full Discography",
