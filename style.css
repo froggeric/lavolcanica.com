@@ -307,6 +307,7 @@ ul {
 .hero-content { max-width: 800px; }
 .hero-logo { max-width: 200px; width: 100%; margin-bottom: 2rem; }
 .hero-tagline {
+    white-space: pre-wrap;
     font-family: var(--font-heading); font-weight: 700;
     font-size: clamp(1.75rem, 5vw, 2.75rem); /* Responsive font size */
     line-height: 1.2;
