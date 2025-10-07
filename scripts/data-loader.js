@@ -7,12 +7,12 @@
 import { releaseData } from '../data/releases/release-data.js';
 import { featuredReleases } from '../data/releases/featured-releases.js';
 import { collaboratorData } from '../data/collaborators/collaborator-data.js';
-import { collaboratorSongs } from '../data/collaborators/collaborator-songs.js';
 import { releaseStories } from '../data/content/release-stories.js';
 import { releaseLyrics } from '../data/content/release-lyrics.js';
 import { collaboratorBios } from '../data/content/collaborator-bios.js';
 import { appConfig } from '../data/config/app-config.js';
 import { platformConfig } from '../data/config/platform-config.js';
+import { artistLinks } from '../data/config/artist-data.js';
 
 /**
  * Dynamic imports for multilingual content
@@ -82,16 +82,6 @@ const getFeaturedReleases = () => {
   ).filter(Boolean);
 };
 
-/**
- * Get collaborator song with full data
- * @param {string} songId - ID of the song
- * @returns {Object|null} - Song object or null if not found
- * @deprecated Use getRelease instead for unified data access
- */
-const getCollaboratorSong = (songId) => {
-  console.warn('getCollaboratorSong is deprecated. Use getRelease instead.');
-  return releaseData.find(release => release.id === songId) || null;
-};
 
 /**
  * Get releases by collaborator ID
@@ -164,7 +154,6 @@ export const dataLoader = {
   releases: releaseData,
   featuredReleases,
   collaborators: collaboratorData,
-  collaboratorSongs, // DEPRECATED: Keep for backward compatibility
   content: {
     stories: releaseStories,
     lyrics: releaseLyrics,
@@ -174,10 +163,12 @@ export const dataLoader = {
     app: appConfig,
     platforms: platformConfig
   },
+  artist: {
+    links: artistLinks
+  },
   loadTranslations,
   resolveContent,
   getFeaturedReleases,
-  getCollaboratorSong, // DEPRECATED: Keep for backward compatibility
   getReleasesByTag,
   getCollaboratorsByTag,
   // NEW functions

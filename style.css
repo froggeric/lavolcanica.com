@@ -1,15 +1,5 @@
-/* --- Version: 1.2.1 --- */
+/* --- Version: 1.3.3 --- */
 /* --- La Sonora Volcánica Website Styles --- */
-/* --- Fixed: Tooltip truncation in overlay panels by correcting overflow and z-index stacking. --- */
-/* --- Fixed: Horizontal scrollbar in discography and collaborator panels. --- */
-/* --- Enhanced: Standardized release-card component layout for visual consistency across all panels. --- */
-/* --- AGGRESSIVE REFACTOR: Completely restructured Discography and Collaborator Info panels to match the working Release Info panel structure. --- */
-
-/* --- Version: 1.1.2 --- */
-/* --- Fixed: Vertical scrolling in overlay panels (discography, release info, collaborator info) --- */
-
-/* --- Version: 1.1.1 --- */
-/* --- Fixed: Vertical scrolling in overlay panels (discography, release info, collaborator info) --- */
 
 /* Google Fonts Import */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');

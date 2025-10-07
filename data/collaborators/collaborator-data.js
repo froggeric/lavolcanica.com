@@ -13,7 +13,6 @@
  * @property {Object} contentIds - IDs for related content in other data modules.
  * @property {string} contentIds.bio - ID for the bio content in collaborator-bios.js.
  * @property {string[]} releaseIds - Array of release IDs contributed by this collaborator.
- * @property {string[]} songIds - Array of song IDs contributed by this collaborator (deprecated, use releaseIds instead).
  * @property {Object} role - Structured role information with primary and secondary roles.
  * @property {string} role.primary - Primary role of the collaborator.
  * @property {string[]} role.secondary - Secondary roles of the collaborator.
@@ -36,7 +35,6 @@ export const collaboratorData = [
       bio: "cututo-bio"
     },
     releaseIds: ["tendido-cero-sentido"],
-    songIds: ["tendido-cero-sentido"], // DEPRECATED: Keep for backward compatibility
     role: {
       primary: "featured-artist",
       secondary: ["songwriter", "vocalist"]
@@ -52,7 +50,6 @@ export const collaboratorData = [
       bio: "piero-bio"
     },
     releaseIds: ["tendido-cero-sentido"],
-    songIds: ["tendido-cero-sentido"], // DEPRECATED: Keep for backward compatibility
     role: {
       primary: "songwriter",
       secondary: ["conceptual-artist"]

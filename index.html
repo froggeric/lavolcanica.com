@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Version: 1.2.1 -->
+    <!-- Version: 1.3.3 -->
     <!-- La Sonora Volcánica Website main page -->
     <!-- (Don't forget to update the version number in the footer) -->
 
@@ -167,24 +167,10 @@
     <!-- Footer: Contains social/streaming links and copyright info -->
     <footer class="main-footer">
         <div class="footer-content">
-            <div class="footer-links">
-                <a href="#" target="_blank" rel="noopener noreferrer" class="tooltip" data-tooltip="Spotify" aria-label="Listen on Spotify">
-                    <svg class="icon"><use href="#icon-spotify"></use></svg>
-                </a>
-                <a href="#" target="_blank" rel="noopener noreferrer" class="tooltip" data-tooltip="Apple Music" aria-label="Listen on Apple Music">
-                    <svg class="icon"><use href="#icon-apple-music"></use></svg>
-                </a>
-                <a href="#" target="_blank" rel="noopener noreferrer" class="tooltip" data-tooltip="YouTube" aria-label="Watch on YouTube">
-                    <svg class="icon"><use href="#icon-youtube"></use></svg>
-                </a>
-                <a href="#" target="_blank" rel="noopener noreferrer" class="tooltip" data-tooltip="Download / Buy" aria-label="Download or Buy on Bandcamp">
-                    <svg class="icon"><use href="#icon-cart"></use></svg>
-                </a>
-                <a href="mailto:frederic@guigand.com" class="tooltip" data-tooltip="Contact" aria-label="Send an email">
-                    <svg class="icon"><use href="#icon-envelope"></use></svg>
-                </a>
+            <div class="footer-links" id="footer-links">
+                <!-- Artist links will be dynamically injected here by JavaScript -->
             </div>
-            <p class="copyright">&copy; 2025 Frédéric Guigand. All Rights Reserved.<span class="version">v1.2.1</span></p>
+            <p class="copyright">&copy; 2025 Frédéric Guigand. All Rights Reserved.<span class="version" id="app-version">v1.3.3</span></p>
         </div>
     </footer>
 

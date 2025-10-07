@@ -1,9 +1,7 @@
 /**
  * @fileoverview Main application script for La Sonora Volcánica website.
- * @version 1.3.0
+ * @version 1.3.3
  * @description This script handles the entire frontend logic for the La Sonora Volcánica website,
- * AGGRESSIVE REFACTOR: Completely restructured Discography and Collaborator Info panels to match the working Release Info panel structure.
- * including dynamic content loading, UI interactions, audio playback, and internationalization.
  * The application follows a modular architecture where all content is loaded from external
  * data modules located in the `/data` directory.
  *
@@ -17,7 +15,7 @@
  * - Performance optimizations (lazy loading, debouncing, intersection observers)
  *
  * @author Frédéric Guigand
- * @since 2024
+ * @since 2025
  */
 
 // IIFE (Immediately Invoked Function Expression) to create a private scope
@@ -608,16 +606,6 @@
                             discographyList.appendChild(songCard);
                         }
                     });
-                } else if (collab.songIds) {
-                    // Fallback to deprecated songIds for backward compatibility
-                    collab.songIds.forEach(songId => {
-                        const song = dataLoader.getCollaboratorSong(songId);
-                        if (song) {
-                            hasSongs = true;
-                            const songCard = createMusicCard(song, false);
-                            discographyList.appendChild(songCard);
-                        }
-                    });
                 }
                 
                 // Only add the discography list if we have songs
@@ -1114,11 +1102,51 @@
             heroObserver.observe(heroSection);
         }
 
+        /**
+         * Populates the footer with artist links from the centralized data.
+         */
+        function populateFooterLinks() {
+            const footerLinksContainer = document.getElementById('footer-links');
+            if (!footerLinksContainer) return;
+            
+            const fragment = document.createDocumentFragment();
+            
+            dataLoader.artist.links.forEach(link => {
+                const linkElement = document.createElement('a');
+                linkElement.href = link.url;
+                linkElement.target = '_blank';
+                linkElement.rel = 'noopener noreferrer';
+                linkElement.className = 'tooltip';
+                linkElement.setAttribute('data-tooltip', link.tooltip);
+                linkElement.setAttribute('aria-label', link.ariaLabel);
+                
+                // Create SVG icon
+                const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svg.classList.add('icon');
+                const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+                use.setAttribute('href', `#${link.icon}`);
+                svg.appendChild(use);
+                
+                linkElement.appendChild(svg);
+                fragment.appendChild(linkElement);
+            });
+            
+            footerLinksContainer.innerHTML = '';
+            footerLinksContainer.appendChild(fragment);
+        }
+
         // ==================== INITIAL SETUP ====================
         // Run all population functions and set the initial language.
         populateFeaturedGrid();
         populateCollabsGrid();
         updateContent(currentLang);
+        populateFooterLinks();
+        
+        // Display application version from centralized config
+        const versionElement = document.getElementById('app-version');
+        if (versionElement) {
+            versionElement.textContent = `v${dataLoader.config.app.version}`;
+        }
         
         // ==================== PANEL TESTING ====================
         // Test function to verify panels work correctly after refactor
