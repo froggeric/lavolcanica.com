@@ -1,23 +1,31 @@
-## **La Sonora Volcánica: Website Design & Development Guide**
+# La Sonora Volcánica: Website Design & Development Guide
 
 **Project:** Official Website for the music artist "La Sonora Volcánica"
-**Version:** 1.0 (Completion of core sections)
+**Version:** 2.0
 **Stack:** Vanilla HTML, CSS, and JavaScript (No libraries or frameworks)
 
-### **1. Core Philosophy & Design System**
+## 1. Design Philosophy
 
-This section outlines the foundational creative and visual principles that govern the entire website. Adhering to these principles is key to maintaining a cohesive and impactful user experience.
+### 1.1. Core Project Vision
 
-#### **1.1. Core Concept: "Tropical Noir"**
+The website aims to be an immersive, content-rich experience for fans of La Sonora Volcánica. It serves as the official digital presence for the artist, showcasing their music, stories, and collaborations. The design should be modern, dynamic, and easily updatable.
 
-The entire aesthetic is built on this concept. It's a fusion of opposites, reflecting the artist's music:
+### 1.2. Target Audience Analysis
 
-*   **Tropical:** Vibrant, energetic, natural, referencing Latin American culture, cumbia, and the Canary Islands.
-*   **Noir:** Moody, atmospheric, dark, mysterious, and cinematic, referencing the "volcanic" energy and the soulful depth of genres like bolero and tango.
+The target audience includes fans of cumbia, Latin music, surf rock, and chicha. The design should appeal to a wide range of users, from casual listeners to dedicated fans.
 
-Practically, this translates to a dark-themed UI where vibrant accent colors and high-quality imagery can truly stand out.
+### 1.3. Foundational Design Principles
 
-#### **1.2. Color Palette**
+The entire aesthetic is built on the concept of "Tropical Noir," a fusion of opposites that reflects the artist's music:
+
+- **Tropical:** Vibrant, energetic, natural, referencing Latin American culture, cumbia, and the Canary Islands.
+- **Noir:** Moody, atmospheric, dark, mysterious, and cinematic, referencing the "volcanic" energy and the soulful depth of genres like bolero and tango.
+
+This translates to a dark-themed UI where vibrant accent colors and high-quality imagery can truly stand out.
+
+## 2. Aesthetic Framework
+
+### 2.1. Color Palette
 
 The palette is defined as CSS variables in the `:root` of `style.css` for easy maintenance.
 
@@ -28,105 +36,64 @@ The palette is defined as CSS variables in the `:root` of `style.css` for easy m
 | Lava Glow | `--accent-lava-glow` | `#FF4D4D` | Primary CTAs, active states, highlights. |
 | Canary Teal | `--accent-canary-teal`| `#00C2A8` | Secondary highlights, icon hover states. |
 
-#### **1.3. Typography**
+### 2.2. Typography
 
 Fonts are sourced from Google Fonts and are declared in `style.css`.
 
-*   **Headings:** **Montserrat** (Weights: 700, 900)
-    *   **Rationale:** Modern, strong, geometric. Provides a powerful and clean presence for titles and headlines. Excellent multilingual support.
-    *   **Variable:** `--font-heading`
+- **Headings:** **Montserrat** (Weights: 700, 900)
+- **Body Text:** **Roboto** (Weight: 400)
 
-*   **Body Text:** **Roboto** (Weight: 400)
-    *   **Rationale:** Extremely legible and clean, ensuring a comfortable reading experience for longer bios. Pairs perfectly with Montserrat.
-    *   **Variable:** `--font-body`
+### 2.3. Iconography
 
-#### **1.4. Iconography**
+A single, efficient SVG sprite is defined at the top of `index.html`. Icons are used throughout the site with the `<svg class="icon"><use href="#icon-id"></use></svg>` syntax.
 
-*   **System:** A single, efficient SVG sprite is defined at the top of `index.html`. Icons are used throughout the site with the `<svg class="icon"><use href="#icon-id"></use></svg>` syntax.
-*   **Sources:** New icons should be sourced from reliable providers like [Bootstrap Icons](https://icons.getbootstrap.com) or [SVG Repo](https://www.svgrepo.com/) to maintain quality.
-*   **Adding a New Icon:**
-    1.  Get the SVG code for the new icon.
-    2.  Create a new `<symbol>` element within the main `<svg>` block in `index.html`.
-    3.  Give it a unique `id` (e.g., `id="icon-new-icon"`).
-    4.  Paste the SVG's `path` data inside the `<symbol>`.
-    5.  It can now be used anywhere with `<use href="#icon-new-icon">`.
+## 3. User Experience (UX) Strategy
 
----
+### 3.1. User Interface (UI) Patterns
 
-### **2. Website Architecture & Layout**
+The application employs a component-based architecture and a data-driven, declarative rendering pattern. This approach mimics the core principles of modern front-end frameworks like React or Vue, but without the associated overhead.
 
-The site is designed as a dynamic, single-page application that feels both immersive and easy to navigate.
+### 3.2. Information Architecture and Navigation
 
-#### **2.1. Overall Approach**
+The site is designed as a dynamic, single-page application that feels both immersive and easy to navigate. The main navigation includes links to Music, Surf Map, About, and Collaborations.
 
-*   **Mobile-First:** All styles in `style.css` are written for mobile by default and then enhanced for larger screens via a `@media (min-width: 768px)` query at the bottom. **All new development must follow this pattern.**
-*   **File Structure:** The project is self-contained in a single folder.
-    ```
-    project-folder/
-    ├── audio/
-    │   └── song.mp3
-    ├── images/
-    │   └── picture.jpg
-    ├── index.html
-    ├── script.js
-    └── style.css
-    ```
+## 4. Component Library
 
-#### **2.2. Component Breakdown**
+- **Header:** A "sticky" header that is always visible.
+- **Hero Section:** A full-viewport introduction featuring the main logo, a tagline, and a CTA.
+- **Music Section:** A grid of "featured" releases.
+- **About Section:** A two-column layout on desktop featuring an artist photo and the main biography.
+- **Collaborations Section:** A grid of circular portraits for each collaborator.
+- **Footer:** Contains global links to streaming platforms and social media.
+- **Mini Audio Player:** A persistent player that appears at the bottom of the screen when a track is played.
+- **Side Panel:** A single, reusable component that slides in from the right.
 
-*   **Header:** A "sticky" header that is always visible. It contains the logo, main navigation, and language switcher. On mobile, the navigation collapses into a full-screen overlay menu triggered by the hamburger icon.
-*   **Hero Section:** A full-viewport introduction featuring the main logo, a tagline, and a CTA, set against an atmospheric, slow-zooming background image.
-*   **Music Section:** A grid of "featured" releases. Hovering reveals streaming links. A CTA button opens a side panel with the full discography.
-*   **About Section:** A two-column layout on desktop (stacking on mobile) featuring an artist photo and the main biography. The title is centered above this grid for consistency.
-*   **Collaborations Section:** A grid of circular portraits for each collaborator. Clicking a card opens the same side panel, dynamically populated with that artist's details.
-*   **Footer:** Contains global links to streaming platforms and social media, an email contact, and copyright info. All icons feature CSS-based tooltips for clarity.
-*   **Mini Audio Player:** A persistent player that appears at the bottom of the screen when a track is played. It remains visible and functional while the user scrolls or opens the side panel.
-*   **Side Panel:** A single, reusable component that slides in from the right. It is used to display both the "Full Discography" and the "Collaborator Details," with its content being dynamically generated by JavaScript.
+## 5. Responsive Design
 
----
+A **mobile-first** approach is strictly enforced. All styles in `style.css` are written for mobile by default and then enhanced for larger screens via a `@media (min-width: 768px)` query at the bottom.
 
-### **3. Technical Implementation & Maintenance Guide**
+## 6. Performance Optimization
 
-The site is built to be easily updated without deep coding knowledge. All dynamic content is managed from data arrays in `script.js`.
+- **Image Lazy Loading:** Implemented for off-screen images to improve initial page load time.
+- **Image Optimization:** All `.jpg` and `.png` files are compressed for the web.
+- **Debouncing:** Used for the `timeupdate` event on the audio player to limit the frequency of DOM updates.
+- **Intersection Observer:** Pauses the CPU-intensive CSS animation on the hero background when the hero section is not in the viewport.
 
-#### **3.1. JavaScript: The "Single Source of Truth"**
+## 7. Accessibility (a11y)
 
-The entire script is wrapped in an IIFE `(function() { ... })();` to prevent polluting the global namespace. All user-editable content is located in data arrays at the top of the file.
+- **Skip Link:** A "Skip to main content" link is provided for keyboard users.
+- **ARIA Roles & Attributes:** Used extensively to communicate the state and function of UI elements to assistive technologies.
+- **Focus Management:** A JavaScript-based focus trap is implemented for the side panel.
 
-*   **To Add a New Release:**
-    1.  Open `script.js`.
-    2.  In the `releases` array, add a new JavaScript object to the beginning of the array.
-    3.  Fill in the `title`, `year`, `coverArt` path, `audioSrc` path, and all the `links`.
-    4.  Set `featured: true` if you want it to appear on the main homepage grid.
+## 8. Content Maintenance
 
-*   **To Add a New Collaborator:**
-    1.  Open `script.js`.
-    2.  In the `collaborators` array, add a new object to the end of the array.
-    3.  Fill in all the required fields: `id` (a unique lowercase name), `name`, `photoSrc`, `link`, and the full `song` object. The `song` object should mirror the structure of a release object.
-    4.  Fill in the `bio` object with the text for all three languages (`en`, `es`, `fr`). Use `\n\n` to create paragraph breaks.
-    5.  The website will automatically create the card and the side panel functionality.
+All dynamic content is managed from data arrays in the `/data` directory. To add or update content, you should only need to modify files within this directory.
 
-#### **3.2. Multilingual System**
+## 9. Development Roadmap
 
-*   **Mechanism:** Text elements in the HTML have a `data-key` attribute (e.g., `<h2 data-key="musicTitle">`). The `translations` object in `script.js` contains a dictionary for each language. The `updateContent()` function finds all `data-key` elements and replaces their text with the corresponding string from the active language's dictionary.
-*   **To Add a New Translatable String:**
-    1.  In `index.html`, add the `data-key="newKeyName"` to your element and leave it empty.
-    2.  In `script.js`, inside the `translations` object, add the key-value pair (`newKeyName: "Translated Text"`) to each of the `en`, `es`, and `fr` language objects.
+- **The Fuerteventura Surf Map:** The next major planned feature.
+- **"Behind the Music" Content:** Extend the `releases` data object to include a `story` property.
 
----
+## 10. Brand Identity
 
-### **4. Future Plans & Possible Extensions**
-
-This site provides a solid foundation. Here are the logical next steps and potential future features:
-
-1.  **The Fuerteventura Surf Map:**
-    *   This is the next major planned feature.
-    *   **Recommended Approach:** Create a custom, stylized SVG map of the island (not a Google Maps embed) for brand consistency. Make specific surf spots (`<path>` or `<circle>` elements within the SVG) interactive. Clicking a spot could open the side panel, populated with details about the surf spot and a link to its dedicated track in the mini-player.
-
-2.  **"Behind the Music" Content:**
-    *   The `releases` data object could be extended to include a `story` property.
-    *   A "Read More" button could be added to the discography list items, which would open the side panel to display the album art, lyrics, and the story behind the song or album.
-
-3.  **Performance Optimization:**
-    *   **Image Lazy Loading:** For pages with many images, implement lazy loading for album covers and photos that are off-screen to improve initial page load time. This can be done with vanilla JavaScript and the Intersection Observer API.
-    *   **Image Optimization:** Ensure all `.jpg` and `.png` files are compressed for the web to reduce their file size without significant quality loss.
+The brand identity is built around the "Tropical Noir" concept, with a dark, moody aesthetic punctuated by vibrant accent colors. The logo and typography choices reflect this fusion of opposites.

@@ -2,152 +2,131 @@
 
 Welcome to the La Sonora Volcánica project! This guide is designed to help you understand the new modular architecture and how to add new content to the application. The primary goal of this refactoring is to separate the core application logic from the content, making it easier to manage and extend.
 
-## Project Structure
+## 1. Technology Stack
+
+The application is intentionally built with a "vanilla" technology stack, prioritizing performance, longevity, and minimal dependencies.
+
+- **HTML5:** Serves as the structural foundation.
+- **CSS3:** Provides all styling, responsive design, and animations.
+- **JavaScript (ES6+):** Manages all application state, dynamic content rendering, user interactions, and audio playback.
+
+## 2. Project Structure
 
 The core of the new architecture is the `/data` directory. All application content, from music releases to language translations, is stored in this directory as JavaScript modules.
 
 ```
-/data
-├── collaborators/
-│   ├── collaborator-data.js
-│   └── collaborator-songs.js
-├── config/
-│   ├── app-config.js
-│   └── platform-config.js
-├── content/
-│   ├── collaborator-bios.js
-│   ├── release-lyrics.js
-│   └── release-stories.js
-├── i18n/
-│   ├── en/
-│   │   └── ui-translations.js
-│   ├── es/
-│   │   └── ui-translations.js
-│   └── fr/
-│       └── ui-translations.js
-└── releases/
-    ├── featured-releases.js
-    └── release-data.js
+/
+├── audio/
+├── data/
+│   ├── collaborators/
+│   ├── config/
+│   ├── content/
+│   ├── i18n/
+│   └── releases/
+├── images/
+├── scripts/
+├── style.css
+├── script.js
+├── index.html
+├── DESIGN.md
+├── DEVELOPER_GUIDE.md
+└── README.md
 ```
 
-**The guiding principle is simple: to add or update content, you should only need to modify files within the `/data` directory. The main `script.js` file should not be touched.**
+## 3. Build System and Environment Setup
 
----
+The project does not require a complex build system. However, a local server is needed to handle module loading correctly.
 
-## How to Add Content
+### Prerequisites
 
-### 1. Adding a New Release
+- [Node.js](https://nodejs.org/) (which includes npm)
+- [Python 3](https://www.python.org/downloads/) (for the local web server)
 
-To add a new single or album, open `data/releases/release-data.js` and add a new object to the `releaseData` array.
+### Installation & Running
 
-**File:** [`data/releases/release-data.js`](data/releases/release-data.js)
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/lavolcanica.git
+    cd lavolcanica
+    ```
 
-#### Release Schema:
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-Each release object must conform to the following structure:
+3.  **Run the local server:**
+    ```bash
+    python3 -m http.server 8000
+    ```
 
-| Field             | Type      | Description                                                 | Example                                  |
-| ----------------- | --------- | ----------------------------------------------------------- | ---------------------------------------- |
-| `id`              | `string`  | Unique identifier for the release (e.g., kebab-case title). | `"cumbia-del-barrio"`                    |
-| `title`           | `string`  | The official title of the release.                          | `"Cumbia del Barrio"`                    |
-| `year`            | `string`  | The year the music was released.                            | `"2025"`                                 |
-| `type`            | `string`  | The type of release, either `"single"` or `"album"`.        | `"single"`                               |
-| `coverArt`        | `string`  | The file path to the cover art image.                       | `"images/art-cumbia-del-barrio.jpg"`     |
-| `audioSrc`        | `string`  | The file path to the audio file.                            | `"audio/single-cumbia-del-barrio.mp3"`   |
-| `featured`        | `boolean` | If `true`, the release will appear on the homepage.         | `true`                                   |
-| `links`           | `Object`  | An object containing links to streaming platforms.          | `{ "spotify": "#", "apple": "#" }`        |
-| `contentIds`      | `Object`  | An object mapping to content in other data files.           | `{ "story": "cumbia-story" }`            |
-| `visibleSections` | `string[]`| An array of sections to display (e.g., `story`, `lyrics`).  | `["story", "lyrics"]`                    |
-| `tags`            | `string[]`| An array of tags for filtering and categorization.          | `["cumbia", "electro"]`                  |
+4.  **Open in your browser:**
+    Navigate to `http://localhost:8000` to view the website.
 
-**Example Entry:**
-```javascript
-{
-  id: "new-release-title",
-  title: "New Release Title",
-  year: "2026",
-  type: "single",
-  coverArt: "images/art-new-release.jpg",
-  audioSrc: "audio/single-new-release.mp3",
-  featured: true,
-  links: {
-    spotify: "#",
-    apple: "#",
-    youtube: "#",
-    bandcamp: "#"
-  },
-  contentIds: {
-    story: "new-release-story",
-    lyrics: "new-release-lyrics",
-    gallery: "new-release-gallery"
-  },
-  visibleSections: ["story", "lyrics"],
-  tags: ["cumbia", "new"]
-}
+## 4. Content Management System (CMS) Architecture
+
+The application uses a "Git-based" or "flat-file" CMS. All content is stored in JavaScript modules within the `/data` directory.
+
+### Data Models
+
+- **Releases**: `data/releases/release-data.js`
+- **Collaborators**: `data/collaborators/collaborator-data.js`
+- **Content (Stories, Lyrics, Bios)**: `data/content/`
+- **UI Translations**: `data/i18n/`
+- **Configuration**: `data/config/`
+
+## 5. API Documentation
+
+The `scripts/data-loader.js` module serves as the central API for accessing all application data. It provides functions for loading translations, resolving content, and querying data.
+
+## 6. Component Architecture
+
+The application employs a component-based architecture implemented in vanilla JavaScript. Key components include:
+
+- `createMusicCard()`
+- `createCollaboratorCard()`
+- `populateFeaturedGrid()`
+- `populateCollabsGrid()`
+- `showDiscography()`
+- `showCollaborator()`
+- `showReleaseInfo()`
+
+## 7. State Management
+
+- **Application State:** All content and configuration are stored in plain JavaScript objects in the `/data` directory.
+- **UI State:** The state of the UI is managed via classes on DOM elements.
+
+## 8. Coding Standards and Style Guide
+
+- **JavaScript:** The code follows the principles of "clean code," with an emphasis on readability, modularity, and maintainability. An IIFE is used to create a private scope and prevent polluting the global namespace.
+- **CSS:** A BEM-like naming convention is used for component-specific styles.
+- **HTML:** The HTML structure is semantic, accessible, and optimized for SEO.
+
+## 9. Testing Framework
+
+The project includes a suite of tests to ensure data integrity and component functionality. The testing strategy covers unit testing, integration testing, manual testing, and performance validation. To run the tests, use:
+
+```bash
+npm test
 ```
 
-### 2. Adding a New Collaborator
+## 10. Performance Optimization
 
-To add a new collaborator, open `data/collaborators/collaborator-data.js` and add a new object to the `collaboratorData` array.
+- **Image Lazy Loading**
+- **Image Optimization**
+- **Debouncing**
+- **Intersection Observer**
 
-**File:** [`data/collaborators/collaborator-data.js`](data/collaborators/collaborator-data.js)
+## 11. Security
 
-#### Collaborator Schema:
+- **`noopener noreferrer`:** Used on all external links to prevent tab-nabbing.
+- **HTML Sanitization:** A `sanitizeHTML` utility function is included to prevent XSS attacks.
 
-| Field        | Type      | Description                                               | Example                               |
-| ------------ | --------- | --------------------------------------------------------- | ------------------------------------- |
-| `id`         | `string`  | Unique identifier for the collaborator.                   | `"cututo"`                            |
-| `name`       | `string`  | The name of the collaborator.                             | `"Cututo"`                            |
-| `photoSrc`   | `string`  | The file path to the collaborator's photo.                | `"images/collab-cututo.jpg"`          |
-| `link`       | `string`  | A URL to the collaborator's website or social media.      | `"https://spotify.com/..."`           |
-| `contentIds` | `Object`  | An object mapping to content (e.g., bio).                 | `{ "bio": "cututo-bio" }`             |
-| `songIds`    | `string[]`| An array of `id`s from releases they contributed to.      | `["tendido-cero-sentido"]`            |
-| `tags`       | `string[]`| An array of tags for filtering and categorization.        | `["peru", "bolero"]`                  |
+## 12. Debugging and Troubleshooting
 
-**Example Entry:**
-```javascript
-{
-  id: "new-artist",
-  name: "New Artist",
-  photoSrc: "images/collab-new-artist.jpg",
-  link: "#",
-  contentIds: {
-    bio: "new-artist-bio"
-  },
-  songIds: ["new-release-title"],
-  tags: ["producer", "featured"]
-}
-```
+- **Browser Console:** Check the browser's developer console for errors.
+- **Test Functions:** The `TEST_FUNCTIONS_ANALYSIS.md` document provides insights into the test functions available in `script.js` for debugging.
 
-### 3. Adding a New Language
+## 13. Contribution Workflow
 
-The application supports internationalization (i18n) for UI text. To add a new language, follow these steps:
-
-1.  Create a new directory in `data/i18n/` using the two-letter language code (e.g., `de` for German).
-2.  Inside this new directory, create a `ui-translations.js` file.
-3.  Copy the contents of [`data/i18n/en/ui-translations.js`](data/i18n/en/ui-translations.js) and translate the values into the new language.
-
-**File:** `data/i18n/{lang_code}/ui-translations.js`
-
-#### UI Translations Schema:
-
-The `uiTranslations` object is a simple key-value map where keys are stable identifiers and values are the translated strings.
-
-**Example (`data/i18n/de/ui-translations.js`):**
-```javascript
-/**
- * German UI translations for La Sonora Volcánica
- */
-export const uiTranslations = {
-  logoText: "La Sonora Volcánica",
-  navMusic: "Musik",
-  navMap: "Surfkarte",
-  navAbout: "Über",
-  navCollabs: "Kollaborationen",
-  // ... and so on
-};
-```
-
----
-
-By following these guidelines, you can help us maintain a clean, scalable, and easy-to-manage codebase. Thank you for your contribution!
+Contributions are welcome! For significant changes, please open an issue first to discuss your ideas. All content updates should be made according to this guide.
