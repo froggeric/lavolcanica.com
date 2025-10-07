@@ -164,5 +164,27 @@ export const releaseData = [
     },
     visibleSections: ["story", "lyrics", "gallery"],
     tags: ["album", "2024", "surf", "fuerteventura"]
+  },
+  {
+    id: "tendido-cero-sentido",
+    title: "Tendido Cero Sentido",
+    year: "2025",
+    type: "single",
+    coverArt: "images/art-tendido-cero-sentido.jpg",
+    audioSrc: "audio/single-tendido-cero-sentido.mp3",
+    featured: false,
+    links: {
+      spotify: "https://open.spotify.com/track/1234567890",
+      apple: "https://music.apple.com/us/album/tendido-cero-sentido/1234567890?i=1234567890",
+      youtube: "https://youtu.be/abcdefghijklmnop",
+      bandcamp: "https://lasonoravolcanica.bandcamp.com/track/tendido-cero-sentido"
+    },
+    contentIds: {
+      story: "tendido-cero-sentido-story",
+      lyrics: "tendido-cero-sentido-lyrics",
+      gallery: "tendido-cero-sentido-gallery"
+    },
+    visibleSections: ["story", "lyrics","gallery"],
+    tags: ["single", "2025", "collaboration"]
   }
 ];
