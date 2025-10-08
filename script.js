@@ -1,6 +1,6 @@
 /**
  * @fileoverview Main application script for La Sonora Volcánica website.
- * @version 1.3.3
+ * @version 1.3.4
  * @description This script handles the entire frontend logic for the La Sonora Volcánica website,
  * The application follows a modular architecture where all content is loaded from external
  * data modules located in the `/data` directory.
@@ -664,19 +664,40 @@
              * Populates the side panel with a specific release's details.
              * @param {Object} release - The release data object.
              */
+            /**
+             * Creates a cover art component for displaying release cover art in the side panel.
+             * @param {Object} release - The release data object.
+             * @returns {HTMLElement} The created cover art container element.
+             */
+            function createReleaseCoverArt(release) {
+                const heroContainer = document.createElement('div');
+                heroContainer.className = 'side-panel-hero-container';
+                
+                const heroImg = document.createElement('img');
+                heroImg.src = release.coverArt;
+                heroImg.alt = `Cover art for ${release.title}`;
+                heroImg.className = 'side-panel-hero-image';
+                heroImg.loading = 'lazy';
+                
+                // Fallback for missing images
+                heroImg.onerror = () => {
+                    heroImg.src = 'images/placeholder-album.svg';
+                    heroImg.alt = 'Album artwork unavailable';
+                };
+                
+                heroContainer.appendChild(heroImg);
+                return heroContainer;
+            }
+
             const showReleaseInfo = (release) => {
                 panelTitle.textContent = release.title;
                 
                 // Create content safely
                 const contentFragment = document.createDocumentFragment();
                 
-                // --- Optimized Header: Use the small release card component ---
-                // <div class="discography-list">
-                const headerWrapper = document.createElement('div');
-                headerWrapper.className = 'discography-list';
-                const headerCard = createMusicCard(release, false, true); // Pass true to disable title action
-                headerWrapper.appendChild(headerCard);
-                contentFragment.appendChild(headerWrapper);
+                // --- Hero Cover Art: Use the new cover art component ---
+                const coverArtComponent = createReleaseCoverArt(release);
+                contentFragment.appendChild(coverArtComponent);
 
                 // Text content container
                 // <div class="side-panel-text-content">
