@@ -34,7 +34,7 @@ export const artistLinks = [
   },
   {
     platform: "youtube",
-    url: "https://www.youtube.com/channel/lasonoravolcanica",
+    url: "https://www.youtube.com/@lasonoravolcanica",
     icon: "icon-youtube",
     tooltip: "YouTube",
     ariaLabel: "Watch on YouTube"

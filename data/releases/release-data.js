@@ -40,13 +40,13 @@ export const releaseData = [
     title: "Cumbia del Barrio",
     year: "2025",
     type: "single",
-    coverArt: "images/art-cumbia-del-barrio.jpg",
+    coverArt: "images/art-cumbia-del-barrio.webp",
     audioSrc: "audio/single-cumbia-del-barrio.m4a",
     featured: true,
     links: {
-      spotify: "#",
-      apple: "#",
-      youtube: "#",
+      spotify: "https://open.spotify.com/track/1XDDddnVl5hxsWixxtpz5l?si=e6d0e5cd4c99428a",
+      apple: "https://music.apple.com/us/album/cumbia-del-barrio/1841267674?i=1841267675",
+      youtube: "https://youtu.be/wHHzlY3O7cc",
       bandcamp: "https://lasonoravolcanica.bandcamp.com/track/cumbia-del-barrio"
     },
     collaboratorIds: [],
@@ -56,15 +56,15 @@ export const releaseData = [
       gallery: "cumbia-del-barrio-gallery"
     },
     visibleSections: ["story", "lyrics"],
-    tags: ["cumbia", "electro", "featured"]
+    tags: ["cumbia", "featured", "2025"]
   },
   {
     id: "sol-sol",
     title: "Sol Sol",
     year: "2024",
     type: "single",
-    coverArt: "images/art-sol-sol.jpg",
-    audioSrc: "audio/single-sol-sol.mp3",
+    coverArt: "images/art-sol-sol.webp",
+    audioSrc: "audio/single-sol-sol.m4a",
     featured: true,
     links: {
       spotify: "https://open.spotify.com/track/7sZ4YZulX0C2PsF9Z2RX7J?si=7444364b275d4196",
@@ -86,8 +86,8 @@ export const releaseData = [
     title: "Tindaya",
     year: "2026",
     type: "album",
-    coverArt: "images/art-tindaya.jpg",
-    audioSrc: "audio/album-tindaya.mp3",
+    coverArt: "images/art-tindaya.webp",
+    audioSrc: "audio/album-tindaya.m4a",
     featured: false,
     links: {
       spotify: "#",
@@ -109,8 +109,8 @@ export const releaseData = [
     title: "Secreto del Sur",
     year: "2025",
     type: "album",
-    coverArt: "images/art-secreto-del-sur.jpg",
-    audioSrc: "audio/album-secreto-del-sur.mp3",
+    coverArt: "images/art-secreto-del-sur.webp",
+    audioSrc: "audio/album-secreto-del-sur.m4a",
     featured: false,
     links: {
       spotify: "#",
@@ -132,8 +132,8 @@ export const releaseData = [
     title: "Costa del Norte",
     year: "2024",
     type: "album",
-    coverArt: "images/art-costa-del-norte.jpg",
-    audioSrc: "audio/album-costa-del-norte.mp3",
+    coverArt: "images/art-costa-del-norte.webp",
+    audioSrc: "audio/album-costa-del-norte.m4a",
     featured: false,
     links: {
       spotify: "#",
@@ -155,8 +155,8 @@ export const releaseData = [
     title: "Surf Fuerteventura",
     year: "2024",
     type: "album",
-    coverArt: "images/art-surf-fuerteventura.jpg",
-    audioSrc: "audio/album-surf-fuerteventura.mp3",
+    coverArt: "images/art-surf-fuerteventura.webp",
+    audioSrc: "audio/album-surf-fuerteventura.m4a",
     featured: false,
     links: {
       spotify: "#",
@@ -178,8 +178,8 @@ export const releaseData = [
     title: "Tendido Cero Sentido",
     year: "2025",
     type: "single",
-    coverArt: "images/art-tendido-cero-sentido.jpg",
-    audioSrc: "audio/single-tendido-cero-sentido.mp3",
+    coverArt: "images/art-tendido-cero-sentido.webp",
+    audioSrc: "audio/single-tendido-cero-sentido.m4a",
     featured: false,
     links: {
       spotify: "https://open.spotify.com/track/1234567890",
