@@ -5,6 +5,26 @@ All notable changes to the La Sonora Volcánica website will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2025-10-10
+
+### Added
+- **Clickable Album Art in Release Info Panel**: Album artwork in the release information panel is now clickable to start playback, providing a more intuitive way for users to play music.
+- **Clickable Mini Player Elements**: Both the album art and track title in the mini player are now clickable, allowing users to easily open the full release information panel.
+- **Smart Playback State Management**: The audio player now intelligently handles playback requests to prevent unnecessary restarts when the same track is already playing.
+
+### Changed
+- **Collaborator Panel Position**: Moved the collaborator panel to open from the right side, consistent with other panels in the application for a more uniform user experience.
+
+### Technical Details
+- Release panel album art now includes a click event listener that triggers the audio playback mechanism.
+- Mini player album art and title elements now have event listeners that open the release info panel with proper navigation context.
+- Playback system now compares the requested track ID with the currently playing track to prevent unnecessary restarts.
+- All side panels now open from the right side for consistency in navigation patterns.
+
+### Files Modified
+- `script.js` - Added click handlers for album art and mini player elements, improved playback state management.
+- `style.css` - Updated panel positioning styles for consistent right-side opening.
+
 ## [1.3.5] - 2025-10-10
 
 ### Added

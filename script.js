@@ -1,6 +1,6 @@
 /**
  * @fileoverview Main application script for La Sonora Volcánica website.
- * @version 1.3.5
+ * @version 1.4.0
  * @description This script handles the entire frontend logic for the La Sonora Volcánica website,
  * The application follows a modular architecture where all content is loaded from external
  * data modules located in the `/data` directory.
@@ -219,15 +219,15 @@
                     return 'main';
                 }
                 
-                // Check if it's a collaborator panel (opens from left)
-                if (sidePanel.classList.contains('from-left')) {
-                    return 'collaborator';
-                }
-                
                 // Check if it's the discography panel
                 const panelTitle = sidePanel.querySelector('.side-panel-title');
                 if (panelTitle && panelTitle.dataset.key === 'fullDiscographyTitle') {
                     return 'discography';
+                }
+                
+                // Check if it's a collaborator panel (no translation key)
+                if (panelTitle && !panelTitle.dataset.key) {
+                    return 'collaborator';
                 }
                 
                 // Default to main for other cases
@@ -557,18 +557,11 @@
             };
 
             /**
-             * Opens the side panel with optional direction and sets up focus trapping.
-             * @param {boolean} [fromLeft=false] - Whether the panel should slide in from the left.
+             * Opens the side panel and sets up focus trapping.
+             * All panels now open from the right side.
              */
-            const openPanel = (fromLeft = false) => {
+            const openPanel = () => {
                 scrollLock.enable();
-                
-                // Set panel direction
-                if (fromLeft) {
-                    sidePanel.classList.add('from-left');
-                } else {
-                    sidePanel.classList.remove('from-left');
-                }
                 
                 sidePanel.classList.add('active');
                 panelOverlay.classList.add('active');
@@ -691,13 +684,32 @@
             };
 
             /**
+             * Shared function to populate and open the side panel.
+             * @param {string} title - The panel title.
+             * @param {HTMLElement} content - The content to display in the panel.
+             * @param {string} [titleKey] - Optional translation key for the title.
+             */
+            const showPanel = (title, content, titleKey = null) => {
+                // Set title
+                if (titleKey) {
+                    panelTitle.dataset.key = titleKey;
+                    panelTitle.textContent = title;
+                } else {
+                    panelTitle.removeAttribute('data-key');
+                    panelTitle.textContent = title;
+                }
+                
+                // Clear and populate panel content
+                panelContent.innerHTML = '';
+                panelContent.appendChild(content);
+                openPanel(); // Open from right
+            };
+
+            /**
              * Populates the side panel with the full discography.
              * Sets the panel title and content, then opens the panel.
              */
             const showDiscography = () => {
-                panelTitle.dataset.key = 'fullDiscographyTitle';
-                panelTitle.textContent = translations.ui.fullDiscographyTitle;
-                
                 // Create content with the same structure as Release Info panel
                 const contentFragment = document.createDocumentFragment();
                 
@@ -707,10 +719,7 @@
                 populateDiscographyList(discographyList);
                 contentFragment.appendChild(discographyList);
                 
-                // Clear and populate panel content
-                panelContent.innerHTML = '';
-                panelContent.appendChild(contentFragment);
-                openPanel(false); // Open from right
+                showPanel(translations.ui.fullDiscographyTitle, contentFragment, 'fullDiscographyTitle');
             };
 
             /**
@@ -718,9 +727,6 @@
              * @param {Object} collab - The collaborator data object.
              */
             const showCollaborator = (collab) => {
-                panelTitle.removeAttribute('data-key');
-                panelTitle.textContent = collab.name;
-                
                 const platform = getLinkPlatform(collab.link);
                 const visitBtnText = translations.ui.collabVisitBtn.replace('%s', `${collab.name} on ${platform}`);
 
@@ -794,10 +800,7 @@
                 
                 contentFragment.appendChild(textContent);
                 
-                // Clear and populate panel content
-                panelContent.innerHTML = '';
-                panelContent.appendChild(contentFragment);
-                openPanel(true); // Open from left
+                showPanel(collab.name, contentFragment);
             };
 
             if (openDiscographyBtn) openDiscographyBtn.addEventListener('click', showDiscography);
@@ -823,8 +826,15 @@
                 const heroImg = document.createElement('img');
                 heroImg.src = release.coverArt;
                 heroImg.alt = `Cover art for ${release.title}`;
-                heroImg.className = 'side-panel-hero-image';
+                heroImg.className = 'side-panel-hero-image clickable-album-art';
                 heroImg.loading = 'lazy';
+                
+                // Add click event listener to start playback
+                heroImg.addEventListener('click', () => {
+                    if (window.loadTrack) {
+                        window.loadTrack(release);
+                    }
+                });
                 
                 // Fallback for missing images
                 heroImg.onerror = () => {
@@ -837,8 +847,6 @@
             }
 
             const showReleaseInfo = (release) => {
-                panelTitle.textContent = release.title;
-                
                 // Create content safely
                 const contentFragment = document.createDocumentFragment();
                 
@@ -903,7 +911,7 @@
                 if (hasGallery) {
                     const galleryTab = document.createElement('button');
                     galleryTab.className = 'song-info-tab';
-                    if (!hasStory && !hasLyrics) galleryTab.classList.add('active'); // Make first tab active
+                    if (!hasStory && !hasLyrics) galleryTab.classList.add('active'); // Make first pane active
                     galleryTab.textContent = 'Gallery';
                     tabsContainer.appendChild(galleryTab);
                     tabs.push(galleryTab);
@@ -952,9 +960,7 @@
 
                 contentFragment.appendChild(textContent);
                 
-                panelContent.innerHTML = '';
-                panelContent.appendChild(contentFragment);
-                openPanel(false); // Open from right
+                showPanel(release.title, contentFragment);
             };
 
             window.showReleaseInfo = showReleaseInfo;
@@ -1002,12 +1008,40 @@
                 }, dataLoader.config.app.audioPlayer.errorDisplayDuration);
             };
             
+            // Track the currently playing release for mini player click functionality
+            let currentPlayingRelease = null;
+            // Track the currently playing track ID to prevent restarts
+            let currentTrackId = null;
+            
             const loadTrack = (track) => {
+                // Check if the same track is already actively playing
+                const isSameTrack = currentTrackId === track.id;
+                const isActivelyPlaying = !playerElements.audio.paused && playerElements.audio.src;
+                
+                // If it's the same track and it's actively playing, do nothing
+                if (isSameTrack && isActivelyPlaying) {
+                    return;
+                }
+                
+                // If it's the same track but paused, resume playback
+                if (isSameTrack && !isActivelyPlaying) {
+                    playerElements.audio.play().catch(error => {
+                        console.error('Playback failed:', error);
+                        showError('Unable to resume playback. Please try again.');
+                    });
+                    return;
+                }
+                
                 // Clean up previous track
                 if (playerElements.audio.src) {
                     playerElements.audio.pause();
                     playerElements.audio.currentTime = 0;
                 }
+                
+                // Store the current release for click functionality
+                currentPlayingRelease = track;
+                // Store the current track ID
+                currentTrackId = track.id;
                 
                 playerElements.coverArt.src = track.coverArt;
                 playerElements.coverArt.alt = `Cover art for ${track.title}`;
@@ -1042,6 +1076,11 @@
                 miniPlayer.classList.remove('active');
                 miniPlayer.classList.remove('loading');
                 body.classList.remove('player-active');
+                
+                // Reset the current playing release
+                currentPlayingRelease = null;
+                // Reset the current track ID
+                currentTrackId = null;
                 
                 // Reset the flag after a short delay
                 setTimeout(() => {
@@ -1093,6 +1132,26 @@
             playerElements.playPauseBtn.addEventListener('click', togglePlay);
             playerElements.seekSlider.addEventListener('input', () => playerElements.audio.currentTime = playerElements.seekSlider.value);
             playerElements.closePlayerBtn.addEventListener('click', closePlayer);
+
+            // Add click event listeners to mini player album art and title
+            const openCurrentReleaseInfo = () => {
+                if (currentPlayingRelease && window.showReleaseInfo) {
+                    // Determine the current context and set it for smart navigation back
+                    const currentContext = navigationHelpers.getCurrentContext();
+                    navigationHistory.setContext(currentContext);
+                    
+                    // Store additional context if we're in collaborator panel
+                    if (currentContext === 'collaborator') {
+                        const currentCollabId = navigationHelpers.getCurrentCollaboratorId();
+                        navigationHelpers.storeCollaboratorId(currentCollabId);
+                    }
+                    
+                    window.showReleaseInfo(currentPlayingRelease);
+                }
+            };
+            
+            playerElements.coverArt.addEventListener('click', openCurrentReleaseInfo);
+            playerElements.title.addEventListener('click', openCurrentReleaseInfo);
 
             window.loadTrack = loadTrack;
         }

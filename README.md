@@ -43,6 +43,30 @@ The website includes an intelligent navigation history system that enhances user
 - **URL Parameter Tracking**: Uses `?returnTo=` parameters for navigation state management
 - **Extensible Architecture**: Designed to accommodate future panels and navigation flows
 
+## UX/UI Enhancements
+
+Several recent updates have significantly improved the user experience and interface:
+
+### 1. Unified Panel Layout
+- **Description**: The collaborator panel has been repositioned to consistently appear on the right side of the screen, aligning with the display of other information panels (e.g., release details). This provides a more predictable and intuitive user interface.
+- **User Interaction**: Users will now find all supplementary information panels (release info, collaborator bios) appearing from the right, creating a consistent navigational flow.
+- **Technical Details**: This involved adjustments to CSS positioning and JavaScript logic for panel display management to ensure a unified user experience across different content types.
+
+### 2. Interactive Album Art in Release Panel
+- **Description**: The album artwork displayed within the detailed release information panel is now interactive. Clicking on it initiates playback of the associated track or album.
+- **User Interaction**: From any release info panel, users can click the main album art to instantly start listening to the music.
+- **Technical Details**: Event listeners were added to the album art element within the release info panel, triggering the audio playback function upon interaction.
+
+### 3. Mini Player Navigation
+- **Description**: The mini player, which provides persistent playback controls, now offers enhanced navigation. Both the album art and the track title within the mini player are clickable.
+- **User Interaction**: Clicking the album art or title in the mini player will now open the corresponding full release information panel, allowing users to quickly access details about the currently playing track.
+- **Technical Details**: Modifications were made to the mini player's DOM elements to include event listeners on the album art and title, linking them to the `showReleaseInfo()` function with the appropriate release ID.
+
+### 4. Intelligent Playback Resumption
+- **Description**: The audio playback system has been refined to prevent unnecessary restarts. If a user attempts to play a track that is already active and currently playing, the playback will continue seamlessly from its current position without restarting.
+- **User Interaction**: Users can repeatedly click on a currently playing track without interrupting the audio, providing a smoother listening experience.
+- **Technical Details**: The playback logic in [`script.js`](script.js:1) was updated to include a check for the currently playing track's ID. If the requested track matches the active track, the playback state is maintained rather than re-initializing the audio.
+
 For a more detailed overview of the architecture, see the [**Developer Guide**](DEVELOPER_GUIDE.md).
 
 ## Local Development

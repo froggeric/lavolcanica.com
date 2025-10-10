@@ -68,6 +68,26 @@ A key UX enhancement is the intelligent navigation history system that provides 
 
 This system enhances the user experience by creating logical navigation paths and reducing the cognitive load when exploring the music catalog and collaborator information.
 
+### 3.3. Key UX/UI Enhancements
+
+Recent updates have significantly refined the user experience and interface:
+
+#### 1. Unified Panel Layout
+- **Description**: The collaborator panel now consistently appears on the right side, mirroring other information panels like release details. This ensures a predictable and intuitive interface across the application.
+- **Impact**: Users benefit from a standardized interaction model, reducing cognitive load and improving navigation efficiency.
+
+#### 2. Interactive Album Art in Release Panel
+- **Description**: Within the detailed release information panel, the album artwork is now a clickable element that initiates playback of the associated music.
+- **Impact**: Provides a direct and engaging way for users to start listening to music immediately upon viewing release details.
+
+#### 3. Mini Player Navigation
+- **Description**: The mini player’s album art and track title are now interactive. Clicking either will open the corresponding full release information panel.
+- **Impact**: Offers quick access to detailed information about the currently playing track, streamlining the transition from listening to exploring.
+
+#### 4. Intelligent Playback Resumption
+- **Description**: The audio playback system prevents unnecessary restarts. If a user attempts to play a track that is already active, playback continues seamlessly from its current position.
+- **Impact**: Ensures a smoother, uninterrupted listening experience, enhancing user satisfaction with audio controls.
+
 ## 4. Component Library
 
 - **Header:** A "sticky" header that is always visible.

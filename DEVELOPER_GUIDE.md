@@ -115,6 +115,26 @@ When users close a release info panel, they are intelligently returned to their 
 #### Extensibility
 The system is designed to accommodate future panels (e.g., surf map) by adding new context types to the navigation mapping.
 
+### 6.2. Key UX/UI Enhancements for Developers
+
+Recent updates have significantly refined the user experience and interface, with several technical considerations for developers:
+
+#### 1. Unified Panel Layout
+- **Description**: The collaborator panel now consistently appears on the right side, mirroring other information panels. This required refactoring of CSS and JavaScript to manage panel display in a unified manner.
+- **Technical Implementation**: Developers should ensure any new panels adhere to the established CSS classes and JavaScript functions for right-side panel display to maintain consistency.
+
+#### 2. Interactive Album Art in Release Panel
+- **Description**: The album artwork in the release information panel is now clickable to initiate audio playback.
+- **Technical Implementation**: The [`initReleasePanel()`](script.js:LXXX) function (or equivalent) now includes an event listener on the album art image that triggers the audio playback mechanism (e.g., [`playTrack()`](script.js:LXXX)).
+
+#### 3. Mini Player Navigation
+- **Description**: Both the album art and track title in the mini player are interactive, linking to the full release information panel.
+- **Technical Implementation**: The mini player's rendering logic (e.g., in [`updateMiniPlayer()`](script.js:LXXX)) now attaches event listeners to both the album art and title elements, calling [`showReleaseInfo()`](script.js:LXXX) with the appropriate release ID when clicked.
+
+#### 4. Intelligent Playback Resumption
+- **Description**: The audio playback system prevents unnecessary restarts when attempting to play a track that is already active.
+- **Technical Implementation**: The [`playTrack()`](script.js:LXXX) function (or the primary audio control function) includes a check to compare the `trackId` of the requested track with the `currentPlayingTrackId`. If they match, the function should gracefully exit without restarting playback.
+
 ## 7. State Management
 
 - **Application State:** All content and configuration are stored in plain JavaScript objects in the `/data` directory.
