@@ -91,6 +91,30 @@ The application employs a component-based architecture implemented in vanilla Ja
 - `showCollaborator()`
 - `showReleaseInfo()`
 
+### 6.1. Smart Navigation History System
+
+The application includes an intelligent navigation history system that enhances user experience when navigating between panels:
+
+#### Navigation Context Tracking
+- **URL Parameter-Based**: Uses `?returnTo=` URL parameters to track navigation context
+- **Context Detection**: Automatically detects current panel context (discography, collaborator, main)
+- **Session Storage**: Maintains collaborator state across navigation transitions
+
+#### Smart Navigation Behavior
+When users close a release info panel, they are intelligently returned to their previous context:
+- From discography panel → returns to discography panel
+- From collaborator panel → returns to same collaborator panel
+- From main screen → returns to main screen
+
+#### Implementation Details
+- **navigationHistory Object**: Manages URL parameter context (`setContext()`, `getContext()`, `clearContext()`)
+- **navigationHelpers Object**: Provides context detection and collaborator state management
+- **Enhanced Event Delegation**: Captures navigation context when opening release panels
+- **Smart Panel Close Handler**: Checks context and navigates accordingly on close
+
+#### Extensibility
+The system is designed to accommodate future panels (e.g., surf map) by adding new context types to the navigation mapping.
+
 ## 7. State Management
 
 - **Application State:** All content and configuration are stored in plain JavaScript objects in the `/data` directory.

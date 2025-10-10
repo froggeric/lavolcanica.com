@@ -34,6 +34,15 @@ The application employs a **Component-based architecture** and a **data-driven, 
 - **View**: The view is represented by the initial HTML structure in `index.html`.
 - **Controller/Update Logic**: A collection of JavaScript functions in `script.js` serves as the controller and update mechanism.
 
+### Smart Navigation System
+
+The website includes an intelligent navigation history system that enhances user experience when navigating between panels:
+
+- **Context-Aware Navigation**: Automatically tracks where users came from (discography, collaborator panels, or main screen)
+- **Smart Return Navigation**: When closing release info panels, users are returned to their previous context
+- **URL Parameter Tracking**: Uses `?returnTo=` parameters for navigation state management
+- **Extensible Architecture**: Designed to accommodate future panels and navigation flows
+
 For a more detailed overview of the architecture, see the [**Developer Guide**](DEVELOPER_GUIDE.md).
 
 ## Local Development

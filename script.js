@@ -1,6 +1,6 @@
 /**
  * @fileoverview Main application script for La Sonora Volcánica website.
- * @version 1.3.4
+ * @version 1.3.5
  * @description This script handles the entire frontend logic for the La Sonora Volcánica website,
  * The application follows a modular architecture where all content is loaded from external
  * data modules located in the `/data` directory.
@@ -91,6 +91,42 @@
         }
     };
 
+    // ==================== NAVIGATION HISTORY MANAGEMENT ====================
+
+    /**
+     * Navigation history management using URL parameters
+     * Tracks where users came from to enable smart navigation back
+     */
+    const navigationHistory = {
+        /**
+         * Sets the navigation context in URL parameters
+         * @param {string} context - The context to set (discography, collaborator, main, surfmap)
+         */
+        setContext(context) {
+            const url = new URL(window.location);
+            url.searchParams.set('returnTo', context);
+            window.history.replaceState({}, '', url);
+        },
+
+        /**
+         * Gets the current navigation context from URL parameters
+         * @returns {string|null} The current context or null if not set
+         */
+        getContext() {
+            const url = new URL(window.location);
+            return url.searchParams.get('returnTo');
+        },
+
+        /**
+         * Clears the navigation context from URL parameters
+         */
+        clearContext() {
+            const url = new URL(window.location);
+            url.searchParams.delete('returnTo');
+            window.history.replaceState({}, '', url);
+        }
+    };
+
     // ==================== INITIALIZATION ====================
 
     /**
@@ -132,6 +168,72 @@
         const musicGrid = document.querySelector('.music-grid');
         const collabsGrid = document.querySelector('.collabs-grid');
         const mainNav = document.querySelector('.main-nav');
+
+        // ==================== NAVIGATION HELPERS ====================
+        
+        /**
+         * Helper functions for navigation context management
+         * Defined inside initializeApp to have access to dataLoader and DOM elements
+         */
+        const navigationHelpers = {
+            /**
+             * Gets the currently displayed collaborator ID
+             * @returns {string|null} The collaborator ID or null if not in collaborator panel
+             */
+            getCurrentCollaboratorId() {
+                if (!sidePanel || !sidePanel.classList.contains('active')) return null;
+                
+                const panelTitle = sidePanel.querySelector('.side-panel-title');
+                if (panelTitle && !panelTitle.dataset.key) {
+                    // This is a collaborator panel (no translation key)
+                    const collab = dataLoader.collaborators.find(c => c.name === panelTitle.textContent);
+                    return collab ? collab.id : null;
+                }
+                return null;
+            },
+
+            /**
+             * Gets the stored collaborator ID from session storage
+             * @returns {string|null} The stored collaborator ID or null
+             */
+            getStoredCollaboratorId() {
+                return sessionStorage.getItem('lastCollaboratorId');
+            },
+
+            /**
+             * Stores the collaborator ID in session storage
+             * @param {string} collabId - The collaborator ID to store
+             */
+            storeCollaboratorId(collabId) {
+                if (collabId) {
+                    sessionStorage.setItem('lastCollaboratorId', collabId);
+                }
+            },
+
+            /**
+             * Determines the current navigation context
+             * @returns {string} The current context (discography, collaborator, or main)
+             */
+            getCurrentContext() {
+                if (!sidePanel || !sidePanel.classList.contains('active')) {
+                    return 'main';
+                }
+                
+                // Check if it's a collaborator panel (opens from left)
+                if (sidePanel.classList.contains('from-left')) {
+                    return 'collaborator';
+                }
+                
+                // Check if it's the discography panel
+                const panelTitle = sidePanel.querySelector('.side-panel-title');
+                if (panelTitle && panelTitle.dataset.key === 'fullDiscographyTitle') {
+                    return 'discography';
+                }
+                
+                // Default to main for other cases
+                return 'main';
+            }
+        };
 
         // ==================== CONTENT POPULATION FUNCTIONS ====================
 
@@ -514,6 +616,51 @@
             };
             
             const closePanel = () => {
+                // Check if we're closing the release info panel and need smart navigation
+                const isReleaseInfoPanel = panelTitle.textContent &&
+                    dataLoader.releases.some(r => r.title === panelTitle.textContent);
+                
+                if (isReleaseInfoPanel) {
+                    const returnContext = navigationHistory.getContext();
+                    
+                    if (returnContext) {
+                        // Clear context before navigation
+                        navigationHistory.clearContext();
+                        
+                        // Execute smart navigation based on context
+                        switch (returnContext) {
+                            case 'discography':
+                                // Return to discography panel
+                                showDiscography();
+                                return; // Skip default close behavior
+                                
+                            case 'collaborator':
+                                // Return to collaborator panel
+                                const collabId = navigationHelpers.getStoredCollaboratorId();
+                                if (collabId) {
+                                    const collab = dataLoader.collaborators.find(c => c.id === collabId);
+                                    if (collab) {
+                                        showCollaborator(collab);
+                                        return; // Skip default close behavior
+                                    }
+                                }
+                                break; // Fall through to default close if collaborator not found
+                                
+                            case 'surfmap':
+                                // Future implementation for surf map panel
+                                console.log('Surf map panel - future implementation');
+                                // For now, fall through to default close
+                                break;
+                                
+                            case 'main':
+                            default:
+                                // Default behavior - just close panel and return to main
+                                break;
+                        }
+                    }
+                }
+                
+                // Default close behavior
                 scrollLock.disable();
                 sidePanel.classList.remove('active');
                 panelOverlay.classList.remove('active');
@@ -978,7 +1125,19 @@
             } else if (action === 'open-release-panel') {
                 const releaseTitle = actionTarget.dataset.releaseTitle;
                 const releaseData = dataLoader.releases.find(r => r.title === releaseTitle);
-                if (releaseData && window.showReleaseInfo) window.showReleaseInfo(releaseData);
+                if (releaseData && window.showReleaseInfo) {
+                    // Determine the current context and set it for smart navigation back
+                    const currentContext = navigationHelpers.getCurrentContext();
+                    navigationHistory.setContext(currentContext);
+                    
+                    // Store additional context if we're in collaborator panel
+                    if (currentContext === 'collaborator') {
+                        const currentCollabId = navigationHelpers.getCurrentCollaboratorId();
+                        navigationHelpers.storeCollaboratorId(currentCollabId);
+                    }
+                    
+                    window.showReleaseInfo(releaseData);
+                }
             } else if (action === 'toggle-play') {
                 // Handled by individual element listener
             } else if (action === 'close-player') {
@@ -1174,11 +1333,7 @@
         updateContent(currentLang);
         populateFooterLinks();
         
-        // Display application version from centralized config
-        const versionElement = document.getElementById('app-version');
-        if (versionElement) {
-            versionElement.textContent = `v${dataLoader.config.app.version}`;
-        }
+        // Version display removed from footer - version is now managed in config files
         
         // ==================== PANEL TESTING ====================
         // Test function to verify panels work correctly after refactor

@@ -57,6 +57,17 @@ The application employs a component-based architecture and a data-driven, declar
 
 The site is designed as a dynamic, single-page application that feels both immersive and easy to navigate. The main navigation includes links to Music, Surf Map, About, and Collaborations.
 
+#### Smart Navigation History System
+
+A key UX enhancement is the intelligent navigation history system that provides context-aware navigation:
+
+- **Navigation Context Tracking**: The system automatically detects the user's current context when they open release info panels
+- **Smart Return Navigation**: When users close release info panels, they are intelligently returned to their previous context rather than always returning to the main screen
+- **State Persistence**: Uses URL parameters and session storage to maintain navigation state across interactions
+- **Seamless User Experience**: Creates a natural navigation flow that matches user expectations
+
+This system enhances the user experience by creating logical navigation paths and reducing the cognitive load when exploring the music catalog and collaborator information.
+
 ## 4. Component Library
 
 - **Header:** A "sticky" header that is always visible.

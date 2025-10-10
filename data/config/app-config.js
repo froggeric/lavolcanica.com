@@ -2,6 +2,17 @@
  * @fileoverview Application configuration for La Sonora Volcánica website.
  * Contains global settings and preferences that control the behavior and appearance of the application.
  * @module config/app-config
+ *
+ * VERSION MANAGEMENT:
+ * This file contains the authoritative version number for the entire application.
+ * When updating the version number here, ensure the following files are also updated
+ * to maintain version consistency across the project:
+ * - index.html (version comment in head)
+ * - script.js (version comment in header)
+ * - style.css (version comment in header)
+ *
+ * The version number follows semantic versioning (MAJOR.MINOR.PATCH).
+ * Increment MAJOR for breaking changes, MINOR for new features, PATCH for bug fixes.
  */
 
 /**
@@ -20,7 +31,7 @@
  * @property {string} performance.imageLoadingStrategy - Image loading strategy ("lazy" or "eager").
  */
 export const appConfig = {
-  version: "1.3.4",
+  version: "1.3.5",
   defaultLanguage: "en",
   supportedLanguages: ["en", "es", "fr"],
   featuredReleaseCount: 2,
