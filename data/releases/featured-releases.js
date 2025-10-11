@@ -5,5 +5,5 @@
  */
 
 export const featuredReleases = [
-  "cumbia-del-barrio", "sol-sol", "tendido-cero-sentido"
+  "sol-sol", "cumbia-del-barrio", "tendido-cero-sentido"
 ];
