@@ -5,6 +5,43 @@ All notable changes to the La Sonora Volcánica website will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2025-10-11
+
+### Added
+- **Multi-Language Lyrics Support**: Introduced the ability to display lyrics in multiple languages for releases, enhancing accessibility and user experience for a global audience.
+- **Dynamic Language Selection**: Users can now dynamically switch between available lyric languages within the release information panel using a dedicated language selector.
+- **Lyrics Caching Mechanism**: Implemented a multi-level caching system (in-memory and session storage) for lyrics to ensure instant language switching and reduce API calls.
+- **Accessibility Enhancements for Language Selector**: The language selector includes full keyboard navigation, screen reader announcements, and visual feedback for active/inactive states.
+- **Preloading of Lyric Translations**: All available lyric translations for a release are preloaded upon panel opening to provide a seamless language switching experience.
+
+### Changed
+- **Release Info Panel**: Enhanced the release information panel to integrate the new multi-language lyrics selector and display.
+- **`script.js` Structure**: Refactored `script.js` to include `LyricsLanguageManager` and `LyricsCacheManager` classes for modular and maintainable multi-language lyric functionality.
+- **`data-loader.js` Integration**: Updated data loading logic to support fetching and resolving multi-language lyric content.
+
+### Technical Details
+- Implemented `LyricsLanguageManager` to manage language preferences per release, handle session storage, and determine initial language based on user preference or defaults.
+- Developed `LyricsCacheManager` with LRU (Least Recently Used) eviction policy for efficient in-memory and session storage caching of lyric content.
+- Integrated `createLyricsLanguageSelector` function to dynamically generate an accessible UI component for language switching.
+- Modified `showReleaseInfo` function in `script.js` to initialize `LyricsLanguageManager` and `LyricsCacheManager`, and render the language selector.
+- Added event listeners for language selection buttons to update displayed lyrics and cache new translations.
+- Ensured proper handling of lyric content loading, including preloading and fallback mechanisms.
+
+### Files Modified
+- [`data/config/app-config.js`](data/config/app-config.js): Updated version number to `1.5.0`.
+- [`index.html`](index.html): Updated version comment to `1.5.0`.
+- [`script.js`](script.js):
+    - Added `LyricsLanguageManager` and `LyricsCacheManager` classes.
+    - Implemented `createLyricsLanguageSelector` utility function.
+    - Modified `showReleaseInfo` to incorporate multi-language lyrics functionality.
+    - Updated version comment to `1.5.0`.
+- [`style.css`](style.css):
+    - Added new styles for `.lyrics-language-selector`, `.language-btn`, and related states.
+    - Enhanced responsive and accessibility styles for the language selector.
+    - Updated version comment to `1.5.0`.
+- [`scripts/data-loader.js`](scripts/data-loader.js): Updated to support `getAvailableLyricsLanguages` and `resolveLyricsContent` functions.
+- [`multi-language-lyrics-architecture.md`](multi-language-lyrics-architecture.md): New technical documentation detailing the architecture of the multi-language lyrics feature.
+
 ## [1.4.0] - 2025-10-10
 
 ### Added

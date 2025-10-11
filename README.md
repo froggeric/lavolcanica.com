@@ -67,6 +67,13 @@ Several recent updates have significantly improved the user experience and inter
 - **User Interaction**: Users can repeatedly click on a currently playing track without interrupting the audio, providing a smoother listening experience.
 - **Technical Details**: The playback logic in [`script.js`](script.js:1) was updated to include a check for the currently playing track's ID. If the requested track matches the active track, the playback state is maintained rather than re-initializing the audio.
 
+- **Technical Details**: The playback logic in [`script.js`](script.js:1) was updated to include a check for the currently playing track's ID. If the requested track matches the active track, the playback state is maintained rather than re-initializing the audio.
+
+### 5. Multi-Language Lyrics Support
+- **Description**: The website now supports displaying lyrics in multiple languages for individual releases. This feature enhances accessibility and provides a richer experience for a global audience.
+- **User Interaction**: Within the release information panel, if multiple lyric languages are available for a song, a language selector will appear. Users can click on the language codes (e.g., "EN", "ES", "FR") to instantly switch between translations. The system remembers the user's last selected language for each release.
+- **Technical Details**: This feature is powered by two new JavaScript classes: `LyricsLanguageManager` (manages language preferences and state) and `LyricsCacheManager` (handles efficient caching of lyric translations for instant switching). The `script.js` file now dynamically generates a language selector and integrates with the data loader to fetch and display the appropriate lyric content.
+
 For a more detailed overview of the architecture, see the [**Developer Guide**](DEVELOPER_GUIDE.md).
 
 ## Local Development

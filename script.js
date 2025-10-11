@@ -1,6 +1,6 @@
 /**
  * @fileoverview Main application script for La Sonora Volcánica website.
- * @version 1.4.0
+ * @version 1.5.0
  * @description This script handles the entire frontend logic for the La Sonora Volcánica website,
  * The application follows a modular architecture where all content is loaded from external
  * data modules located in the `/data` directory.
@@ -161,6 +161,20 @@
         } catch (error) {
             console.error('Failed to load translations:', error);
         }
+
+        // Initialize the lyrics cache manager with configuration
+        const lyricsCacheManager = new LyricsCacheManager({
+            maxMemoryCacheSize: dataLoader.config.app.lyricsCache?.maxMemoryCacheSize || 50,
+            maxSessionStorageSize: dataLoader.config.app.lyricsCache?.maxSessionStorageSize || 100,
+            sessionStorageKey: dataLoader.config.app.lyricsCache?.sessionStorageKey || 'lyricsCache',
+            cleanupThreshold: dataLoader.config.app.lyricsCache?.cleanupThreshold || 0.8
+        });
+
+        // Set global reference to cache manager
+        window.lyricsCacheManager = lyricsCacheManager;
+
+        // Initialize the lyrics language manager with cache manager
+        const lyricsLanguageManager = new LyricsLanguageManager(currentLang, lyricsCacheManager);
 
         // ==================== DOM ELEMENT CACHING ====================
         // Cache frequently used DOM elements for better performance
@@ -846,7 +860,7 @@
                 return heroContainer;
             }
 
-            const showReleaseInfo = (release) => {
+            const showReleaseInfo = async (release) => {
                 // Create content safely
                 const contentFragment = document.createDocumentFragment();
                 
@@ -899,11 +913,134 @@
                     const lyricsPane = document.createElement('div');
                     lyricsPane.className = 'song-info-content';
                     if (!hasStory) lyricsPane.classList.add('active'); // Make first pane active
+                    
+                    // Get available languages for this lyrics content
+                    const availableLyricsLanguages = dataLoader.getAvailableLyricsLanguages ?
+                        dataLoader.getAvailableLyricsLanguages(release.contentIds.lyrics) : [currentLang];
+                    
+                    // Initialize the lyrics language manager for this release with preloading
+                    const initialLanguage = await lyricsLanguageManager.initializeForRelease(
+                        release.id,
+                        availableLyricsLanguages,
+                        release.contentIds.lyrics,
+                        (contentId, language) => dataLoader.resolveLyricsContent(contentId, language)
+                    );
+                    
+                    // Create language selector if multiple languages are available
+                    if (availableLyricsLanguages.length > 1) {
+                        const languageSelector = createLyricsLanguageSelector(
+                            release.id,
+                            availableLyricsLanguages,
+                            initialLanguage,
+                            async (releaseId, newLang, previousLang) => {
+                                // Handle language change through the manager
+                                const prevLang = await lyricsLanguageManager.changeLanguage(releaseId, newLang);
+                                
+                                // Update lyrics content when language changes
+                                const lyricsContent = lyricsPane.querySelector('.lyrics-content');
+                                const lyricsP = lyricsContent ? lyricsContent.querySelector('p') : null;
+                                if (lyricsP) {
+                                    // Add loading state
+                                    lyricsContent.style.opacity = '0.5';
+                                    
+                                    // Try to get from cache first
+                                    let newLyricsText = lyricsLanguageManager.getCachedLyrics(releaseId, newLang);
+                                    
+                                    if (newLyricsText) {
+                                        // Instant update from cache
+                                        lyricsP.textContent = newLyricsText;
+                                        lyricsP.style.whiteSpace = 'pre-wrap';
+                                        lyricsContent.style.opacity = '1';
+                                    } else {
+                                        // Load from data loader with minimal delay for better UX
+                                        setTimeout(async () => {
+                                            try {
+                                                // Get the lyrics content and preserve line breaks
+                                                newLyricsText = dataLoader.resolveLyricsContent ?
+                                                    dataLoader.resolveLyricsContent(release.contentIds.lyrics, newLang) :
+                                                    dataLoader.resolveContent(release.contentIds.lyrics, 'lyrics', newLang);
+                                                
+                                                // Cache the lyrics for future use
+                                                if (lyricsCacheManager) {
+                                                    lyricsCacheManager.setLyrics(releaseId, newLang, newLyricsText);
+                                                }
+                                                
+                                                // Set the text content while preserving whiteSpace style
+                                                lyricsP.textContent = newLyricsText;
+                                                lyricsP.style.whiteSpace = 'pre-wrap';
+                                                
+                                                // Fade back in
+                                                lyricsContent.style.opacity = '1';
+                                            } catch (error) {
+                                                console.error(`Failed to load lyrics for ${releaseId} in ${newLang}:`, error);
+                                                lyricsP.textContent = '[Lyrics not available]';
+                                                lyricsContent.style.opacity = '1';
+                                            }
+                                        }, 50); // Minimal delay for smooth transition
+                                    }
+                                }
+                            }
+                        );
+                        
+                        const selectorElement = languageSelector.create();
+                        lyricsPane.appendChild(selectorElement);
+                        
+                        // Add the announcement region to the panel content
+                        const announcementRegion = languageSelector.getAnnouncementRegion();
+                        if (announcementRegion) {
+                            textContent.appendChild(announcementRegion);
+                        }
+                        
+                        // Set focus to the active language button when the lyrics tab is activated
+                        const lyricsTab = tabsContainer.querySelector('.song-info-tab:nth-child(' + (hasStory ? 2 : 1) + ')');
+                        if (lyricsTab) {
+                            lyricsTab.addEventListener('click', () => {
+                                setTimeout(() => {
+                                    languageSelector.focusActiveButton();
+                                }, 100); // Small delay to ensure the tab is fully activated
+                            });
+                        }
+                    }
+                    
+                    // Create lyrics content container
+                    const lyricsContent = document.createElement('div');
+                    lyricsContent.className = 'lyrics-content';
+                    lyricsContent.style.transition = 'opacity 0.15s ease';
+                    
+                    // Add initial loading state
+                    lyricsContent.style.opacity = '0.5';
+                    
                     const lyricsP = document.createElement('p');
                     lyricsP.className = 'collab-details-bio';
                     lyricsP.style.whiteSpace = 'pre-wrap';
-                    lyricsP.textContent = dataLoader.resolveContent(release.contentIds.lyrics, 'lyrics', currentLang);
-                    lyricsPane.appendChild(lyricsP);
+                    
+                    // Load initial lyrics content (try cache first)
+                    const cachedLyrics = lyricsLanguageManager.getCachedLyrics(release.id, initialLanguage);
+                    if (cachedLyrics) {
+                        lyricsP.textContent = cachedLyrics;
+                        lyricsP.style.whiteSpace = 'pre-wrap';
+                        lyricsContent.style.opacity = '1';
+                    } else {
+                        setTimeout(() => {
+                            const lyricsText = dataLoader.resolveLyricsContent ?
+                                dataLoader.resolveLyricsContent(release.contentIds.lyrics, initialLanguage) :
+                                dataLoader.resolveContent(release.contentIds.lyrics, 'lyrics', initialLanguage);
+                            
+                            // Cache the lyrics for future use
+                            if (lyricsCacheManager) {
+                                lyricsCacheManager.setLyrics(release.id, initialLanguage, lyricsText);
+                            }
+                            
+                            lyricsP.textContent = lyricsText;
+                            lyricsP.style.whiteSpace = 'pre-wrap';
+                            
+                            // Fade in after content is loaded
+                            lyricsContent.style.opacity = '1';
+                        }, 100);
+                    }
+                    
+                    lyricsContent.appendChild(lyricsP);
+                    lyricsPane.appendChild(lyricsContent);
                     textContent.appendChild(lyricsPane);
                     panes.push(lyricsPane);
                 }
@@ -1424,11 +1561,1132 @@
                 console.log('Panel testing complete. Open browser console to see results.');
             };
             
-            // Auto-run test in development mode
+            // Test function for lyrics cache
+            window.testLyricsCache = () => {
+                console.log('Testing lyrics cache functionality...');
+                
+                if (!window.lyricsCacheManager) {
+                    console.error('✗ Lyrics cache manager not initialized');
+                    return;
+                }
+                
+                console.log('✓ Lyrics cache manager initialized');
+                
+                // Test cache statistics
+                const stats = window.getLyricsCacheStats();
+                console.log('Cache statistics:', stats);
+                
+                // Test cache methods
+                const testReleaseId = 'test-release';
+                const testLanguage = 'en';
+                const testLyrics = 'Test lyrics content for caching';
+                
+                // Test setting and getting lyrics
+                window.lyricsCacheManager.setLyrics(testReleaseId, testLanguage, testLyrics);
+                const cachedLyrics = window.lyricsCacheManager.getLyrics(testReleaseId, testLanguage);
+                
+                if (cachedLyrics === testLyrics) {
+                    console.log('✓ Cache set/get functionality working');
+                } else {
+                    console.error('✗ Cache set/get functionality failed');
+                }
+                
+                // Test hasLyrics method
+                if (window.lyricsCacheManager.hasLyrics(testReleaseId, testLanguage)) {
+                    console.log('✓ Cache hasLyrics method working');
+                } else {
+                    console.error('✗ Cache hasLyrics method failed');
+                }
+                
+                // Test getCachedLanguages method
+                const cachedLanguages = window.lyricsCacheManager.getCachedLanguages(testReleaseId);
+                if (cachedLanguages.includes(testLanguage)) {
+                    console.log('✓ Cache getCachedLanguages method working');
+                } else {
+                    console.error('✗ Cache getCachedLanguages method failed');
+                }
+                
+                // Test cache invalidation
+                window.lyricsCacheManager.invalidateRelease(testReleaseId);
+                if (!window.lyricsCacheManager.hasLyrics(testReleaseId, testLanguage)) {
+                    console.log('✓ Cache invalidation working');
+                } else {
+                    console.error('✗ Cache invalidation failed');
+                }
+                
+                // Clean up test data
+                window.clearLyricsCache();
+                
+                console.log('Lyrics cache testing complete. Open browser console to see results.');
+            };
+            
+            // Auto-run tests in development mode
             setTimeout(() => {
                 if (window.testPanels) window.testPanels();
+                if (window.testLyricsCache) window.testLyricsCache();
             }, 2000);
         }
     };
 
 })();
+
+// ==================== MULTI-LANGUAGE LYRICS MANAGER ====================
+
+/**
+ * Manages the state and preferences for lyrics language selection.
+ * Handles session storage, default language settings, and language switching logic.
+ */
+class LyricsLanguageManager {
+    /**
+     * @param {string} defaultLanguage - The default language from global settings
+     * @param {LyricsCacheManager} cacheManager - The cache manager instance
+     */
+    constructor(defaultLanguage, cacheManager = null) {
+        this.defaultLanguage = defaultLanguage;
+        this.sessionStorageKey = 'lyricsLanguagePreference';
+        this.currentReleaseId = null;
+        this.currentLanguage = defaultLanguage;
+        this.availableLanguages = [];
+        this.selectors = new Map(); // Track selectors by release ID
+        this.cacheManager = cacheManager;
+        this.preloadedContent = new Map(); // Track preloaded content
+    }
+
+    /**
+     * Gets the stored language preference for a release from session storage
+     * @param {string} releaseId - The ID of the release
+     * @returns {string|null} The stored language code or null
+     */
+    getStoredLanguagePreference(releaseId) {
+        try {
+            const stored = sessionStorage.getItem(this.sessionStorageKey);
+            if (stored) {
+                const preferences = JSON.parse(stored);
+                return preferences[releaseId] || null;
+            }
+        } catch (error) {
+            console.warn('Failed to read language preference from session storage:', error);
+        }
+        return null;
+    }
+
+    /**
+     * Stores the language preference for a release in session storage
+     * @param {string} releaseId - The ID of the release
+     * @param {string} languageCode - The language code to store
+     */
+    storeLanguagePreference(releaseId, languageCode) {
+        try {
+            let preferences = {};
+            const stored = sessionStorage.getItem(this.sessionStorageKey);
+            if (stored) {
+                preferences = JSON.parse(stored);
+            }
+            preferences[releaseId] = languageCode;
+            sessionStorage.setItem(this.sessionStorageKey, JSON.stringify(preferences));
+        } catch (error) {
+            console.warn('Failed to store language preference in session storage:', error);
+        }
+    }
+
+    /**
+     * Determines the initial language to use for a release
+     * @param {string} releaseId - The ID of the release
+     * @param {Array<string>} availableLanguages - Available languages for this release
+     * @returns {string} The language code to use
+     */
+    getInitialLanguage(releaseId, availableLanguages) {
+        // First check if we have a stored preference for this release
+        const storedPreference = this.getStoredLanguagePreference(releaseId);
+        if (storedPreference && availableLanguages.includes(storedPreference)) {
+            return storedPreference;
+        }
+
+        // Fall back to the global default language if available
+        if (availableLanguages.includes(this.defaultLanguage)) {
+            return this.defaultLanguage;
+        }
+
+        // Fall back to English if available
+        if (availableLanguages.includes('en')) {
+            return 'en';
+        }
+
+        // Fall back to the first available language
+        return availableLanguages.length > 0 ? availableLanguages[0] : this.defaultLanguage;
+    }
+
+    /**
+     * Initializes the language manager for a specific release
+     * @param {string} releaseId - The ID of the release
+     * @param {Array<string>} availableLanguages - Available languages for this release
+     * @param {string} contentId - The content ID for the lyrics
+     * @param {Function} loadLyricsFunction - Function to load lyrics for a given language
+     * @returns {Promise<string>} The initial language to use
+     */
+    async initializeForRelease(releaseId, availableLanguages, contentId = null, loadLyricsFunction = null) {
+        this.currentReleaseId = releaseId;
+        this.availableLanguages = availableLanguages;
+        this.currentLanguage = this.getInitialLanguage(releaseId, availableLanguages);
+        
+        // Preload all language versions if cache manager is available
+        if (this.cacheManager && contentId && loadLyricsFunction) {
+            try {
+                const allLyrics = await this.cacheManager.preloadAllLanguages(
+                    releaseId,
+                    contentId,
+                    availableLanguages,
+                    loadLyricsFunction
+                );
+                this.preloadedContent.set(releaseId, allLyrics);
+            } catch (error) {
+                console.warn(`Failed to preload lyrics for ${releaseId}:`, error);
+            }
+        }
+        
+        return this.currentLanguage;
+    }
+
+    /**
+     * Handles language change for a release
+     * @param {string} releaseId - The ID of the release
+     * @param {string} newLanguage - The new language code
+     * @returns {Promise<string>} The previous language code
+     */
+    async changeLanguage(releaseId, newLanguage) {
+        if (!this.availableLanguages.includes(newLanguage)) {
+            console.warn(`Language ${newLanguage} is not available for release ${releaseId}`);
+            return this.currentLanguage;
+        }
+
+        const previousLanguage = this.currentLanguage;
+        this.currentLanguage = newLanguage;
+        this.storeLanguagePreference(releaseId, newLanguage);
+        return previousLanguage;
+    }
+
+    /**
+     * Gets the current language for the active release
+     * @returns {string} The current language code
+     */
+    getCurrentLanguage() {
+        return this.currentLanguage;
+    }
+
+    /**
+     * Gets the available languages for the active release
+     * @returns {Array<string>} The available language codes
+     */
+    getAvailableLanguages() {
+        return [...this.availableLanguages];
+    }
+
+    /**
+     * Checks if a language is available for the current release
+     * @param {string} languageCode - The language code to check
+     * @returns {boolean} True if the language is available
+     */
+    isLanguageAvailable(languageCode) {
+        return this.availableLanguages.includes(languageCode);
+    }
+
+    /**
+     * Resets the manager state (useful when switching releases)
+     */
+    reset() {
+        this.currentReleaseId = null;
+        this.currentLanguage = this.defaultLanguage;
+        this.availableLanguages = [];
+    }
+    
+    /**
+     * Gets cached lyrics for a release and language
+     * @param {string} releaseId - The ID of the release
+     * @param {string} language - The language code
+     * @returns {string|null} The cached lyrics or null if not found
+     */
+    getCachedLyrics(releaseId, language) {
+        if (this.cacheManager) {
+            return this.cacheManager.getLyrics(releaseId, language);
+        }
+        return null;
+    }
+    
+    /**
+     * Checks if lyrics are cached for a release and language
+     * @param {string} releaseId - The ID of the release
+     * @param {string} language - The language code
+     * @returns {boolean} True if cached, false otherwise
+     */
+    hasCachedLyrics(releaseId, language) {
+        if (this.cacheManager) {
+            return this.cacheManager.hasLyrics(releaseId, language);
+        }
+        return false;
+    }
+    
+    /**
+     * Gets the preloaded content for a release
+     * @param {string} releaseId - The ID of the release
+     * @returns {Object|null} The preloaded content or null if not available
+     */
+    getPreloadedContent(releaseId) {
+        return this.preloadedContent.get(releaseId) || null;
+    }
+}
+
+// ==================== MULTI-LANGUAGE LYRICS SELECTOR ====================
+
+/**
+ * Creates and manages the horizontal language selector for multi-language lyrics.
+ * This component allows users to switch between available lyric translations
+ * independently from the global language setting with full accessibility support.
+ */
+class LyricsLanguageSelector {
+    /**
+     * @param {string} releaseId - The ID of the current release
+     * @param {Array<string>} availableLanguages - Array of available language codes
+     * @param {string} currentLanguage - Currently selected language code
+     */
+    constructor(releaseId, availableLanguages, currentLanguage) {
+        this.releaseId = releaseId;
+        this.availableLanguages = availableLanguages;
+        this.currentLanguage = currentLanguage;
+        this.element = null;
+        this.onLanguageChange = null; // Callback function for language changes
+        this.announcementRegion = null; // For screen reader announcements
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+        this.isScrollable = false;
+    }
+
+    /**
+     * Creates the language selector DOM element
+     * @returns {HTMLElement} The language selector container element
+     */
+    create() {
+        const container = document.createElement('div');
+        container.className = 'lyrics-language-selector';
+        container.setAttribute('role', 'tablist');
+        container.setAttribute('aria-label', 'Lyrics language selection');
+        container.setAttribute('aria-orientation', 'horizontal');
+        
+        // Create screen reader announcement region
+        this.announcementRegion = document.createElement('div');
+        this.announcementRegion.setAttribute('aria-live', 'polite');
+        this.announcementRegion.setAttribute('aria-atomic', 'true');
+        this.announcementRegion.className = 'sr-only';
+        this.announcementRegion.style.position = 'absolute';
+        this.announcementRegion.style.left = '-10000px';
+        this.announcementRegion.style.width = '1px';
+        this.announcementRegion.style.height = '1px';
+        this.announcementRegion.style.overflow = 'hidden';
+        
+        // Only create buttons if we have multiple languages
+        if (this.availableLanguages.length > 1) {
+            this.availableLanguages.forEach((langCode, index) => {
+                const button = this.createLanguageButton(langCode, index);
+                container.appendChild(button);
+            });
+            
+            // Check if selector is scrollable for visual indicators
+            this.checkScrollable(container);
+        }
+        
+        this.element = container;
+        this.bindEvents();
+        
+        return container;
+    }
+
+    /**
+     * Creates a language button for the selector
+     * @param {string} langCode - The language code (e.g., 'en', 'es', 'fr')
+     * @param {number} index - The index of the button in the list
+     * @returns {HTMLElement} The created button element
+     */
+    createLanguageButton(langCode, index) {
+        const button = document.createElement('button');
+        button.className = 'language-btn';
+        button.setAttribute('role', 'tab');
+        button.setAttribute('data-lang', langCode);
+        button.setAttribute('aria-controls', 'lyrics-content');
+        button.setAttribute('aria-selected', langCode === this.currentLanguage ? 'true' : 'false');
+        button.setAttribute('aria-describedby', `lang-desc-${langCode}`);
+        button.setAttribute('title', this.getLanguageName(langCode));
+        button.setAttribute('tabindex', langCode === this.currentLanguage ? '0' : '-1');
+        button.id = `lang-tab-${this.releaseId}-${index}`;
+        
+        const langSpan = document.createElement('span');
+        langSpan.className = 'lang-code';
+        langSpan.textContent = langCode.toUpperCase();
+        langSpan.setAttribute('aria-hidden', 'true');
+        
+        const indicator = document.createElement('span');
+        indicator.className = 'lang-indicator';
+        indicator.setAttribute('aria-hidden', 'true');
+        
+        // Hidden description for screen readers
+        const description = document.createElement('span');
+        description.id = `lang-desc-${langCode}`;
+        description.className = 'sr-only';
+        description.textContent = `${this.getLanguageName(langCode)} lyrics language`;
+        description.style.position = 'absolute';
+        description.style.left = '-10000px';
+        description.style.width = '1px';
+        description.style.height = '1px';
+        description.style.overflow = 'hidden';
+        
+        button.appendChild(langSpan);
+        button.appendChild(indicator);
+        
+        if (langCode === this.currentLanguage) {
+            button.classList.add('active');
+        }
+        
+        return button;
+    }
+
+    /**
+     * Binds event listeners to the language selector
+     */
+    bindEvents() {
+        if (!this.element) return;
+        
+        // Click events
+        this.element.addEventListener('click', (e) => {
+            if (e.target.matches('.language-btn') || e.target.closest('.language-btn')) {
+                const button = e.target.matches('.language-btn') ? e.target : e.target.closest('.language-btn');
+                const selectedLang = button.getAttribute('data-lang');
+                this.selectLanguage(selectedLang);
+            }
+        });
+        
+        // Enhanced keyboard navigation support
+        this.element.addEventListener('keydown', (e) => {
+            switch (e.key) {
+                case 'ArrowLeft':
+                case 'ArrowRight':
+                    this.handleArrowNavigation(e);
+                    break;
+                case 'Home':
+                    this.handleHomeKey(e);
+                    break;
+                case 'End':
+                    this.handleEndKey(e);
+                    break;
+                case 'Enter':
+                case ' ':
+                    this.handleKeySelection(e);
+                    break;
+                case 'Escape':
+                    this.handleEscapeKey(e);
+                    break;
+            }
+        });
+        
+        // Touch gesture support
+        this.element.addEventListener('touchstart', (e) => {
+            this.handleTouchStart(e);
+        }, { passive: true });
+        
+        this.element.addEventListener('touchend', (e) => {
+            this.handleTouchEnd(e);
+        }, { passive: true });
+        
+        // Scroll detection for visual indicators
+        this.element.addEventListener('scroll', () => {
+            this.updateScrollIndicators();
+        }, { passive: true });
+        
+        // Focus management
+        this.element.addEventListener('focusin', (e) => {
+            if (e.target.matches('.language-btn')) {
+                this.ensureButtonVisible(e.target);
+            }
+        });
+    }
+
+    /**
+     * Handles language selection with visual feedback and screen reader announcements
+     * @param {string} languageCode - The selected language code
+     */
+    selectLanguage(languageCode) {
+        if (languageCode === this.currentLanguage) return;
+        
+        // Check if the language is available
+        if (!this.availableLanguages.includes(languageCode)) {
+            console.warn(`Language ${languageCode} is not available for release ${this.releaseId}`);
+            return;
+        }
+        
+        // Update visual state
+        const buttons = this.element.querySelectorAll('.language-btn');
+        buttons.forEach(btn => {
+            const btnLang = btn.getAttribute('data-lang');
+            const isActive = btnLang === languageCode;
+            
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            btn.setAttribute('tabindex', isActive ? '0' : '-1');
+        });
+        
+        // Update current language
+        const previousLanguage = this.currentLanguage;
+        this.currentLanguage = languageCode;
+        
+        // Announce change to screen readers
+        this.announceLanguageChange(languageCode, previousLanguage);
+        
+        // Call the callback if provided
+        if (this.onLanguageChange) {
+            this.onLanguageChange(this.releaseId, languageCode, previousLanguage);
+        }
+    }
+
+    /**
+     * Announces language changes to screen readers
+     * @param {string} newLanguage - The new language code
+     * @param {string} previousLanguage - The previous language code
+     */
+    announceLanguageChange(newLanguage, previousLanguage) {
+        if (this.announcementRegion) {
+            const newName = this.getLanguageName(newLanguage);
+            const previousName = this.getLanguageName(previousLanguage);
+            this.announcementRegion.textContent = `Language changed from ${previousName} to ${newName}`;
+        }
+    }
+
+    /**
+     * Handles keyboard navigation between language buttons
+     * @param {KeyboardEvent} e - The keyboard event
+     */
+    handleArrowNavigation(e) {
+        e.preventDefault();
+        const buttons = Array.from(this.element.querySelectorAll('.language-btn'));
+        const currentIndex = buttons.findIndex(btn => btn.classList.contains('active'));
+        
+        let nextIndex;
+        if (e.key === 'ArrowLeft') {
+            nextIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+        } else {
+            nextIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
+        }
+        
+        buttons[nextIndex].focus();
+        this.ensureButtonVisible(buttons[nextIndex]);
+    }
+
+    /**
+     * Handles Home key navigation
+     * @param {KeyboardEvent} e - The keyboard event
+     */
+    handleHomeKey(e) {
+        e.preventDefault();
+        const buttons = this.element.querySelectorAll('.language-btn');
+        if (buttons.length > 0) {
+            buttons[0].focus();
+            this.ensureButtonVisible(buttons[0]);
+        }
+    }
+
+    /**
+     * Handles End key navigation
+     * @param {KeyboardEvent} e - The keyboard event
+     */
+    handleEndKey(e) {
+        e.preventDefault();
+        const buttons = this.element.querySelectorAll('.language-btn');
+        if (buttons.length > 0) {
+            buttons[buttons.length - 1].focus();
+            this.ensureButtonVisible(buttons[buttons.length - 1]);
+        }
+    }
+
+    /**
+     * Handles keyboard selection of the focused language button
+     * @param {KeyboardEvent} e - The keyboard event
+     */
+    handleKeySelection(e) {
+        e.preventDefault();
+        const focusedBtn = this.element.querySelector('.language-btn:focus');
+        if (focusedBtn) {
+            const selectedLang = focusedBtn.getAttribute('data-lang');
+            this.selectLanguage(selectedLang);
+        }
+    }
+
+    /**
+     * Handles Escape key to return focus to the active tab
+     * @param {KeyboardEvent} e - The keyboard event
+     */
+    handleEscapeKey(e) {
+        e.preventDefault();
+        const activeBtn = this.element.querySelector('.language-btn.active');
+        if (activeBtn) {
+            activeBtn.focus();
+        }
+    }
+
+    /**
+     * Ensures a button is visible in the scrollable container
+     * @param {HTMLElement} button - The button to ensure is visible
+     */
+    ensureButtonVisible(button) {
+        if (!this.isScrollable) return;
+        
+        const container = this.element;
+        const containerRect = container.getBoundingClientRect();
+        const buttonRect = button.getBoundingClientRect();
+        
+        if (buttonRect.left < containerRect.left) {
+            // Button is to the left of the visible area
+            container.scrollLeft -= containerRect.left - buttonRect.left;
+        } else if (buttonRect.right > containerRect.right) {
+            // Button is to the right of the visible area
+            container.scrollLeft += buttonRect.right - containerRect.right;
+        }
+    }
+
+    /**
+     * Handles touch start for swipe gestures
+     * @param {TouchEvent} e - The touch event
+     */
+    handleTouchStart(e) {
+        this.touchStartX = e.touches[0].clientX;
+        this.touchStartY = e.touches[0].clientY;
+    }
+
+    /**
+     * Handles touch end for swipe gestures
+     * @param {TouchEvent} e - The touch event
+     */
+    handleTouchEnd(e) {
+        if (!this.touchStartX || !this.touchStartY) return;
+        
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+        
+        const deltaX = touchEndX - this.touchStartX;
+        const deltaY = Math.abs(touchEndY - this.touchStartY);
+        
+        // Check if it's a horizontal swipe (not vertical scroll)
+        if (Math.abs(deltaX) > 50 && deltaY < 50) {
+            const buttons = Array.from(this.element.querySelectorAll('.language-btn'));
+            const currentIndex = buttons.findIndex(btn => btn.classList.contains('active'));
+            
+            let nextIndex;
+            if (deltaX > 0) {
+                // Swipe right - previous language
+                nextIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+            } else {
+                // Swipe left - next language
+                nextIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
+            }
+            
+            const nextLang = buttons[nextIndex].getAttribute('data-lang');
+            this.selectLanguage(nextLang);
+            this.ensureButtonVisible(buttons[nextIndex]);
+        }
+        
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+    }
+
+    /**
+     * Checks if the selector is scrollable and updates visual indicators
+     * @param {HTMLElement} container - The container element
+     */
+    checkScrollable(container) {
+        // Check if content overflows horizontally
+        this.isScrollable = container.scrollWidth > container.clientWidth;
+        
+        if (this.isScrollable) {
+            container.classList.add('scrollable');
+            this.updateScrollIndicators();
+        } else {
+            container.classList.remove('scrollable');
+        }
+    }
+
+    /**
+     * Updates scroll indicators based on current scroll position
+     */
+    updateScrollIndicators() {
+        if (!this.isScrollable) return;
+        
+        const container = this.element;
+        const atStart = container.scrollLeft <= 0;
+        const atEnd = container.scrollLeft >= container.scrollWidth - container.clientWidth;
+        
+        // Update visual indicators (could be enhanced with CSS pseudo-elements)
+        container.classList.toggle('at-start', atStart);
+        container.classList.toggle('at-end', atEnd);
+    }
+
+    /**
+     * Updates the selector with new language data
+     * @param {Array<string>} availableLanguages - New array of available language codes
+     * @param {string} currentLanguage - New current language code
+     */
+    updateLanguages(availableLanguages, currentLanguage) {
+        this.availableLanguages = availableLanguages;
+        this.currentLanguage = currentLanguage;
+        
+        if (this.element) {
+            // Clear existing content
+            this.element.innerHTML = '';
+            
+            // Only recreate if we have multiple languages
+            if (availableLanguages.length > 1) {
+                availableLanguages.forEach((langCode, index) => {
+                    const button = this.createLanguageButton(langCode, index);
+                    this.element.appendChild(button);
+                });
+                
+                // Check if selector is scrollable
+                this.checkScrollable(this.element);
+            }
+            
+            // Re-add announcement region
+            if (this.announcementRegion && this.element.parentNode) {
+                this.element.parentNode.appendChild(this.announcementRegion);
+            }
+        }
+    }
+
+    /**
+     * Gets the current active language button
+     * @returns {HTMLElement|null} The active button or null
+     */
+    getActiveButton() {
+        if (!this.element) return null;
+        return this.element.querySelector('.language-btn.active');
+    }
+
+    /**
+     * Sets focus to the active language button
+     */
+    focusActiveButton() {
+        const activeBtn = this.getActiveButton();
+        if (activeBtn) {
+            activeBtn.focus();
+            this.ensureButtonVisible(activeBtn);
+        }
+    }
+
+    /**
+     * Gets the announcement region element
+     * @returns {HTMLElement} The announcement region element
+     */
+    getAnnouncementRegion() {
+        return this.announcementRegion;
+    }
+
+    /**
+     * Sets a callback function to be called when language changes
+     * @param {Function} callback - Function to call on language change
+     */
+    setLanguageChangeCallback(callback) {
+        this.onLanguageChange = callback;
+    }
+
+    /**
+     * Gets the display name for a language code
+     * @param {string} langCode - The language code
+     * @returns {string} The display name for the language
+     */
+    getLanguageName(langCode) {
+        const languageNames = {
+            'en': 'English',
+            'es': 'Español',
+            'fr': 'Français',
+            'de': 'Deutsch',
+            'it': 'Italiano',
+            'pt': 'Português',
+            'nl': 'Nederlands',
+            'pl': 'Polski',
+            'ru': 'Русский',
+            'ja': '日本語',
+            'zh': '中文',
+            'ko': '한국어',
+            'ar': 'العربية'
+        };
+        
+        return languageNames[langCode] || langCode.toUpperCase();
+    }
+
+    /**
+     * Shows an error state when a language is unavailable
+     * @param {string} languageCode - The unavailable language code
+     */
+    showLanguageUnavailableError(languageCode) {
+        const button = this.element.querySelector(`[data-lang="${languageCode}"]`);
+        if (button) {
+            button.classList.add('unavailable');
+            button.setAttribute('aria-disabled', 'true');
+            button.setAttribute('title', `${this.getLanguageName(languageCode)} - Not available`);
+        }
+    }
+
+    /**
+     * Handles error states for unavailable languages
+     */
+    handleUnavailableLanguages() {
+        if (!this.element) return;
+        
+        const buttons = this.element.querySelectorAll('.language-btn');
+        buttons.forEach(btn => {
+            const langCode = btn.getAttribute('data-lang');
+            if (!this.availableLanguages.includes(langCode)) {
+                this.showLanguageUnavailableError(langCode);
+            }
+        });
+    }
+
+    /**
+     * Destroys the selector and cleans up event listeners
+     */
+    destroy() {
+        if (this.element && this.element.parentNode) {
+            this.element.parentNode.removeChild(this.element);
+        }
+        this.element = null;
+        this.onLanguageChange = null;
+    }
+}
+
+/**
+ * Utility function to create a lyrics language selector
+ * @param {string} releaseId - The ID of the current release
+ * @param {Array<string>} availableLanguages - Array of available language codes
+ * @param {string} currentLanguage - Currently selected language code
+ * @param {Function} onLanguageChange - Callback function for language changes
+ * @returns {LyricsLanguageSelector} The created selector instance
+ */
+function createLyricsLanguageSelector(releaseId, availableLanguages, currentLanguage, onLanguageChange) {
+    const selector = new LyricsLanguageSelector(releaseId, availableLanguages, currentLanguage);
+    
+    if (onLanguageChange) {
+        selector.setLanguageChangeCallback(onLanguageChange);
+    }
+    
+    return selector;
+}
+
+// ==================== LYRICS CACHE MANAGER ====================
+
+/**
+ * Manages efficient caching of lyric translations to ensure instant switching between languages.
+ * Implements a multi-level caching strategy with in-memory cache and session storage.
+ */
+class LyricsCacheManager {
+    /**
+     * @param {Object} config - Configuration options for the cache manager
+     * @param {number} [config.maxMemoryCacheSize=50] - Maximum number of releases to cache in memory
+     * @param {number} [config.maxSessionStorageSize=100] - Maximum number of releases to cache in session storage
+     * @param {string} [config.sessionStorageKey='lyricsCache'] - Key for session storage
+     * @param {number} [config.cleanupThreshold=0.8] - Threshold for triggering cleanup (0.8 = 80%)
+     */
+    constructor(config = {}) {
+        this.maxMemoryCacheSize = config.maxMemoryCacheSize || 50;
+        this.maxSessionStorageSize = config.maxSessionStorageSize || 100;
+        this.sessionStorageKey = config.sessionStorageKey || 'lyricsCache';
+        this.cleanupThreshold = config.cleanupThreshold || 0.8;
+        
+        // In-memory cache for instant access
+        this.memoryCache = new Map();
+        
+        // Access tracking for LRU (Least Recently Used) eviction
+        this.accessOrder = new Map();
+        
+        // Initialize session storage cache
+        this.initializeSessionStorage();
+        
+        // Track cache statistics
+        this.stats = {
+            memoryHits: 0,
+            sessionHits: 0,
+            misses: 0,
+            preloads: 0
+        };
+    }
+    
+    /**
+     * Initializes the session storage cache and loads existing data
+     */
+    initializeSessionStorage() {
+        try {
+            const stored = sessionStorage.getItem(this.sessionStorageKey);
+            if (stored) {
+                const sessionCache = JSON.parse(stored);
+                // Validate the stored cache structure
+                if (sessionCache && typeof sessionCache === 'object') {
+                    this.sessionCache = sessionCache;
+                } else {
+                    this.sessionCache = {};
+                }
+            } else {
+                this.sessionCache = {};
+            }
+        } catch (error) {
+            console.warn('Failed to initialize session storage cache:', error);
+            this.sessionCache = {};
+        }
+    }
+    
+    /**
+     * Gets cached lyrics for a specific release and language
+     * @param {string} releaseId - The ID of the release
+     * @param {string} language - The language code
+     * @returns {string|null} The cached lyrics or null if not found
+     */
+    getLyrics(releaseId, language) {
+        const cacheKey = `${releaseId}:${language}`;
+        
+        // Check memory cache first (fastest)
+        if (this.memoryCache.has(cacheKey)) {
+            this.updateAccessOrder(cacheKey);
+            this.stats.memoryHits++;
+            return this.memoryCache.get(cacheKey);
+        }
+        
+        // Check session storage cache
+        if (this.sessionCache[cacheKey]) {
+            const lyrics = this.sessionCache[cacheKey];
+            
+            // Promote to memory cache if we have space
+            if (this.memoryCache.size < this.maxMemoryCacheSize) {
+                this.memoryCache.set(cacheKey, lyrics);
+                this.updateAccessOrder(cacheKey);
+            }
+            
+            this.stats.sessionHits++;
+            return lyrics;
+        }
+        
+        this.stats.misses++;
+        return null;
+    }
+    
+    /**
+     * Caches lyrics for a specific release and language
+     * @param {string} releaseId - The ID of the release
+     * @param {string} language - The language code
+     * @param {string} lyrics - The lyrics content to cache
+     */
+    setLyrics(releaseId, language, lyrics) {
+        const cacheKey = `${releaseId}:${language}`;
+        
+        // Store in memory cache
+        this.memoryCache.set(cacheKey, lyrics);
+        this.updateAccessOrder(cacheKey);
+        
+        // Check if we need to clean up memory cache
+        if (this.memoryCache.size > this.maxMemoryCacheSize * this.cleanupThreshold) {
+            this.cleanupMemoryCache();
+        }
+        
+        // Store in session storage
+        this.sessionCache[cacheKey] = lyrics;
+        
+        // Check if we need to clean up session storage
+        const sessionSize = Object.keys(this.sessionCache).length;
+        if (sessionSize > this.maxSessionStorageSize * this.cleanupThreshold) {
+            this.cleanupSessionStorage();
+        }
+        
+        // Persist session storage
+        this.persistSessionStorage();
+    }
+    
+    /**
+     * Preloads all available language versions for a release
+     * @param {string} releaseId - The ID of the release
+     * @param {string} contentId - The content ID for the lyrics
+     * @param {Array<string>} availableLanguages - Array of available language codes
+     * @param {Function} loadLyricsFunction - Function to load lyrics for a given language
+     * @returns {Promise<Object>} - Object with all loaded lyrics by language
+     */
+    async preloadAllLanguages(releaseId, contentId, availableLanguages, loadLyricsFunction) {
+        const preloadPromises = availableLanguages.map(async (language) => {
+            const cacheKey = `${releaseId}:${language}`;
+            
+            // Check if already cached
+            if (this.getLyrics(releaseId, language)) {
+                return { language, lyrics: this.getLyrics(releaseId, language) };
+            }
+            
+            // Load and cache
+            try {
+                const lyrics = await loadLyricsFunction(contentId, language);
+                this.setLyrics(releaseId, language, lyrics);
+                this.stats.preloads++;
+                return { language, lyrics };
+            } catch (error) {
+                console.warn(`Failed to preload lyrics for ${releaseId} in ${language}:`, error);
+                return { language, lyrics: null };
+            }
+        });
+        
+        const results = await Promise.all(preloadPromises);
+        
+        // Convert results to object
+        const allLyrics = {};
+        results.forEach(({ language, lyrics }) => {
+            if (lyrics) {
+                allLyrics[language] = lyrics;
+            }
+        });
+        
+        return allLyrics;
+    }
+    
+    /**
+     * Updates the access order for LRU tracking
+     * @param {string} cacheKey - The cache key
+     */
+    updateAccessOrder(cacheKey) {
+        this.accessOrder.set(cacheKey, Date.now());
+    }
+    
+    /**
+     * Cleans up the memory cache using LRU eviction
+     */
+    cleanupMemoryCache() {
+        // Sort by access time (oldest first)
+        const sortedKeys = Array.from(this.accessOrder.entries())
+            .sort((a, b) => a[1] - b[1])
+            .map(entry => entry[0]);
+        
+        // Remove oldest entries until we're under the limit
+        const toRemove = sortedKeys.slice(0, this.memoryCache.size - this.maxMemoryCacheSize);
+        toRemove.forEach(key => {
+            this.memoryCache.delete(key);
+            this.accessOrder.delete(key);
+        });
+    }
+    
+    /**
+     * Cleans up the session storage cache
+     */
+    cleanupSessionStorage() {
+        const keys = Object.keys(this.sessionCache);
+        const toRemove = keys.slice(0, keys.length - this.maxSessionStorageSize);
+        
+        toRemove.forEach(key => {
+            delete this.sessionCache[key];
+        });
+    }
+    
+    /**
+     * Persists the session storage cache to actual session storage
+     */
+    persistSessionStorage() {
+        try {
+            sessionStorage.setItem(this.sessionStorageKey, JSON.stringify(this.sessionCache));
+        } catch (error) {
+            console.warn('Failed to persist session storage cache:', error);
+            
+            // If session storage is full, clear it and try again
+            if (error.name === 'QuotaExceededError') {
+                this.sessionCache = {};
+                try {
+                    sessionStorage.setItem(this.sessionStorageKey, JSON.stringify(this.sessionCache));
+                } catch (retryError) {
+                    console.error('Failed to persist session storage even after cleanup:', retryError);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Invalidates cache entries for a specific release
+     * @param {string} releaseId - The ID of the release to invalidate
+     */
+    invalidateRelease(releaseId) {
+        // Remove from memory cache
+        const keysToDelete = [];
+        for (const key of this.memoryCache.keys()) {
+            if (key.startsWith(`${releaseId}:`)) {
+                keysToDelete.push(key);
+            }
+        }
+        keysToDelete.forEach(key => {
+            this.memoryCache.delete(key);
+            this.accessOrder.delete(key);
+        });
+        
+        // Remove from session storage
+        const sessionKeys = Object.keys(this.sessionCache);
+        sessionKeys.forEach(key => {
+            if (key.startsWith(`${releaseId}:`)) {
+                delete this.sessionCache[key];
+            }
+        });
+        
+        // Persist changes
+        this.persistSessionStorage();
+    }
+    
+    /**
+     * Invalidates all cache entries
+     */
+    invalidateAll() {
+        this.memoryCache.clear();
+        this.accessOrder.clear();
+        this.sessionCache = {};
+        this.persistSessionStorage();
+    }
+    
+    /**
+     * Gets cache statistics
+     * @returns {Object} - Cache statistics
+     */
+    getStats() {
+        return {
+            ...this.stats,
+            memoryCacheSize: this.memoryCache.size,
+            sessionStorageSize: Object.keys(this.sessionCache).length,
+            memoryCacheLimit: this.maxMemoryCacheSize,
+            sessionStorageLimit: this.maxSessionStorageSize
+        };
+    }
+    
+    /**
+     * Checks if lyrics are cached for a specific release and language
+     * @param {string} releaseId - The ID of the release
+     * @param {string} language - The language code
+     * @returns {boolean} - True if cached, false otherwise
+     */
+    hasLyrics(releaseId, language) {
+        const cacheKey = `${releaseId}:${language}`;
+        return this.memoryCache.has(cacheKey) || !!this.sessionCache[cacheKey];
+    }
+    
+    /**
+     * Gets all cached languages for a release
+     * @param {string} releaseId - The ID of the release
+     * @returns {Array<string>} - Array of cached language codes
+     */
+    getCachedLanguages(releaseId) {
+        const languages = new Set();
+        const prefix = `${releaseId}:`;
+        
+        // Check memory cache
+        for (const key of this.memoryCache.keys()) {
+            if (key.startsWith(prefix)) {
+                languages.add(key.substring(prefix.length));
+            }
+        }
+        
+        // Check session storage
+        for (const key of Object.keys(this.sessionCache)) {
+            if (key.startsWith(prefix)) {
+                languages.add(key.substring(prefix.length));
+            }
+        }
+        
+        return Array.from(languages);
+    }
+}

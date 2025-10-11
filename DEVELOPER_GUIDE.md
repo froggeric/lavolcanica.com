@@ -91,7 +91,58 @@ The application employs a component-based architecture implemented in vanilla Ja
 - `showCollaborator()`
 - `showReleaseInfo()`
 
-### 6.1. Smart Navigation History System
+### 6.1. Multi-Language Lyrics Feature
+
+The multi-language lyrics feature allows users to switch between different language versions of song lyrics within the release information panel. This system is designed for flexibility, performance, and accessibility.
+
+#### Core Components
+
+- **[`LyricsLanguageManager`](script.js:1639)**: Manages the state and preferences for lyrics language selection.
+  - **Purpose**: Handles session storage for user language preferences, determines the initial language to display, and coordinates language changes.
+  - **Key Methods**:
+    - [`constructor(defaultLanguage, cacheManager)`](script.js:1645): Initializes with a default language and a `LyricsCacheManager` instance.
+    - [`getStoredLanguagePreference(releaseId)`](script.js:1660): Retrieves a user's stored language preference for a specific release.
+    - [`storeLanguagePreference(releaseId, languageCode)`](script.js:1678): Stores the user's selected language for a release.
+    - [`getInitialLanguage(releaseId, availableLanguages)`](script.js:1698): Determines which language to display first based on preferences and availability.
+    - [`initializeForRelease(releaseId, availableLanguages, contentId, loadLyricsFunction)`](script.js:1727): Sets up the manager for a given release, including preloading lyrics.
+    - [`changeLanguage(releaseId, newLanguage)`](script.js:1754): Updates the current language and stores the preference.
+    - [`getCachedLyrics(releaseId, language)`](script.js:1808): Retrieves lyrics from the cache.
+    - [`hasCachedLyrics(releaseId, language)`](script.js:1817): Checks if lyrics are available in the cache.
+
+- **[`LyricsCacheManager`](script.js:2383)**: Manages efficient caching of lyric translations using a multi-level strategy.
+  - **Purpose**: Stores lyric content in both in-memory and session storage to provide instant language switching and minimize network requests. Implements an LRU (Least Recently Used) eviction policy.
+  - **Key Methods**:
+    - [`constructor(config)`](script.js:2391): Configures cache sizes and storage key.
+    - [`getLyrics(releaseId, language)`](script.js:2444): Retrieves lyrics from cache (memory first, then session storage).
+    - [`setLyrics(releaseId, language, lyrics)`](script.js:2478): Stores lyrics in both caches, performing cleanup if limits are exceeded.
+    - [`preloadAllLanguages(releaseId, contentId, availableLanguages, loadLyricsFunction)`](script.js:2511): Fetches and caches all available translations for a release.
+    - [`invalidateRelease(releaseId)`](script.js:2607): Removes all cached lyrics for a specific release.
+    - [`invalidateAll()`](script.js:2634): Clears all cached lyrics.
+    - [`getStats()`](script.js:2646): Provides statistics on cache hits and misses.
+
+- **[`createLyricsLanguageSelector`](script.js:2367)**: A utility function that creates an accessible UI component for language selection.
+  - **Purpose**: Generates interactive buttons for each available language, handles click and keyboard events, and provides visual feedback.
+  - **Accessibility**: Includes ARIA attributes for screen readers, keyboard navigation (Arrow keys, Home/End, Enter/Space), and focus management.
+  - **Responsiveness**: Adapts to different screen sizes and includes scroll indicators for overflow content.
+
+#### Integration in [`script.js`](script.js:1)
+
+- **Initialization**: In `initializeApp`, `LyricsCacheManager` and `LyricsLanguageManager` are instantiated.
+- **Release Panel**: The [`showReleaseInfo`](script.js:863) function now:
+  - Calls [`lyricsLanguageManager.initializeForRelease`](script.js:1727) to set up language preferences and preload lyrics.
+  - Creates a language selector using [`createLyricsLanguageSelector`](script.js:2367) if multiple languages are available.
+  - Attaches a callback to the selector to update the displayed lyrics when the language changes, leveraging the cache.
+
+#### Data Structure for Lyrics
+
+Lyrics content is expected to be managed within the `data/content/release-lyrics.js` file, with each entry potentially having multiple language keys. The `data-loader.js` module is responsible for resolving the correct language version.
+
+#### Future Enhancements
+
+- **Dynamic Loading of Language Files**: Explore dynamically importing language-specific lyric files only when needed, rather than preloading all, to optimize initial load times for releases with many translations.
+- **User Interface for Language Addition**: Develop a simple UI or command-line tool to streamline the process of adding new lyric translations for content editors.
+
+### 6.2. Smart Navigation History System
 
 The application includes an intelligent navigation history system that enhances user experience when navigating between panels:
 
@@ -115,7 +166,7 @@ When users close a release info panel, they are intelligently returned to their 
 #### Extensibility
 The system is designed to accommodate future panels (e.g., surf map) by adding new context types to the navigation mapping.
 
-### 6.2. Key UX/UI Enhancements for Developers
+### 6.3. Key UX/UI Enhancements for Developers
 
 Recent updates have significantly refined the user experience and interface, with several technical considerations for developers:
 

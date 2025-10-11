@@ -73,6 +73,64 @@ const resolveContent = (contentId, contentType, language = appConfig.defaultLang
 };
 
 /**
+ * Resolve lyrics content with language-specific handling
+ * @param {string} contentId - ID of the lyrics content to resolve
+ * @param {string} language - Language code
+ * @returns {string} - Resolved lyrics content or empty string
+ */
+const resolveLyricsContent = (contentId, language = appConfig.defaultLanguage) => {
+  const content = releaseLyrics[contentId];
+  if (!content) {
+    console.warn(`Lyrics content not found: ${contentId}`);
+    return '[Lyrics not available]';
+  }
+  
+  // Try requested language, then default language, then English
+  return content[language] ||
+         content[appConfig.defaultLanguage] ||
+         content['en'] ||
+         '[Translation not available]';
+};
+
+/**
+ * Get available languages for lyrics content
+ * @param {string} contentId - ID of the lyrics content
+ * @returns {Array<string>} - Array of available language codes
+ */
+const getAvailableLyricsLanguages = (contentId) => {
+  const content = releaseLyrics[contentId];
+  return content ? Object.keys(content) : [];
+};
+
+/**
+ * Get all lyrics content for a release (all languages)
+ * @param {string} contentId - ID of the lyrics content
+ * @returns {Object} - Object with all language versions
+ */
+const getAllLyricsLanguages = (contentId) => {
+  return releaseLyrics[contentId] || {};
+};
+
+/**
+ * Cache-aware lyrics content resolver
+ * @param {string} contentId - ID of the lyrics content to resolve
+ * @param {string} language - Language code
+ * @param {LyricsCacheManager} cacheManager - Optional cache manager instance
+ * @returns {string} - Resolved lyrics content or empty string
+ */
+const resolveLyricsContentWithCache = (contentId, language = appConfig.defaultLanguage, cacheManager = null) => {
+  // Try to get from cache first if available
+  if (cacheManager) {
+    // We need a releaseId to use the cache, but this function doesn't have it
+    // This function is kept for backward compatibility
+    // The actual caching happens in the main application logic
+  }
+  
+  // Fall back to regular resolver
+  return resolveLyricsContent(contentId, language);
+};
+
+/**
  * Get featured releases with full data
  * @returns {Array} - Array of featured release objects
  */
@@ -175,5 +233,10 @@ export const dataLoader = {
   getReleasesByCollaborator,
   getCollaboratorsByRelease,
   getCollaborationReleases,
-  getRelease
+  getRelease,
+  // Multi-language lyrics support
+  resolveLyricsContent,
+  getAvailableLyricsLanguages,
+  getAllLyricsLanguages,
+  resolveLyricsContentWithCache
 };

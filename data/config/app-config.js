@@ -31,7 +31,7 @@
  * @property {string} performance.imageLoadingStrategy - Image loading strategy ("lazy" or "eager").
  */
 export const appConfig = {
-  version: "1.4.0",
+  version: "1.5.0",
   defaultLanguage: "en",
   supportedLanguages: ["en", "es", "fr"],
   featuredReleaseCount: 2,
@@ -44,5 +44,11 @@ export const appConfig = {
   performance: {
     debounceDelay: 250,
     imageLoadingStrategy: "lazy"
+  },
+  lyricsCache: {
+    maxMemoryCacheSize: 50,
+    maxSessionStorageSize: 100,
+    sessionStorageKey: "lyricsCache",
+    cleanupThreshold: 0.8
   }
 };
