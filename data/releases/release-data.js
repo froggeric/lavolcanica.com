@@ -180,12 +180,12 @@ export const releaseData = [
     type: "single",
     coverArt: "images/art-tendido-cero-sentido.webp",
     audioSrc: "audio/single-tendido-cero-sentido.m4a",
-    featured: false,
+    featured: true,
     links: {
-      spotify: "https://open.spotify.com/track/1234567890",
-      apple: "https://music.apple.com/us/album/tendido-cero-sentido/1234567890?i=1234567890",
-      youtube: "https://youtu.be/abcdefghijklmnop",
-      bandcamp: "https://lasonoravolcanica.bandcamp.com/track/tendido-cero-sentido"
+      spotify: "#",
+      apple: "#",
+      youtube: "#",
+      bandcamp: "#"
     },
     collaboratorIds: ["cututo", "piero"],
     collaborationType: "featured",
