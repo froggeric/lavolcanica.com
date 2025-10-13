@@ -1,4 +1,4 @@
-/* --- Version: 1.6.0 --- */
+/* --- Version: 1.6.1 --- */
 /* --- La Sonora Volcánica Website Styles --- */
 
 /* Google Fonts Import */
@@ -536,6 +536,13 @@ ul {
 .close-panel-btn {
     background: none; border: none; font-size: 2.5rem;
     color: var(--text-salt-crystal); cursor: pointer; line-height: 1;
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.close-panel-btn:hover {
+    background-color: rgba(255, 77, 77, 0.2);
+    color: var(--accent-lava-glow);
 }
 .side-panel-content {
     flex-grow: 1;
@@ -1060,9 +1067,14 @@ body.player-active .side-panel-content {
     background: none; border: none;
     font-size: 1.5rem; color: var(--text-salt-crystal);
     opacity: 0.7; cursor: pointer;
-    transition: opacity 0.2s ease;
+    width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
 }
-.close-player-btn:hover { opacity: 1; }
+.close-player-btn:hover {
+    opacity: 1;
+    background-color: rgba(255, 77, 77, 0.2);
+    color: var(--accent-lava-glow);
+}
 /* Custom styling for the range input (seek slider) */
 .mini-player .seek-slider {
     width: 100%; appearance: none;

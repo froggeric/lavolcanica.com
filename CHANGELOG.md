@@ -5,6 +5,11 @@ All notable changes to the La Sonora Volcánica website will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.1] - 2025-10-13
+
+### Patch
+- **UI Consistency Improvement**: Improved hover effects for close buttons across the application for better user experience.
+
 ## [1.6.0] - 2025-10-13
 
 ### Added
