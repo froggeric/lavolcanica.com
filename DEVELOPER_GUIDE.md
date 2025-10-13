@@ -22,9 +22,11 @@ The core of the new architecture is the `/data` directory. All application conte
 │   ├── config/
 │   ├── content/
 │   ├── i18n/
-│   └── releases/
+│   ├── releases/
+│   └── surfspots/ # New directory for individual surf spot data (deprecated)
 ├── images/
 ├── scripts/
+│   └── surf-map/ # New directory for surf map related scripts
 ├── style.css
 ├── script.js
 ├── index.html
@@ -74,6 +76,7 @@ The application uses a "Git-based" or "flat-file" CMS. All content is stored in 
 - **Content (Stories, Lyrics, Bios)**: `data/content/`
 - **UI Translations**: `data/i18n/`
 - **Configuration**: `data/config/`
+- **Surf Spots**: [`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json)
 
 ## 5. API Documentation
 
@@ -91,7 +94,28 @@ The application employs a component-based architecture implemented in vanilla Ja
 - `showCollaborator()`
 - `showReleaseInfo()`
 
-### 6.1. Multi-Language Lyrics Feature
+### 6.1. Fuerteventura Surf Map Architecture
+
+The Fuerteventura Surf Map is a significant new feature designed to provide an interactive and detailed exploration of surf spots. It is built with a modular and performant architecture, leveraging vanilla JavaScript and HTML Canvas.
+
+#### Core Components
+- **[`SurfMap`](scripts/surf-map/surf-map-core.js)**: The central class managing the map's state, rendering, and interactions. It orchestrates all sub-components.
+- **[`SurfMapRenderer`](scripts/surf-map/surf-map-renderer.js)**: Handles the drawing of the map image and other visual elements onto the HTML Canvas.
+- **[`SurfMapInteractions`](scripts/surf-map/surf-map-interactions.js)**: Manages user interactions such as zooming, panning, and touch gestures.
+- **[`SurfSpotsManager`](scripts/surf-map/surf-spots.js)**: Loads and manages the surf spots data from [`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json), including coordinate conversion between GPS and image pixels.
+- **[`SurfMarkersManager`](scripts/surf-map/surf-markers.js)**: Renders and manages interactive markers for each surf spot on the map, handling their visibility and click events.
+- **[`SurfSpotModal`](scripts/surf-map/surf-spot-modal.js)**: Displays detailed information about a surf spot when its marker is clicked.
+- **[`SurfMinimap`](scripts/surf-map/surf-minimap.js)**: Provides a smaller, overview map that shows the current viewport and all active surf spots, facilitating navigation.
+- **[`SurfSearch`](scripts/surf-map/surf-search.js)**: Implements search functionality for surf spots, allowing users to find spots by name or other criteria.
+- **[`SurfFilters`](scripts/surf-map/surf-filters.js)**: Provides filtering capabilities, enabling users to narrow down surf spots based on various attributes like ability level, wave type, and location.
+
+#### Data Structure
+All surf spot data is consolidated into a single JSON file: [`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json). This file contains an array of objects, each representing a surf spot with detailed information such as `id`, `primaryName`, `location` (including `lat` and `lng` coordinates), `waveDetails`, `characteristics`, and `practicalities`. A full schema is available in [`surf-spots-data-structure.md`](surf-spots-data-structure.md).
+
+#### Configuration
+The visibility of the surf map feature in the main navigation is controlled by the `surfMapEnabled` flag in [`data/config/app-config.js`](data/config/app-config.js:57).
+
+### 6.2. Multi-Language Lyrics Feature
 
 The multi-language lyrics feature allows users to switch between different language versions of song lyrics within the release information panel. This system is designed for flexibility, performance, and accessibility.
 
@@ -164,7 +188,7 @@ When users close a release info panel, they are intelligently returned to their 
 - **Smart Panel Close Handler**: Checks context and navigates accordingly on close
 
 #### Extensibility
-The system is designed to accommodate future panels (e.g., surf map) by adding new context types to the navigation mapping.
+The system is designed to accommodate future panels, such as the now-implemented surf map, by adding new context types to the navigation mapping. The `SurfMap` integrates with this system to manage its own navigation state.
 
 ### 6.3. Key UX/UI Enhancements for Developers
 
@@ -188,8 +212,8 @@ Recent updates have significantly refined the user experience and interface, wit
 
 ## 7. State Management
 
-- **Application State:** All content and configuration are stored in plain JavaScript objects in the `/data` directory.
-- **UI State:** The state of the UI is managed via classes on DOM elements.
+- **Application State:** All content and configuration are stored in plain JavaScript objects in the `/data` directory, including surf spot data in [`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json) and surf map configuration in [`data/config/app-config.js`](data/config/app-config.js).
+- **UI State:** The state of the UI is managed via classes on DOM elements. The `SurfMap` class also maintains its internal state for zoom, pan, and other interactive elements.
 
 ## 8. Coding Standards and Style Guide
 

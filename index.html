@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Version: 1.5.0 -->
+    <!-- Version: 1.6.0 -->
     <!-- La Sonora Volcánica Website main page -->
 
     <!-- Viewport Meta Tag for Mobile Responsiveness -->
@@ -102,7 +102,7 @@
             <nav class="main-nav">
                 <ul class="nav-links">
                     <li><a href="#music" data-key="navMusic"></a></li>
-                    <li><a href="#map" data-key="navMap"></a></li>
+                    <li><a href="#map" id="surf-map-link" data-key="navMap"></a></li>
                     <li><a href="#about" data-key="navAbout"></a></li>
                     <li><a href="#collabs" data-key="navCollabs"></a></li>
                 </ul>
@@ -182,6 +182,74 @@
         </div>
         <div class="side-panel-content">
             <!-- Content will be injected here by JavaScript -->
+        </div>
+    </div>
+    
+    <!-- Surf Map Modal: Fullscreen map interface -->
+    <div class="surf-map-overlay" id="surf-map-overlay"></div>
+    <div class="surf-map-modal" id="surf-map-modal" role="dialog" aria-modal="true" aria-labelledby="surf-map-title">
+        <div class="surf-map-header">
+            <h2 class="surf-map-title" id="surf-map-title" data-key="surfMapTitle"></h2>
+            <div class="surf-map-controls">
+                <div class="surf-map-search">
+                    <input type="text" class="surf-map-search-input" placeholder="Search surf spots..." aria-label="Search surf spots">
+                    <button class="surf-map-search-btn" aria-label="Search">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                        </svg>
+                    </button>
+                    <button class="surf-map-filter-toggle" aria-label="Toggle filters" aria-expanded="false">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+                        </svg>
+                        <span class="filter-count">0</span>
+                    </button>
+                    <button class="surf-map-clear-btn" aria-label="Clear search and filters">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                        </svg>
+                    </button>
+                </div>
+                <button class="surf-map-close-btn" aria-label="Close map">&times;</button>
+            </div>
+        </div>
+        <div class="surf-map-container" id="surf-map-container">
+            <!-- Canvas will be inserted here by JavaScript -->
+        </div>
+        <div class="surf-map-minimap" id="surf-map-minimap">
+            <!-- Minimap will be rendered here in future implementation -->
+        </div>
+        
+        <!-- Filter Panel -->
+        <div class="surf-map-filter-panel" id="surf-map-filter-panel">
+            <div class="filter-panel-header">
+                <h3>Filter Surf Spots</h3>
+                <button class="filter-panel-close" aria-label="Close filters">&times;</button>
+            </div>
+            <div class="filter-panel-content">
+                <div class="filter-section">
+                    <h4>Ability Level</h4>
+                    <div class="filter-options" data-filter-type="abilityLevel">
+                        <!-- Filter options will be populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <h4>Wave Type</h4>
+                    <div class="filter-options" data-filter-type="waveType">
+                        <!-- Filter options will be populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <h4>Area</h4>
+                    <div class="filter-options" data-filter-type="area">
+                        <!-- Filter options will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            <div class="filter-panel-footer">
+                <button class="filter-reset-btn">Reset Filters</button>
+                <button class="filter-apply-btn">Apply Filters</button>
+            </div>
         </div>
     </div>
     

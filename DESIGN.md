@@ -57,6 +57,13 @@ The application employs a component-based architecture and a data-driven, declar
 
 The site is designed as a dynamic, single-page application that feels both immersive and easy to navigate. The main navigation includes links to Music, Surf Map, About, and Collaborations.
 
+#### Fuerteventura Surf Map
+The Fuerteventura Surf Map is an interactive feature accessible via the main navigation. It allows users to:
+- **Explore Surf Spots**: View markers for various surf spots on an interactive map of Fuerteventura.
+- **Access Detailed Information**: Click on markers to open a modal with comprehensive details about each spot (wave type, ability level, hazards, etc.).
+- **Search and Filter**: Utilize search functionality to find specific spots and apply filters based on criteria such as wave type, skill level, and location.
+- **Minimap Navigation**: A minimap provides an overview of the entire island, showing the user's current viewport and all active surf spots.
+
 #### Smart Navigation History System
 
 A key UX enhancement is the intelligent navigation history system that provides context-aware navigation:
@@ -122,7 +129,7 @@ All dynamic content is managed from data arrays in the `/data` directory. To add
 
 ## 9. Development Roadmap
 
-- **The Fuerteventura Surf Map:** The next major planned feature.
+- **The Fuerteventura Surf Map:** Implemented in Version 1.6.0, this feature provides an interactive map of Fuerteventura's surf spots with detailed information and filtering capabilities.
 - **"Behind the Music" Content:** Extend the `releases` data object to include a `story` property.
 
 ## 10. Brand Identity

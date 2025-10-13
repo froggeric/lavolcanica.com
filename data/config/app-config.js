@@ -29,9 +29,10 @@
  * @property {Object} performance - Performance-related settings.
  * @property {number} performance.debounceDelay - Delay in milliseconds for debounced functions (e.g., time updates).
  * @property {string} performance.imageLoadingStrategy - Image loading strategy ("lazy" or "eager").
+ * @property {boolean} surfMapEnabled - Controls whether the surf map feature is accessible through the navigation menu.
  */
 export const appConfig = {
-  version: "1.5.0",
+  version: "1.6.0",
   defaultLanguage: "en",
   supportedLanguages: ["en", "es", "fr"],
   featuredReleaseCount: 2,
@@ -50,5 +51,8 @@ export const appConfig = {
     maxSessionStorageSize: 100,
     sessionStorageKey: "lyricsCache",
     cleanupThreshold: 0.8
-  }
+  },
+  // Feature flag to control surf map accessibility through navigation
+  // Set to false until the surf map feature is fully ready for production
+  surfMapEnabled: false
 };

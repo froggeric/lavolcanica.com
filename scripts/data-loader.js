@@ -240,3 +240,23 @@ export const dataLoader = {
   getAllLyricsLanguages,
   resolveLyricsContentWithCache
 };
+
+/**
+ * Dynamic import for surf spots data
+ * @returns {Promise<Object>} - Promise that resolves to the SurfSpotsManager class
+ */
+const loadSurfSpotsManager = async () => {
+  try {
+    const { SurfSpotsManager } = await import('./surf-map/surf-spots.js');
+    return SurfSpotsManager;
+  } catch (error) {
+    console.error('Failed to load SurfSpotsManager:', error);
+    throw error;
+  }
+};
+
+// Add surf spots data loading functionality to the dataLoader export
+dataLoader.surfSpots = {
+  loadSurfSpotsManager,
+  // Additional surf spots data methods can be added here
+};

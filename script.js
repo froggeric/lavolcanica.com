@@ -1,6 +1,6 @@
 /**
  * @fileoverview Main application script for La Sonora Volcánica website.
- * @version 1.5.0
+ * @version 1.6.0
  * @description This script handles the entire frontend logic for the La Sonora Volcánica website,
  * The application follows a modular architecture where all content is loaded from external
  * data modules located in the `/data` directory.
@@ -1103,6 +1103,115 @@
             window.showReleaseInfo = showReleaseInfo;
         }
 
+        // ==================== SURF MAP MODAL LOGIC ====================
+
+        // Cache surf map modal elements
+        const surfMapModal = document.getElementById('surf-map-modal');
+        const surfMapOverlay = document.getElementById('surf-map-overlay');
+        const surfMapContainer = document.getElementById('surf-map-container');
+        const surfMapCloseBtn = document.querySelector('.surf-map-close-btn');
+        
+        // Surf map instance
+        let surfMap = null;
+        
+        // Initialize surf map modal functionality if elements exist
+        if (surfMapModal && surfMapOverlay && surfMapContainer) {
+            /**
+             * Opens the surf map modal and initializes the map.
+             */
+            const openSurfMap = async () => {
+                scrollLock.enable();
+                
+                surfMapModal.classList.add('active');
+                surfMapOverlay.classList.add('active');
+                
+                // Initialize the surf map if not already done
+                if (!surfMap) {
+                    try {
+                        // Import the SurfMap class
+                        const { SurfMap } = await import('./scripts/surf-map/surf-map-core.js');
+                        
+                        // Create a new surf map instance
+                        surfMap = new SurfMap(surfMapContainer, {
+                            imagePath: 'images/surf-map.webp',
+                            minZoom: 0.2,
+                            maxZoom: 3.0,
+                            initialZoom: 0.5
+                        });
+                        
+                        // Set up event listeners for the surf map
+                        surfMap.on('ready', () => {
+                            console.log('Surf map is ready');
+                        });
+                        
+                        surfMap.on('error', (error) => {
+                            console.error('Surf map error:', error);
+                        });
+                        
+                        // Handle window resize
+                        const handleResize = debounce(() => {
+                            if (surfMap) {
+                                surfMap.resize();
+                            }
+                        }, 250);
+                        
+                        window.addEventListener('resize', handleResize);
+                        
+                        // Store resize handler for cleanup
+                        surfMapModal._resizeHandler = handleResize;
+                        
+                    } catch (error) {
+                        console.error('Failed to initialize surf map:', error);
+                        closeSurfMap();
+                    }
+                }
+                
+                // Set focus to the close button for accessibility
+                setTimeout(() => {
+                    if (surfMapCloseBtn) {
+                        surfMapCloseBtn.focus();
+                    }
+                }, 100);
+            };
+            
+            /**
+             * Closes the surf map modal and cleans up resources.
+             */
+            const closeSurfMap = () => {
+                scrollLock.disable();
+                surfMapModal.classList.remove('active');
+                surfMapOverlay.classList.remove('active');
+                
+                // Clean up event listeners
+                if (surfMapModal._resizeHandler) {
+                    window.removeEventListener('resize', surfMapModal._resizeHandler);
+                    surfMapModal._resizeHandler = null;
+                }
+                
+                // Destroy the surf map instance
+                if (surfMap) {
+                    surfMap.destroy();
+                    surfMap = null;
+                }
+            };
+            
+            // Add event listeners
+            if (surfMapCloseBtn) {
+                surfMapCloseBtn.addEventListener('click', closeSurfMap);
+            }
+            
+            surfMapOverlay.addEventListener('click', closeSurfMap);
+            
+            // Handle Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && surfMapModal.classList.contains('active')) {
+                    closeSurfMap();
+                }
+            });
+            
+            // Make function available globally
+            window.openSurfMap = openSurfMap;
+        }
 
         // --- 5. Mini-Player Logic ---
         const miniPlayer = document.getElementById('mini-player');
@@ -1377,6 +1486,14 @@
             mainNav.addEventListener('click', (e) => {
                 // Check if clicked element is a nav link or language button
                 if (e.target.matches('.nav-links a') || e.target.matches('.language-switcher .lang-btn')) {
+                    // Special handling for surf map link (only if enabled)
+                    if (e.target.id === 'surf-map-link') {
+                        e.preventDefault();
+                        // Check if surf map is enabled before opening
+                        if (dataLoader.config.app.surfMapEnabled !== false && window.openSurfMap) {
+                            window.openSurfMap();
+                        }
+                    }
                     closeMobileNav();
                 }
             });
@@ -1522,6 +1639,18 @@
             footerLinksContainer.appendChild(fragment);
         }
 
+        // ==================== SURF MAP CONFIGURATION ====================
+        // Check if surf map is enabled in configuration and hide navigation item if disabled
+        const surfMapLink = document.getElementById('surf-map-link');
+        if (surfMapLink && dataLoader.config.app.surfMapEnabled === false) {
+            // Hide the entire list item containing the surf map link
+            const surfMapListItem = surfMapLink.parentElement;
+            if (surfMapListItem) {
+                surfMapListItem.style.display = 'none';
+                console.log('Surf map navigation item hidden (surfMapEnabled is false)');
+            }
+        }
+        
         // ==================== INITIAL SETUP ====================
         // Run all population functions and set the initial language.
         populateFeaturedGrid();
@@ -1573,7 +1702,7 @@
                 console.log('✓ Lyrics cache manager initialized');
                 
                 // Test cache statistics
-                const stats = window.getLyricsCacheStats();
+                const stats = window.lyricsCacheManager.getStats();
                 console.log('Cache statistics:', stats);
                 
                 // Test cache methods
@@ -1615,15 +1744,48 @@
                 }
                 
                 // Clean up test data
-                window.clearLyricsCache();
+                window.lyricsCacheManager.invalidateAll();
                 
                 console.log('Lyrics cache testing complete. Open browser console to see results.');
+            };
+            
+            // Test function for surf map
+            window.testSurfMap = () => {
+                console.log('Testing surf map functionality...');
+                
+                // Test surf map modal elements
+                const surfMapModal = document.getElementById('surf-map-modal');
+                const surfMapOverlay = document.getElementById('surf-map-overlay');
+                const surfMapContainer = document.getElementById('surf-map-container');
+                const surfMapLink = document.getElementById('surf-map-link');
+                
+                if (surfMapModal && surfMapOverlay && surfMapContainer) {
+                    console.log('✓ Surf map modal elements found');
+                } else {
+                    console.error('✗ Surf map modal elements missing');
+                }
+                
+                if (surfMapLink) {
+                    console.log('✓ Surf map navigation link found');
+                } else {
+                    console.error('✗ Surf map navigation link missing');
+                }
+                
+                // Test openSurfMap function
+                if (window.openSurfMap) {
+                    console.log('✓ openSurfMap function exists');
+                } else {
+                    console.error('✗ openSurfMap function missing');
+                }
+                
+                console.log('Surf map testing complete. Open browser console to see results.');
             };
             
             // Auto-run tests in development mode
             setTimeout(() => {
                 if (window.testPanels) window.testPanels();
                 if (window.testLyricsCache) window.testLyricsCache();
+                if (window.testSurfMap) window.testSurfMap();
             }, 2000);
         }
     };
@@ -2690,3 +2852,25 @@ class LyricsCacheManager {
         return Array.from(languages);
     }
 }
+
+// ==================== GLOBAL UTILITY FUNCTIONS ====================
+
+/**
+ * Global function to get lyrics cache statistics
+ * @returns {Object} Cache statistics
+ */
+window.getLyricsCacheStats = () => {
+    if (window.lyricsCacheManager) {
+        return window.lyricsCacheManager.getStats();
+    }
+    return null;
+};
+
+/**
+ * Global function to clear lyrics cache
+ */
+window.clearLyricsCache = () => {
+    if (window.lyricsCacheManager) {
+        window.lyricsCacheManager.invalidateAll();
+    }
+};

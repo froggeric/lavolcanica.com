@@ -1,4 +1,4 @@
-/* --- Version: 1.5.0 --- */
+/* --- Version: 1.6.0 --- */
 /* --- La Sonora Volcánica Website Styles --- */
 
 /* Google Fonts Import */
@@ -1644,4 +1644,2260 @@ body.player-active .side-panel-content {
 .lyrics-language-selector.scrollable:not(.at-start)::before,
 .lyrics-language-selector.scrollable:not(.at-end)::after {
     opacity: 1;
+}
+
+/* --- 20. Surf Map Modal --- */
+/* The dark overlay behind the surf map modal */
+.surf-map-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 2900; /* Below the modal but above other content */
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.surf-map-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* The surf map modal itself */
+.surf-map-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-volcanic-night);
+    z-index: 3000; /* Highest z-index for fullscreen modal */
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+}
+
+.surf-map-modal.active {
+    transform: translateY(0);
+}
+
+/* Surf map header with title and controls */
+.surf-map-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid #333;
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.surf-map-title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-salt-crystal);
+}
+
+.surf-map-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Search bar in the surf map */
+.surf-map-search {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.surf-map-search:focus-within {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.surf-map-search-input {
+    background: none;
+    border: none;
+    color: var(--text-salt-crystal);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    width: 200px;
+    outline: none;
+}
+
+.surf-map-search-input::placeholder {
+    color: rgba(240, 240, 240, 0.6);
+}
+
+.surf-map-search-btn {
+    background: none;
+    border: none;
+    color: var(--text-salt-crystal);
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.surf-map-search-btn:hover {
+    color: var(--accent-lava-glow);
+}
+
+/* Filter toggle button */
+.surf-map-filter-toggle {
+    background: none;
+    border: none;
+    color: var(--text-salt-crystal);
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.surf-map-filter-toggle:hover {
+    color: var(--accent-lava-glow);
+}
+
+.surf-map-filter-toggle.active {
+    color: var(--accent-lava-glow);
+}
+
+/* Filter count indicator */
+.surf-map-filter-toggle .filter-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background-color: var(--accent-lava-glow);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2px;
+    box-sizing: border-box;
+}
+
+/* Clear search and filters button */
+.surf-map-clear-btn {
+    background: none;
+    border: none;
+    color: var(--text-salt-crystal);
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.surf-map-clear-btn:hover {
+    opacity: 1;
+    color: var(--accent-lava-glow);
+}
+
+/* Search results dropdown */
+.surf-map-search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid #333;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+
+.surf-map-search-results.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Search result item */
+.search-result {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.search-result:last-child {
+    border-bottom: none;
+}
+
+.search-result:hover,
+.search-result.selected {
+    background-color: rgba(255, 77, 77, 0.1);
+}
+
+/* Search result difficulty indicator */
+.search-result-difficulty {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: white;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+/* Search result content */
+.search-result-content {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.search-result-name {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-result-name mark {
+    background-color: rgba(255, 77, 77, 0.3);
+    color: inherit;
+    padding: 0;
+    border-radius: 2px;
+}
+
+.search-result-location {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-result-wave-type {
+    font-size: 0.75rem;
+    opacity: 0.6;
+}
+
+/* No results message */
+.search-no-results {
+    padding: 1rem;
+    text-align: center;
+    color: rgba(240, 240, 240, 0.6);
+    font-style: italic;
+}
+
+/* Filter panel */
+.surf-map-filter-panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 300px;
+    max-width: 90vw;
+    background-color: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid #333;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    max-height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.surf-map-filter-panel.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Filter panel header */
+.filter-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #333;
+}
+
+.filter-panel-header h3 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-salt-crystal);
+}
+
+.filter-panel-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-salt-crystal);
+    cursor: pointer;
+    line-height: 1;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+.filter-panel-close:hover {
+    background-color: rgba(255, 77, 77, 0.2);
+    color: var(--accent-lava-glow);
+}
+
+/* Filter panel content */
+.filter-panel-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+/* Filter section */
+.filter-section {
+    margin-bottom: 1.5rem;
+}
+
+.filter-section:last-child {
+    margin-bottom: 0;
+}
+
+.filter-section h4 {
+    margin: 0 0 0.75rem 0;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-salt-crystal);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Filter options container */
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Filter option */
+.filter-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.filter-option:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Filter checkbox */
+.filter-checkbox {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #666;
+    border-radius: 3px;
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.filter-checkbox:checked {
+    background-color: var(--accent-lava-glow);
+    border-color: var(--accent-lava-glow);
+}
+
+.filter-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* Filter indicator */
+.filter-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* Filter label */
+.filter-label {
+    font-size: 0.9rem;
+    color: var(--text-salt-crystal);
+    flex-grow: 1;
+}
+
+/* Filter panel footer */
+.filter-panel-footer {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-top: 1px solid #333;
+}
+
+.filter-reset-btn,
+.filter-apply-btn {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.filter-reset-btn {
+    background-color: transparent;
+    color: var(--text-salt-crystal);
+    border: 1px solid #666;
+}
+
+.filter-reset-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #888;
+}
+
+.filter-apply-btn {
+    background-color: var(--accent-lava-glow);
+    color: white;
+}
+
+.filter-apply-btn:hover {
+    background-color: var(--accent-lava-glow-dark);
+}
+
+/* Close button for the surf map */
+.surf-map-close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--text-salt-crystal);
+    cursor: pointer;
+    line-height: 1;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.surf-map-close-btn:hover {
+    background-color: rgba(255, 77, 77, 0.2);
+    color: var(--accent-lava-glow);
+}
+
+/* Container for the map canvas */
+.surf-map-container {
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+/* Canvas for the surf map */
+.surf-map-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+}
+
+.surf-map-canvas:active {
+    cursor: grabbing;
+}
+
+/* Minimap container */
+.surf-map-minimap {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 150px;
+    height: 150px;
+    background-color: rgba(26, 26, 26, 0.8);
+    border: 2px solid var(--accent-lava-glow);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 5;
+}
+
+/* Responsive design for search and filter elements */
+@media (max-width: 768px) {
+    .surf-map-header {
+        padding: 0.75rem 1rem;
+        flex-wrap: nowrap;
+        gap: 0.75rem;
+    }
+    
+    .surf-map-title {
+        font-size: 1.3rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
+    }
+    
+    .surf-map-controls {
+        gap: 0.5rem;
+        flex-wrap: nowrap;
+        flex-grow: 1;
+        justify-content: flex-end;
+    }
+    
+    .surf-map-search {
+        max-width: 220px;
+        flex-grow: 1;
+    }
+    
+    .surf-map-search-input {
+        width: 100%;
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .surf-map-search-btn,
+    .surf-map-filter-toggle,
+    .surf-map-clear-btn {
+        padding: 0.5rem;
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    .surf-map-filter-panel {
+        width: 320px;
+        max-width: 90vw;
+        max-height: 70vh;
+        top: 100%;
+        right: 0;
+    }
+    
+    .filter-panel-header {
+        padding: 1rem;
+    }
+    
+    .filter-panel-header h3 {
+        font-size: 1.1rem;
+    }
+    
+    .filter-panel-content {
+        padding: 0.75rem;
+        max-height: calc(70vh - 120px);
+    }
+    
+    .filter-section {
+        margin-bottom: 1rem;
+    }
+    
+    .filter-section h4 {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .filter-option {
+        padding: 0.5rem;
+        gap: 0.75rem;
+    }
+    
+    .filter-checkbox {
+        width: 20px;
+        height: 20px;
+        min-width: 20px;
+        min-height: 20px;
+    }
+    
+    .filter-label {
+        font-size: 0.9rem;
+        line-height: 1.3;
+    }
+    
+    .filter-panel-footer {
+        padding: 0.75rem;
+        gap: 0.75rem;
+    }
+    
+    .filter-reset-btn,
+    .filter-apply-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+        min-height: 44px;
+    }
+    
+    .search-result {
+        padding: 0.75rem;
+        gap: 0.75rem;
+    }
+    
+    .search-result-difficulty {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+    }
+    
+    .search-result-name {
+        font-size: 0.95rem;
+    }
+    
+    .search-result-location {
+        font-size: 0.8rem;
+    }
+    
+    .search-result-wave-type {
+        font-size: 0.75rem;
+    }
+    
+    .surf-map-minimap {
+        width: 100px;
+        height: 100px;
+        bottom: 15px;
+        left: 15px;
+    }
+    
+    .surf-map-close-btn {
+        font-size: 1.8rem;
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+    }
+}
+
+@media (max-width: 480px) {
+    .surf-map-header {
+        padding: 0.5rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        min-height: 60px;
+    }
+    
+    .surf-map-title {
+        font-size: 1.1rem;
+        width: 100%;
+        order: -1;
+        text-align: center;
+        margin-bottom: 0.5rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .surf-map-controls {
+        width: 100%;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+    
+    .surf-map-search {
+        max-width: calc(100% - 140px);
+        padding: 0.5rem;
+        flex-grow: 1;
+    }
+    
+    .surf-map-search-input {
+        width: 100%;
+        font-size: 0.85rem;
+        padding: 0.5rem;
+    }
+    
+    .surf-map-search-btn,
+    .surf-map-filter-toggle,
+    .surf-map-clear-btn {
+        padding: 0.5rem;
+        min-width: 40px;
+        min-height: 40px;
+    }
+    
+    .surf-map-filter-panel {
+        width: 100vw;
+        max-width: 100vw;
+        height: 100vh;
+        max-height: 100vh;
+        top: 0;
+        right: 0;
+        left: 0;
+        border-radius: 0;
+        transform: translateY(100%);
+    }
+    
+    .surf-map-filter-panel.open {
+        transform: translateY(0);
+    }
+    
+    .filter-panel-header {
+        padding: 1rem;
+        border-bottom-width: 2px;
+    }
+    
+    .filter-panel-header h3 {
+        font-size: 1.1rem;
+    }
+    
+    .filter-panel-close {
+        width: 40px;
+        height: 40px;
+        font-size: 1.8rem;
+    }
+    
+    .filter-panel-content {
+        padding: 1rem;
+        max-height: calc(100vh - 160px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .filter-section {
+        margin-bottom: 1.5rem;
+    }
+    
+    .filter-section h4 {
+        font-size: 0.95rem;
+        margin-bottom: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .filter-option {
+        padding: 0.75rem;
+        gap: 0.75rem;
+        border-radius: 6px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .filter-checkbox {
+        width: 22px;
+        height: 22px;
+        min-width: 22px;
+        min-height: 22px;
+    }
+    
+    .filter-checkbox:checked::after {
+        font-size: 12px;
+    }
+    
+    .filter-indicator {
+        width: 12px;
+        height: 12px;
+    }
+    
+    .filter-label {
+        font-size: 0.95rem;
+        line-height: 1.4;
+    }
+    
+    .filter-panel-footer {
+        padding: 1rem;
+        gap: 1rem;
+        border-top-width: 2px;
+    }
+    
+    .filter-reset-btn,
+    .filter-apply-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.95rem;
+        min-height: 48px;
+        border-radius: 6px;
+    }
+    
+    .search-result {
+        padding: 0.75rem;
+        gap: 0.75rem;
+    }
+    
+    .search-result-difficulty {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+    }
+    
+    .search-result-name {
+        font-size: 0.9rem;
+        line-height: 1.3;
+    }
+    
+    .search-result-location {
+        font-size: 0.8rem;
+        line-height: 1.2;
+    }
+    
+    .search-result-wave-type {
+        font-size: 0.75rem;
+    }
+    
+    .surf-map-search-results {
+        max-height: 240px;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        border-radius: 0;
+        margin: 0;
+    }
+    
+    .surf-map-close-btn {
+        font-size: 1.6rem;
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        min-height: 40px;
+    }
+    
+    .surf-map-minimap {
+        width: 80px;
+        height: 80px;
+        bottom: 10px;
+        left: 10px;
+        border-width: 3px;
+    }
+    
+    /* Touch-friendly adjustments */
+    .surf-map-search-btn:active,
+    .surf-map-filter-toggle:active,
+    .surf-map-clear-btn:active,
+    .surf-map-close-btn:active {
+        transform: scale(0.95);
+        transition: transform 0.1s ease;
+    }
+    
+    /* Add visual feedback for touch */
+    .filter-option:active {
+        background-color: rgba(255, 77, 77, 0.1);
+    }
+    
+    /* Make filter count indicator more visible */
+    .surf-map-filter-toggle .filter-count {
+        min-width: 18px;
+        height: 18px;
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .surf-map-header {
+        border-bottom-width: 2px;
+    }
+    
+    .surf-map-search {
+        background-color: rgba(255, 255, 255, 0.2);
+        border: 1px solid var(--text-salt-crystal);
+    }
+    
+    .surf-map-minimap {
+        border-width: 3px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .surf-map-overlay {
+        transition: none;
+    }
+    
+    .surf-map-modal {
+        transition: none;
+    }
+    
+    .surf-map-search {
+        transition: none;
+    }
+    
+    .surf-map-search-btn {
+        transition: none;
+    }
+    
+    .surf-map-close-btn {
+        transition: none;
+    }
+}
+
+/* --- 22. Mobile Search Enhancements --- */
+/* Voice search button */
+.surf-map-voice-search-btn {
+    position: absolute;
+    right: 45px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-salt-crystal);
+    cursor: pointer;
+    padding: 0.5rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.surf-map-voice-search-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.surf-map-voice-search-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+/* Location search button */
+.surf-map-location-search-btn {
+    position: absolute;
+    right: 90px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-salt-crystal);
+    cursor: pointer;
+    padding: 0.5rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.surf-map-location-search-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.surf-map-location-search-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+/* Search result distance */
+.search-result-distance {
+    font-size: 0.75rem;
+    color: var(--accent-canary-teal);
+    margin-top: 0.25rem;
+}
+
+/* Location error message */
+.search-location-error {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-salt-crystal);
+}
+
+/* Touch feedback for search */
+#surf-search-touch-feedback {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(255, 77, 77, 0.3);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.2s ease-out, opacity 0.2s ease;
+    opacity: 0;
+}
+
+/* Responsive adjustments for mobile search */
+@media (max-width: 768px) {
+    .surf-map-voice-search-btn,
+    .surf-map-location-search-btn {
+        font-size: 0.9rem;
+        min-width: 40px;
+        min-height: 40px;
+    }
+    
+    .surf-map-voice-search-btn {
+        right: 40px;
+    }
+    
+    .surf-map-location-search-btn {
+        right: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .surf-map-search {
+        padding-right: 100px; /* Make room for buttons */
+    }
+    
+    .surf-map-voice-search-btn,
+    .surf-map-location-search-btn {
+        font-size: 0.85rem;
+        min-width: 38px;
+        min-height: 38px;
+        padding: 0.4rem;
+    }
+    
+    .surf-map-voice-search-btn {
+        right: 38px;
+    }
+    
+    .surf-map-location-search-btn {
+        right: 75px;
+    }
+    
+    /* Adjust search input on mobile */
+    .surf-map-search-input {
+        padding-right: 10px;
+        font-size: 0.85rem;
+    }
+    
+    /* Touch feedback adjustments */
+    #surf-search-touch-feedback {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .surf-map-voice-search-btn,
+    .surf-map-location-search-btn {
+        border: 1px solid var(--text-salt-crystal);
+    }
+    
+    .surf-map-voice-search-btn:hover,
+    .surf-map-location-search-btn:hover {
+        border-width: 2px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .surf-map-voice-search-btn,
+    .surf-map-location-search-btn {
+        transition: background-color 0.2s ease;
+    }
+    
+    /* --- 23. Cross-Browser Compatibility --- */
+    /* Webkit scrollbar styling for Chrome, Safari, Edge */
+    .surf-map-search-results::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .surf-map-search-results::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+    }
+    
+    .surf-map-search-results::-webkit-scrollbar-thumb {
+        background: rgba(255, 77, 77, 0.5);
+        border-radius: 3px;
+    }
+    
+    .surf-map-search-results::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 77, 77, 0.7);
+    }
+    
+    /* Firefox scrollbar styling */
+    .surf-map-search-results {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 77, 77, 0.5) rgba(255, 255, 255, 0.1);
+    }
+    
+    /* IE/Edge specific fixes */
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        .surf-map-search-results {
+            scrollbar-width: auto;
+            scrollbar-color: auto;
+        }
+        
+        .surf-map-filter-panel {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .surf-spot-modal-content {
+            -ms-overflow-style: scrollbar;
+        }
+    }
+    
+    /* Safari specific fixes */
+    @supports (-webkit-appearance: none) {
+        .surf-map-search-input {
+            -webkit-appearance: none;
+            border-radius: 0;
+        }
+        
+        .surf-map-filter-checkbox {
+            -webkit-appearance: none;
+        }
+        
+        .filter-option {
+            -webkit-tap-highlight-color: transparent;
+        }
+    }
+    
+    /* Touch device fixes for IE/Edge */
+    @supports (-ms-ime-align: auto) {
+        .surf-map-search-btn,
+        .surf-map-filter-toggle,
+        .surf-map-clear-btn,
+        .surf-map-close-btn {
+            touch-action: manipulation;
+        }
+        
+        .search-result {
+            touch-action: manipulation;
+        }
+        
+        .filter-option {
+            touch-action: manipulation;
+        }
+        
+        .spot-action-btn {
+            touch-action: manipulation;
+        }
+    }
+    
+    /* CSS Grid fallback for older browsers */
+    @supports not (display: grid) {
+        .surf-spot-conditions {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .surf-spot-condition {
+            flex: 1 0 45%;
+            margin: 0.5rem;
+        }
+        
+        .search-result {
+            display: block;
+        }
+        
+        .search-result-difficulty {
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+    }
+    
+    /* Flexbox gap fallback for older browsers */
+    @supports not (gap: 1rem) {
+        .surf-map-controls {
+            margin-left: -0.5rem;
+        }
+        
+        .surf-map-controls > * {
+            margin-left: 0.5rem;
+        }
+        
+        .filter-options {
+            margin-top: -0.5rem;
+        }
+        
+        .filter-options > * {
+            margin-top: 0.5rem;
+        }
+        
+        .spot-modal-actions {
+            margin-left: -0.5rem;
+        }
+        
+        .spot-modal-actions > * {
+            margin-left: 0.5rem;
+        }
+    }
+    
+    /* Object-fit fallback for older browsers */
+    @supports not (object-fit: cover) {
+        .surf-spot-modal-image {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .surf-map-canvas {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    }
+    
+    /* Backdrop filter fallback for older browsers */
+    @supports not (backdrop-filter: blur(10px)) {
+        .surf-map-header {
+            background-color: rgba(26, 26, 26, 0.95);
+        }
+        
+        .surf-map-search-results {
+            background-color: rgba(26, 26, 26, 0.95);
+        }
+        
+        .surf-map-filter-panel {
+            background-color: rgba(26, 26, 26, 0.95);
+        }
+        
+        .surf-spot-modal-header {
+            background-color: rgba(26, 26, 26, 0.95);
+        }
+        
+        .surf-spot-modal-footer {
+            background-color: rgba(26, 26, 26, 0.95);
+        }
+    }
+    
+    /* CSS custom properties fallback for older browsers */
+    :root {
+        --bg-volcanic-night: #1a1a1a;
+        --text-salt-crystal: #F0F0F0;
+        --accent-lava-glow: #FF4D4D;
+        --accent-lava-glow-dark: #e63939;
+        --accent-canary-teal: #00C2A8;
+        --font-heading: 'Montserrat', sans-serif;
+        --font-body: 'Roboto', sans-serif;
+    }
+    
+    /* Custom properties fallback */
+    @supports not (--custom-property: value) {
+        .surf-map-header {
+            background-color: #1a1a1a;
+        }
+        
+        .surf-map-title {
+            font-family: 'Montserrat', sans-serif;
+            color: #F0F0F0;
+        }
+        
+        .surf-map-search-input {
+            color: #F0F0F0;
+        }
+        
+        .surf-map-search-btn:hover {
+            color: #FF4D4D;
+        }
+        
+        .surf-map-filter-toggle:hover {
+            color: #FF4D4D;
+        }
+        
+        .surf-map-filter-toggle.active {
+            color: #FF4D4D;
+        }
+        
+        .surf-map-filter-toggle .filter-count {
+            background-color: #FF4D4D;
+            color: white;
+        }
+        
+        .surf-map-clear-btn:hover {
+            color: #FF4D4D;
+        }
+        
+        .surf-map-close-btn:hover {
+            color: #FF4D4D;
+        }
+        
+        .search-result:hover,
+        .search-result.selected {
+            background-color: rgba(255, 77, 77, 0.1);
+        }
+        
+        .filter-option:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .filter-checkbox:checked {
+            background-color: #FF4D4D;
+            border-color: #FF4D4D;
+        }
+        
+        .filter-reset-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: #888;
+        }
+        
+        .filter-apply-btn {
+            background-color: #FF4D4D;
+            color: white;
+        }
+        
+        .filter-apply-btn:hover {
+            background-color: #e63939;
+        }
+        
+        .surf-spot-modal-title {
+            font-family: 'Montserrat', sans-serif;
+            color: #F0F0F0;
+        }
+        
+        .surf-spot-modal-close:hover {
+            color: #FF4D4D;
+        }
+        
+        .spot-action-btn.primary {
+            background-color: #FF4D4D;
+            color: white;
+        }
+        
+        .spot-action-btn.primary:hover {
+            background-color: #e63939;
+        }
+        
+        .spot-difficulty.beginner {
+            background-color: #4CAF50;
+        }
+        
+        .spot-difficulty.intermediate {
+            background-color: #FF9800;
+        }
+        
+        .spot-difficulty.advanced {
+            background-color: #F44336;
+        }
+        
+        .spot-difficulty.pro {
+            background-color: #9C27B0;
+        }
+    }
+    
+    /* --- 24. Mobile Accessibility Improvements --- */
+    /* Enhanced focus indicators for mobile */
+    @media (max-width: 768px) {
+        .surf-map-search-btn:focus-visible,
+        .surf-map-filter-toggle:focus-visible,
+        .surf-map-clear-btn:focus-visible,
+        .surf-map-close-btn:focus-visible,
+        .surf-map-voice-search-btn:focus-visible,
+        .surf-map-location-search-btn:focus-visible {
+            outline: 3px solid var(--accent-canary-teal);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 5px rgba(0, 194, 168, 0.3);
+        }
+        
+        .search-result:focus-visible {
+            outline: 2px solid var(--accent-canary-teal);
+            outline-offset: -2px;
+            background-color: rgba(0, 194, 168, 0.1);
+        }
+        
+        .filter-option:focus-visible {
+            outline: 2px solid var(--accent-canary-teal);
+            outline-offset: -2px;
+            background-color: rgba(0, 194, 168, 0.1);
+        }
+        
+        .filter-checkbox:focus-visible {
+            outline: 2px solid var(--accent-canary-teal);
+            outline-offset: 2px;
+        }
+        
+        .filter-reset-btn:focus-visible,
+        .filter-apply-btn:focus-visible {
+            outline: 3px solid var(--accent-canary-teal);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 5px rgba(0, 194, 168, 0.3);
+        }
+        
+        .surf-spot-modal-close:focus-visible {
+            outline: 3px solid var(--accent-canary-teal);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 5px rgba(0, 194, 168, 0.3);
+        }
+        
+        .spot-action-btn:focus-visible {
+            outline: 3px solid var(--accent-canary-teal);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 5px rgba(0, 194, 168, 0.3);
+        }
+    }
+    
+    @media (max-width: 480px) {
+        /* Larger touch targets for better accessibility */
+        .surf-map-search-btn,
+        .surf-map-filter-toggle,
+        .surf-map-clear-btn,
+        .surf-map-close-btn,
+        .surf-map-voice-search-btn,
+        .surf-map-location-search-btn {
+            min-width: 48px;
+            min-height: 48px;
+        }
+        
+        .search-result {
+            min-height: 48px;
+            padding: 0.75rem;
+        }
+        
+        .filter-option {
+            min-height: 48px;
+            padding: 0.75rem;
+        }
+        
+        .filter-checkbox {
+            min-width: 24px;
+            min-height: 24px;
+        }
+        
+        .filter-reset-btn,
+        .filter-apply-btn {
+            min-height: 48px;
+            padding: 0.875rem 1rem;
+        }
+        
+        .surf-spot-modal-close {
+            min-width: 48px;
+            min-height: 48px;
+        }
+        
+        .spot-action-btn {
+            min-height: 48px;
+            padding: 0.875rem 1rem;
+        }
+        
+        /* Enhanced focus indicators */
+        .surf-map-search-btn:focus-visible,
+        .surf-map-filter-toggle:focus-visible,
+        .surf-map-clear-btn:focus-visible,
+        .surf-map-close-btn:focus-visible,
+        .surf-map-voice-search-btn:focus-visible,
+        .surf-map-location-search-btn:focus-visible {
+            outline: 3px solid var(--accent-canary-teal);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 5px rgba(0, 194, 168, 0.4);
+        }
+        
+        .search-result:focus-visible {
+            outline: 2px solid var(--accent-canary-teal);
+            outline-offset: -2px;
+            background-color: rgba(0, 194, 168, 0.15);
+        }
+        
+        .filter-option:focus-visible {
+            outline: 2px solid var(--accent-canary-teal);
+            outline-offset: -2px;
+            background-color: rgba(0, 194, 168, 0.15);
+        }
+        
+        .filter-checkbox:focus-visible {
+            outline: 2px solid var(--accent-canary-teal);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px rgba(0, 194, 168, 0.3);
+        }
+        
+        .filter-reset-btn:focus-visible,
+        .filter-apply-btn:focus-visible {
+            outline: 3px solid var(--accent-canary-teal);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 5px rgba(0, 194, 168, 0.4);
+        }
+        
+        .surf-spot-modal-close:focus-visible {
+            outline: 3px solid var(--accent-canary-teal);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 5px rgba(0, 194, 168, 0.4);
+        }
+        
+        .spot-action-btn:focus-visible {
+            outline: 3px solid var(--accent-canary-teal);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 5px rgba(0, 194, 168, 0.4);
+        }
+    }
+    
+    /* Screen reader optimizations */
+    @media (max-width: 768px) {
+        /* Add screen reader only text for icons */
+        .surf-map-search-btn::after {
+            content: "Search";
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        .surf-map-filter-toggle::after {
+            content: "Filter";
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        .surf-map-clear-btn::after {
+            content: "Clear search and filters";
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        .surf-map-close-btn::after {
+            content: "Close map";
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        .surf-map-voice-search-btn::after {
+            content: "Voice search";
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        .surf-map-location-search-btn::after {
+            content: "Search near me";
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Add ARIA labels for dynamic content */
+        .search-result {
+            role: "option";
+            aria-selected: "false";
+        }
+        
+        .search-result.selected {
+            aria-selected: "true";
+        }
+        
+        .filter-option {
+            role: "option";
+            aria-selected: "false";
+        }
+        
+        .filter-option.selected {
+            aria-selected: "true";
+        }
+        
+        /* Announce search results to screen readers */
+        .surf-map-search-results {
+            role: "listbox";
+            aria-label: "Search results";
+        }
+        
+        /* Announce filter options to screen readers */
+        .filter-panel-content {
+            role: "group";
+            aria-label: "Filter options";
+        }
+        
+        /* Announce spot details to screen readers */
+        .surf-spot-modal-content {
+            role: "document";
+            aria-label: "Surf spot details";
+        }
+        
+        /* Announce minimap to screen readers */
+        .surf-map-minimap {
+            role: "img";
+            aria-label: "Map overview showing current viewport";
+        }
+    }
+    
+    /* High contrast mode for better accessibility */
+    @media (prefers-contrast: high) and (max-width: 768px) {
+        .surf-map-header {
+            border-bottom-width: 2px;
+        }
+        
+        .surf-map-search {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--text-salt-crystal);
+        }
+        
+        .surf-map-search-input {
+            color: var(--text-salt-crystal);
+        }
+        
+        .surf-map-search-btn,
+        .surf-map-filter-toggle,
+        .surf-map-clear-btn,
+        .surf-map-close-btn,
+        .surf-map-voice-search-btn,
+        .surf-map-location-search-btn {
+            border: 1px solid var(--text-salt-crystal);
+        }
+        
+        .search-result {
+            border-bottom: 1px solid var(--text-salt-crystal);
+        }
+        
+        .filter-panel {
+            border: 2px solid var(--text-salt-crystal);
+        }
+        
+        .filter-option {
+            border: 1px solid var(--text-salt-crystal);
+        }
+        
+        .filter-checkbox {
+            border: 2px solid var(--text-salt-crystal);
+        }
+        
+        .filter-reset-btn,
+        .filter-apply-btn {
+            border-width: 2px;
+        }
+        
+        .surf-spot-modal {
+            border: 2px solid var(--text-salt-crystal);
+        }
+        
+        .surf-spot-modal-header {
+            border-bottom-width: 2px;
+        }
+        
+        .surf-spot-modal-footer {
+            border-top-width: 2px;
+        }
+        
+        .spot-action-btn {
+            border-width: 2px;
+        }
+        
+        .surf-map-minimap {
+            border-width: 3px;
+        }
+    }
+    
+    /* Reduced motion with accessibility focus */
+    @media (prefers-reduced-motion: reduce) and (max-width: 768px) {
+        .surf-map-search-btn,
+        .surf-map-filter-toggle,
+        .surf-map-clear-btn,
+        .surf-map-close-btn,
+        .surf-map-voice-search-btn,
+        .surf-map-location-search-btn {
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        
+        .search-result {
+            transition: background-color 0.2s ease;
+        }
+        
+        .filter-option {
+            transition: background-color 0.2s ease;
+        }
+        
+        .filter-reset-btn,
+        .filter-apply-btn {
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        
+        .surf-spot-modal-close {
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        
+        .spot-action-btn {
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        
+        /* Keep focus transitions for accessibility */
+        .surf-map-search-btn:focus-visible,
+        .surf-map-filter-toggle:focus-visible,
+        .surf-map-clear-btn:focus-visible,
+        .surf-map-close-btn:focus-visible,
+        .surf-map-voice-search-btn:focus-visible,
+        .surf-map-location-search-btn:focus-visible,
+        .search-result:focus-visible,
+        .filter-option:focus-visible,
+        .filter-checkbox:focus-visible,
+        .filter-reset-btn:focus-visible,
+        .filter-apply-btn:focus-visible,
+        .surf-spot-modal-close:focus-visible,
+        .spot-action-btn:focus-visible {
+            transition: box-shadow 0.2s ease;
+        }
+    }
+    
+    /* Print styles */
+    @media print {
+        .surf-map-header,
+        .surf-map-controls,
+        .surf-map-filter-panel,
+        .surf-map-search-results,
+        .surf-map-minimap,
+        .surf-spot-modal-overlay,
+        .surf-spot-modal {
+            display: none !important;
+        }
+        
+        .surf-map-container {
+            height: auto;
+            overflow: visible;
+        }
+        
+        .surf-map-canvas {
+            max-width: 100%;
+            height: auto;
+        }
+    }
+    
+    .surf-map-voice-search-btn:hover,
+    .surf-map-location-search-btn:hover {
+        transform: translateY(-50%);
+    }
+    
+    .surf-map-voice-search-btn:active,
+    .surf-map-location-search-btn:active {
+        transform: translateY(-50%);
+    }
+    
+    #surf-search-touch-feedback {
+        transition: opacity 0.2s ease;
+    }
+}
+
+/* --- 21. Surf Spot Modal --- */
+/* Modal overlay for surf spot details */
+.surf-spot-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 3100; /* Above the surf map modal */
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.surf-spot-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Surf spot modal container */
+.surf-spot-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    background-color: var(--bg-volcanic-night);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    z-index: 3200;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.surf-spot-modal.active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+}
+
+/* Modal header */
+.surf-spot-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #333;
+    background-color: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.surf-spot-modal-title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-salt-crystal);
+}
+
+.surf-spot-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--text-salt-crystal);
+    cursor: pointer;
+    line-height: 1;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.surf-spot-modal-close:hover {
+    background-color: rgba(255, 77, 77, 0.2);
+    color: var(--accent-lava-glow);
+}
+
+/* Modal content */
+.surf-spot-modal-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Spot detail sections */
+.spot-detail-section {
+    margin-bottom: 1.5rem;
+}
+
+.spot-detail-section:last-child {
+    margin-bottom: 0;
+}
+
+.spot-detail-section h3 {
+    margin: 0 0 0.75rem 0;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-salt-crystal);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.spot-detail-row {
+    display: flex;
+    margin-bottom: 0.5rem;
+}
+
+.spot-detail-label {
+    font-weight: 600;
+    min-width: 120px;
+    color: rgba(240, 240, 240, 0.8);
+}
+
+.spot-detail-value {
+    flex-grow: 1;
+    color: var(--text-salt-crystal);
+}
+
+/* Difficulty indicator */
+.spot-difficulty {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: white;
+}
+
+.spot-difficulty.beginner {
+    background-color: #4CAF50;
+}
+
+.spot-difficulty.intermediate {
+    background-color: #FF9800;
+}
+
+.spot-difficulty.advanced {
+    background-color: #F44336;
+}
+
+.spot-difficulty.pro {
+    background-color: #9C27B0;
+}
+
+/* Wave types */
+.spot-wave-types {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.spot-wave-type {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: var(--text-salt-crystal);
+}
+
+/* Best conditions */
+.spot-conditions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.spot-condition {
+    text-align: center;
+    padding: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+.spot-condition-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.spot-condition-label {
+    font-size: 0.8rem;
+    color: rgba(240, 240, 240, 0.7);
+}
+
+.spot-condition-value {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-salt-crystal);
+}
+
+/* Description text */
+.spot-description {
+    line-height: 1.6;
+    color: var(--text-salt-crystal);
+    margin-top: 0.5rem;
+}
+
+/* Action buttons */
+.spot-modal-actions {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-top: 1px solid #333;
+    background-color: rgba(26, 26, 26, 0.95);
+}
+
+.spot-action-btn {
+    flex: 1;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    text-align: center;
+    min-height: 44px;
+}
+
+.spot-action-btn.primary {
+    background-color: var(--accent-lava-glow);
+    color: white;
+}
+
+.spot-action-btn.primary:hover {
+    background-color: var(--accent-lava-glow-dark);
+}
+
+.spot-action-btn.secondary {
+    background-color: transparent;
+    color: var(--text-salt-crystal);
+    border: 1px solid #666;
+}
+
+.spot-action-btn.secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #888;
+}
+
+/* Responsive design for surf spot modal */
+@media (max-width: 768px) {
+    .surf-spot-modal {
+        width: 95%;
+        max-height: 85vh;
+        border-radius: 8px;
+    }
+    
+    .surf-spot-modal-header {
+        padding: 1rem;
+    }
+    
+    .surf-spot-modal-title {
+        font-size: 1.3rem;
+    }
+    
+    .surf-spot-modal-close {
+        width: 44px;
+        height: 44px;
+        font-size: 1.6rem;
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    .surf-spot-modal-content {
+        padding: 1rem;
+    }
+    
+    .spot-detail-section h3 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .spot-detail-row {
+        flex-direction: column;
+        margin-bottom: 0.75rem;
+    }
+    
+    .spot-detail-label {
+        min-width: auto;
+        margin-bottom: 0.25rem;
+        font-size: 0.9rem;
+    }
+    
+    .spot-detail-value {
+        font-size: 0.95rem;
+    }
+    
+    .spot-difficulty {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.6rem;
+    }
+    
+    .spot-wave-type {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.5rem;
+    }
+    
+    .spot-conditions {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .spot-condition {
+        padding: 0.5rem;
+    }
+    
+    .spot-condition-icon {
+        font-size: 1.3rem;
+    }
+    
+    .spot-condition-label {
+        font-size: 0.75rem;
+    }
+    
+    .spot-condition-value {
+        font-size: 0.85rem;
+    }
+    
+    .spot-description {
+        font-size: 0.95rem;
+    }
+    
+    .spot-modal-actions {
+        padding: 1rem;
+        gap: 0.75rem;
+    }
+    
+    .spot-action-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        min-height: 48px;
+    }
+}
+
+@media (max-width: 480px) {
+    .surf-spot-modal {
+        width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+        top: 0;
+        left: 0;
+        transform: translateY(100%);
+    }
+    
+    .surf-spot-modal.active {
+        transform: translateY(0);
+    }
+    
+    .surf-spot-modal-header {
+        padding: 1rem;
+        border-bottom-width: 2px;
+    }
+    
+    .surf-spot-modal-title {
+        font-size: 1.2rem;
+    }
+    
+    .surf-spot-modal-close {
+        width: 48px;
+        height: 48px;
+        font-size: 1.8rem;
+        min-width: 48px;
+        min-height: 48px;
+    }
+    
+    .surf-spot-modal-content {
+        padding: 1rem;
+        max-height: calc(100vh - 160px);
+    }
+    
+    .spot-detail-section {
+        margin-bottom: 1.25rem;
+    }
+    
+    .spot-detail-section h3 {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .spot-detail-label {
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+    
+    .spot-detail-value {
+        font-size: 0.95rem;
+        line-height: 1.4;
+    }
+    
+    .spot-difficulty {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.75rem;
+    }
+    
+    .spot-wave-types {
+        gap: 0.4rem;
+    }
+    
+    .spot-wave-type {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.5rem;
+    }
+    
+    .spot-conditions {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .spot-condition {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .spot-condition-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .spot-condition-label {
+        font-size: 0.7rem;
+    }
+    
+    .spot-condition-value {
+        font-size: 0.85rem;
+    }
+    
+    .spot-description {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+    
+    .spot-modal-actions {
+        padding: 1rem;
+        gap: 0.75rem;
+        border-top-width: 2px;
+    }
+    
+    .spot-action-btn {
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
+        min-height: 48px;
+        border-radius: 6px;
+    }
+    
+    /* Touch feedback */
+    .spot-action-btn:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+    
+    .surf-spot-modal-close:active {
+        transform: scale(0.9);
+        transition: transform 0.1s ease;
+    }
 }

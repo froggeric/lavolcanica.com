@@ -5,6 +5,43 @@ All notable changes to the La Sonora Volcánica website will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2025-10-13
+
+### Added
+- **Surf Map Toggle Configuration**: Implemented a configuration option to toggle the visibility of the surf map feature.
+- **Surf Spots Data Structure Documentation**: Created detailed documentation for the consolidated surf spots data structure.
+- **Extended GPS Coordinates**: Added GPS coordinates for 21 previously missing surf spots.
+
+### Changed
+- **Surf Spot Data Consolidation**: Consolidated 42 individual surf spot JSON files into a single, unified data file for improved performance and manageability.
+- **Surf Map Code Update**: Updated the surf map codebase to utilize the newly consolidated surf spot data structure.
+- **Navigation Menu Modification**: Modified the main navigation menu to dynamically adapt based on the surf map toggle configuration.
+- **Version Increment**: Updated the application version to `1.6.0`.
+- **Documentation Updates**: Performed general updates and improvements to existing project documentation.
+
+### Technical Details
+- Consolidated individual surf spot JSON files from [`data/surfspots/`](data/surfspots/) into [`data/fuerteventura-surf-spots.json`](data/fuerteventura/fuerteventura-surf-spots.json).
+- Created [`surf-spots-data-structure.md`](surf-spots-data-structure.md) to document the new unified data format.
+- Modified [`scripts/surf-map/surf-spots.js`](scripts/surf-map/surf-spots.js) and other related surf map scripts to consume data from the consolidated JSON.
+- Updated GPS coordinates in the consolidated data file to include 21 missing spots.
+- Implemented `surfMapToggle` in [`data/config/app-config.js`](data/config/app-config.js) to control surf map visibility.
+- Adjusted navigation menu rendering logic in [`script.js`](script.js) based on the `surfMapToggle` configuration.
+
+### Files Modified
+- [`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json): New consolidated surf spot data file.
+- [`data/surfspots/*.json`](data/surfspots/): 42 individual surf spot JSON files removed (consolidated).
+- [`surf-spots-data-structure.md`](surf-spots-data-structure.md): New documentation for the surf spots data structure.
+- [`scripts/surf-map/surf-spots.js`](scripts/surf-map/surf-spots.js): Updated to use consolidated data.
+- [`scripts/surf-map/surf-map-core.js`](scripts/surf-map/surf-map-core.js): Potentially updated for data integration.
+- [`scripts/surf-map/surf-map-renderer.js`](scripts/surf-map/surf-map-renderer.js): Potentially updated for data integration.
+- [`scripts/surf-map/surf-map-interactions.js`](scripts/surf-map/surf-map-interactions.js): Potentially updated for data integration.
+- [`data/config/app-config.js`](data/config/app-config.js): Added `surfMapToggle` configuration and updated version to `1.6.0`.
+- [`script.js`](script.js): Modified navigation menu logic and updated version to `1.6.0`.
+- [`index.html`](index.html): Updated version comment to `1.6.0`.
+- [`style.css`](style.css): Updated version comment to `1.6.0`.
+- [`surf_spots_gps_coordinates.md`](surf_spots_gps_coordinates.md): Updated with new GPS coordinate information.
+- Other documentation files (e.g., `README.md`, `DEVELOPER_GUIDE.md`, `DESIGN.md`): General updates.
+
 ## [1.5.0] - 2025-10-11
 
 ### Added

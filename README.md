@@ -4,7 +4,7 @@ This repository contains the source code for the official website of La Sonora V
 
 ## Website Purpose and Capabilities
 
-This website serves as the official digital presence for the musical artist "La Sonora Volcánica." It is a single-page application (SPA) designed to be an immersive, content-rich experience for fans. The primary objectives are to showcase the artist's music, provide biographical and collaborative context, facilitate discovery of the full discography, and serve as a central hub for all official streaming and contact links. The application is architected to be highly dynamic and easily updatable by modifying a central data source, without requiring direct manipulation of the DOM structure in the HTML.
+This website serves as the official digital presence for the musical artist "La Sonora Volcánica." It is a single-page application (SPA) designed to be an immersive, content-rich experience for fans. The primary objectives are to showcase the artist's music, provide biographical and collaborative context, facilitate discovery of the full discography, and serve as a central hub for all official streaming and contact links. The site also features an interactive Fuerteventura Surf Map, offering detailed information on local surf spots. The application is architected to be highly dynamic and easily updatable by modifying a central data source, without requiring direct manipulation of the DOM structure in the HTML.
 
 ## Workflows
 
@@ -18,6 +18,7 @@ All content is managed through a structured set of JavaScript modules located in
 - **Text Content**: Stories and biographies are managed in `data/content/release-stories.js` and `data/content/collaborator-bios.js`.
 - **Collaborators**: To add a new collaborator, open `data/collaborators/collaborator-data.js` and add a new object to the `collaboratorData` array.
 - **External Links**: Links to streaming platforms are managed in `data/config/platform-config.js` and `data/config/artist-data.js`.
+- **Surf Spots**: Information about Fuerteventura surf spots, including their characteristics and GPS coordinates, is managed in [`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json).
 
 For a detailed guide on how to add or modify content, please see the [**Developer Guide**](DEVELOPER_GUIDE.md).
 
@@ -76,6 +77,11 @@ Several recent updates have significantly improved the user experience and inter
 
 For a more detailed overview of the architecture, see the [**Developer Guide**](DEVELOPER_GUIDE.md).
 
+### 6. Fuerteventura Surf Map
+- **Description**: An interactive surf map showcasing detailed information about various surf spots across Fuerteventura. Users can explore spots, view their characteristics, and get practical information.
+- **User Interaction**: Navigate to the "Surf Map" section to view an interactive map. Clicking on surf spot markers reveals detailed information in a modal. Search and filter functionalities allow users to find spots based on criteria like ability level, wave type, and location.
+- **Technical Details**: The surf map is implemented using a custom `SurfMap` class in [`scripts/surf-map/surf-map-core.js`](scripts/surf-map/surf-map-core.js), leveraging HTML Canvas for rendering. It uses a consolidated JSON data structure for surf spots ([`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json)) and includes components for markers, a minimap, search, and filtering. The feature's visibility is controlled by the `surfMapEnabled` flag in [`data/config/app-config.js`](data/config/app-config.js:57).
+
 ## Local Development
 
 To run this project locally, follow these steps:
@@ -122,7 +128,7 @@ Deployment procedures for all environments are streamlined. The site is static a
 
 ## Maintenance and Troubleshooting
 
-- **Maintenance**: Regularly update the data files in the `/data` directory to keep the content fresh.
+- **Maintenance**: Regularly update the data files in the `/data` directory, including surf spots data in [`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json), to keep the content fresh.
 - **Troubleshooting**: If you encounter issues, check the browser's developer console for errors. The `TEST_FUNCTIONS_ANALYSIS.md` document provides insights into the test functions available in `script.js` for debugging.
 
 For more detailed maintenance and troubleshooting solutions, refer to the [**Developer Guide**](DEVELOPER_GUIDE.md).
