@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Search Visibility</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .test-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .test-button:hover {
+            background-color: #45a049;
+        }
+        
+        .test-button.danger {
+            background-color: #f44336;
+        }
+        
+        .test-button.danger:hover {
+            background-color: #d32f2f;
+        }
+        
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        .status.success {
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+        }
+        
+        .status.error {
+            background-color: #f2dede;
+            color: #a94442;
+            border: 1px solid #ebccd1;
+        }
+        
+        .status.info {
+            background-color: #d9edf7;
+            color: #31708f;
+            border: 1px solid #bce8f1;
+        }
+        
+        /* Mock styles for the search elements */
+        .left-side-search-container {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            width: 280px;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            border-radius: 8px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .left-side-search-container.visible {
+            opacity: 0.9;
+            pointer-events: auto;
+        }
+        
+        .mobile-search-toggle {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #FF4D4D;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .mobile-search-toggle.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        /* Mock surf map modal */
+        .surf-map-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            z-index: 1000;
+        }
+        
+        .surf-map-modal.active {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Search Bar Visibility Test</h1>
+        
+        <div class="test-section">
+            <h2>Test Controls</h2>
+            <button class="test-button" onclick="openSurfMap()">Open Surf Map</button>
+            <button class="test-button danger" onclick="closeSurfMap()">Close Surf Map</button>
+            <button class="test-button" onclick="checkVisibility()">Check Visibility</button>
+            <div id="status" class="status info">Click the buttons to test the search visibility functionality.</div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Expected Behavior</h2>
+            <ul>
+                <li>When the page loads, the search bar and mobile toggle should be hidden (opacity: 0)</li>
+                <li>When the surf map opens, both elements should become visible (opacity: 0.9)</li>
+                <li>When the surf map closes, both elements should be hidden again</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h2>Manual Test Steps</h2>
+            <ol>
+                <li>Open this page in a browser</li>
+                <li>Verify the search elements are hidden (top-left corner)</li>
+                <li>Click "Open Surf Map" button</li>
+                <li>Verify the search elements become visible</li>
+                <li>Click "Close Surf Map" button</li>
+                <li>Verify the search elements are hidden again</li>
+            </ol>
+        </div>
+    </div>
+    
+    <!-- Mock search elements -->
+    <div class="left-side-search-container" id="left-side-search">
+        <div>Search Container</div>
+    </div>
+    
+    <button class="mobile-search-toggle" id="mobile-search-toggle" aria-label="Toggle search">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg>
+    </button>
+    
+    <!-- Mock surf map modal -->
+    <div class="surf-map-modal" id="surf-map-modal">
+        <div>Surf Map (Mock)</div>
+    </div>
+    
+    <script>
+        function updateStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${type}`;
+        }
+        
+        function openSurfMap() {
+            const surfMapModal = document.getElementById('surf-map-modal');
+            const leftSideSearch = document.getElementById('left-side-search');
+            const mobileSearchToggle = document.getElementById('mobile-search-toggle');
+            
+            surfMapModal.classList.add('active');
+            
+            if (leftSideSearch) {
+                leftSideSearch.classList.add('visible');
+            }
+            
+            if (mobileSearchToggle) {
+                mobileSearchToggle.classList.add('visible');
+            }
+            
+            updateStatus('Surf map opened. Search elements should be visible.', 'success');
+        }
+        
+        function closeSurfMap() {
+            const surfMapModal = document.getElementById('surf-map-modal');
+            const leftSideSearch = document.getElementById('left-side-search');
+            const mobileSearchToggle = document.getElementById('mobile-search-toggle');
+            
+            surfMapModal.classList.remove('active');
+            
+            if (leftSideSearch) {
+                leftSideSearch.classList.remove('visible');
+            }
+            
+            if (mobileSearchToggle) {
+                mobileSearchToggle.classList.remove('visible');
+            }
+            
+            updateStatus('Surf map closed. Search elements should be hidden.', 'success');
+        }
+        
+        function checkVisibility() {
+            const leftSideSearch = document.getElementById('left-side-search');
+            const mobileSearchToggle = document.getElementById('mobile-search-toggle');
+            const surfMapModal = document.getElementById('surf-map-modal');
+            
+            const searchVisible = leftSideSearch && leftSideSearch.classList.contains('visible');
+            const toggleVisible = mobileSearchToggle && mobileSearchToggle.classList.contains('visible');
+            const mapActive = surfMapModal && surfMapModal.classList.contains('active');
+            
+            let message = `Search Container: ${searchVisible ? 'Visible' : 'Hidden'}\n`;
+            message += `Mobile Toggle: ${toggleVisible ? 'Visible' : 'Hidden'}\n`;
+            message += `Surf Map: ${mapActive ? 'Active' : 'Inactive'}`;
+            
+            const isCorrect = (searchVisible === toggleVisible) && (searchVisible === mapActive);
+            
+            updateStatus(message, isCorrect ? 'success' : 'error');
+        }
+        
+        // Check initial state
+        window.addEventListener('load', () => {
+            checkVisibility();
+        });
+    </script>
+</body>
+</html>

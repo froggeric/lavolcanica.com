@@ -67,7 +67,7 @@ export class SurfMap {
         this.spotModal = null;
         this.minimap = null;
         this.searchManager = null;
-        this.filterManager = null;
+        this.spotsCounter = null;
 
         // Event listeners
         this.eventListeners = new Map();
@@ -173,58 +173,16 @@ export class SurfMap {
             );
             this.searchManager.setResultClickCallback(this.handleSearchResultClick.bind(this));
             this.searchManager.setSearchChangeCallback(this.handleSearchChange.bind(this));
+            this.searchManager.setResultsUpdateCallback(this.handleResultsUpdate.bind(this));
 
-            // Initialize filter functionality
-            const { SurfFilters } = await import('./surf-filters.js');
-            const filterToggle = document.querySelector('.surf-map-filter-toggle');
-            const filterPanel = document.querySelector('.surf-map-filter-panel');
-            
-            if (filterToggle) {
-                filterToggle.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                });
-            }
-            
-            this.filterManager = new SurfFilters(
-                this.spotsManager,
-                filterToggle,
-                filterPanel
-            );
-            this.filterManager.setFilterChangeCallback(this.handleFilterChange.bind(this));
-            // Initialize filtered spots to all spots by applying current (empty) filters
-            try {
-                this.filterManager.applyFilters();
-            } catch (e) {
-                console.warn('Failed to apply initial filters:', e);
-            }
-            
-            // Set up filter panel event listeners
-            const filterCloseBtn = document.querySelector('.filter-panel-close');
-            if (filterCloseBtn) {
-                filterCloseBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.filterManager.closePanel();
-                });
-            }
-            
-            const filterResetBtn = document.querySelector('.filter-reset-btn');
-            if (filterResetBtn) {
-                filterResetBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.filterManager.resetFilters();
-                });
-            }
-            
-            const filterApplyBtn = document.querySelector('.filter-apply-btn');
-            if (filterApplyBtn) {
-                filterApplyBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.filterManager.applyFilters();
-                    this.filterManager.closePanel();
+            // Initialize the surf spots counter
+            const { SurfSpotsCounter } = await import('./surf-counter.js');
+            const counterElement = document.getElementById('surf-spots-counter');
+            if (counterElement) {
+                this.spotsCounter = new SurfSpotsCounter(counterElement, {
+                    singularLabel: 'surf spot',
+                    pluralLabel: 'surf spots',
+                    animationDuration: 300
                 });
             }
 
@@ -232,7 +190,7 @@ export class SurfMap {
             const clearBtn = document.querySelector('.surf-map-clear-btn');
             if (clearBtn) {
                 clearBtn.addEventListener('click', () => {
-                    this.clearSearchAndFilters();
+                    this.clearSearch();
                 });
             }
 
@@ -244,6 +202,12 @@ export class SurfMap {
             
             // Start visibility checks
             this.startVisibilityChecks();
+
+            // Initialize the counter with the total number of spots
+            if (this.spotsCounter && this.spotsManager) {
+                const totalSpots = this.spotsManager.getAllSpots().length;
+                this.updateSpotsCounter(totalSpots);
+            }
 
             // Emit ready event
             this.emit('ready');
@@ -482,8 +446,8 @@ export class SurfMap {
         // Update marker visibility based on current viewport
         this.updateMarkerVisibility();
         
-        // Apply search and filter visibility
-        this.updateSearchAndFilterVisibility();
+        // Apply search visibility
+        this.updateSearchVisibility();
         
         // Render markers
         if (this.markersManager) {
@@ -676,9 +640,9 @@ export class SurfMap {
     }
 
     /**
-     * Updates marker visibility based on search and filter criteria.
+     * Updates marker visibility based on search criteria.
      */
-    updateSearchAndFilterVisibility() {
+    updateSearchVisibility() {
         if (!this.markersManager) {
             return;
         }
@@ -697,45 +661,10 @@ export class SurfMap {
         }
         const searchActive = Array.isArray(searchResults) && searchResults.length > 0;
         
-        // Determine filter state and results
-        let filteredResults = allSpots;
-        let filtersActive = false;
-        if (this.filterManager) {
-            let active = { abilityLevel: [], waveType: [], area: [] };
-            if (typeof this.filterManager.getActiveFilters === 'function') {
-                try {
-                    active = this.filterManager.getActiveFilters();
-                } catch (e) {
-                    active = { abilityLevel: [], waveType: [], area: [] };
-                }
-            }
-            const activeCount =
-                (active.abilityLevel?.length || 0) +
-                (active.waveType?.length || 0) +
-                (active.area?.length || 0);
-            filtersActive = activeCount > 0;
-            
-            let fmResults = [];
-            if (typeof this.filterManager.getFilteredSpots === 'function') {
-                try {
-                    fmResults = this.filterManager.getFilteredSpots() || [];
-                } catch (e) {
-                    fmResults = [];
-                }
-            }
-            // If filters are not active, treat filtered results as all spots
-            filteredResults = filtersActive ? fmResults : allSpots;
-        }
-        
-        // Compute final visible set based on active states
+        // Compute final visible set based on search state
         let visibleSpots;
-        if (searchActive && filtersActive) {
-            const searchSpotIds = new Set(searchResults.map(spot => spot.id));
-            visibleSpots = filteredResults.filter(spot => searchSpotIds.has(spot.id));
-        } else if (searchActive) {
+        if (searchActive) {
             visibleSpots = searchResults;
-        } else if (filtersActive) {
-            visibleSpots = filteredResults;
         } else {
             visibleSpots = allSpots;
         }
@@ -747,6 +676,9 @@ export class SurfMap {
         if (this.minimap && typeof this.minimap.updateVisibleSpots === 'function') {
             this.minimap.updateVisibleSpots(visibleSpots);
         }
+        
+        // Update the surf spots counter
+        this.updateSpotsCounter(visibleSpots.length);
     }
 
     /**
@@ -779,7 +711,7 @@ export class SurfMap {
      */
     handleSearchChange(results) {
         // Update marker visibility
-        this.updateSearchAndFilterVisibility();
+        this.updateSearchVisibility();
         
         // Re-render
         this.render();
@@ -789,32 +721,37 @@ export class SurfMap {
     }
 
     /**
-     * Handles filter change events.
-     * @param {Array<Object>} results - The filter results.
+     * Updates the surf spots counter with the current count.
+     * @param {number} count - The number of visible spots.
      */
-    handleFilterChange(results) {
-        // Update marker visibility
-        this.updateSearchAndFilterVisibility();
-        
-        // Re-render
-        this.render();
-        
-        // Emit filter change event
-        this.emit('filterChange', { results });
+    updateSpotsCounter(count) {
+        if (this.spotsCounter) {
+            this.spotsCounter.updateCount(count);
+        }
     }
 
     /**
-     * Clears search input and all filters.
+     * Handles results update events.
+     * @param {Array<Object>} results - The updated search results.
      */
-    clearSearchAndFilters() {
+    handleResultsUpdate(results) {
+        // Update the counter with the new results count
+        this.updateSpotsCounter(results.length);
+    }
+
+    /**
+     * Clears search input.
+     */
+    clearSearch() {
         // Clear search
         if (this.searchManager) {
             this.searchManager.clearSearch();
         }
         
-        // Clear filters
-        if (this.filterManager) {
-            this.filterManager.resetFilters();
+        // Reset the counter to show all spots
+        if (this.spotsCounter && this.spotsManager) {
+            const totalSpots = this.spotsManager.getAllSpots().length;
+            this.updateSpotsCounter(totalSpots);
         }
     }
 
@@ -876,13 +813,6 @@ export class SurfMap {
         return this.searchManager;
     }
 
-    /**
-     * Gets the filter manager.
-     * @returns {SurfFilters|null} The filter manager.
-     */
-    getFilterManager() {
-        return this.filterManager;
-    }
 
     /**
      * Destroys the surf map and cleans up resources.
@@ -925,8 +855,8 @@ export class SurfMap {
         if (this.searchManager) {
             this.searchManager.destroy();
         }
-        if (this.filterManager) {
-            this.filterManager.destroy();
+        if (this.spotsCounter) {
+            this.spotsCounter.destroy();
         }
 
         // Remove canvas
@@ -943,7 +873,7 @@ export class SurfMap {
         this.spotModal = null;
         this.minimap = null;
         this.searchManager = null;
-        this.filterManager = null;
+        this.spotsCounter = null;
         this.state.image = null;
     }
 }

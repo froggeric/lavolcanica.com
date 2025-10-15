@@ -9,7 +9,6 @@
 import { SurfMap } from './surf-map-core.js';
 import { SurfSpotsManager } from './surf-spots.js';
 import { SurfMarkersManager } from './surf-markers.js';
-import { SurfFilters } from './surf-filters.js';
 import { SurfSearch } from './surf-search.js';
 import { SurfMinimap } from './surf-minimap.js';
 
@@ -64,7 +63,6 @@ class SurfMapTestSuite {
             // Functionality Tests
             await this.testMarkerDisplay();
             await this.testSearchFunctionality();
-            await this.testFilterFunctionality();
             await this.testSpotDetailModal();
             await this.testMinimapNavigation();
             
@@ -196,78 +194,6 @@ class SurfMapTestSuite {
         }
     }
 
-    /**
-     * Tests filter functionality.
-     */
-    async testFilterFunctionality() {
-        this.currentTest = 'Filter Functionality';
-        
-        try {
-            // Initialize surf map
-            const surfMap = new SurfMap(this.testContainer);
-            await new Promise(resolve => {
-                surfMap.on('ready', resolve);
-            });
-            
-            const filterManager = surfMap.getFilterManager();
-            const spotsManager = surfMap.getSpotsManager();
-            
-            // Test ability level filter
-            const abilityLevels = spotsManager.getDifficultyLevels();
-            if (abilityLevels.length > 0) {
-                filterManager.setFilters({ abilityLevel: [abilityLevels[0]] });
-                await this.waitForRender();
-                
-                const filteredSpots = filterManager.getFilteredSpots();
-                this.addTestResult('Ability level filter', true, 
-                    `${filteredSpots.length} spots filtered by ability level`);
-            }
-            
-            // Test wave type filter
-            const allSpots = spotsManager.getAllSpots();
-            const waveTypes = new Set();
-            allSpots.forEach(spot => {
-                if (spot.waveDetails.type) {
-                    spot.waveDetails.type.forEach(type => waveTypes.add(type));
-                }
-            });
-            
-            if (waveTypes.size > 0) {
-                const firstWaveType = Array.from(waveTypes)[0];
-                filterManager.setFilters({ waveType: [firstWaveType] });
-                await this.waitForRender();
-                
-                const filteredSpots = filterManager.getFilteredSpots();
-                this.addTestResult('Wave type filter', true, 
-                    `${filteredSpots.length} spots filtered by wave type`);
-            }
-            
-            // Test area filter
-            const areas = spotsManager.getAreas();
-            if (areas.length > 0) {
-                filterManager.setFilters({ area: [areas[0]] });
-                await this.waitForRender();
-                
-                const filteredSpots = filterManager.getFilteredSpots();
-                this.addTestResult('Area filter', true, 
-                    `${filteredSpots.length} spots filtered by area`);
-            }
-            
-            // Test filter reset
-            filterManager.resetFilters();
-            await this.waitForRender();
-            
-            const allFilteredSpots = filterManager.getFilteredSpots();
-            this.addTestResult('Filter reset', true, 
-                `${allFilteredSpots.length} spots after reset`);
-            
-            // Clean up
-            surfMap.destroy();
-            
-        } catch (error) {
-            this.addTestResult('Filter Functionality Test', false, error.message);
-        }
-    }
 
     /**
      * Tests the spot detail modal.

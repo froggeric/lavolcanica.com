@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surf Map Search Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #F0F0F0;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #2a2a2a;
+            border-radius: 8px;
+        }
+        
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        .test-pass {
+            background-color: rgba(76, 175, 80, 0.2);
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .test-fail {
+            background-color: rgba(244, 67, 54, 0.2);
+            border-left: 4px solid #F44336;
+        }
+        
+        .test-info {
+            background-color: rgba(33, 150, 243, 0.2);
+            border-left: 4px solid #2196F3;
+        }
+        
+        button {
+            background-color: #FF4D4D;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background-color: #e63939;
+        }
+        
+        #test-output {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Surf Map Search Functionality Test</h1>
+        <p>This test verifies that the search functionality works correctly after removing the filter functionality.</p>
+        
+        <div class="test-section">
+            <h2>Test Controls</h2>
+            <button id="run-tests">Run All Tests</button>
+            <button id="clear-results">Clear Results</button>
+        </div>
+        
+        <div id="test-output"></div>
+    </div>
+
+    <script type="module">
+        import { SurfMap } from './scripts/surf-map/surf-map-core.js';
+        
+        // Test functions
+        function log(message, type = 'info') {
+            const output = document.getElementById('test-output');
+            const div = document.createElement('div');
+            div.className = `test-result test-${type}`;
+            div.innerHTML = `<strong>${new Date().toLocaleTimeString()}</strong>: ${message}`;
+            output.appendChild(div);
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        function createTestContainer() {
+            const container = document.createElement('div');
+            container.style.width = '800px';
+            container.style.height = '600px';
+            container.style.position = 'absolute';
+            container.style.top = '-1000px';
+            container.style.left = '-1000px';
+            
+            // Add search input element for testing
+            const searchContainer = document.createElement('div');
+            searchContainer.className = 'surf-map-search';
+            searchContainer.style.position = 'absolute';
+            searchContainer.style.top = '10px';
+            searchContainer.style.left = '10px';
+            searchContainer.style.zIndex = '1000';
+            
+            const searchInput = document.createElement('input');
+            searchInput.type = 'text';
+            searchInput.className = 'surf-map-search-input';
+            searchInput.placeholder = 'Search surf spots...';
+            searchInput.style.width = '200px';
+            searchInput.style.padding = '8px';
+            searchInput.style.border = '1px solid #ccc';
+            searchInput.style.borderRadius = '4px';
+            
+            searchContainer.appendChild(searchInput);
+            container.appendChild(searchContainer);
+            
+            document.body.appendChild(container);
+            return container;
+        }
+        
+        async function testSearchInitialization() {
+            log('Testing search initialization...', 'info');
+            
+            try {
+                const container = createTestContainer();
+                const surfMap = new SurfMap(container);
+                
+                await new Promise((resolve) => {
+                    surfMap.on('ready', resolve);
+                });
+                
+                const searchManager = surfMap.getSearchManager();
+                
+                if (searchManager) {
+                    log('Search manager initialized successfully', 'pass');
+                } else {
+                    log('Search manager not found', 'fail');
+                }
+                
+                surfMap.destroy();
+                document.body.removeChild(container);
+                
+                return true;
+            } catch (error) {
+                log(`Search initialization failed: ${error.message}`, 'fail');
+                return false;
+            }
+        }
+        
+        async function testSearchFunctionality() {
+            log('Testing search functionality...', 'info');
+            
+            try {
+                const container = createTestContainer();
+                const surfMap = new SurfMap(container);
+                
+                await new Promise((resolve) => {
+                    surfMap.on('ready', resolve);
+                });
+                
+                const searchManager = surfMap.getSearchManager();
+                const spotsManager = surfMap.getSpotsManager();
+                
+                // Test with a few search terms
+                const testTerms = ['corralejo', 'north', 'reef'];
+                let allTestsPassed = true;
+                
+                for (const term of testTerms) {
+                    searchManager.performSearch(term);
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                    
+                    const results = searchManager.getSearchResults();
+                    
+                    if (results.length > 0) {
+                        log(`Search for "${term}" returned ${results.length} results`, 'pass');
+                    } else {
+                        log(`Search for "${term}" returned no results`, 'fail');
+                        allTestsPassed = false;
+                    }
+                }
+                
+                // Test clear search
+                searchManager.clearSearch();
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                const resultsAfterClear = searchManager.getSearchResults();
+                
+                if (resultsAfterClear.length === 0) {
+                    log('Clear search works correctly', 'pass');
+                } else {
+                    log('Clear search failed', 'fail');
+                    allTestsPassed = false;
+                }
+                
+                surfMap.destroy();
+                document.body.removeChild(container);
+                
+                return allTestsPassed;
+            } catch (error) {
+                log(`Search functionality test failed: ${error.message}`, 'fail');
+                return false;
+            }
+        }
+        
+        async function testSearchResultClick() {
+            log('Testing search result click...', 'info');
+            
+            try {
+                const container = createTestContainer();
+                const surfMap = new SurfMap(container);
+                
+                await new Promise((resolve) => {
+                    surfMap.on('ready', resolve);
+                });
+                
+                const searchManager = surfMap.getSearchManager();
+                
+                // Search for a term that should return results
+                searchManager.performSearch('corralejo');
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                const results = searchManager.getSearchResults();
+                
+                if (results.length > 0) {
+                    // Test clicking on the first result
+                    const firstResult = results[0];
+                    
+                    // Mock the click handler
+                    let clickHandled = false;
+                    surfMap.on('searchResultClick', () => {
+                        clickHandled = true;
+                    });
+                    
+                    // Simulate clicking on the result
+                    searchManager.selectResult(firstResult);
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                    
+                    if (clickHandled) {
+                        log('Search result click handled correctly', 'pass');
+                    } else {
+                        log('Search result click not handled', 'fail');
+                    }
+                } else {
+                    log('No search results to test click functionality', 'fail');
+                }
+                
+                surfMap.destroy();
+                document.body.removeChild(container);
+                
+                return true;
+            } catch (error) {
+                log(`Search result click test failed: ${error.message}`, 'fail');
+                return false;
+            }
+        }
+        
+        async function testMarkerVisibility() {
+            log('Testing marker visibility with search...', 'info');
+            
+            try {
+                const container = createTestContainer();
+                const surfMap = new SurfMap(container);
+                
+                await new Promise((resolve) => {
+                    surfMap.on('ready', resolve);
+                });
+                
+                const searchManager = surfMap.getSearchManager();
+                const markersManager = surfMap.getMarkersManager();
+                const spotsManager = surfMap.getSpotsManager();
+                
+                // Get initial marker count
+                const allSpots = spotsManager.getAllSpots();
+                log(`Total spots available: ${allSpots.length}`, 'info');
+                
+                // Perform a search
+                searchManager.performSearch('corralejo');
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                const searchResults = searchManager.getSearchResults();
+                log(`Search returned ${searchResults.length} results`, 'info');
+                
+                // Check if markers are updated correctly
+                // We can't directly check visible markers, but we can verify the search works
+                if (searchResults.length > 0) {
+                    log('Search successfully filtered spots for display', 'pass');
+                } else {
+                    log('Search did not return any results', 'fail');
+                }
+                
+                surfMap.destroy();
+                document.body.removeChild(container);
+                
+                return searchResults.length > 0;
+            } catch (error) {
+                log(`Marker visibility test failed: ${error.message}`, 'fail');
+                return false;
+            }
+        }
+        
+        async function testEnhancedSearchProperties() {
+            log('Testing enhanced search properties...', 'info');
+            
+            try {
+                const container = createTestContainer();
+                const surfMap = new SurfMap(container);
+                
+                await new Promise((resolve) => {
+                    surfMap.on('ready', resolve);
+                });
+                
+                const searchManager = surfMap.getSearchManager();
+                let allTestsPassed = true;
+                
+                // Test searching across different property categories
+                const enhancedTestTerms = [
+                    { term: 'beginner', category: 'ability level' },
+                    { term: 'reef', category: 'wave type' },
+                    { term: 'corralejo', category: 'location' },
+                    { term: 'shortboard', category: 'practicalities' },
+                    { term: 'clean', category: 'characteristics' },
+                    { term: 'northwest', category: 'swell direction' },
+                    { term: 'winter', category: 'season' }
+                ];
+                
+                for (const test of enhancedTestTerms) {
+                    searchManager.performSearch(test.term);
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                    
+                    const results = searchManager.getSearchResults();
+                    
+                    if (results.length > 0) {
+                        log(`Search for "${test.term}" (${test.category}) returned ${results.length} results`, 'pass');
+                        
+                        // Check if results contain relevant matched categories
+                        const hasRelevantMatches = results.some(result =>
+                            result.matchedCategories && result.matchedCategories.length > 0
+                        );
+                        
+                        if (hasRelevantMatches) {
+                            log(`Results for "${test.term}" include categorized matches`, 'pass');
+                        } else {
+                            log(`Results for "${test.term}" lack categorized matches`, 'fail');
+                            allTestsPassed = false;
+                        }
+                    } else {
+                        log(`Search for "${test.term}" (${test.category}) returned no results`, 'fail');
+                        allTestsPassed = false;
+                    }
+                }
+                
+                // Test multi-word search
+                searchManager.performSearch('north shore reef');
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                const multiWordResults = searchManager.getSearchResults();
+                if (multiWordResults.length > 0) {
+                    log(`Multi-word search "north shore reef" returned ${multiWordResults.length} results`, 'pass');
+                } else {
+                    log('Multi-word search returned no results', 'fail');
+                    allTestsPassed = false;
+                }
+                
+                surfMap.destroy();
+                document.body.removeChild(container);
+                
+                return allTestsPassed;
+            } catch (error) {
+                log(`Enhanced search properties test failed: ${error.message}`, 'fail');
+                return false;
+            }
+        }
+        
+        async function runAllTests() {
+            log('Starting search functionality tests...', 'info');
+            
+            const tests = [
+                { name: 'Search Initialization', fn: testSearchInitialization },
+                { name: 'Search Functionality', fn: testSearchFunctionality },
+                { name: 'Search Result Click', fn: testSearchResultClick },
+                { name: 'Marker Visibility', fn: testMarkerVisibility },
+                { name: 'Enhanced Search Properties', fn: testEnhancedSearchProperties }
+            ];
+            
+            let passedTests = 0;
+            let totalTests = tests.length;
+            
+            for (const test of tests) {
+                const result = await test.fn();
+                if (result) {
+                    passedTests++;
+                }
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+            
+            log(`Tests completed: ${passedTests}/${totalTests} passed`, 
+                passedTests === totalTests ? 'pass' : 'fail');
+            
+            if (passedTests === totalTests) {
+                log('All tests passed! Search functionality works correctly without filters.', 'pass');
+            } else {
+                log('Some tests failed. Please check the implementation.', 'fail');
+            }
+        }
+        
+        // Event listeners
+        document.getElementById('run-tests').addEventListener('click', runAllTests);
+        
+        document.getElementById('clear-results').addEventListener('click', () => {
+            document.getElementById('test-output').innerHTML = '';
+        });
+        
+        // Auto-run tests when page loads
+        window.addEventListener('load', () => {
+            log('Test page loaded. Click "Run All Tests" to start testing.', 'info');
+        });
+    </script>
+</body>
+</html>

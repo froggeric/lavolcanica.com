@@ -1125,6 +1125,18 @@
                 surfMapModal.classList.add('active');
                 surfMapOverlay.classList.add('active');
                 
+                // Show the search controls when surf map is open
+                const leftSideSearch = document.getElementById('left-side-search');
+                const mobileSearchToggle = document.getElementById('mobile-search-toggle');
+                
+                if (leftSideSearch) {
+                    leftSideSearch.classList.add('visible');
+                }
+                
+                if (mobileSearchToggle) {
+                    mobileSearchToggle.classList.add('visible');
+                }
+                
                 // Initialize the surf map if not already done
                 if (!surfMap) {
                     try {
@@ -1138,6 +1150,29 @@
                             maxZoom: 3.0,
                             initialZoom: 0.5
                         });
+                        
+                        // Initialize search functionality for the left-side search
+                        const leftSideSearchInput = document.querySelector('.left-side-search-container .surf-map-search-input');
+                        const leftSideSearchResults = document.querySelector('.left-side-search-container .surf-map-search-results');
+                        
+                        if (leftSideSearchInput && leftSideSearchResults) {
+                            // Import and initialize the search functionality
+                            import('./scripts/surf-map/surf-search.js').then(({ SurfSearch }) => {
+                                import('./scripts/surf-map/surf-spots.js').then(({ SurfSpotsManager }) => {
+                                    const spotsManager = new SurfSpotsManager();
+                                    const search = new SurfSearch(spotsManager, leftSideSearchInput, leftSideSearchResults);
+                                    
+                                    // Set up event listeners for search functionality
+                                    search.setResultClickCallback((spot) => {
+                                        if (surfMap) {
+                                            surfMap.focusOnSpot(spot.id);
+                                        }
+                                    });
+                                    
+                                    console.log('Left side search initialized');
+                                });
+                            });
+                        }
                         
                         // Set up event listeners for the surf map
                         surfMap.on('ready', () => {
@@ -1181,6 +1216,18 @@
                 scrollLock.disable();
                 surfMapModal.classList.remove('active');
                 surfMapOverlay.classList.remove('active');
+                
+                // Hide the search controls when surf map is closed
+                const leftSideSearch = document.getElementById('left-side-search');
+                const mobileSearchToggle = document.getElementById('mobile-search-toggle');
+                
+                if (leftSideSearch) {
+                    leftSideSearch.classList.remove('visible');
+                }
+                
+                if (mobileSearchToggle) {
+                    mobileSearchToggle.classList.remove('visible');
+                }
                 
                 // Clean up event listeners
                 if (surfMapModal._resizeHandler) {
@@ -1649,6 +1696,45 @@
                 surfMapListItem.style.display = 'none';
                 console.log('Surf map navigation item hidden (surfMapEnabled is false)');
             }
+        }
+        
+        // ==================== LEFT SIDE SEARCH FUNCTIONALITY ====================
+        // Initialize left side search functionality
+        const leftSideSearch = document.getElementById('left-side-search');
+        const mobileSearchToggle = document.getElementById('mobile-search-toggle');
+        
+        if (leftSideSearch && mobileSearchToggle) {
+            // Handle mobile search toggle button
+            mobileSearchToggle.addEventListener('click', () => {
+                leftSideSearch.classList.toggle('mobile-visible');
+                
+                // Focus on search input when opening
+                if (leftSideSearch.classList.contains('mobile-visible')) {
+                    const searchInput = leftSideSearch.querySelector('.surf-map-search-input');
+                    if (searchInput) {
+                        setTimeout(() => searchInput.focus(), 300);
+                    }
+                }
+            });
+            
+            // Close mobile search when clicking outside
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768 &&
+                    leftSideSearch.classList.contains('mobile-visible') &&
+                    !leftSideSearch.contains(e.target) &&
+                    !mobileSearchToggle.contains(e.target)) {
+                    leftSideSearch.classList.remove('mobile-visible');
+                }
+            });
+            
+            // Handle window resize
+            const handleSearchResize = debounce(() => {
+                if (window.innerWidth > 768) {
+                    leftSideSearch.classList.remove('mobile-visible');
+                }
+            }, 250);
+            
+            window.addEventListener('resize', handleSearchResize);
         }
         
         // ==================== INITIAL SETUP ====================

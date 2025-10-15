@@ -5,6 +5,39 @@ All notable changes to the La Sonora Volcánica website will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] - 2025-10-14
+
+### Added
+- **Dynamic Surf Spots Counter**: Implemented a real-time counter that displays the number of visible surf spots based on current search results.
+- **Enhanced Search Functionality**: Extended search capabilities to work across all surf spot properties including name, description, difficulty, and location details.
+- **Left-Side Search Control**: Relocated search control to the left side of the screen for improved accessibility and user experience.
+- **Mobile Search Toggle Button**: Added a dedicated mobile search toggle button for better responsive behavior.
+
+### Changed
+- **Surf Map Interface Redesign**: Completely redesigned the surf map interface with a focus on improved usability and accessibility.
+- **Removed Filter Functionality**: Removed the filter functionality completely to simplify the interface and improve performance.
+- **Search Control Positioning**: Moved search control from right side to left side of the screen for better visual hierarchy.
+- **Responsive Behavior Enhancement**: Improved responsive behavior across all device sizes with better breakpoints and layout adjustments.
+- **Accessibility Improvements**: Enhanced accessibility features including proper ARIA labels, keyboard navigation, and screen reader support.
+- **Styling Consistency**: Updated styling throughout the surf map interface for better design consistency with the overall application.
+
+### Technical Details
+- Refactored surf map search system to work with a unified search interface that queries multiple data fields.
+- Implemented a new counter component that dynamically updates based on search results and map viewport.
+- Removed filter-related components and dependencies from the surf map module.
+- Restructured CSS layout to accommodate the new left-side search control.
+- Enhanced mobile experience with a collapsible search interface.
+- Improved accessibility with proper semantic HTML, ARIA attributes, and keyboard navigation patterns.
+
+### Files Modified
+- `scripts/surf-map/surf-search.js`: Completely refactored to support enhanced search functionality.
+- `scripts/surf-map/surf-counter.js`: New component for dynamic surf spots counting.
+- `scripts/surf-map/surf-filters.js`: Removed as filter functionality is no longer needed.
+- `scripts/surf-map/surf-map-core.js`: Updated to integrate with new search and counter components.
+- `scripts/surf-map/surf-map-interactions.js`: Modified to support new interface layout.
+- `style.css`: Updated with new styles for left-side search, counter, and improved responsive design.
+- `index.html`: Updated version to 1.7.0 and modified HTML structure for new interface layout.
+
 ## [1.6.1] - 2025-10-13
 
 ### Patch

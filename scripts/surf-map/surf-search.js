@@ -43,6 +43,7 @@ export class SurfSearch {
         // Event callbacks
         this.onResultClick = null;
         this.onSearchChange = null;
+        this.onResultsUpdate = null;
         
         // Mobile detection
         this.isMobile = this.detectMobile();
@@ -71,6 +72,9 @@ export class SurfSearch {
         if (!this.resultsContainer) {
             this.createResultsContainer();
         }
+        
+        // Setup clear button functionality
+        this.setupClearButton();
     }
 
     /**
@@ -81,21 +85,82 @@ export class SurfSearch {
         
         const allSpots = this.spotsManager.getAllSpots();
         allSpots.forEach(spot => {
-            // Create searchable text from spot properties
+            // Create searchable text from all relevant spot properties
             const searchableText = [
+                // Basic identification
                 spot.primaryName || spot.name || spot.id,
+                ...(spot.alternativeNames || []),
+                
+                // Location information
                 spot.location.area || '',
                 spot.location.region || '',
                 spot.location.locality || '',
+                ...(spot.location.nearestTowns || []),
+                
+                // Wave details
                 spot.waveDetails.abilityLevel.primary || '',
-                (spot.waveDetails.type && spot.waveDetails.type[0]) || '',
+                ...(spot.waveDetails.abilityLevel.alsoSuitableFor || []),
+                ...(spot.waveDetails.type || []),
+                spot.waveDetails.direction || '',
+                ...(spot.waveDetails.bestSwellDirection || []),
+                ...(spot.waveDetails.bestWindDirection || []),
+                spot.waveDetails.bestTide || '',
+                ...(spot.waveDetails.bestSeason || []),
+                spot.waveDetails.idealConditions || '',
+                
+                // Characteristics
+                spot.characteristics.crowdFactor || '',
+                spot.characteristics.localVibe || '',
+                ...(spot.characteristics.hazards || []),
+                spot.characteristics.bottom || '',
+                spot.characteristics.waterQuality || '',
+                
+                // Practicalities
+                spot.practicalities.access || '',
+                spot.practicalities.parking || '',
+                spot.practicalities.facilities || '',
+                spot.practicalities.paddleOut || '',
+                ...(spot.practicalities.recommendedBoards || []),
+                spot.practicalities.additionalTips || '',
+                
+                // Description
                 spot.description || ''
             ].join(' ').toLowerCase();
 
-            // Store in index
+            // Store in index with additional metadata for better search scoring
             this.searchIndex.set(spot.id, {
                 spot,
-                searchableText
+                searchableText,
+                // Store individual components for better matching and highlighting
+                components: {
+                    names: [spot.primaryName || spot.name || spot.id, ...(spot.alternativeNames || [])],
+                    location: [spot.location.area || '', spot.location.region || '', spot.location.locality || '', ...(spot.location.nearestTowns || [])],
+                    waveDetails: [
+                        spot.waveDetails.abilityLevel.primary || '',
+                        ...(spot.waveDetails.abilityLevel.alsoSuitableFor || []),
+                        ...(spot.waveDetails.type || []),
+                        spot.waveDetails.direction || '',
+                        ...(spot.waveDetails.bestSwellDirection || []),
+                        ...(spot.waveDetails.bestWindDirection || []),
+                        spot.waveDetails.bestTide || '',
+                        ...(spot.waveDetails.bestSeason || [])
+                    ],
+                    characteristics: [
+                        spot.characteristics.crowdFactor || '',
+                        spot.characteristics.localVibe || '',
+                        ...(spot.characteristics.hazards || []),
+                        spot.characteristics.bottom || '',
+                        spot.characteristics.waterQuality || ''
+                    ],
+                    practicalities: [
+                        spot.practicalities.access || '',
+                        spot.practicalities.parking || '',
+                        spot.practicalities.facilities || '',
+                        spot.practicalities.paddleOut || '',
+                        ...(spot.practicalities.recommendedBoards || [])
+                    ],
+                    description: spot.description || ''
+                }
             });
         });
     }
@@ -133,6 +198,42 @@ export class SurfSearch {
         // Mobile-specific event listeners
         if (this.isMobile) {
             this.setupMobileEventListeners();
+        }
+        
+        // Setup search button functionality
+        this.setupSearchButton();
+    }
+    
+    /**
+     * Sets up the search button functionality.
+     */
+    setupSearchButton() {
+        // Find the search button in the same container as the search input
+        const searchContainer = this.searchInput.closest('.surf-map-search');
+        if (searchContainer) {
+            const searchBtn = searchContainer.querySelector('.surf-map-search-btn');
+            if (searchBtn) {
+                searchBtn.addEventListener('click', () => {
+                    // Trigger search with current input value
+                    this.performSearch(this.searchInput.value);
+                });
+            }
+        }
+    }
+    
+    /**
+     * Sets up the clear search button functionality.
+     */
+    setupClearButton() {
+        // Find the clear button in the same container as the search input
+        const searchContainer = this.searchInput.closest('.surf-map-search');
+        if (searchContainer) {
+            const clearBtn = searchContainer.querySelector('.surf-map-clear-btn');
+            if (clearBtn) {
+                clearBtn.addEventListener('click', () => {
+                    this.clearSearch();
+                });
+            }
         }
     }
     
@@ -439,9 +540,18 @@ export class SurfSearch {
      * Creates the search results container if it doesn't exist.
      */
     createResultsContainer() {
-        this.resultsContainer = document.createElement('div');
-        this.resultsContainer.className = 'surf-map-search-results';
-        this.searchInput.parentNode.appendChild(this.resultsContainer);
+        // Check if we're in the left-side search container
+        const leftSideContainer = this.searchInput.closest('.left-side-search-container');
+        
+        if (leftSideContainer) {
+            // For left-side search, use the existing results container
+            this.resultsContainer = leftSideContainer.querySelector('.surf-map-search-results');
+        } else {
+            // For other contexts, create a new results container
+            this.resultsContainer = document.createElement('div');
+            this.resultsContainer.className = 'surf-map-search-results';
+            this.searchInput.parentNode.appendChild(this.resultsContainer);
+        }
     }
 
     /**
@@ -477,40 +587,92 @@ export class SurfSearch {
         const results = [];
         const queryWords = trimmedQuery.split(/\s+/);
 
-        this.searchIndex.forEach(({ spot, searchableText }) => {
+        this.searchIndex.forEach(({ spot, searchableText, components }) => {
             let score = 0;
             let matchedText = [];
+            let matchedCategories = new Set();
 
-            // Calculate relevance score
+            // Calculate relevance score based on category importance
             queryWords.forEach(word => {
                 if (searchableText.includes(word)) {
+                    // Base match score
                     score += 1;
                     
-                    // Higher score for exact name matches
-                    if ((spot.primaryName || spot.name || spot.id).toLowerCase().includes(word)) {
-                        score += 2;
-                        matchedText.push(spot.primaryName || spot.name || spot.id);
+                    // Name matches (highest priority)
+                    components.names.forEach(name => {
+                        if (name.toLowerCase().includes(word)) {
+                            score += 5; // High score for name matches
+                            matchedText.push(name);
+                            matchedCategories.add('name');
+                        }
+                    });
+                    
+                    // Location matches (high priority)
+                    components.location.forEach(location => {
+                        if (location.toLowerCase().includes(word)) {
+                            score += 3; // High score for location matches
+                            matchedText.push(location);
+                            matchedCategories.add('location');
+                        }
+                    });
+                    
+                    // Wave detail matches (medium-high priority)
+                    components.waveDetails.forEach(detail => {
+                        if (detail.toLowerCase().includes(word)) {
+                            score += 2.5; // Medium-high score for wave details
+                            matchedText.push(detail);
+                            matchedCategories.add('waveDetails');
+                        }
+                    });
+                    
+                    // Characteristics matches (medium priority)
+                    components.characteristics.forEach(characteristic => {
+                        if (characteristic.toLowerCase().includes(word)) {
+                            score += 2; // Medium score for characteristics
+                            matchedText.push(characteristic);
+                            matchedCategories.add('characteristics');
+                        }
+                    });
+                    
+                    // Practicalities matches (low-medium priority)
+                    components.practicalities.forEach(practicality => {
+                        if (practicality.toLowerCase().includes(word)) {
+                            score += 1.5; // Low-medium score for practicalities
+                            matchedText.push(practicality);
+                            matchedCategories.add('practicalities');
+                        }
+                    });
+                    
+                    // Description matches (lowest priority)
+                    if (components.description.toLowerCase().includes(word)) {
+                        score += 1; // Lowest score for description matches
+                        matchedCategories.add('description');
                     }
                     
-                    // Check other fields
-                    if (spot.location.area && spot.location.area.toLowerCase().includes(word)) {
-                        score += 1.5;
-                        matchedText.push(spot.location.area);
-                    }
-                    
-                    if (spot.waveDetails.abilityLevel.primary && 
-                        spot.waveDetails.abilityLevel.primary.toLowerCase().includes(word)) {
-                        score += 1;
-                        matchedText.push(spot.waveDetails.abilityLevel.primary);
+                    // Bonus for exact word matches
+                    if (searchableText.split(' ').includes(word)) {
+                        score += 0.5;
                     }
                 }
             });
+
+            // Bonus for matching multiple categories (diversity bonus)
+            if (matchedCategories.size > 1) {
+                score += matchedCategories.size * 0.5;
+            }
+
+            // Bonus for matching multiple query words
+            const matchedWords = queryWords.filter(word => searchableText.includes(word));
+            if (matchedWords.length > 1) {
+                score += matchedWords.length * 0.3;
+            }
 
             if (score > 0) {
                 results.push({
                     spot,
                     score,
-                    matchedText: [...new Set(matchedText)] // Remove duplicates
+                    matchedText: [...new Set(matchedText)], // Remove duplicates
+                    matchedCategories: Array.from(matchedCategories)
                 });
             }
         });
@@ -526,6 +688,9 @@ export class SurfSearch {
 
         // Notify of search change
         this.notifySearchChange(this.searchResults.map(result => result.spot));
+        
+        // Notify of results update
+        this.notifyResultsUpdate(this.searchResults.map(result => result.spot));
     }
 
     /**
@@ -559,7 +724,7 @@ export class SurfSearch {
      * @returns {HTMLElement} The result element.
      */
     createResultElement(result, index) {
-        const { spot, matchedText, distance } = result;
+        const { spot, matchedText, distance, matchedCategories } = result;
         const resultElement = document.createElement('div');
         resultElement.className = 'search-result';
         resultElement.setAttribute('data-index', index);
@@ -585,7 +750,7 @@ export class SurfSearch {
         nameElement.className = 'search-result-name';
         nameElement.innerHTML = this.highlightText(spot.primaryName || spot.name || spot.id, matchedText);
         
-        // Create location info
+        // Create location info with highlighting
         const locationElement = document.createElement('div');
         locationElement.className = 'search-result-location';
         const locationText = [
@@ -593,13 +758,39 @@ export class SurfSearch {
             spot.location.area,
             spot.location.region
         ].filter(Boolean).join(', ');
-        locationElement.textContent = locationText || 'Unknown location';
+        locationElement.innerHTML = this.highlightText(locationText || 'Unknown location', matchedText);
         
-        // Create wave type info
+        // Create wave type info with highlighting
         const waveTypeElement = document.createElement('div');
         waveTypeElement.className = 'search-result-wave-type';
         const waveType = (spot.waveDetails.type && spot.waveDetails.type[0]) || 'Unknown';
-        waveTypeElement.textContent = `Wave: ${waveType}`;
+        waveTypeElement.innerHTML = this.highlightText(`Wave: ${waveType}`, matchedText);
+        
+        // Create match categories info if available
+        let matchCategoriesElement = null;
+        if (matchedCategories && matchedCategories.length > 0) {
+            matchCategoriesElement = document.createElement('div');
+            matchCategoriesElement.className = 'search-result-match-categories';
+            matchCategoriesElement.style.fontSize = '0.8rem';
+            matchCategoriesElement.style.opacity = '0.7';
+            matchCategoriesElement.style.marginTop = '4px';
+            
+            // Create category labels
+            const categoryLabels = {
+                'name': 'Name',
+                'location': 'Location',
+                'waveDetails': 'Wave Details',
+                'characteristics': 'Characteristics',
+                'practicalities': 'Practicalities',
+                'description': 'Description'
+            };
+            
+            const categoryText = matchedCategories
+                .map(cat => categoryLabels[cat] || cat)
+                .join(' • ');
+            
+            matchCategoriesElement.textContent = `Matched in: ${categoryText}`;
+        }
         
         // Create distance info if available
         let distanceElement = null;
@@ -614,6 +805,10 @@ export class SurfSearch {
         resultElement.appendChild(nameElement);
         resultElement.appendChild(locationElement);
         resultElement.appendChild(waveTypeElement);
+        
+        if (matchCategoriesElement) {
+            resultElement.appendChild(matchCategoriesElement);
+        }
         
         if (distanceElement) {
             resultElement.appendChild(distanceElement);
@@ -824,6 +1019,24 @@ export class SurfSearch {
     }
 
     /**
+     * Sets the callback for results updates.
+     * @param {Function} callback - The callback function.
+     */
+    setResultsUpdateCallback(callback) {
+        this.onResultsUpdate = callback;
+    }
+
+    /**
+     * Notifies listeners of results updates.
+     * @param {Array<Object>} results - The current search results.
+     */
+    notifyResultsUpdate(results) {
+        if (this.onResultsUpdate) {
+            this.onResultsUpdate(results);
+        }
+    }
+
+    /**
      * Rebuilds the search index (useful when spot data changes).
      */
     rebuildIndex() {
@@ -868,5 +1081,6 @@ export class SurfSearch {
         this.resultsContainer = null;
         this.onResultClick = null;
         this.onSearchChange = null;
+        this.onResultsUpdate = null;
     }
 }
