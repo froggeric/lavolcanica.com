@@ -88,31 +88,35 @@ export class SurfSearch {
             // Create searchable text from all relevant spot properties
             const searchableText = [
                 // Basic identification
-                spot.primaryName || spot.name || spot.id,
+                spot.primaryName || spot.id,
                 ...(spot.alternativeNames || []),
                 
                 // Location information
                 spot.location.area || '',
-                spot.location.region || '',
-                spot.location.locality || '',
                 ...(spot.location.nearestTowns || []),
+                spot.location.coordinates.lat.toString(),
+                spot.location.coordinates.lng.toString(),
+                spot.location.coordinates.accuracy || '',
                 
                 // Wave details
                 spot.waveDetails.abilityLevel.primary || '',
                 ...(spot.waveDetails.abilityLevel.alsoSuitableFor || []),
                 ...(spot.waveDetails.type || []),
-                spot.waveDetails.direction || '',
+                ...(spot.waveDetails.direction || []),
+                spot.waveDetails.directionNotes || '',
                 ...(spot.waveDetails.bestSwellDirection || []),
                 ...(spot.waveDetails.bestWindDirection || []),
-                spot.waveDetails.bestTide || '',
+                ...(spot.waveDetails.bestTide || []),
+                spot.waveDetails.tideNotes || '',
                 ...(spot.waveDetails.bestSeason || []),
                 spot.waveDetails.idealConditions || '',
                 
                 // Characteristics
                 spot.characteristics.crowdFactor || '',
+                spot.characteristics.crowdNotes || '',
                 spot.characteristics.localVibe || '',
                 ...(spot.characteristics.hazards || []),
-                spot.characteristics.bottom || '',
+                ...(spot.characteristics.bottom || []),
                 spot.characteristics.waterQuality || '',
                 
                 // Practicalities
@@ -133,23 +137,33 @@ export class SurfSearch {
                 searchableText,
                 // Store individual components for better matching and highlighting
                 components: {
-                    names: [spot.primaryName || spot.name || spot.id, ...(spot.alternativeNames || [])],
-                    location: [spot.location.area || '', spot.location.region || '', spot.location.locality || '', ...(spot.location.nearestTowns || [])],
+                    names: [spot.primaryName || spot.id, ...(spot.alternativeNames || [])],
+                    location: [
+                        spot.location.area || '',
+                        ...(spot.location.nearestTowns || []),
+                        spot.location.coordinates.lat.toString(),
+                        spot.location.coordinates.lng.toString(),
+                        spot.location.coordinates.accuracy || ''
+                    ],
                     waveDetails: [
                         spot.waveDetails.abilityLevel.primary || '',
                         ...(spot.waveDetails.abilityLevel.alsoSuitableFor || []),
                         ...(spot.waveDetails.type || []),
-                        spot.waveDetails.direction || '',
+                        ...(spot.waveDetails.direction || []),
+                        spot.waveDetails.directionNotes || '',
                         ...(spot.waveDetails.bestSwellDirection || []),
                         ...(spot.waveDetails.bestWindDirection || []),
-                        spot.waveDetails.bestTide || '',
-                        ...(spot.waveDetails.bestSeason || [])
+                        ...(spot.waveDetails.bestTide || []),
+                        spot.waveDetails.tideNotes || '',
+                        ...(spot.waveDetails.bestSeason || []),
+                        spot.waveDetails.idealConditions || ''
                     ],
                     characteristics: [
                         spot.characteristics.crowdFactor || '',
+                        spot.characteristics.crowdNotes || '',
                         spot.characteristics.localVibe || '',
                         ...(spot.characteristics.hazards || []),
-                        spot.characteristics.bottom || '',
+                        ...(spot.characteristics.bottom || []),
                         spot.characteristics.waterQuality || ''
                     ],
                     practicalities: [
@@ -157,7 +171,8 @@ export class SurfSearch {
                         spot.practicalities.parking || '',
                         spot.practicalities.facilities || '',
                         spot.practicalities.paddleOut || '',
-                        ...(spot.practicalities.recommendedBoards || [])
+                        ...(spot.practicalities.recommendedBoards || []),
+                        spot.practicalities.additionalTips || ''
                     ],
                     description: spot.description || ''
                 }
@@ -424,10 +439,10 @@ export class SurfSearch {
         const nearbySpots = [];
         
         allSpots.forEach(spot => {
-            if (spot.coordinates) {
+            if (spot.location && spot.location.coordinates) {
                 const distance = this.calculateDistance(
                     latitude, longitude,
-                    spot.coordinates.latitude, spot.coordinates.longitude
+                    spot.location.coordinates.lat, spot.location.coordinates.lng
                 );
                 
                 nearbySpots.push({
@@ -748,15 +763,14 @@ export class SurfSearch {
         // Create name with highlighting
         const nameElement = document.createElement('div');
         nameElement.className = 'search-result-name';
-        nameElement.innerHTML = this.highlightText(spot.primaryName || spot.name || spot.id, matchedText);
+        nameElement.innerHTML = this.highlightText(spot.primaryName || spot.id, matchedText);
         
         // Create location info with highlighting
         const locationElement = document.createElement('div');
         locationElement.className = 'search-result-location';
         const locationText = [
-            spot.location.locality,
             spot.location.area,
-            spot.location.region
+            ...(spot.location.nearestTowns || [])
         ].filter(Boolean).join(', ');
         locationElement.innerHTML = this.highlightText(locationText || 'Unknown location', matchedText);
         

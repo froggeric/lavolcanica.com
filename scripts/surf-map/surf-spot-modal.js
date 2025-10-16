@@ -433,6 +433,8 @@ export class SurfSpotModal {
         locationInfo.innerHTML = `
             <p><strong>Area:</strong> ${spot.location.area}</p>
             <p><strong>Nearest Towns:</strong> ${spot.location.nearestTowns.join(', ')}</p>
+            <p><strong>Coordinates:</strong> ${spot.location.coordinates.lat}, ${spot.location.coordinates.lng}</p>
+            <p><strong>Coordinates Accuracy:</strong> ${spot.location.coordinates.accuracy}</p>
         `;
         locationInfo.style.cssText = `
             margin-bottom: 20px;
@@ -451,9 +453,12 @@ export class SurfSpotModal {
         
         const waveInfo = document.createElement('div');
         waveInfo.innerHTML = `
-            <p><strong>Type:</strong> ${Array.isArray(spot.waveDetails.type) ? spot.waveDetails.type.join(', ') : spot.waveDetails.type}</p>
-            <p><strong>Direction:</strong> ${spot.waveDetails.direction}</p>
+            <p><strong>Type:</strong> ${Array.isArray(spot.waveDetails.type) ? spot.waveDetails.type.join(', ') : 'Unknown'}</p>
+            <p><strong>Direction:</strong> ${Array.isArray(spot.waveDetails.direction) ? spot.waveDetails.direction.join(', ') : 'Unknown'}</p>
+            ${spot.waveDetails.directionNotes ? `<p><strong>Direction Notes:</strong> ${spot.waveDetails.directionNotes}</p>` : ''}
             <p><strong>Difficulty:</strong> ${spot.waveDetails.abilityLevel.primary}</p>
+            ${spot.waveDetails.abilityLevel.alsoSuitableFor && spot.waveDetails.abilityLevel.alsoSuitableFor.length > 0 ?
+                `<p><strong>Also Suitable For:</strong> ${spot.waveDetails.abilityLevel.alsoSuitableFor.join(', ')}</p>` : ''}
         `;
         waveInfo.style.cssText = `
             margin-bottom: 20px;
@@ -489,7 +494,7 @@ export class SurfSpotModal {
         
         const swellInfo = document.createElement('div');
         swellInfo.innerHTML = `
-            <p><strong>Best Direction:</strong> ${Array.isArray(wave.bestSwellDirection) ? wave.bestSwellDirection.join(', ') : wave.bestSwellDirection}</p>
+            <p><strong>Best Direction:</strong> ${Array.isArray(wave.bestSwellDirection) ? wave.bestSwellDirection.join(', ') : 'Unknown'}</p>
         `;
         swellInfo.style.cssText = `
             margin-bottom: 20px;
@@ -508,7 +513,7 @@ export class SurfSpotModal {
         
         const windInfo = document.createElement('div');
         windInfo.innerHTML = `
-            <p><strong>Best Direction:</strong> ${Array.isArray(wave.bestWindDirection) ? wave.bestWindDirection.join(', ') : wave.bestWindDirection}</p>
+            <p><strong>Best Direction:</strong> ${Array.isArray(wave.bestWindDirection) ? wave.bestWindDirection.join(', ') : 'Unknown'}</p>
         `;
         windInfo.style.cssText = `
             margin-bottom: 20px;
@@ -527,7 +532,8 @@ export class SurfSpotModal {
         
         const tideInfo = document.createElement('div');
         tideInfo.innerHTML = `
-            <p><strong>Best Tide:</strong> ${wave.bestTide}</p>
+            <p><strong>Best Tide:</strong> ${Array.isArray(wave.bestTide) ? wave.bestTide.join(', ') : 'Unknown'}</p>
+            ${wave.tideNotes ? `<p><strong>Tide Notes:</strong> ${wave.tideNotes}</p>` : ''}
         `;
         tideInfo.style.cssText = `
             margin-bottom: 20px;
@@ -546,7 +552,7 @@ export class SurfSpotModal {
         
         const seasonInfo = document.createElement('div');
         seasonInfo.innerHTML = `
-            <p><strong>Best Season:</strong> ${Array.isArray(wave.bestSeason) ? wave.bestSeason.join(', ') : wave.bestSeason}</p>
+            <p><strong>Best Season:</strong> ${Array.isArray(wave.bestSeason) ? wave.bestSeason.join(', ') : 'Unknown'}</p>
         `;
         seasonInfo.style.cssText = `
             margin-bottom: 20px;
@@ -601,7 +607,7 @@ export class SurfSpotModal {
         
         const accessInfo = document.createElement('div');
         accessInfo.innerHTML = `
-            <p>${practicalities.access}</p>
+            <p>${practicalities.access || 'Information not available'}</p>
         `;
         accessInfo.style.cssText = `
             margin-bottom: 20px;
@@ -620,7 +626,7 @@ export class SurfSpotModal {
         
         const parkingInfo = document.createElement('div');
         parkingInfo.innerHTML = `
-            <p>${practicalities.parking}</p>
+            <p>${practicalities.parking || 'Information not available'}</p>
         `;
         parkingInfo.style.cssText = `
             margin-bottom: 20px;
@@ -639,7 +645,7 @@ export class SurfSpotModal {
         
         const facilitiesInfo = document.createElement('div');
         facilitiesInfo.innerHTML = `
-            <p>${practicalities.facilities}</p>
+            <p>${practicalities.facilities || 'Information not available'}</p>
         `;
         facilitiesInfo.style.cssText = `
             margin-bottom: 20px;
@@ -658,7 +664,7 @@ export class SurfSpotModal {
         
         const paddleInfo = document.createElement('div');
         paddleInfo.innerHTML = `
-            <p>${practicalities.paddleOut}</p>
+            <p>${practicalities.paddleOut || 'Information not available'}</p>
         `;
         paddleInfo.style.cssText = `
             margin-bottom: 20px;
@@ -677,7 +683,8 @@ export class SurfSpotModal {
         
         const boardsInfo = document.createElement('div');
         boardsInfo.innerHTML = `
-            <p>${Array.isArray(practicalities.recommendedBoards) ? practicalities.recommendedBoards.join(', ') : practicalities.recommendedBoards}</p>
+            <p><strong>Recommended Boards:</strong> ${Array.isArray(practicalities.recommendedBoards) ? practicalities.recommendedBoards.join(', ') : 'Unknown'}</p>
+            ${practicalities.additionalTips ? `<p><strong>Additional Tips:</strong> ${practicalities.additionalTips}</p>` : ''}
         `;
         boardsInfo.style.cssText = `
             margin-bottom: 20px;
@@ -697,10 +704,11 @@ export class SurfSpotModal {
         const characteristicsInfo = document.createElement('div');
         characteristicsInfo.innerHTML = `
             <p><strong>Crowd Factor:</strong> ${spot.characteristics.crowdFactor}</p>
-            <p><strong>Local Vibe:</strong> ${spot.characteristics.localVibe}</p>
-            <p><strong>Hazards:</strong> ${Array.isArray(spot.characteristics.hazards) ? spot.characteristics.hazards.join(', ') : spot.characteristics.hazards}</p>
-            <p><strong>Bottom:</strong> ${spot.characteristics.bottom}</p>
-            <p><strong>Water Quality:</strong> ${spot.characteristics.waterQuality}</p>
+            ${spot.characteristics.crowdNotes ? `<p><strong>Crowd Notes:</strong> ${spot.characteristics.crowdNotes}</p>` : ''}
+            <p><strong>Local Vibe:</strong> ${spot.characteristics.localVibe || 'Unknown'}</p>
+            <p><strong>Hazards:</strong> ${Array.isArray(spot.characteristics.hazards) ? spot.characteristics.hazards.join(', ') : 'Unknown'}</p>
+            <p><strong>Bottom:</strong> ${Array.isArray(spot.characteristics.bottom) ? spot.characteristics.bottom.join(', ') : 'Unknown'}</p>
+            <p><strong>Water Quality:</strong> ${spot.characteristics.waterQuality || 'Unknown'}</p>
         `;
         characteristicsInfo.style.cssText = `
             margin-bottom: 20px;

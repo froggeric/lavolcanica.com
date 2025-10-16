@@ -6,7 +6,7 @@
       "alternativeNames": [],
       "description": "A powerful and exposed reef break near Majanicho, famous for its fast, hollow, and barreling waves that break over a sharp, shallow volcanic reef. It's a renowned spot for experienced surfers and is known to host jet-ski assisted tow-in sessions on its biggest days.",
       "location": {
-        "area": "North Shore",
+        "area": "North",
         "nearestTowns": [
           "Majanicho",
           "Corralejo"
@@ -19,9 +19,13 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Right and Left",
+        "direction": [
+          "Right",
+          "Left"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "NW",
           "W"
@@ -31,10 +35,13 @@
           "SE",
           "S"
         ],
-        "bestTide": "Mid to High",
+        "bestTide": [
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "Jan",
-          "Oct-Mar",
+          "Autumn",
           "Winter"
         ],
         "idealConditions": "Works best on a northwest or west swell with offshore winds from the east, southeast, or south. The waves are powerful and hollow, suitable for chest-high to overhead heights.",
@@ -44,25 +51,30 @@
         }
       },
       "characteristics": {
-        "crowdFactor": "Can be uncrowded but attracts experts when conditions are right",
-        "localVibe": "Serious spot with a high presence of experienced surfers",
+        "crowdFactor": "Low",
+        "crowdNotes": "Can be uncrowded but attracts experts when conditions are right.",
+        "localVibe": "Serious spot with a high presence of experienced surfers.",
         "hazards": [
           "Very shallow reef",
           "Sharp rocks",
           "Strong currents"
         ],
-        "bottom": "Shallow volcanic reef",
+        "bottom": [
+          "Reef",
+          "Lava"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
         "access": "The spot is located near Majanicho. On big days, it can link up with the wave at Majanicho, creating a very long ride.",
-        "parking": "Information missing from search results",
-        "facilities": "Information missing from search results",
-        "paddleOut": "Information missing from search results",
+        "parking": "Informal parking along the North Shore dirt track.",
+        "facilities": "None. The nearest amenities are in Majanicho or Corralejo.",
+        "paddleOut": "Difficult and requires careful timing. Paddle out through a channel next to the main peak, avoiding the shallowest sections of the reef.",
         "recommendedBoards": [
           "Shortboard",
           "Step-up"
-        ]
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -73,7 +85,7 @@
       ],
       "description": "A picturesque and challenging right-hand reef break located in a small, dark sand bay adjacent to the main beach of La Pared. Known for its scenic cliff and large rock tunnel, this spot comes to life when the waves in the main La Pared beach become too large or start to close out. It offers a more sheltered and technical alternative for experienced surfers.",
       "location": {
-        "area": "West Coast (La Pared)",
+        "area": "West",
         "nearestTowns": [
           "Pájara"
         ],
@@ -85,9 +97,12 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Right",
+        "direction": [
+          "Right"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "NW",
           "W"
@@ -96,9 +111,17 @@
           "SE",
           "S"
         ],
-        "bestTide": "All Tides (character changes with tide)",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": "Character changes with tide.",
         "bestSeason": [
-          "All Year"
+          "Spring",
+          "Summer",
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works best with a powerful, long-period swell (over 10-12 seconds) from the NW or W. It doesn't need to be very large but requires strength. The bay is slightly south-facing, offering a bit of wind protection, making it a good option in onshore conditions. Best when the main La Pared beach is too big or closing out.",
         "abilityLevel": {
@@ -109,14 +132,17 @@
         }
       },
       "characteristics": {
-        "crowdFactor": "Less crowded than main La Pared",
+        "crowdFactor": "Low",
+        "crowdNotes": "Less crowded than main La Pared.",
         "localVibe": "A local's spot for experienced surfers; quiet and focused.",
         "hazards": [
           "Strong currents (pulling left out of the bay)",
           "Shallow reef",
           "Proximity to cliffs"
         ],
-        "bottom": "Flat reef plate (overgrown)",
+        "bottom": [
+          "Reef"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -126,7 +152,7 @@
         "paddleOut": "Enter from the beach. Do not enter from the left end of the bay due to the strong current.",
         "recommendedBoards": [
           "Shortboard",
-          "Performance board"
+          "Performance Board"
         ],
         "additionalTips": "This is NOT a beginner spot. The reef is shallow and the current can be strong, pulling surfers left out of the bay and towards the cliffs on bigger days. Always be mindful of your position to avoid being swept out. The wave is close to the cliffs, leaving little room for error."
       }
@@ -140,7 +166,7 @@
       ],
       "description": "A surfing and windsurfing spot marking the start of Fuerteventura's famous North Shore, located in Corralejo in front of the wind turbines. It is known for its left-hand reef break that produces fast, hollow, and tubular waves.",
       "location": {
-        "area": "North Shore, Corralejo",
+        "area": "North",
         "nearestTowns": [
           "Corralejo"
         ],
@@ -152,9 +178,13 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Left (primary), also Right",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": "Left is primary.",
         "bestSwellDirection": [
           "NW",
           "N",
@@ -164,10 +194,14 @@
           "SE",
           "S"
         ],
-        "bestTide": "High & Mid Tide",
+        "bestTide": [
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "Winter",
-          "Autumn"
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works best with a NW, N, or W swell between 1 and 2.5 meters, combined with SE or S offshore winds.",
         "abilityLevel": {
@@ -178,22 +212,28 @@
         }
       },
       "characteristics": {
-        "crowdFactor": "Information missing",
-        "localVibe": "Information missing",
+        "crowdFactor": "Medium",
+        "crowdNotes": "Popular with Corralejo locals, can get busy after work and on weekends.",
+        "localVibe": "Generally a local's spot, but welcoming if you show respect. The lineup can be competitive on good days.",
         "hazards": [
-          "Reef bottom"
+          "Reef bottom",
+          "Urchins"
         ],
-        "bottom": "Reef",
-        "waterQuality": "Information missing"
+        "bottom": [
+          "Reef"
+        ],
+        "waterQuality": "Generally clean, though proximity to the port can occasionally affect it."
       },
       "practicalities": {
         "access": "The spot is located in front of the wind turbines, at the beginning of the North Shore dirt road which leads to numerous other surf spots.",
-        "parking": "Available in the general Bristol area near the harbour",
+        "parking": "Available in the general Bristol area near the harbour.",
         "facilities": "No buildings or services directly at the spot. However, the nearby Bristol area of Corralejo is an old fishing district known for its authentic, local vibe, featuring a variety of seafood restaurants, cafes, and commerce.",
         "paddleOut": "There are several places to enter the water. On days with a large swell, it's best to enter at the end of the wave where there is a small bay.",
         "recommendedBoards": [
-          "Information missing"
-        ]
+          "Shortboard",
+          "Performance Board"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -206,7 +246,7 @@
       ],
       "description": "A powerful and exposed reef break, famous for its perfect A-frame peak that produces fast, hollow right-handers and less intense lefts. Known as one of the most challenging and well-known spots on the island, it is a focal point for experienced surfers and contests.",
       "location": {
-        "area": "North Coast",
+        "area": "North",
         "nearestTowns": [
           "Majanicho",
           "Corralejo"
@@ -219,10 +259,15 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break",
-          "Point break"
+          "Reef Break",
+          "Point Break"
         ],
-        "direction": "Right and Left (A-frame, rights are superior)",
+        "direction": [
+          "Right",
+          "Left",
+          "A-Frame"
+        ],
+        "directionNotes": "Rights are superior.",
         "bestSwellDirection": [
           "N",
           "NW",
@@ -234,21 +279,27 @@
           "SE",
           "SW"
         ],
-        "bestTide": "All Tides (Best at Mid and High Tide)",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": "Best at Mid and High Tide.",
         "bestSeason": [
-          "Oct-Mar",
+          "Autumn",
           "Winter"
         ],
         "idealConditions": "Works best on a north-northwest groundswell with an offshore south or southeast wind. Waves are powerful and hollow, hitting a triangular lava reef. Holds swells up to 3 meters (10 feet).",
         "abilityLevel": {
           "primary": "Expert",
           "alsoSuitableFor": [
-            "Intermediate (on smaller days)"
+            "Intermediate"
           ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Crowded (Can get mobbed)",
+        "crowdFactor": "Crowded",
+        "crowdNotes": "Can get mobbed.",
         "localVibe": "Competitive, but doable. Respect the locals.",
         "hazards": [
           "Sharp rocks",
@@ -256,7 +307,12 @@
           "Submerged rocks",
           "Strong currents"
         ],
-        "bottom": "Lava reef, Corals, Sharp Rocks",
+        "bottom": [
+          "Lava",
+          "Reef",
+          "Coral",
+          "Rock"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -267,8 +323,9 @@
         "recommendedBoards": [
           "Shortboard",
           "Fish",
-          "Gun (on bigger days)"
-        ]
+          "Gun"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -279,7 +336,7 @@
       ],
       "description": "A regular and reliable reef break known for its hollow and powerful waves over a flat rock bottom. It is considered a regional classic, offering longer rides on good days in a typically uncrowded setting.",
       "location": {
-        "area": "West Coast (near La Pared)",
+        "area": "West",
         "nearestTowns": [
           "La Pared"
         ],
@@ -291,9 +348,13 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Right and Left",
+        "direction": [
+          "Right",
+          "Left"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "NW",
           "W"
@@ -302,31 +363,44 @@
           "E",
           "SE"
         ],
-        "bestTide": "All Tides (Best on rising and falling tides)",
-        "bestSeason": "Information missing",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": "Best on rising and falling tides.",
+        "bestSeason": [
+          "Autumn",
+          "Winter"
+        ],
         "idealConditions": "Starts working at less than 1m (3ft) and holds waves up to 3m+ (10ft+). Produces normal to long-length waves (50m to 300m).",
         "abilityLevel": {
-          "primary": "Experienced",
+          "primary": "Advanced",
           "alsoSuitableFor": []
         }
       },
       "characteristics": {
         "crowdFactor": "Empty",
-        "localVibe": "Information missing",
+        "crowdNotes": null,
+        "localVibe": "Quiet and often surfed by those in the know. Not a busy, social spot.",
         "hazards": [
           "Rocks"
         ],
-        "bottom": "Flat rocks",
-        "waterQuality": "Information missing"
+        "bottom": [
+          "Rock"
+        ],
+        "waterQuality": "Clean"
       },
       "practicalities": {
         "access": "Special access. Instant access (<5 minute walk) after parking. Easy to find.",
-        "parking": "Information missing",
-        "facilities": "Information missing",
-        "paddleOut": "Information missing",
+        "parking": "Park on the dirt track above the cliffs.",
+        "facilities": "None. Completely natural surroundings.",
+        "paddleOut": "Relatively straightforward from the small beach, but be aware of currents on bigger days.",
         "recommendedBoards": [
-          "Information missing"
-        ]
+          "Shortboard",
+          "Step-up"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -335,7 +409,7 @@
       "alternativeNames": [],
       "description": "A world-class right-hand point break at the southernmost tip of Fuerteventura, famous for its long, perfectly walling waves that are often compared to the legendary point breaks of Australia's Gold Coast. Named after the former Red Cross lifeguard house on the beach, it serves as a primary refuge when the west coast spots are oversized, offering powerful yet ridable waves that wrap around the island.",
       "location": {
-        "area": "South Coast (Jandía Peninsula)",
+        "area": "South",
         "nearestTowns": [
           "Morro Jable"
         ],
@@ -347,9 +421,13 @@
       },
       "waveDetails": {
         "type": [
-          "Beach break"
+          "Beach Break"
         ],
-        "direction": "Right (primary), occasional short Lefts at the main peak",
+        "direction": [
+          "Right",
+          "Left"
+        ],
+        "directionNotes": "Right is primary, occasional short Lefts at the main peak.",
         "bestSwellDirection": [
           "W",
           "NW",
@@ -359,28 +437,38 @@
           "N",
           "NW"
         ],
-        "bestTide": "Low to Mid Tide",
+        "bestTide": [
+          "Low",
+          "Mid"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "All Year (Winter: W/NW wrap, Summer: S hemisphere swells)"
+          "Spring",
+          "Summer",
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works on large west/northwest swells that wrap around the island or on direct south swells from Southern Hemisphere storms. Requires a powerful, long-period swell. The quality of the sandbank is often best when the beach in Morro Jable is at its smallest. Waves can break too close to shore at high tide.",
         "abilityLevel": {
           "primary": "Intermediate",
           "alsoSuitableFor": [
-            "Advanced (main peak)",
-            "Beginner (smaller waves further down the beach)"
+            "Advanced",
+            "Beginner"
           ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Can get very crowded",
+        "crowdFactor": "High",
+        "crowdNotes": "Can get very crowded.",
         "localVibe": "A well-guarded local treasure; can be highly competitive at the main peak, especially with visiting professional surfers in the lineup.",
         "hazards": [
           "Extremely shallow water at the main peak (risk of injury)",
           "Powerful, hollow waves",
           "Crowds and strong local priority"
         ],
-        "bottom": "Sand (shifting banks)",
+        "bottom": [
+          "Sand"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -390,7 +478,7 @@
         "paddleOut": "Generally easy; paddle out to the far right of the main peak to avoid the breaking waves and use channels.",
         "recommendedBoards": [
           "Shortboard",
-          "Funboard"
+          "Funboard / Malibu"
         ],
         "additionalTips": "The main, steeper, and hollow wave is directly in front of the old yellow lifeguard house. Longer, flatter waves break further right. If the main peak is too crowded or intimidating, walk down the beach to the right to find smaller, more forgiving waves. Respect the locals and the lineup hierarchy here; it is strongly enforced on good days."
       }
@@ -405,7 +493,7 @@
       ],
       "description": "A stunning, wide beach within the Dunas de Corralejo Natural Park, famous for its fine white sand, crystal-clear water, and dramatic dunes. The spot has a dual character: it features a powerful, hollow, and clean A-frame reef break over a lava shelf for advanced surfers, while the wider beach area offers more forgiving waves. It's a popular hub for surfing, windsurfing, and kitesurfing, with a lively and sometimes competitive atmosphere at the main peak.",
       "location": {
-        "area": "North East Coast (Corralejo Natural Park)",
+        "area": "North East",
         "nearestTowns": [
           "Corralejo"
         ],
@@ -417,10 +505,15 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break",
-          "Beach break"
+          "Reef Break",
+          "Beach Break"
         ],
-        "direction": "Left and Right (A-frame on the reef)",
+        "direction": [
+          "Left",
+          "Right",
+          "A-Frame"
+        ],
+        "directionNotes": "A-frame on the reef.",
         "bestSwellDirection": [
           "NE",
           "N",
@@ -430,22 +523,28 @@
           "W",
           "NW"
         ],
-        "bestTide": "All Tides (Reef is best from Mid to Low Tide)",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": "Reef is best from Mid to Low Tide.",
         "bestSeason": [
-          "Apr-Sep",
+          "Spring",
           "Summer"
         ],
         "idealConditions": "The reef break is most surfed in summer with northeast wind swells, working from knee to double overhead. It offers clean, lined-up waves. Best surfed in the morning and evening before windsurfers and kitesurfers take over when the trade wind picks up in the afternoon.",
         "abilityLevel": {
           "primary": "Intermediate",
           "alsoSuitableFor": [
-            "Beginner (beach break)",
-            "Advanced (reef break)"
+            "Beginner",
+            "Advanced"
           ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Often Crowded",
+        "crowdFactor": "High",
+        "crowdNotes": null,
         "localVibe": "Popular with surf schools and international surfers; can be competitive and vocal at the main reef peak, especially on good days.",
         "hazards": [
           "Sharp lava reef",
@@ -453,7 +552,11 @@
           "Urchins",
           "Windsurfers/Kitesurfers"
         ],
-        "bottom": "Sand & Lava Reef",
+        "bottom": [
+          "Sand",
+          "Lava",
+          "Reef"
+        ],
         "waterQuality": "Clean, crystalline"
       },
       "practicalities": {
@@ -464,8 +567,9 @@
         "recommendedBoards": [
           "Shortboard",
           "Fish",
-          "Funboard (for beach break)"
-        ]
+          "Funboard / Malibu"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -477,7 +581,7 @@
       ],
       "description": "A very long sandy beach with multiple peaks offering both left and right breaks. Powerful beachbreak that can close out on overhead swells but offers makeable barrel sections when banks are good. North end cliffs provide north wind protection.",
       "location": {
-        "area": "West Coast",
+        "area": "West",
         "nearestTowns": [
           "El Cotillo"
         ],
@@ -489,9 +593,13 @@
       },
       "waveDetails": {
         "type": [
-          "Beach break"
+          "Beach Break"
         ],
-        "direction": "Left and Right",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "N",
           "NW",
@@ -501,28 +609,36 @@
           "E",
           "NE"
         ],
-        "bestTide": "High tide",
+        "bestTide": [
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "All year"
+          "Spring",
+          "Summer",
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works all year if not too big or small. Banks improve after winter scouring. White water ideal for beginners - no paddle out needed.",
         "abilityLevel": {
-          "primary": "All levels",
+          "primary": "Beginner",
           "alsoSuitableFor": [
-            "Beginner (white water)",
             "Intermediate",
-            "Advanced (when banks good)"
+            "Advanced"
           ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Popular with surf schools",
-        "localVibe": "Varied peaks spread crowds",
+        "crowdFactor": "Medium",
+        "crowdNotes": "Popular with surf schools.",
+        "localVibe": "Varied peaks spread crowds.",
         "hazards": [
           "Close-outs on big days",
           "Strong currents"
         ],
-        "bottom": "Sand (shifting banks)",
+        "bottom": [
+          "Sand"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -531,10 +647,11 @@
         "facilities": "All amenities in El Cotillo town",
         "paddleOut": "Easy in white water; challenging on big days",
         "recommendedBoards": [
-          "Funboard",
+          "Funboard / Malibu",
           "Shortboard",
-          "Beginner boards"
-        ]
+          "Beginner Board / Soft-top"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -545,7 +662,7 @@
       ],
       "description": "A stunning, 250-meter long golden-white sand beach within the Corralejo Dunes Natural Park, famous for its reliable and gentle beach break. It is exceptionally popular with surf schools and is a top destination for beginners and intermediates, especially in summer. The beach is family-friendly, has clear water, and is divided into zones for swimmers and surfers, with active lifeguard supervision.",
       "location": {
-        "area": "North East Coast (Corralejo Dunes Natural Park)",
+        "area": "North East",
         "nearestTowns": [
           "Corralejo",
           "Lajares"
@@ -558,9 +675,13 @@
       },
       "waveDetails": {
         "type": [
-          "Beach break"
+          "Beach Break"
         ],
-        "direction": "Left and Right",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "NE",
           "N"
@@ -570,30 +691,37 @@
           "NW",
           "N"
         ],
-        "bestTide": "All Tides (Best at Medium to Low Tide)",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": "Best at Medium to Low Tide.",
         "bestSeason": [
-          "Apr-Sep",
-          "Summer",
-          "Spring"
+          "Spring",
+          "Summer"
         ],
         "idealConditions": "Works consistently with northern or eastern wind swells, making it reliable in the summer trade wind season. Waves are less powerful than other spots, perfect for learning. Rarely works in winter as it needs a huge northwest swell.",
         "abilityLevel": {
           "primary": "Beginner",
           "alsoSuitableFor": [
-            "Intermediate",
-            "All Levels"
+            "Intermediate"
           ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Very Crowded (in peak season with surf schools), Empty (in off-season)",
+        "crowdFactor": "Crowded",
+        "crowdNotes": "Very crowded in peak season with surf schools, but can be empty in off-season.",
         "localVibe": "Friendly and instructional, but busy; strictly enforced zones for surfers and swimmers.",
         "hazards": [
           "Strong currents (especially on the sides)",
           "Rocks (visible at low tide)",
           "Busy lineup"
         ],
-        "bottom": "Sand (with some rocks on sides)",
+        "bottom": [
+          "Sand",
+          "Rock"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -602,10 +730,11 @@
         "facilities": "Lifeguard on duty. The beach is divided into designated zones for swimmers and surfers.",
         "paddleOut": "Easy, as the beach slopes gently and waves are less powerful. Minimal paddling required.",
         "recommendedBoards": [
-          "Beginner board",
+          "Beginner Board / Soft-top",
           "Longboard",
-          "Funboard"
-        ]
+          "Funboard / Malibu"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -616,7 +745,7 @@
       ],
       "description": "A reliable and often crowded left-hand point break located right in Corralejo, offering long, sweet rides next to the harbor wall. This spot is known for its consistent surf but features a gnarly, sharp reef.",
       "location": {
-        "area": "North Coast",
+        "area": "North",
         "nearestTowns": [
           "Corralejo"
         ],
@@ -628,10 +757,13 @@
       },
       "waveDetails": {
         "type": [
-          "Point break",
-          "Reef break"
+          "Point Break",
+          "Reef Break"
         ],
-        "direction": "Left",
+        "direction": [
+          "Left"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "N",
           "NW",
@@ -641,18 +773,23 @@
           "S",
           "SW"
         ],
-        "bestTide": "Low to Mid",
+        "bestTide": [
+          "Low",
+          "Mid"
+        ],
+        "tideNotes": null,
         "bestSeason": [
           "Winter"
         ],
         "idealConditions": "Works best on a north-northwest groundswell with an offshore south or south-west wind. Most consistent in winter, with December being the peak month.",
         "abilityLevel": {
-          "primary": "Experienced",
+          "primary": "Advanced",
           "alsoSuitableFor": []
         }
       },
       "characteristics": {
-        "crowdFactor": "Often Crowded",
+        "crowdFactor": "High",
+        "crowdNotes": null,
         "localVibe": "Can be competitive due to its location and consistency.",
         "hazards": [
           "Rocks",
@@ -660,13 +797,17 @@
           "Corals",
           "Urchins"
         ],
-        "bottom": "Reef, Corals, Sharp Rocks",
+        "bottom": [
+          "Reef",
+          "Coral",
+          "Rock"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
         "access": "Easy access in Corralejo town. From the harbour, follow the path that heads north away from it.",
         "parking": "Street parking available nearby.",
-        "facilities": "Facilities of Corralejo nearby, including 'cafe la ola' right in front of the spot:.",
+        "facilities": "Facilities of Corralejo nearby, including 'cafe la ola' right in front of the spot.",
         "paddleOut": "Enter the water where the harbour defences end and a large slab rock sticks out of the ground.",
         "recommendedBoards": [
           "Shortboard"
@@ -680,7 +821,7 @@
       "alternativeNames": [],
       "description": "The southernmost surf spot on Fuerteventura, located directly in front of the iconic Jandía lighthouse. Famous for its clean, wind-swell-generated left-hand waves that benefit from consistent offshore winds, making it a summer favorite. It offers a versatile wave, from a hollow and steep section right in front of the lighthouse perfect for tubes, to longer, gentler walls further down the beach.",
       "location": {
-        "area": "South Coast (Jandía Peninsula)",
+        "area": "South",
         "nearestTowns": [
           "Morro Jable"
         ],
@@ -692,16 +833,24 @@
       },
       "waveDetails": {
         "type": [
-          "Beach break"
+          "Beach Break"
         ],
-        "direction": "Left (primary), occasional short/hollow Rights",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": "Left is primary, occasional short/hollow Rights.",
         "bestSwellDirection": [
           "NE"
         ],
         "bestWindDirection": [
           "NE"
         ],
-        "bestTide": "Low to Mid Tide",
+        "bestTide": [
+          "Low",
+          "Mid"
+        ],
+        "tideNotes": null,
         "bestSeason": [
           "Spring",
           "Summer"
@@ -710,19 +859,22 @@
         "abilityLevel": {
           "primary": "Intermediate",
           "alsoSuitableFor": [
-            "Advanced (main peak)",
-            "Beginner (gentle sections to the left)"
+            "Advanced",
+            "Beginner"
           ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Can get crowded, especially at the main peak in summer",
+        "crowdFactor": "Medium",
+        "crowdNotes": "Can get crowded, especially at the main peak in summer.",
         "localVibe": "Popular and lively in summer; the main peak can be competitive.",
         "hazards": [
           "Powerful shorebreak/shallow sandbank at main peak",
           "Longshore current (pulls south towards Morro Jable)"
         ],
-        "bottom": "Sand",
+        "bottom": [
+          "Sand"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -745,7 +897,7 @@
       ],
       "description": "A fearsome and exposed reef break located just outside the harbor of El Cotillo, famous for its powerful, big-wave conditions. It is an expert-only spot where world-class competitions have been held, producing heavy, barreling waves that break over a shallow, rocky bottom.",
       "location": {
-        "area": "West Coast (El Cotillo)",
+        "area": "West",
         "nearestTowns": [
           "El Cotillo"
         ],
@@ -757,18 +909,28 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Right and Left",
+        "direction": [
+          "Right",
+          "Left"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "NW"
         ],
         "bestWindDirection": [
           "NE"
         ],
-        "bestTide": "Information missing",
+        "bestTide": [
+          "Mid",
+          "High"
+        ],
+        "tideNotes": "Works best on a fuller tide to cover the reef.",
         "bestSeason": [
-          "Nov-Apr"
+          "Autumn",
+          "Winter",
+          "Spring"
         ],
         "idealConditions": "Needs a huge NW swell combined with northeasterly (NE) offshore winds. Works best in the winter months when large Atlantic swells arrive.",
         "abilityLevel": {
@@ -777,7 +939,8 @@
         }
       },
       "characteristics": {
-        "crowdFactor": "Can be crowded with experts on big days",
+        "crowdFactor": "Medium",
+        "crowdNotes": "Can be crowded with experts on big days.",
         "localVibe": "Serious big-wave spot; reserved for highly skilled surfers.",
         "hazards": [
           "Very shallow reef",
@@ -786,14 +949,17 @@
           "Dangerous rips",
           "Life-threatening conditions"
         ],
-        "bottom": "Shallow reef and rocks",
+        "bottom": [
+          "Reef",
+          "Rock"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
         "access": "Located just outside the old harbour of El Cotillo.",
-        "parking": "Information missing",
-        "facilities": "Information missing",
-        "paddleOut": "A pretty hefty paddle from the shore.",
+        "parking": "Parking available in and around the old harbour of El Cotillo.",
+        "facilities": "All facilities of El Cotillo town are nearby.",
+        "paddleOut": "A pretty hefty paddle from the shore, often against strong currents.",
         "recommendedBoards": [
           "Gun",
           "Step-up",
@@ -811,7 +977,7 @@
       ],
       "description": "A gentle and picturesque beach break on the east coast of the Jandía peninsula, below a small tourist settlement. Famous for its long, mellow, left-hand waves generated by consistent northeasterly wind swells, offering rides reminiscent of classic surf films. It's a reliable and safe spot, particularly popular with beginners, longboarders, and families due to its clean conditions and lack of major hazards.",
       "location": {
-        "area": "South Jandía Peninsula, East Coast",
+        "area": "South",
         "nearestTowns": [
           "Butihondo",
           "Costa Calma"
@@ -824,9 +990,12 @@
       },
       "waveDetails": {
         "type": [
-          "Beach break"
+          "Beach Break"
         ],
-        "direction": "Left",
+        "direction": [
+          "Left"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "NE",
           "E"
@@ -835,7 +1004,12 @@
           "NE",
           "E"
         ],
-        "bestTide": "All Tides",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
           "Spring",
           "Summer"
@@ -850,14 +1024,17 @@
         }
       },
       "characteristics": {
-        "crowdFactor": "Rarely crowded",
+        "crowdFactor": "Low",
+        "crowdNotes": "Rarely crowded.",
         "localVibe": "Relaxed and family-friendly; popular with learners.",
         "hazards": [
           "Longshore current (parallel to beach)",
           "Very shallow water at the end of the wave",
           "Knee-deep dismounts"
         ],
-        "bottom": "Sand",
+        "bottom": [
+          "Sand"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -867,9 +1044,8 @@
         "paddleOut": "Very easy.",
         "recommendedBoards": [
           "Longboard",
-          "Malibu",
-          "Funboard",
-          "Fish (on bigger days)"
+          "Funboard / Malibu",
+          "Fish"
         ],
         "additionalTips": "Watch for a longshore current that runs from north to south; use landmarks on the beach to avoid drifting away from the peak. Dismount from your board carefully as the waves break in very shallow water. Advanced surfers take off near the stony headland, while beginners should position themselves further right in the bay."
       }
@@ -882,7 +1058,7 @@
       ],
       "description": "A beautiful beach break below a tourist settlement, known for generating gentle, long-running left-hand waves reminiscent of classic surf films. It's a reliable spot powered by wind swells, making it a favorite for beginners and longboarders.",
       "location": {
-        "area": "South Jandia Peninsula, East Coast",
+        "area": "South",
         "nearestTowns": [
           "Costa Calma",
           "Butihondo",
@@ -896,9 +1072,12 @@
       },
       "waveDetails": {
         "type": [
-          "Beach break"
+          "Beach Break"
         ],
-        "direction": "Left (primary)",
+        "direction": [
+          "Left"
+        ],
+        "directionNotes": "Primary left.",
         "bestSwellDirection": [
           "W",
           "NW"
@@ -907,7 +1086,12 @@
           "E",
           "NE"
         ],
-        "bestTide": "All tides (Best at high tide)",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": "Best at high tide.",
         "bestSeason": [
           "Winter",
           "Spring",
@@ -923,13 +1107,16 @@
         }
       },
       "characteristics": {
-        "crowdFactor": "Rarely crowded",
+        "crowdFactor": "Low",
+        "crowdNotes": "Rarely crowded.",
         "localVibe": "Popular with surf schools and families",
         "hazards": [
           "Current parallel to beach",
           "Shallow water at wave end"
         ],
-        "bottom": "Sand",
+        "bottom": [
+          "Sand"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -939,10 +1126,10 @@
         "paddleOut": "Easy",
         "recommendedBoards": [
           "Longboard",
-          "Malibu",
-          "Fish",
-          "Funboard"
-        ]
+          "Funboard / Malibu",
+          "Fish"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -953,7 +1140,7 @@
       ],
       "description": "A stunning, long sandy beach flanked by massive dunes, famous as the main kitesurfing hub on Fuerteventura but also popular with surfers, wing-foilers, and windsurfers. The bay is protected by reefs on both sides, creating a moderated, user-friendly environment. It offers a beautiful setting with turquoise water and views of Lanzarote and Isla de Lobos.",
       "location": {
-        "area": "North East Coast",
+        "area": "North East",
         "nearestTowns": [
           "Corralejo"
         ],
@@ -965,9 +1152,13 @@
       },
       "waveDetails": {
         "type": [
-          "Beach break"
+          "Beach Break"
         ],
-        "direction": "Left and Right",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "NW",
           "N",
@@ -977,28 +1168,38 @@
           "N",
           "NW"
         ],
-        "bestTide": "High & Mid Tide",
+        "bestTide": [
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "All Year"
+          "Spring",
+          "Summer",
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works on north and northwest swells. The bay is moderated and less intense than other spots. The wind, which is sideshore from the left (NE), typically arrives in the afternoon. Best surfed at mid to high tide to avoid exposed rocks.",
         "abilityLevel": {
           "primary": "Intermediate",
           "alsoSuitableFor": [
-            "Beginner (with a surf school on small days)",
-            "All levels (for wind sports)"
+            "Beginner"
           ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Popular with multiple water sports",
+        "crowdFactor": "Medium",
+        "crowdNotes": "Popular with multiple water sports.",
         "localVibe": "Lively and shared; priority must be given to kite and windsurfers on windy days.",
         "hazards": [
           "Rocks at low tide",
           "Kite and windsurfing lines",
           "Occasional shorebreak on swells"
         ],
-        "bottom": "Sand & Reef",
+        "bottom": [
+          "Sand",
+          "Reef"
+        ],
         "waterQuality": "Clean, turquoise"
       },
       "practicalities": {
@@ -1007,7 +1208,7 @@
         "facilities": "A small beach bar and a dedicated windsurf/kitesurf center with equipment rental and lessons. No other infrastructure like public toilets.",
         "paddleOut": "Generally easy with a gentle slope and a light shorebreak, but can be challenging with winter swells.",
         "recommendedBoards": [
-          "Funboard",
+          "Funboard / Malibu",
           "Shortboard"
         ],
         "additionalTips": "Surf booties are recommended due to stones in the water and rocks that are exposed at low tide. This is primarily a wind sport spot, so be highly aware of kiters and windsurfers, and yield to them on windy days."
@@ -1022,7 +1223,7 @@
       ],
       "description": "A dependable and exposed reef break on Fuerteventura's North Shore, offering long, mellow lefts and rights. It's a great spot for intermediates looking to build confidence on a reef, though it can pack power on bigger swells.",
       "location": {
-        "area": "North Shore",
+        "area": "North",
         "nearestTowns": [
           "Corralejo",
           "Majanicho"
@@ -1035,9 +1236,13 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Left and Right (Lefts are superior)",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": "Lefts are superior.",
         "bestSwellDirection": [
           "N",
           "NW",
@@ -1048,21 +1253,27 @@
           "S",
           "SW"
         ],
-        "bestTide": "All Tides (Best from low to mid)",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": "Best from low to mid.",
         "bestSeason": [
-          "Oct-Mar",
-          "Winter (Dec is peak)"
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works best on a north-northwest groundswell with an offshore south or south-west wind. A dependable spot that works at all stages of the tide.",
         "abilityLevel": {
           "primary": "Intermediate",
           "alsoSuitableFor": [
-            "Experienced"
+            "Advanced"
           ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Sometimes crowded",
+        "crowdFactor": "Medium",
+        "crowdNotes": "Sometimes crowded.",
         "localVibe": "Can be busy, especially on weekends",
         "hazards": [
           "Rocks in lineup",
@@ -1070,17 +1281,21 @@
           "Corals",
           "Shallow sections at low tide"
         ],
-        "bottom": "Reef, Corals, Sharp Rocks",
+        "bottom": [
+          "Reef",
+          "Coral",
+          "Rock"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
         "access": "Accessed via a dirt road off the north shore route.",
-        "parking": "Information missing from search results",
-        "facilities": "Information missing from search results",
-        "paddleOut": "Information missing from search results",
+        "parking": "Informal parking along the North Shore dirt track.",
+        "facilities": "None. Nearest facilities are in Corralejo.",
+        "paddleOut": "There are a few keyhole channels through the reef. Watch others to find the safest entry point.",
         "recommendedBoards": [
           "Shortboard",
-          "Funboard"
+          "Funboard / Malibu"
         ],
         "additionalTips": "Holds swell up to 3m (10ft). The left-hand wave works best from low to mid tide. Be careful of nasty rocks at low tide."
       }
@@ -1095,7 +1310,7 @@
       ],
       "description": "A vast, wild, and breathtakingly beautiful beach on the remote Jandía peninsula, consistently ranked among the most spectacular beaches in the world. This is the longest and most isolated beach on Fuerteventura, backed by majestic mountains and featuring the mysterious Villa Winter. It offers an endless series of shifting sandbanks that provide left and right-hand beach breaks, ensuring an empty peak for those who make the journey. It is a place of raw nature, history, and profound solitude.",
       "location": {
-        "area": "South Coast (Jandía Peninsula, West Coast)",
+        "area": "South",
         "nearestTowns": [
           "Morro Jable"
         ],
@@ -1107,9 +1322,13 @@
       },
       "waveDetails": {
         "type": [
-          "Beach break"
+          "Beach Break"
         ],
-        "direction": "Left and Right",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "NW",
           "W"
@@ -1118,9 +1337,16 @@
           "E",
           "SE"
         ],
-        "bestTide": "Mid to High Tide",
+        "bestTide": [
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "All Year"
+          "Spring",
+          "Summer",
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works on northwest swells. Contrary to myth, the waves are not bigger than other west coast spots, but are often compared to powerful French beach breaks. The real advantage is the countless empty sandbanks. The bay is sheltered from the wind by the high mountains, often making it less windy than other west coast spots. Best from mid to high tide; can close out at low tide.",
         "abilityLevel": {
@@ -1131,7 +1357,8 @@
         }
       },
       "characteristics": {
-        "crowdFactor": "Very Low (Often completely alone)",
+        "crowdFactor": "Empty",
+        "crowdNotes": "Very low, often completely alone.",
         "localVibe": "Majestic, pristine, and isolated. A spot for adventure and solitude.",
         "hazards": [
           "Extreme isolation (No lifeguards, no quick emergency services)",
@@ -1139,7 +1366,9 @@
           "Strong longshore and rip currents",
           "Waves are consistently more powerful than they appear from the beach"
         ],
-        "bottom": "Sand (constantly shifting banks)",
+        "bottom": [
+          "Sand"
+        ],
         "waterQuality": "Clean, azure blue"
       },
       "practicalities": {
@@ -1162,7 +1391,7 @@
       ],
       "description": "A world-class left-hand reef break that mirrors Majanicho, offering long, medium-fast walls with various sections for aerial maneuvers. Features a deep channel that never closes out, handling massive swells up to double mast high.",
       "location": {
-        "area": "North Shore",
+        "area": "North",
         "nearestTowns": [
           "Corralejo",
           "Majanicho"
@@ -1175,9 +1404,13 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Left (primary), Right (inside bay)",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": "Left is primary, Right is inside bay.",
         "bestSwellDirection": [
           "N",
           "NW"
@@ -1186,26 +1419,37 @@
           "E",
           "NE"
         ],
-        "bestTide": "All tides",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "Oct-Apr"
+          "Autumn",
+          "Winter",
+          "Spring"
         ],
         "idealConditions": "Works on north swells. Outside wave handles any size; inside bay wave works when outside is too big or choppy. Wind blocked by coast in first section.",
         "abilityLevel": {
-          "primary": "Intermediate to Advanced",
+          "primary": "Intermediate",
           "alsoSuitableFor": [
-            "All levels (inside bay)"
+            "Advanced",
+            "Beginner"
           ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Can be crowded",
-        "localVibe": "World-class wave attracting good surfers",
+        "crowdFactor": "Medium",
+        "crowdNotes": "Can be crowded.",
+        "localVibe": "World-class wave attracting good surfers.",
         "hazards": [
           "Rocks at entry",
           "Powerful waves on big days"
         ],
-        "bottom": "Reef",
+        "bottom": [
+          "Reef"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -1215,8 +1459,9 @@
         "paddleOut": "Tricky entry over rocks into flat water; deep channel",
         "recommendedBoards": [
           "Shortboard",
-          "Performance board"
-        ]
+          "Performance Board"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -1228,7 +1473,7 @@
       ],
       "description": "A shallow, hollow, and powerful reef break located on the inside of the Mejillones bay. It is an expert-only spot known for its fast, barreling waves that break over a sharp volcanic reef, offering a thrilling and technical ride.",
       "location": {
-        "area": "North Shore",
+        "area": "North",
         "nearestTowns": [
           "Corralejo"
         ],
@@ -1240,18 +1485,26 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Left and Right",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "W"
         ],
         "bestWindDirection": [
           "SW"
         ],
-        "bestTide": "Mid Tide",
+        "bestTide": [
+          "Mid"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "Oct-Mar"
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works best with a firm west swell and south-west offshore wind. The wave is known for being a 'board snapper' due to the shallow reef and powerful breaks.",
         "abilityLevel": {
@@ -1260,7 +1513,8 @@
         }
       },
       "characteristics": {
-        "crowdFactor": "Can be crowded when conditions are good",
+        "crowdFactor": "Medium",
+        "crowdNotes": "Can be crowded when conditions are good.",
         "localVibe": "Respectful but serious; reserved for experienced surfers.",
         "hazards": [
           "Very shallow reef",
@@ -1268,14 +1522,17 @@
           "Strong currents",
           "Board damage"
         ],
-        "bottom": "Shallow volcanic reef",
+        "bottom": [
+          "Reef",
+          "Lava"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
         "access": "Located along the North Track; accessible by car.",
         "parking": "Available along the track",
         "facilities": "None",
-        "paddleOut": "Information missing from search results",
+        "paddleOut": "Very difficult and dangerous. Requires a jump from the rocks into a deep channel with precise timing. Not for the inexperienced.",
         "recommendedBoards": [
           "Shortboard",
           "Step-up"
@@ -1294,7 +1551,7 @@
       ],
       "description": "A popular and exposed right-hand reef break on Fuerteventura's North Shore, famous for its long, fun walls that can provide rides of up to 150 meters. The spot is a consistent performer, attracting a dedicated crowd, especially on weekends.",
       "location": {
-        "area": "North Shore",
+        "area": "North",
         "nearestTowns": [
           "Corralejo"
         ],
@@ -1306,9 +1563,12 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Right",
+        "direction": [
+          "Right"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "N",
           "NW",
@@ -1318,20 +1578,26 @@
           "S",
           "SE"
         ],
-        "bestTide": "Mid to Low",
+        "bestTide": [
+          "Low",
+          "Mid"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "Oct-Mar"
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works best on a north to northwest groundswell with an offshore south or southeasterly wind. A dependable spot that holds waves up to 2.5 meters (8 feet). The wave can get soft and more suitable for longboards at high tide.",
         "abilityLevel": {
           "primary": "Intermediate",
           "alsoSuitableFor": [
-            "Experienced"
+            "Advanced"
           ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Crowded (especially on weekends)",
+        "crowdFactor": "Crowded",
+        "crowdNotes": "Especially on weekends.",
         "localVibe": "Popular and can be busy, but generally tolerable.",
         "hazards": [
           "Strong currents",
@@ -1339,19 +1605,24 @@
           "Sharp reef",
           "Long paddle-out"
         ],
-        "bottom": "Reef, Corals, Sharp Rocks",
+        "bottom": [
+          "Reef",
+          "Coral",
+          "Rock"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
         "access": "Located east of Majanicho, accessible via a dirt road.",
-        "parking": "Information missing from search results",
-        "facilities": "Information missing from search results",
+        "parking": "Informal parking on the dirt track overlooking the break.",
+        "facilities": "None. Bring all supplies.",
         "paddleOut": "Long paddle-out is required.",
         "recommendedBoards": [
           "Shortboard",
-          "Funboard",
-          "Longboard (at high tide)"
-        ]
+          "Funboard / Malibu",
+          "Longboard"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -1362,7 +1633,7 @@
       ],
       "description": "A powerful beach break within the Corralejo Natural Park, known for its A-frame peaks and barrel sections on a sand-covered reef. It comes alive with the large winter swells, offering a more powerful alternative when the main north shore spots become oversized. The spot is family-friendly with lifeguard services and a relatively relaxed crowd.",
       "location": {
-        "area": "North East Coast (Corralejo Natural Park)",
+        "area": "North East",
         "nearestTowns": [
           "Corralejo"
         ],
@@ -1374,9 +1645,14 @@
       },
       "waveDetails": {
         "type": [
-          "Beach break"
+          "Beach Break"
         ],
-        "direction": "Left and Right (A-frame)",
+        "direction": [
+          "Left",
+          "Right",
+          "A-Frame"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "NW",
           "N"
@@ -1386,41 +1662,49 @@
           "NW",
           "SW"
         ],
-        "bestTide": "High Tide",
+        "bestTide": [
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "Nov-Apr",
+          "Autumn",
           "Winter",
           "Spring"
         ],
         "idealConditions": "Starts working when the north shore is getting oversized. Best with a large northwest swell and a westerly or northwesterly offshore wind. Produces powerful, medium-hollow waves under 50 meters in length.",
         "abilityLevel": {
-          "primary": "All Levels",
+          "primary": "Beginner",
           "alsoSuitableFor": [
             "Intermediate",
-            "Advanced (on bigger days)"
+            "Advanced"
           ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Few Surfers",
+        "crowdFactor": "Low",
+        "crowdNotes": "Few surfers.",
         "localVibe": "Relaxed and family-friendly.",
         "hazards": [
           "Powerful waves",
           "Shallow reef sections"
         ],
-        "bottom": "Sand and Rocks",
+        "bottom": [
+          "Sand",
+          "Rock"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
         "access": "Easy access within the Corralejo Natural Park, extending from Flag Beach.",
         "parking": "Available nearby",
         "facilities": "Lifeguard service is present, making it a swim-safe and family-friendly beach.",
-        "paddleOut": "Information missing",
+        "paddleOut": "Standard beach break paddle-out. Can be challenging on larger days with a strong shorebreak. Look for channels between the sandbanks.",
         "recommendedBoards": [
           "Shortboard",
-          "Mid/Longboard",
-          "Retro board"
-        ]
+          "Funboard / Malibu",
+          "Longboard"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -1433,7 +1717,7 @@
       ],
       "description": "A beautiful and secluded beach break accessed by a steep staircase, offering a mix of left and right-hand waves. Known for its picturesque, rugged setting and often uncrowded line-ups, it is a great spot for beginners and those seeking a peaceful surf session, though waves can often be close-outs.",
       "location": {
-        "area": "Northwest Coast",
+        "area": "North West",
         "nearestTowns": [
           "El Cotillo"
         ],
@@ -1445,9 +1729,13 @@
       },
       "waveDetails": {
         "type": [
-          "Beach break"
+          "Beach Break"
         ],
-        "direction": "Left and Right",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "W",
           "NW",
@@ -1457,28 +1745,33 @@
           "E",
           "N"
         ],
-        "bestTide": "Mid Tide",
+        "bestTide": [
+          "Mid"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "Winter",
-          "Autumn"
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works best on a west to northwest swell with an easterly or northerly offshore wind. Best surfed at mid tide. The wave is hollow and can hold up to 2m (6ft).",
         "abilityLevel": {
-          "primary": "All Surfers",
-          "alsoSuitableFor": [
-            "Beginner"
-          ]
+          "primary": "Beginner",
+          "alsoSuitableFor": []
         }
       },
       "characteristics": {
         "crowdFactor": "Empty",
+        "crowdNotes": null,
         "localVibe": "Peaceful and secluded",
         "hazards": [
           "Rocks",
           "Falling rocks from cliffs",
           "Currents"
         ],
-        "bottom": "Sand & Rocks",
+        "bottom": [
+          "Sand",
+          "Rock"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -1487,10 +1780,11 @@
         "facilities": "None; no lifeguards on duty",
         "paddleOut": "Generally easy, with a fun path into the water",
         "recommendedBoards": [
-          "Funboard",
+          "Funboard / Malibu",
           "Longboard",
-          "Beginner board"
-        ]
+          "Beginner Board / Soft-top"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -1504,7 +1798,7 @@
       ],
       "description": "One of the most renowned and consistent left-hand reef breaks in Fuerteventura, forming part of the famous El Hierro section. This formidable wave breaks over a volcanic reef, offering long, powerful, and fast rides with tubular sections that are highly prized by expert surfers.",
       "location": {
-        "area": "North Shore",
+        "area": "North",
         "nearestTowns": [
           "Playa de Majanicho",
           "Corralejo"
@@ -1517,9 +1811,12 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Left",
+        "direction": [
+          "Left"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "NW",
           "N",
@@ -1529,14 +1826,15 @@
           "S",
           "SE"
         ],
-        "bestTide": "All tides",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "October",
-          "November",
-          "December",
-          "January",
-          "February",
-          "March"
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works best on a northwest or north swell with an offshore wind from the south or southeast. The spot is reliable and works on both local windswells and distant groundswells. The wave quality is not affected by the tide.",
         "abilityLevel": {
@@ -1546,20 +1844,24 @@
       },
       "characteristics": {
         "crowdFactor": "Crowded",
+        "crowdNotes": null,
         "localVibe": "Known for strong localism; respect for local surfers is essential.",
         "hazards": [
           "Rocks",
           "Sharp reef",
           "Powerful waves"
         ],
-        "bottom": "Volcanic reef",
+        "bottom": [
+          "Reef",
+          "Lava"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
         "access": "Located on the North Shore, accessible via the northern dirt track road.",
         "parking": "Available along the track",
         "facilities": "None",
-        "paddleOut": "Information missing from search results",
+        "paddleOut": "Long and demanding paddle from the shore. Conserve energy for the session. Many use the channel between the left and The Bubble.",
         "recommendedBoards": [
           "Shortboard",
           "Step-up"
@@ -1576,7 +1878,7 @@
       ],
       "description": "A legendary and expansive beach break on the west coast, situated at the narrowest part of the island. Known locally as 'El Viejo Rey,' it is one of the most famous and wave-safe spots in southern Fuerteventura, virtually guaranteed to have surfable waves year-round. It's a foundational spot where many surfers catch their first white water waves and a reliable canvas for all levels, thanks to its long, shifting sandbanks.",
       "location": {
-        "area": "West Coast (Istmo de La Pared)",
+        "area": "West",
         "nearestTowns": [
           "Pájara"
         ],
@@ -1588,9 +1890,13 @@
       },
       "waveDetails": {
         "type": [
-          "Beach break"
+          "Beach Break"
         ],
-        "direction": "Left and Right",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "NW",
           "W",
@@ -1601,18 +1907,30 @@
           "S",
           "SW"
         ],
-        "bestTide": "All Tides (Best conditions vary by skill level)",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": "Best conditions vary by skill level.",
         "bestSeason": [
-          "All Year"
+          "Spring",
+          "Summer",
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "One of the most consistent spots on the island. Best for beginners at low tide with wide, gentle white water. Intermediate and advanced surfers find the best unbroken green waves from mid to high tide. Can be surfed in onshore winds when the east coast is working.",
         "abilityLevel": {
-          "primary": "All Levels",
-          "alsoSuitableFor": []
+          "primary": "Beginner",
+          "alsoSuitableFor": [
+            "Intermediate",
+            "Advanced"
+          ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Popular (Can be crowded on weekends, quieter on weekdays)",
+        "crowdFactor": "Medium",
+        "crowdNotes": "Can be crowded on weekends, quieter on weekdays.",
         "localVibe": "A welcoming hub for surf schools and a mix of local and visiting surfers; the foundational spot for the southern surf community.",
         "hazards": [
           "Strong currents (especially pulling south towards cliffs)",
@@ -1620,7 +1938,10 @@
           "Rocks (in specific areas, e.g., near the bay's entrance)",
           "Optical illusion of wave size from the cliff top"
         ],
-        "bottom": "Sand (with some rocky areas; sandbanks shift seasonally)",
+        "bottom": [
+          "Sand",
+          "Rock"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -1629,9 +1950,9 @@
         "facilities": "Surf schools and equipment hire operate nearby.",
         "paddleOut": "Generally easy. The main bay offers a long, gentle paddle. A strong current at the southern end can be used by experienced surfers to get out back but can be dangerous on big days.",
         "recommendedBoards": [
-          "Beginner board",
+          "Beginner Board / Soft-top",
           "Longboard",
-          "Funboard",
+          "Funboard / Malibu",
           "Shortboard"
         ],
         "additionalTips": "Observe the waves from the cliff before paddling out, as they are consistently more powerful than they appear. Beginners should stick to the middle of the main bay. Advanced surfers can find more challenging waves at the southern end or in front of the natural staircase, but must be mindful of rocks and currents."
@@ -1643,7 +1964,7 @@
       "alternativeNames": [],
       "description": "A wild, remote beach located in the scenic and untamed Jandía Natural Park, known for its dramatic landscape of cliffs meeting dark blue water. This secluded spot offers a powerful beach break in a rugged, undeveloped setting for experienced surfers seeking to escape the crowds.",
       "location": {
-        "area": "South West Coast (Jandía Peninsula)",
+        "area": "South",
         "nearestTowns": [
           "Cofete",
           "Puerto de la Cruz (0.6 km)",
@@ -1657,27 +1978,41 @@
       },
       "waveDetails": {
         "type": [
-          "Beach break"
+          "Beach Break"
         ],
-        "direction": "Information missing",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
-          "Information missing"
+          "W",
+          "NW"
         ],
         "bestWindDirection": [
-          "Information missing"
+          "E",
+          "SE"
         ],
-        "bestTide": "Information missing",
+        "bestTide": [
+          "Mid",
+          "High"
+        ],
+        "tideNotes": "Tends to close out at low tide on bigger swells.",
         "bestSeason": [
-          "Information missing"
+          "Autumn",
+          "Winter"
         ],
-        "idealConditions": "Information missing",
+        "idealConditions": "Works on powerful west or northwest swells with offshore easterly winds. A remote and serious beach break.",
         "abilityLevel": {
-          "primary": "Information missing",
-          "alsoSuitableFor": []
+          "primary": "Advanced",
+          "alsoSuitableFor": [
+            "Expert"
+          ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Very Low",
+        "crowdFactor": "Empty",
+        "crowdNotes": "Very low.",
         "localVibe": "Secluded and peaceful; favored by hikers and those seeking solitude.",
         "hazards": [
           "Rocks in water",
@@ -1686,7 +2021,10 @@
           "No lifeguards",
           "Remote location"
         ],
-        "bottom": "Sand and boulders",
+        "bottom": [
+          "Sand",
+          "Rock"
+        ],
         "waterQuality": "Clear green water"
       },
       "practicalities": {
@@ -1695,8 +2033,10 @@
         "facilities": "None. No lifeguards, restrooms, showers, or shops. It is a completely untouched and natural beach.",
         "paddleOut": "Descent to the water is normal but water shoes are necessary due to rocks and boulders.",
         "recommendedBoards": [
-          "Information missing"
-        ]
+          "Shortboard",
+          "Step-up"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -1709,7 +2049,7 @@
       ],
       "description": "A wild, expansive, and remote sandy beach on Fuerteventura's west coast, famous for its powerful surf and rugged Atlantic charm. It's a reliable spot that picks up swell when other parts of the island are flat, offering a chance to escape the crowds.",
       "location": {
-        "area": "West Coast",
+        "area": "West",
         "nearestTowns": [
           "Tindaya"
         ],
@@ -1721,9 +2061,13 @@
       },
       "waveDetails": {
         "type": [
-          "Beach break"
+          "Beach Break"
         ],
-        "direction": "Left and Right",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "N",
           "NW",
@@ -1732,21 +2076,25 @@
         "bestWindDirection": [
           "E"
         ],
-        "bestTide": "All Tides",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "September",
-          "October"
+          "Summer",
+          "Autumn"
         ],
         "idealConditions": "Works on any swell from the north to west. Best with an easterly offshore wind. Known for its powerful waves and strong currents.",
         "abilityLevel": {
           "primary": "Intermediate",
-          "alsoSuitableFor": [
-            "All levels on smaller days"
-          ]
+          "alsoSuitableFor": []
         }
       },
       "characteristics": {
         "crowdFactor": "Low",
+        "crowdNotes": null,
         "localVibe": "Secluded and undeveloped.",
         "hazards": [
           "Strong rip currents",
@@ -1754,17 +2102,21 @@
           "Powerful shore break",
           "Unmanned beach (no lifeguards)"
         ],
-        "bottom": "Sand",
+        "bottom": [
+          "Sand"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
         "access": "Remote access via a long, bumpy dirt track. A car is essential, and a 4x4 is recommended. The turn-off is from the village of Tindaya.",
         "parking": "Available near the beach",
         "facilities": "None. No lifeguards, restrooms, showers, or shops. Bring all supplies, including water and sun protection.",
-        "paddleOut": "Information missing from search results",
+        "paddleOut": "Can be very challenging due to powerful shorebreak and strong rip currents. Assess conditions carefully and look for deeper channels.",
         "recommendedBoards": [
-          "Information missing from search results"
-        ]
+          "Shortboard",
+          "Funboard / Malibu"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -1773,7 +2125,7 @@
       "alternativeNames": [],
       "description": "A fun and accessible breakwater wave that offers left-hand rides along a harbor wall. It's a wind-protected spot, making it a good option on bigger north shore days and a perfect wave for longboarders.",
       "location": {
-        "area": "North Shore",
+        "area": "North",
         "nearestTowns": [
           "Las Playas"
         ],
@@ -1785,43 +2137,61 @@
       },
       "waveDetails": {
         "type": [
-          "Breakwater",
-          "Jetty"
+          "Breakwater / Jetty"
         ],
-        "direction": "Left",
+        "direction": [
+          "Left"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "N",
           "NW"
         ],
         "bestWindDirection": [
-          "Information missing"
+          "W",
+          "SW"
         ],
-        "bestTide": "All Tides",
-        "bestSeason": "Information missing",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
+        "bestSeason": [
+          "Autumn",
+          "Winter"
+        ],
         "idealConditions": "Needs a big north or northwest swell to start working. It is wind-protected and breaks smaller than other spots, ideal for longboards.",
         "abilityLevel": {
-          "primary": "All Surfers",
-          "alsoSuitableFor": []
+          "primary": "Beginner",
+          "alsoSuitableFor": [
+            "Intermediate",
+            "Advanced"
+          ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Empty on weekdays, Few surfers on weekends",
-        "localVibe": "Information missing",
+        "crowdFactor": "Low",
+        "crowdNotes": "Empty on weekdays, few surfers on weekends.",
+        "localVibe": "Relaxed and often frequented by longboarders. Generally uncrowded.",
         "hazards": [
           "Man-made dangers (buoys, etc.)"
         ],
-        "bottom": "Flat rocks",
-        "waterQuality": "Information missing"
+        "bottom": [
+          "Rock"
+        ],
+        "waterQuality": "Good, but can be affected by harbour proximity."
       },
       "practicalities": {
         "access": "Easy to find with instant access (<5 min walk). Park your car as close to the harbor wall as possible.",
         "parking": "Available near the harbor",
-        "facilities": "Information missing",
+        "facilities": "Basic facilities available in the nearby village.",
         "paddleOut": "Access by walking out the harbor wall and jumping in at the end.",
         "recommendedBoards": [
           "Longboard",
-          "Funboard"
-        ]
+          "Funboard / Malibu"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -1832,7 +2202,7 @@
       ],
       "description": "An exposed and consistent reef break located in the remote south of Fuerteventura, within the Jandía peninsula. This right-hand point offers a reliable wave in a less crowded setting, making it a spot for surfers seeking to escape the crowds.",
       "location": {
-        "area": "South Coast (Jandía Peninsula)",
+        "area": "South",
         "nearestTowns": [
           "Pájara",
           "Morro Jable"
@@ -1845,9 +2215,12 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Right",
+        "direction": [
+          "Right"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "S",
           "SW"
@@ -1856,36 +2229,44 @@
           "NE",
           "N"
         ],
-        "bestTide": "All Tides",
-        "bestSeason": [
-          "Winter",
-          "January"
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
         ],
-        "idealConditions": "Works best when a South swell combines with an offshore Northeast wind:cite[1]. It is a very consistent spot that works at all stages of the tide:cite[1].",
+        "tideNotes": null,
+        "bestSeason": [
+          "Winter"
+        ],
+        "idealConditions": "Works best when a South swell combines with an offshore Northeast wind. It is a very consistent spot that works at all stages of the tide.",
         "abilityLevel": {
           "primary": "Advanced",
-          "alsoSuitableFor": [
-            "Experienced"
-          ]
+          "alsoSuitableFor": []
         }
       },
       "characteristics": {
-        "crowdFactor": "Rarely crowded",
-        "localVibe": "Information missing",
+        "crowdFactor": "Low",
+        "crowdNotes": "Rarely crowded.",
+        "localVibe": "Very quiet and isolated. You will likely be surfing alone or with a handful of others.",
         "hazards": [
           "Rocks"
         ],
-        "bottom": "Reef, Rocky",
+        "bottom": [
+          "Reef",
+          "Rock"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
         "access": "Remote location; access details are approximate.",
-        "parking": "Information missing",
-        "facilities": "Information missing",
-        "paddleOut": "Information missing",
+        "parking": "Informal parking at the end of a long dirt track.",
+        "facilities": "None. This is a remote, natural area.",
+        "paddleOut": "Entry over reef and rocks is required. Booties are recommended. Look for a deeper channel.",
         "recommendedBoards": [
-          "Information missing"
-        ]
+          "Shortboard",
+          "Performance Board"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -1896,7 +2277,7 @@
       ],
       "description": "A legendary and exposed reef break off the coast of Fuerteventura, offering one of the longest and most mechanical right-hand waves in the entire Atlantic region. Accessible only by boat, this spot transforms into a reeling, world-class point break on large NW swells, creating rides of several hundred meters in a dramatic lunar landscape.",
       "location": {
-        "area": "Off the North East Coast",
+        "area": "Offshore",
         "nearestTowns": [
           "Corralejo"
         ],
@@ -1908,10 +2289,13 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break",
-          "Point break"
+          "Reef Break",
+          "Point Break"
         ],
-        "direction": "Right",
+        "direction": [
+          "Right"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "N",
           "NW"
@@ -1920,12 +2304,16 @@
           "ESE",
           "E"
         ],
-        "bestTide": "All Tides",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "Fall",
+          "Autumn",
           "Winter",
-          "Spring",
-          "Oct-Mar"
+          "Spring"
         ],
         "idealConditions": "Requires a large north or northwest swell. The wave quality increases with size, transforming from a sectioned wave at 4-6 foot into one long, rifling wall on bigger swells. Best with easterly offshore winds.",
         "abilityLevel": {
@@ -1934,7 +2322,8 @@
         }
       },
       "characteristics": {
-        "crowdFactor": "Moderate to High",
+        "crowdFactor": "High",
+        "crowdNotes": "Moderate to High.",
         "localVibe": "Competitive but tolerant; a high-performance wave with a dedicated local and visiting crew.",
         "hazards": [
           "Ultra-sharp lava reef",
@@ -1942,7 +2331,10 @@
           "Strong currents",
           "Remote location"
         ],
-        "bottom": "Sharp lava reef",
+        "bottom": [
+          "Lava",
+          "Reef"
+        ],
         "waterQuality": "Very clean, Caribbean-like"
       },
       "practicalities": {
@@ -1952,7 +2344,7 @@
         "paddleOut": "The entry and exit are tricky over the urchin-carpeted reef. Paddling strength and endurance are essential.",
         "recommendedBoards": [
           "Shortboard",
-          "Gun (for big days)"
+          "Gun"
         ],
         "additionalTips": "This is a serious wave for experts only. Respect the lineup and be prepared for the logistical challenge of a boat trip. The wave is often cited as one of the longest right-handers in the Atlantic/European zone."
       }
@@ -1965,7 +2357,7 @@
       ],
       "description": "A hidden gem on the famous Grandes Playas, located directly in front of the Riu hotels. This spot is unique for its completely soft, sandy bottom, making it exceptionally safe and forgiving. It's a perfect, mellow beach break for beginners and intermediates, but surfing is only permitted in the evening after the lifeguards finish their duty.",
       "location": {
-        "area": "North East Coast (Grandes Playas, Corralejo)",
+        "area": "North East",
         "nearestTowns": [
           "Corralejo"
         ],
@@ -1977,9 +2369,13 @@
       },
       "waveDetails": {
         "type": [
-          "Beach break"
+          "Beach Break"
         ],
-        "direction": "Left and Right",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "N",
           "NW"
@@ -1988,9 +2384,17 @@
           "S",
           "SW"
         ],
-        "bestTide": "All Tides",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "All Year"
+          "Spring",
+          "Summer",
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works on small to medium north or northwest swells. Best in the evening with light winds after the lifeguards have left.",
         "abilityLevel": {
@@ -2001,13 +2405,16 @@
         }
       },
       "characteristics": {
-        "crowdFactor": "Not Crowded",
+        "crowdFactor": "Low",
+        "crowdNotes": "Not crowded.",
         "localVibe": "Chill and relaxed evening sessions.",
         "hazards": [
           "Swimmers and sunbathers (during daytime)",
           "No lifeguard (in the evening)"
         ],
-        "bottom": "Soft Sand",
+        "bottom": [
+          "Sand"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -2016,9 +2423,9 @@
         "facilities": "All hotel amenities (restaurants, bars, toilets) are nearby, but not directly available to the public.",
         "paddleOut": "Very easy due to the soft, sandy bottom and gentle slope.",
         "recommendedBoards": [
-          "Beginner board",
+          "Beginner Board / Soft-top",
           "Longboard",
-          "Funboard"
+          "Funboard / Malibu"
         ],
         "additionalTips": "Surfing is NOT allowed during daytime due to the high number of swimmers. The session window is typically after 18:00 when the lifeguards are off duty and the beach clears out. Respect this rule to maintain access."
       }
@@ -2032,7 +2439,7 @@
       ],
       "description": "A picturesque, tranquil fishing village with a consistent reef break offering long, predictable right-handers perfect for cutbacks and intermediate practice. The spot features multiple breaks including a main peak and inside sections.",
       "location": {
-        "area": "North Coast",
+        "area": "North",
         "nearestTowns": [
           "El Cotillo",
           "Corralejo",
@@ -2046,38 +2453,51 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Right (main), A-frame (La Baja)",
+        "direction": [
+          "Right",
+          "A-Frame"
+        ],
+        "directionNotes": "Main break is a right, La Baja is an A-frame.",
         "bestSwellDirection": [
           "N"
         ],
         "bestWindDirection": [
           "E"
         ],
-        "bestTide": "Low tide (main), All tides (inside)",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": "Main peak is best at low tide, inside breaks work on all tides.",
         "bestSeason": [
-          "Oct-Mar",
-          "Nov-Apr (inside breaks)"
+          "Autumn",
+          "Winter",
+          "Spring"
         ],
         "idealConditions": "Mellow right hander that picks up north swell. Inside breaks work when main north shore spots are oversized. Long paddle out to main peak.",
         "abilityLevel": {
           "primary": "Intermediate",
           "alsoSuitableFor": [
-            "Beginner (inside)",
+            "Beginner",
             "Longboarder"
           ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Popular SUP spot, can be crowded",
+        "crowdFactor": "Medium",
+        "crowdNotes": "Popular SUP spot, can be crowded.",
         "localVibe": "Shared with windsurfers when Calima wind picks up",
         "hazards": [
           "Long paddle",
           "Reef",
           "Windsurfers during Calima"
         ],
-        "bottom": "Reef",
+        "bottom": [
+          "Reef"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -2086,10 +2506,11 @@
         "facilities": "None at spot",
         "paddleOut": "Long paddle to main peak; use little beach in corner for inside breaks to avoid reef walk",
         "recommendedBoards": [
-          "Funboard",
+          "Funboard / Malibu",
           "Longboard",
           "SUP"
-        ]
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -2101,7 +2522,7 @@
       ],
       "description": "Famous big-wave spot known for powerful waves over shallow reef. Features the unique 'Popcorn Beach' with white coral fragments. When pumping, you might witness tow-in surfing. A serious board-snapper spot for experts only.",
       "location": {
-        "area": "North Coast",
+        "area": "North",
         "nearestTowns": [
           "Corralejo"
         ],
@@ -2113,18 +2534,26 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Left and Right",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "W"
         ],
         "bestWindDirection": [
           "SW"
         ],
-        "bestTide": "High tide",
+        "bestTide": [
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "Oct-Mar"
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Best with west swell and south-west wind. Can get crowded when small. Serious conditions when big.",
         "abilityLevel": {
@@ -2133,7 +2562,8 @@
         }
       },
       "characteristics": {
-        "crowdFactor": "Crowded when small, elite crew when big",
+        "crowdFactor": "Medium",
+        "crowdNotes": "Crowded when small, elite crew when big.",
         "localVibe": "Serious big-wave spot with tow-in potential",
         "hazards": [
           "Shallow reef",
@@ -2141,7 +2571,10 @@
           "Powerful waves",
           "Expert only"
         ],
-        "bottom": "Shallow lava reef",
+        "bottom": [
+          "Lava",
+          "Reef"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -2152,8 +2585,9 @@
         "recommendedBoards": [
           "Gun",
           "Step-up",
-          "Tow boards"
-        ]
+          "Tow Board"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -2164,7 +2598,7 @@
       ],
       "description": "A little-known but high-quality reef break located just north of Puerto del Rosario. This spot is powerful and exposed, capable of producing excellent waves that are occasionally featured in local surfing competitions. It remains a more local and uncrowded alternative to the island's famous north shore spots.",
       "location": {
-        "area": "East Coast (North of Puerto del Rosario)",
+        "area": "East",
         "nearestTowns": [
           "Puerto del Rosario"
         ],
@@ -2176,9 +2610,12 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Right (primary)",
+        "direction": [
+          "Right"
+        ],
+        "directionNotes": "Primary right.",
         "bestSwellDirection": [
           "N",
           "NE",
@@ -2188,10 +2625,14 @@
           "S",
           "SW"
         ],
-        "bestTide": "Mid to High Tide",
+        "bestTide": [
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "Winter",
-          "Autumn"
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works best on a solid north or northwest groundswell with an offshore wind from the south or southwest. The wave is powerful and can hold a good size, making it a reliable option when conditions align.",
         "abilityLevel": {
@@ -2202,21 +2643,25 @@
         }
       },
       "characteristics": {
-        "crowdFactor": "Uncrowded",
+        "crowdFactor": "Low",
+        "crowdNotes": "Uncrowded.",
         "localVibe": "Localistic; reserved for experienced surfers who know the spot.",
         "hazards": [
           "Shallow reef",
           "Strong currents",
           "Rocks"
         ],
-        "bottom": "Rocky Reef",
+        "bottom": [
+          "Reef",
+          "Rock"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
-        "access": "Information missing from search results",
-        "parking": "Information missing from search results",
+        "access": "Access via dirt tracks north of Puerto del Rosario, a 4x4 is recommended.",
+        "parking": "Informal parking on the dirt tracks near the break.",
         "facilities": "None on site. All amenities available in nearby Puerto del Rosario.",
-        "paddleOut": "Information missing from search results",
+        "paddleOut": "Requires careful entry over rocks, potentially tricky depending on swell size.",
         "recommendedBoards": [
           "Shortboard",
           "Step-up"
@@ -2230,7 +2675,7 @@
       "alternativeNames": [],
       "description": "A long, sandy beach break located in the capital city of Puerto del Rosario on the east coast. Known for its gentle, sloppy, and less powerful waves, it is a prime learning ground and a reliable fallback spot when the west coast is too strong. It's very popular with surf schools and ideal for beginners making their first attempts on unbroken green waves, thanks to its consistent wind swells and evenly sloping sandy bottom.",
       "location": {
-        "area": "East Coast (Puerto del Rosario)",
+        "area": "East",
         "nearestTowns": [
           "Puerto del Rosario"
         ],
@@ -2242,10 +2687,13 @@
       },
       "waveDetails": {
         "type": [
-          "Beach break",
-          "Shore break"
+          "Beach Break"
         ],
-        "direction": "Left and Right",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "NE",
           "E",
@@ -2257,29 +2705,40 @@
           "SW",
           "W"
         ],
-        "bestTide": "All Tides",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "All Year"
+          "Spring",
+          "Summer",
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works on north-easterly wind swells generated by the trade winds. It is very consistent, working more than 150 days a year. White water is better at low tide, while unbroken green waves are more common at high tide. The wave period is short, making waves roll in frequently.",
         "abilityLevel": {
           "primary": "Beginner",
           "alsoSuitableFor": [
             "Intermediate",
-            "Advanced (southern end of the bay)"
+            "Advanced"
           ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Few Surfers (but popular with surf schools)",
+        "crowdFactor": "Low",
+        "crowdNotes": "Few surfers, but popular with surf schools.",
         "localVibe": "Relaxed and instructional, perfect for learning.",
         "hazards": [
           "Currents (pulling out to sea at the southern end)",
           "Rocks (at the southern end near the hotel)",
           "Dense wave frequency on bigger days"
         ],
-        "bottom": "Sand",
-        "waterQuality": "Information missing"
+        "bottom": [
+          "Sand"
+        ],
+        "waterQuality": "Good"
       },
       "practicalities": {
         "access": "Extremely easy access from the main highway near Puerto del Rosario airport. Exit towards the sea after a left-hand bend when coming from the north.",
@@ -2287,11 +2746,11 @@
         "facilities": "Easy access from the capital city Puerto del Rosario for all amenities.",
         "paddleOut": "Generally easy due to the gentle slope and less powerful waves. Beginners should stick to the middle of the bay.",
         "recommendedBoards": [
-          "Softboard",
-          "Beginner board",
+          "Beginner Board / Soft-top",
           "Longboard",
-          "Funboard"
-        ]
+          "Funboard / Malibu"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -2300,7 +2759,7 @@
       "alternativeNames": [],
       "description": "A large, powerful bay located just north of the island's capital, Puerto del Rosario. This spot features an A-frame reef break over a rocky bottom known for its stone slabs ('lajas'). It comes alive with northeastern wind swells, offering a mix of left and right-hand waves. It's a multi-purpose spot popular with surfers, wing-foilers, windsurfers, and kitesurfers, especially in the morning and evening before the trade winds pick up.",
       "location": {
-        "area": "East Coast",
+        "area": "East",
         "nearestTowns": [
           "Puerto del Rosario"
         ],
@@ -2312,9 +2771,14 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Left and Right (A-frame)",
+        "direction": [
+          "Left",
+          "Right",
+          "A-Frame"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "NE",
           "N",
@@ -2324,39 +2788,49 @@
           "NW",
           "W"
         ],
-        "bestTide": "All Tides",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "Apr-Sep"
+          "Spring",
+          "Summer"
         ],
         "idealConditions": "Needs a northeast wind swell delivering head-high sets. Best surfed in the morning and evening to avoid strong trade winds and wind-sport traffic that takes over the peak later in the day. The wave is relatively short, typically under 50 meters.",
         "abilityLevel": {
           "primary": "Intermediate",
           "alsoSuitableFor": [
-            "Advanced",
-            "All Levels (on smaller days)"
+            "Advanced"
           ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Few Surfers",
+        "crowdFactor": "Low",
+        "crowdNotes": "Few surfers.",
         "localVibe": "Relaxed and less crowded, but can get busy with wind-sports during peak wind hours.",
         "hazards": [
           "Shallow rocky bottom with stone slabs",
           "Wind- and kitesurfers during trade winds"
         ],
-        "bottom": "Rocky Reef (stone slabs)",
-        "waterQuality": "Information missing"
+        "bottom": [
+          "Reef",
+          "Rock"
+        ],
+        "waterQuality": "Good"
       },
       "practicalities": {
         "access": "Easy access by car, located just off the main road north of Puerto del Rosario.",
         "parking": "Available nearby",
         "facilities": "Limited facilities at the spot itself. The nearby capital, Puerto del Rosario, offers all amenities.",
-        "paddleOut": "Information missing",
+        "paddleOut": "Straightforward paddle from the beach, but be mindful of the shallow rock slabs.",
         "recommendedBoards": [
           "Shortboard",
-          "Funboard",
-          "Softboard/Beginner board (on small days)"
-        ]
+          "Funboard / Malibu",
+          "Beginner Board / Soft-top"
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -2365,7 +2839,7 @@
       "alternativeNames": [],
       "description": "A fun and mellow reef break perfect for beginners and improvers. Known for its mushy, sometimes disordered waves that are great for long white water rides. It's a swell magnet that consistently picks up waves, though it can often be messy. Importantly, it is a primary windsurfing spot, so surfers need to be mindful of sharing the water.",
       "location": {
-        "area": "North Shore",
+        "area": "North",
         "nearestTowns": [
           "El Cotillo",
           "Majanicho"
@@ -2378,9 +2852,13 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Right (primary), occasional Lefts",
+        "direction": [
+          "Right",
+          "Left"
+        ],
+        "directionNotes": "Right is primary, occasional Lefts.",
         "bestSwellDirection": [
           "N",
           "NW",
@@ -2390,21 +2868,28 @@
           "E",
           "SE"
         ],
-        "bestTide": "Mid Tide",
+        "bestTide": [
+          "Mid"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "All Year"
+          "Spring",
+          "Summer",
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works on all northern swells. Best at mid-tide; avoid low tide when the swell is 1.5m or larger due to the shallow bottom. Offers plenty of waves, making it good for practice, but is often messy. Surf schools frequently use this spot.",
         "abilityLevel": {
           "primary": "Beginner",
           "alsoSuitableFor": [
             "Intermediate",
-            "Longboarder (when small and glassy)"
+            "Longboarder"
           ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Very Crowded",
+        "crowdFactor": "Crowded",
+        "crowdNotes": "Very crowded.",
         "localVibe": "Shared with windsurfers and surf schools.",
         "hazards": [
           "Sea urchins",
@@ -2412,18 +2897,20 @@
           "Shallow bottom (at low tide)",
           "Currents"
         ],
-        "bottom": "Reef",
+        "bottom": [
+          "Reef"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
         "access": "Accessible via a dirt road from either El Cotillo or Majanicho. The road is suitable for all types of vehicles.",
-        "parking": "Information missing from search results",
-        "facilities": "Information missing from search results",
+        "parking": "Ample informal parking along the dirt track overlooking the various peaks.",
+        "facilities": "None. Nearest facilities are in Majanicho or El Cotillo.",
         "paddleOut": "Use the channel to paddle out.",
         "recommendedBoards": [
           "Longboard",
-          "Funboard",
-          "Beginner board"
+          "Funboard / Malibu",
+          "Beginner Board / Soft-top"
         ],
         "additionalTips": "This is first and foremost a windsurf spot. If windsurfers are rigging or start sailing, you should leave or not enter the water for your own safety."
       }
@@ -2434,7 +2921,7 @@
       "alternativeNames": [],
       "description": "A secluded and exposed reef break located in the scenic south of Fuerteventura near Punta de Jandía. Known for its powerful, tubular waves breaking over a rocky, volcanic seabed, this spot offers a solitary surfing experience amid dramatic natural beauty.",
       "location": {
-        "area": "South Coast (Jandía Peninsula)",
+        "area": "South",
         "nearestTowns": [
           "Morro Jable",
           "Pájara"
@@ -2447,9 +2934,12 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Left",
+        "direction": [
+          "Left"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "SW",
           "N",
@@ -2463,11 +2953,15 @@
           "SE",
           "E"
         ],
-        "bestTide": "All Tides (Best at Mid & High Tide)",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": "Best at Mid & High Tide.",
         "bestSeason": [
-          "Winter",
           "Autumn",
-          "January"
+          "Winter"
         ],
         "idealConditions": "Works best when a Southwest groundswell combines with an offshore north wind. An inconsistent spot that does not work very often, with optimal conditions more frequent in winter.",
         "abilityLevel": {
@@ -2476,7 +2970,8 @@
         }
       },
       "characteristics": {
-        "crowdFactor": "Low (Rarely gets crowded)",
+        "crowdFactor": "Low",
+        "crowdNotes": "Rarely gets crowded.",
         "localVibe": "Solitary and secluded.",
         "hazards": [
           "Rocks",
@@ -2484,14 +2979,17 @@
           "Shallow reef",
           "Isolation"
         ],
-        "bottom": "Volcanic reef",
+        "bottom": [
+          "Lava",
+          "Reef"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
-        "access": "Information missing from search results",
-        "parking": "Information missing from search results",
-        "facilities": "Information missing from search results",
-        "paddleOut": "Information missing from search results",
+        "access": "Access via the very long and rough dirt track leading to the Punta de Jandía lighthouse. A 4x4 vehicle is strongly recommended.",
+        "parking": "Informal parking near the end of the track.",
+        "facilities": "None. One of the most remote parts of the island.",
+        "paddleOut": "Extremely difficult entry over sharp volcanic rock. High risk of injury and board damage. Expert only.",
         "recommendedBoards": [
           "Shortboard",
           "Gun"
@@ -2508,7 +3006,7 @@
       ],
       "description": "A prominent and reliable reef break situated between the island of Lobos and Corralejo. When the North Shore gets big, this spot comes to life with a long, shoulder-breaking right-hand wave on the outside, while the inside offers faster, smaller lefts and rights. It has become a famous spot for intermediates, longboarders, and SUP riders.",
       "location": {
-        "area": "North East Coast",
+        "area": "North East",
         "nearestTowns": [
           "Corralejo"
         ],
@@ -2520,9 +3018,13 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Right (primary outside), Left and Right (inside)",
+        "direction": [
+          "Right",
+          "Left"
+        ],
+        "directionNotes": "Primary outside is a right, inside offers lefts and rights.",
         "bestSwellDirection": [
           "N",
           "NW"
@@ -2531,9 +3033,13 @@
           "S",
           "SE"
         ],
-        "bestTide": "High Tide",
+        "bestTide": [
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "Nov-Mar"
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Starts working when the North Shore is getting big. The outside offers long, guaranteed right shoulders, while the inside provides faster sections.",
         "abilityLevel": {
@@ -2545,13 +3051,16 @@
         }
       },
       "characteristics": {
-        "crowdFactor": "Can be crowded",
+        "crowdFactor": "Medium",
+        "crowdNotes": "Can be crowded.",
         "localVibe": "Popular and accessible spot.",
         "hazards": [
           "Rocks",
           "Urchins"
         ],
-        "bottom": "Reef",
+        "bottom": [
+          "Reef"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -2561,10 +3070,11 @@
         "paddleOut": "Tip: Launch your board behind the corner to avoid a long and painful rocky walk.",
         "recommendedBoards": [
           "Longboard",
-          "Funboard",
+          "Funboard / Malibu",
           "SUP",
           "Shortboard"
-        ]
+        ],
+        "additionalTips": null
       }
     },
     {
@@ -2573,7 +3083,7 @@
       "alternativeNames": [],
       "description": "A sheltered left-hand point break that reforms large swells into a wave that peels predictably into the bay. It's a go-to spot when conditions are too big, messy, or windy elsewhere on the North Shore, offering several sections to play with.",
       "location": {
-        "area": "North Shore (West)",
+        "area": "North",
         "nearestTowns": [
           "El Cotillo"
         ],
@@ -2585,10 +3095,13 @@
       },
       "waveDetails": {
         "type": [
-          "Point break",
-          "Reef break"
+          "Point Break",
+          "Reef Break"
         ],
-        "direction": "Left",
+        "direction": [
+          "Left"
+        ],
+        "directionNotes": null,
         "bestSwellDirection": [
           "N",
           "NW"
@@ -2597,35 +3110,48 @@
           "E",
           "NE"
         ],
-        "bestTide": "Mid to High",
+        "bestTide": [
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "Sep-May"
+          "Summer",
+          "Autumn",
+          "Winter",
+          "Spring"
         ],
         "idealConditions": "Works when other spots are oversized or windy. Even surfable with a strong onshore wind. The wave reforms on a often shallow take-off zone before peeling left.",
         "abilityLevel": {
-          "primary": "All Surfers",
-          "alsoSuitableFor": []
+          "primary": "Beginner",
+          "alsoSuitableFor": [
+            "Intermediate",
+            "Advanced"
+          ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Always crowded",
+        "crowdFactor": "Crowded",
+        "crowdNotes": "Always crowded.",
         "localVibe": "Protected by locals; respect is essential.",
         "hazards": [
           "Very strong currents",
           "Shallow take-off zone",
           "Rocks"
         ],
-        "bottom": "Reef",
+        "bottom": [
+          "Reef"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
-        "access": "Information missing from search results",
-        "parking": "Information missing from search results",
-        "facilities": "Information missing from search results",
+        "access": "Accessible via the western end of the North Shore dirt track, starting from near El Cotillo.",
+        "parking": "Informal parking on the cliffs overlooking the break.",
+        "facilities": "None. Nearest facilities are in El Cotillo.",
         "paddleOut": "Non-stop paddling is a must to fight the strong current.",
         "recommendedBoards": [
           "Shortboard",
-          "Funboard"
+          "Funboard / Malibu"
         ],
         "additionalTips": "The current can suck you towards the rocks if you lose your position. Watch how the local surfers manage the lineup and avoid messing up the peak."
       }
@@ -2640,7 +3166,7 @@
       ],
       "description": "A remote and historically significant bay on the wild west coast, famed as the final resting place of the SS American Star shipwreck. Unlike other exposed west coast spots, its unique geography provides lighter and often offshore wind conditions. It features a versatile beach break with distinct left and right-hand peaks, a relatively safe channel for paddling out, and a friendly, sheltered vibe that attracts everyone from beginners in the white water to advanced surfers on the main peaks.",
       "location": {
-        "area": "West Coast (Southern Peninsula)",
+        "area": "West",
         "nearestTowns": [
           "Pájara",
           "La Hermosa"
@@ -2653,9 +3179,13 @@
       },
       "waveDetails": {
         "type": [
-          "Beach break"
+          "Beach Break"
         ],
-        "direction": "Right (north side), Left (south side)",
+        "direction": [
+          "Right",
+          "Left"
+        ],
+        "directionNotes": "Right on the north side, Left on the south side.",
         "bestSwellDirection": [
           "W",
           "NW",
@@ -2664,21 +3194,30 @@
         "bestWindDirection": [
           "E"
         ],
-        "bestTide": "All Tides (Character changes dramatically)",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": "Character changes dramatically.",
         "bestSeason": [
-          "All Year (Best in Winter, sheltered in Summer)"
+          "Spring",
+          "Summer",
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works on west/northwest swells. The bay is uniquely sheltered, often creating offshore conditions. It handles larger swells well without closing out as easily as other beach breaks. Best for beginners at low tide with gentle white water; ideal for intermediates at mid-tide; advanced surfers find more powerful, larger waves at high tide.",
         "abilityLevel": {
           "primary": "Intermediate",
           "alsoSuitableFor": [
-            "Beginner (low tide, white water)",
-            "Advanced (high tide, main peaks)"
+            "Beginner",
+            "Advanced"
           ]
         }
       },
       "characteristics": {
-        "crowdFactor": "Relatively uncrowded",
+        "crowdFactor": "Low",
+        "crowdNotes": "Relatively uncrowded.",
         "localVibe": "Friendly and popular with local families and campers; a respected spot where a friendly attitude is appreciated.",
         "hazards": [
           "Sharp metal wreckage (DO NOT CLIMB)",
@@ -2686,7 +3225,10 @@
           "Rocks/round stones on bottom after storms",
           "Optical illusion - waves are stronger than they appear from the cliff"
         ],
-        "bottom": "Sand (can be rocky after heavy storms)",
+        "bottom": [
+          "Sand",
+          "Rock"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -2695,9 +3237,9 @@
         "facilities": "None. Totally remote; bring all supplies including water.",
         "paddleOut": "Use the relatively safe and gentle channel on the northern end of the bay to get to the lineup. Avoid the southern end.",
         "recommendedBoards": [
-          "Funboard",
+          "Funboard / Malibu",
           "Shortboard",
-          "Longboard (for small days)"
+          "Longboard"
         ],
         "additionalTips": "The wreckage is sharp and surrounded by unpredictable currents - observe from a distance. Be aware of your position to avoid being swept south towards the cliffs by the current. The waves are consistently more powerful than they look from the cliff top. A great fallback when other west coast spots are too windy or oversized."
       }
@@ -2710,7 +3252,7 @@
       ],
       "description": "A heavy and exposed reef break on the infamous North Shore, aptly named for its gnarly and suicidal right-hand wave that breaks over a sharp lava reef. The main break features two very fast, hollow, and powerful sections, with the first being notoriously difficult to make. It is a spot for experts with local knowledge only, where mastering the wave can offer the barrel of a lifetime.",
       "location": {
-        "area": "North Shore",
+        "area": "North",
         "nearestTowns": [
           "Corralejo",
           "El Cotillo"
@@ -2723,9 +3265,13 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Right (main), also a shorter inside Left",
+        "direction": [
+          "Right",
+          "Left"
+        ],
+        "directionNotes": "Main break is a right, also a shorter inside Left.",
         "bestSwellDirection": [
           "N",
           "NW",
@@ -2736,10 +3282,14 @@
           "SE",
           "SSE"
         ],
-        "bestTide": "Mid to High tide",
+        "bestTide": [
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "Winter",
-          "December"
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works best on a North-Northwest swell combined with an offshore South-Southeast wind. A consistent spot that is just as likely to work on local windswells as on distant groundswells. Holds swells up to 3 meters (10 feet).",
         "abilityLevel": {
@@ -2748,7 +3298,8 @@
         }
       },
       "characteristics": {
-        "crowdFactor": "Sometimes crowded; surfed by a handful of highly skilled locals",
+        "crowdFactor": "Medium",
+        "crowdNotes": "Sometimes crowded; surfed by a handful of highly skilled locals.",
         "localVibe": "Competitive and reserved for experts; high respect for locals is mandatory",
         "hazards": [
           "Submerged rocks",
@@ -2756,7 +3307,10 @@
           "Strong currents",
           "Rips/undertow"
         ],
-        "bottom": "Sharp lava reef",
+        "bottom": [
+          "Lava",
+          "Reef"
+        ],
         "waterQuality": "Clean"
       },
       "practicalities": {
@@ -2780,7 +3334,7 @@
       ],
       "description": "A sheltered and versatile bay in the heart of Corralejo, famous as a primary hub for wing foiling and windsurfing. On smaller days, it also offers a gentle, accessible wave in the middle of the bay, making it a popular spot for beginner surfers thanks to its easy access from town and protection from strong wind and currents.",
       "location": {
-        "area": "Corralejo Bay",
+        "area": "North East",
         "nearestTowns": [
           "Corralejo"
         ],
@@ -2792,9 +3346,13 @@
       },
       "waveDetails": {
         "type": [
-          "Reef break"
+          "Reef Break"
         ],
-        "direction": "Information missing",
+        "direction": [
+          "Left",
+          "Right"
+        ],
+        "directionNotes": "Gentle, reforming waves in the middle of the bay.",
         "bestSwellDirection": [
           "NW"
         ],
@@ -2802,9 +3360,15 @@
           "W",
           "NW"
         ],
-        "bestTide": "All Tides",
+        "bestTide": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "tideNotes": null,
         "bestSeason": [
-          "Oct-Mar"
+          "Autumn",
+          "Winter"
         ],
         "idealConditions": "Works on northwest swells, typically in winter and autumn. The bay is well-protected, resulting in smaller, manageable waves ideal for beginners.",
         "abilityLevel": {
@@ -2815,13 +3379,18 @@
         }
       },
       "characteristics": {
-        "crowdFactor": "Popular with multiple water sports",
+        "crowdFactor": "Medium",
+        "crowdNotes": "Popular with multiple water sports.",
         "localVibe": "Lively and accessible, shared by wingfoilers, windsurfers, and beginner surfers.",
         "hazards": [
-          "Reef at entry/exit"
+          "Reef at entry/exit",
+          "Other water users (windsurfers, foilers)"
         ],
-        "bottom": "Sand & Reef",
-        "waterQuality": "Information missing"
+        "bottom": [
+          "Sand",
+          "Reef"
+        ],
+        "waterQuality": "Good"
       },
       "practicalities": {
         "access": "Extremely easy access from the beaches of Corralejo. A concrete pier allows water users to bypass the reef and enter the sea safely at all tide levels.",
@@ -2829,10 +3398,11 @@
         "facilities": "The area is lined with several bars, restaurants, and commerce, making it a convenient and lively spot.",
         "paddleOut": "Easy, either directly from the beach or via the concrete pier.",
         "recommendedBoards": [
-          "Beginner board",
+          "Beginner Board / Soft-top",
           "Longboard",
-          "Funboard"
-        ]
+          "Funboard / Malibu"
+        ],
+        "additionalTips": null
       }
     }
   ]

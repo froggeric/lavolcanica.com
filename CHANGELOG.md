@@ -5,7 +5,81 @@ All notable changes to the La Sonora Volcánica website will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.1] - 2025-10-16
+
+### Changed
+- **Surf Map Data Structure Update**: Updated the surf map codebase to fully support the new standardized JSON structure for surf spots data.
+- **Enhanced Search Functionality**: Extended search capabilities to include all surf spot properties from the standardized data structure.
+- **Improved Modal Display**: Enhanced the surf spot detail modal to display all available information from the new data structure.
+- **Fixed Coordinate Handling**: Corrected coordinate handling to use the proper lat/lng format from the standardized structure.
+
+### Fixed
+- **Search Functionality**: Fixed search functionality to properly handle the new standardized JSON structure with array-valued fields.
+- **Modal Display**: Fixed modal display to correctly show all surf spot properties, including newly added fields.
+- **Coordinate Conversion**: Resolved issues with coordinate conversion and display to match the new format.
+
+### Technical Details
+- Updated `scripts/surf-map/surf-search.js` to handle all fields from the standardized JSON structure.
+- Updated `scripts/surf-map/surf-spot-modal.js` to properly display all fields, including array-valued fields and new properties.
+- Added proper handling for new fields like `directionNotes`, `tideNotes`, and `crowdNotes`.
+- Fixed coordinate handling to use `spot.location.coordinates.lat/lng` instead of the previous format.
+- Added fallback text for missing values in the modal display.
+
+### Files Modified
+- `scripts/surf-map/surf-search.js`: Updated to handle all fields from the standardized JSON structure.
+- `scripts/surf-map/surf-spot-modal.js`: Updated to display all properties with proper handling for arrays and new fields.
+- `data/config/app-config.js`: Updated version to 1.7.1.
+- `script.js`: Updated version to 1.7.1.
+- `index.html`: Updated version to 1.7.1.
+- `CHANGELOG.md`: Updated with new version information.
+
 ## [1.7.0] - 2025-10-14
+
+### Added
+- **Dynamic Surf Spots Counter**: Implemented a real-time counter that displays the number of visible surf spots based on current search results.
+- **Enhanced Search Functionality**: Extended search capabilities to work across all surf spot properties including name, description, difficulty, and location details.
+- **Left-Side Search Control**: Relocated search control to the left side of the screen for improved accessibility and user experience.
+- **Mobile Search Toggle Button**: Added a dedicated mobile search toggle button for better responsive behavior.
+
+### Changed
+- **Surf Map Interface Redesign**: Completely redesigned the surf map interface with a focus on improved usability and accessibility.
+- **Removed Filter Functionality**: Removed the filter functionality completely to simplify the interface and improve performance.
+- **Search Control Positioning**: Moved search control from right side to left side of the screen for better visual hierarchy.
+- **Responsive Behavior Enhancement**: Improved responsive behavior across all device sizes with better breakpoints and layout adjustments.
+- **Accessibility Improvements**: Enhanced accessibility features including proper ARIA labels, keyboard navigation, and screen reader support.
+- **Styling Consistency**: Updated styling throughout the surf map interface for better design consistency with the overall application.
+
+## [1.6.2] - 2025-10-14
+
+### Changed
+- **Surf Map Data Structure Update**: Updated the surf map codebase to fully support the new standardized JSON structure for surf spots data.
+- **Enhanced Search Functionality**: Extended search capabilities to include all surf spot properties from the standardized data structure.
+- **Improved Modal Display**: Enhanced the surf spot detail modal to display all available information from the new data structure.
+- **Fixed Coordinate Handling**: Corrected coordinate handling to use the proper lat/lng format from the standardized structure.
+
+### Fixed
+- **Search Functionality**: Fixed search functionality to properly handle the new standardized JSON structure with array-valued fields.
+- **Modal Display**: Fixed modal display to correctly show all surf spot properties, including newly added fields.
+- **Coordinate Conversion**: Resolved issues with coordinate conversion and display to match the new format.
+
+### Technical Details
+- Updated `scripts/surf-map/surf-search.js` to handle all fields from the standardized JSON structure.
+- Updated `scripts/surf-map/surf-spot-modal.js` to properly display all fields, including array-valued fields and new properties.
+- Added proper handling for new fields like `directionNotes`, `tideNotes`, and `crowdNotes`.
+- Fixed coordinate handling to use `spot.location.coordinates.lat/lng` instead of the previous format.
+- Added fallback text for missing values in the modal display.
+
+### Files Modified
+- `scripts/surf-map/surf-search.js`: Updated to handle all fields from the standardized JSON structure.
+- `scripts/surf-map/surf-spot-modal.js`: Updated to display all properties with proper handling for arrays and new fields.
+- `data/config/app-config.js`: Updated version to 1.6.2.
+- `script.js`: Updated version to 1.6.2.
+- `CHANGELOG.md`: Updated with new version information.
+
+## [1.6.1] - 2025-10-13
+
+### Patch
+- **UI Consistency Improvement**: Improved hover effects for close buttons across the application for better user experience.
 
 ### Added
 - **Dynamic Surf Spots Counter**: Implemented a real-time counter that displays the number of visible surf spots based on current search results.
