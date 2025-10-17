@@ -104,19 +104,12 @@ export class SurfMarkersManager {
      * Creates the tooltip element.
      */
     createTooltip() {
+        if (document.querySelector('.surf-marker-tooltip')) {
+            this.tooltip = document.querySelector('.surf-marker-tooltip');
+            return;
+        }
         this.tooltip = document.createElement('div');
         this.tooltip.className = 'surf-marker-tooltip';
-        this.tooltip.style.position = 'absolute';
-        this.tooltip.style.background = this.options.tooltipBackground;
-        this.tooltip.style.color = this.options.tooltipTextColor;
-        this.tooltip.style.padding = `${this.options.tooltipPadding}px`;
-        this.tooltip.style.borderRadius = `${this.options.tooltipBorderRadius}px`;
-        this.tooltip.style.fontSize = `${this.options.tooltipFontSize}px`;
-        this.tooltip.style.fontFamily = 'Roboto, sans-serif';
-        this.tooltip.style.pointerEvents = 'none';
-        this.tooltip.style.zIndex = '1000';
-        this.tooltip.style.display = 'none';
-        this.tooltip.style.transition = 'opacity 0.2s ease';
         document.body.appendChild(this.tooltip);
     }
 
@@ -699,6 +692,17 @@ export class SurfMarkersManager {
         
         if (touchedMarker) {
             e.preventDefault();
+            
+            // Show tooltip for touched marker on mobile
+            if (this.options.enableTooltips) {
+                this.showTooltip(touchedMarker, touch.clientX, touch.clientY);
+                
+                // Hide tooltip after delay
+                setTimeout(() => {
+                    this.hideTooltip();
+                }, 2000);
+            }
+            
             this.selectMarker(touchedMarker);
             
             // Emit marker click event
@@ -760,36 +764,41 @@ export class SurfMarkersManager {
      * @param {number} clientY - The client Y coordinate.
      */
     showTooltip(spotIdOrCluster, clientX, clientY) {
+        if (!this.tooltip) this.createTooltip();
+
         let tooltipContent = '';
-        
         if (typeof spotIdOrCluster === 'object' && spotIdOrCluster.isCluster) {
-            // Show cluster tooltip
             const cluster = spotIdOrCluster;
             const spotNames = cluster.markers.slice(0, 3).map(m => m.spot.primaryName).join(', ');
             const moreText = cluster.markers.length > 3 ? ` and ${cluster.markers.length - 3} more` : '';
-            
             tooltipContent = `
-                <div style="font-weight: bold; margin-bottom: 4px;">${cluster.markers.length} Surf Spots</div>
-                <div style="font-size: 10px; opacity: 0.8;">${spotNames}${moreText}</div>
-                <div style="font-size: 10px; margin-top: 2px;">Tap to zoom and explore</div>
+                <div class="tooltip-spot-name">${cluster.markers.length} Surf Spots</div>
+                <div style="font-size: 0.8rem; opacity: 0.8;">${spotNames}${moreText}</div>
             `;
         } else {
-            // Show individual marker tooltip
             const marker = this.markers.get(spotIdOrCluster);
             if (!marker) return;
             
             const spot = marker.spot;
+            const difficulty = spot.waveDetails.abilityLevel.primary;
+            const difficultyColor = this.spotsManager.getDifficultyColor(difficulty);
+
             tooltipContent = `
-                <div style="font-weight: bold; margin-bottom: 4px;">${spot.primaryName}</div>
-                <div style="font-size: 10px; opacity: 0.8;">${spot.location.area}</div>
-                <div style="font-size: 10px; margin-top: 2px;">Difficulty: ${spot.waveDetails.abilityLevel.primary}</div>
+                <div class="tooltip-spot-name">${spot.primaryName}</div>
+                <div class="tooltip-spot-difficulty" style="background-color: ${difficultyColor};">
+                    ${difficulty}
+                </div>
             `;
         }
-        
+
         this.tooltip.innerHTML = tooltipContent;
+        // Position is updated on mouse move, but set initial position here
         this.updateTooltipPosition(clientX, clientY);
-        this.tooltip.style.display = 'block';
-        this.tooltip.style.opacity = '1';
+        
+        // Use a timeout to allow the DOM to update before adding the class
+        requestAnimationFrame(() => {
+            this.tooltip.classList.add('visible');
+        });
     }
 
     /**
@@ -798,20 +807,38 @@ export class SurfMarkersManager {
      * @param {number} clientY - The client Y coordinate.
      */
     updateTooltipPosition(clientX, clientY) {
-        this.tooltip.style.left = `${clientX + this.options.tooltipOffset.x}px`;
-        this.tooltip.style.top = `${clientY + this.options.tooltipOffset.y}px`;
+        if (!this.tooltip) return;
+
+        const tooltipRect = this.tooltip.getBoundingClientRect();
+        const offset = 20; // Increased offset for better visibility
+
+        let left = clientX + offset;
+        let top = clientY + offset;
+
+        // Adjust if tooltip goes beyond the right edge of the viewport
+        if (left + tooltipRect.width > window.innerWidth) {
+            left = clientX - tooltipRect.width - offset;
+        }
+
+        // Adjust if tooltip goes beyond the bottom edge of the viewport
+        if (top + tooltipRect.height > window.innerHeight) {
+            top = clientY - tooltipRect.height - offset;
+        }
+
+        // Ensure the tooltip doesn't go off the left or top of the screen
+        if (left < 0) left = 0;
+        if (top < 0) top = 0;
+
+        this.tooltip.style.left = `${left}px`;
+        this.tooltip.style.top = `${top}px`;
     }
 
     /**
      * Hides the tooltip.
      */
     hideTooltip() {
-        this.tooltip.style.opacity = '0';
-        setTimeout(() => {
-            if (this.tooltip.style.opacity === '0') {
-                this.tooltip.style.display = 'none';
-            }
-        }, 200);
+        if (!this.tooltip) return;
+        this.tooltip.classList.remove('visible');
     }
 
     /**

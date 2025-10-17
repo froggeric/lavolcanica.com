@@ -1,6 +1,6 @@
 /**
  * @fileoverview Core SurfMap class for the fullscreen surf map interface.
- * @version 1.0.0
+ * @version 1.0.1
  * @description This module contains the core SurfMap class that manages the map state,
  * coordinates between the renderer and interaction handlers, and provides the main API
  * for the surf map functionality.
@@ -145,10 +145,8 @@ export class SurfMap {
                 this.markersManager.initializeMarkers();
             }
 
-            // Initialize the spot detail modal
-            const { SurfSpotModal } = await import('./surf-spot-modal.js');
-            this.spotModal = new SurfSpotModal();
-            this.spotModal.setCloseCallback(this.handleModalClose.bind(this));
+            // The spot detail panel is now handled by the main application
+            // No need to initialize a separate modal
 
             // Initialize the minimap
             const { SurfMinimap } = await import('./surf-minimap.js');
@@ -546,8 +544,9 @@ export class SurfMap {
      * @param {Object} spot - The clicked surf spot data.
      */
     handleMarkerClick(spot) {
-        if (this.spotModal) {
-            this.spotModal.open(spot);
+        // Call the global showSurfSpotPanel function from the main application
+        if (window.showSurfSpotPanel) {
+            window.showSurfSpotPanel(spot);
         }
         
         // Emit marker click event
@@ -555,16 +554,17 @@ export class SurfMap {
     }
 
     /**
-     * Handles modal close events.
+     * Handles panel close events.
+     * This is now handled by the main application.
      */
-    handleModalClose() {
+    handlePanelClose() {
         // Deselect marker
         if (this.markersManager) {
             this.markersManager.deselectMarker();
         }
         
-        // Emit modal close event
-        this.emit('modalClose');
+        // Emit panel close event
+        this.emit('panelClose');
     }
 
     /**
@@ -577,9 +577,9 @@ export class SurfMap {
             this.centerOnSpot(spot);
         }
         
-        // Open the spot modal
-        if (this.spotModal) {
-            this.spotModal.open(spot);
+        // Call the global showSurfSpotPanel function from the main application
+        if (window.showSurfSpotPanel) {
+            window.showSurfSpotPanel(spot);
         }
         
         // Emit minimap spot click event
@@ -689,9 +689,9 @@ export class SurfMap {
         // Center on the spot
         this.centerOnSpot(spot);
         
-        // Open the spot modal
-        if (this.spotModal) {
-            this.spotModal.open(spot);
+        // Call the global showSurfSpotPanel function from the main application
+        if (window.showSurfSpotPanel) {
+            window.showSurfSpotPanel(spot);
         }
         
         // Highlight the marker
@@ -846,9 +846,8 @@ export class SurfMap {
         if (this.markersManager) {
             this.markersManager.destroy();
         }
-        if (this.spotModal) {
-            this.spotModal.destroy();
-        }
+        // The spot detail panel is now handled by the main application
+        // No need to destroy a separate modal
         if (this.minimap) {
             this.minimap.destroy();
         }
@@ -870,7 +869,8 @@ export class SurfMap {
         this.interactions = null;
         this.spotsManager = null;
         this.markersManager = null;
-        this.spotModal = null;
+        // The spot detail panel is now handled by the main application
+        // No need to clear a separate modal reference
         this.minimap = null;
         this.searchManager = null;
         this.spotsCounter = null;

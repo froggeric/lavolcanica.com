@@ -1,4 +1,4 @@
-/* --- Version: 1.6.1 --- */
+/* --- Version: 1.6.2 --- */
 /* --- La Sonora Volcánica Website Styles --- */
 
 /* Google Fonts Import */
@@ -3481,473 +3481,358 @@ body.player-active .side-panel-content {
 }
 
 /* --- 21. Surf Spot Modal --- */
-/* Modal overlay for surf spot details */
-.surf-spot-overlay {
+/* Deprecated: The surf spot modal has been replaced by a side panel */
+/* Keeping this comment for reference but all styles have been removed */
+/* --- 25. Surf Marker Tooltips --- */
+.surf-marker-tooltip {
     position: fixed;
+    background: var(--bg-volcanic-night);
+    color: var(--text-salt-crystal);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.4;
+    white-space: nowrap;
+    z-index: 4000; /* Above everything */
+    pointer-events: none;
+    
+    /* Visibility & Animation */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    
+    /* Appearance */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    max-width: 250px;
+}
+
+.surf-marker-tooltip.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Tooltip Content Styling */
+.tooltip-spot-name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text-salt-crystal);
+    margin-bottom: 0.5rem;
+}
+
+.tooltip-spot-difficulty {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: white;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .surf-marker-tooltip {
+        font-size: 0.9rem;
+        padding: 0.6rem 0.8rem;
+        max-width: 200px;
+    }
+    .tooltip-spot-name {
+        font-size: 1rem;
+    }
+}
+
+/* --- 26. Surf Spot Side Panel --- */
+/* These styles are for the new surf spot detail side panel that replaces the modal */
+
+/* Spot details hero section with background image */
+.spot-hero-section {
+    position: relative;
+    height: 200px;
+    background-color: #333;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding: 1.5rem;
+    margin: 0;
+    border-radius: 0;
+    overflow: hidden;
+}
+
+/* Dark gradient overlay for text readability */
+.spot-hero-section::before {
+    content: '';
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: 3100; /* Above the surf map modal */
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.2) 100%);
+    z-index: 1;
 }
 
-.surf-spot-overlay.active {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/* Surf spot modal container */
-.surf-spot-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 500px;
-    max-height: 80vh;
-    background-color: var(--bg-volcanic-night);
-    border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    z-index: 3200;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.9);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    pointer-events: none;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.surf-spot-modal.active {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-    pointer-events: auto;
-}
-
-/* Modal header */
-.surf-spot-modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem;
-    border-bottom: 1px solid #333;
-    background-color: rgba(26, 26, 26, 0.95);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
-.surf-spot-modal-title {
+.spot-hero-title {
+    position: relative;
+    z-index: 2;
     margin: 0;
     font-family: var(--font-heading);
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     font-weight: 700;
-    color: var(--text-salt-crystal);
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
-.surf-spot-modal-close {
-    background: none;
-    border: none;
-    font-size: 1.8rem;
-    color: var(--text-salt-crystal);
-    cursor: pointer;
-    line-height: 1;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.surf-spot-modal-close:hover {
-    background-color: rgba(255, 77, 77, 0.2);
-    color: var(--accent-lava-glow);
-}
-
-/* Modal content */
-.surf-spot-modal-content {
-    flex-grow: 1;
-    overflow-y: auto;
+/* Spot details primary content section */
+.spot-details-primary {
     padding: 1.5rem;
-    -webkit-overflow-scrolling: touch;
+    border-bottom: 1px solid #333;
 }
 
-/* Spot detail sections */
-.spot-detail-section {
+/* Spot tags container */
+.spot-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     margin-bottom: 1.5rem;
 }
 
-.spot-detail-section:last-child {
-    margin-bottom: 0;
+/* Individual spot tag */
+.spot-tag {
+    padding: 0.4rem 0.8rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: white;
 }
 
-.spot-detail-section h3 {
-    margin: 0 0 0.75rem 0;
-    font-family: var(--font-heading);
-    font-size: 1.1rem;
-    font-weight: 600;
+/* Difficulty tag colors */
+.spot-tag.difficulty.beginner {
+    background-color: #4CAF50;
+}
+
+.spot-tag.difficulty.intermediate {
+    background-color: #FF9800;
+}
+
+.spot-tag.difficulty.advanced {
+    background-color: #F44336;
+}
+
+.spot-tag.difficulty.pro {
+    background-color: #9C27B0;
+}
+
+/* Wave type tag */
+.spot-tag.wave-type {
+    background-color: var(--accent-canary-teal);
+}
+
+/* Direction tag */
+.spot-tag.direction {
+    background-color: var(--accent-lava-glow);
+}
+
+/* Spot description */
+.spot-description {
+    line-height: 1.6;
     color: var(--text-salt-crystal);
+    margin: 0;
+}
+
+/* Spot details tabs section */
+.spot-details-tabs {
+    padding: 0;
+}
+
+/* Tab navigation */
+.spot-details-nav {
+    display: flex;
+    border-bottom: 1px solid #333;
+}
+
+.spot-details-tab {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--text-salt-crystal);
+    padding: 1rem;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, border-bottom 0.2s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.spot-details-tab.active {
+    opacity: 1;
+    border-bottom-color: var(--accent-lava-glow);
+}
+
+.spot-details-tab:hover {
+    opacity: 1;
+}
+
+/* Tab content */
+.spot-details-content {
+    display: none;
+    padding: 1.5rem;
+}
+
+.spot-details-content.active {
+    display: block;
+}
+
+/* Details grid for tab content */
+.spot-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Detail item container */
+.spot-detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.spot-detail-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(240, 240, 240, 0.7);
+    margin-bottom: 0.5rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.spot-detail-row {
-    display: flex;
-    margin-bottom: 0.5rem;
-}
-
-.spot-detail-label {
-    font-weight: 600;
-    min-width: 120px;
-    color: rgba(240, 240, 240, 0.8);
-}
-
 .spot-detail-value {
-    flex-grow: 1;
+    font-size: 1rem;
     color: var(--text-salt-crystal);
 }
 
-/* Difficulty indicator */
-.spot-difficulty {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: white;
-}
-
-.spot-difficulty.beginner {
-    background-color: #4CAF50;
-}
-
-.spot-difficulty.intermediate {
-    background-color: #FF9800;
-}
-
-.spot-difficulty.advanced {
-    background-color: #F44336;
-}
-
-.spot-difficulty.pro {
-    background-color: #9C27B0;
-}
-
-/* Wave types */
-.spot-wave-types {
+/* Condition item with icon */
+.spot-detail-item.condition {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-}
-
-.spot-wave-type {
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    color: var(--text-salt-crystal);
-}
-
-/* Best conditions */
-.spot-conditions {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
-    margin-top: 0.5rem;
-}
-
-.spot-condition {
-    text-align: center;
-    padding: 0.75rem;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .spot-condition-icon {
     font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.spot-condition-label {
-    font-size: 0.8rem;
-    color: rgba(240, 240, 240, 0.7);
-}
-
-.spot-condition-value {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--text-salt-crystal);
-}
-
-/* Description text */
-.spot-description {
-    line-height: 1.6;
-    color: var(--text-salt-crystal);
-    margin-top: 0.5rem;
-}
-
-/* Action buttons */
-.spot-modal-actions {
-    display: flex;
-    gap: 1rem;
-    padding: 1.5rem;
-    border-top: 1px solid #333;
-    background-color: rgba(26, 26, 26, 0.95);
-}
-
-.spot-action-btn {
-    flex: 1;
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    font-family: var(--font-body);
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border: none;
+    color: var(--accent-canary-teal);
+    width: 30px;
     text-align: center;
-    min-height: 44px;
 }
 
-.spot-action-btn.primary {
-    background-color: var(--accent-lava-glow);
-    color: white;
+/* Hazard tag styling */
+.spot-detail-value.hazard-tag {
+    display: inline-block;
+    padding: 0.3rem 0.6rem;
+    background-color: rgba(244, 67, 54, 0.2);
+    border: 1px solid rgba(244, 67, 54, 0.3);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: #F44336;
 }
 
-.spot-action-btn.primary:hover {
-    background-color: var(--accent-lava-glow-dark);
+/* Practicalities section */
+.spot-practicalities-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.spot-action-btn.secondary {
-    background-color: transparent;
-    color: var(--text-salt-crystal);
-    border: 1px solid #666;
+.spot-practicalities-list li {
+    margin-bottom: 1.5rem;
 }
 
-.spot-action-btn.secondary:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: #888;
+.spot-practicalities-list li:last-child {
+    margin-bottom: 0;
 }
 
-/* Responsive design for surf spot modal */
+/* Responsive design for surf spot panel */
 @media (max-width: 768px) {
-    .surf-spot-modal {
-        width: 95%;
-        max-height: 85vh;
-        border-radius: 8px;
-    }
-    
-    .surf-spot-modal-header {
+    .spot-hero-section {
+        height: 150px;
         padding: 1rem;
     }
     
-    .surf-spot-modal-title {
-        font-size: 1.3rem;
+    .spot-hero-title {
+        font-size: 1.5rem;
     }
     
-    .surf-spot-modal-close {
-        width: 44px;
-        height: 44px;
-        font-size: 1.6rem;
-        min-width: 44px;
-        min-height: 44px;
-    }
-    
-    .surf-spot-modal-content {
+    .spot-details-primary,
+    .spot-details-content {
         padding: 1rem;
     }
     
-    .spot-detail-section h3 {
-        font-size: 1rem;
-        margin-bottom: 0.5rem;
+    .spot-details-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
     }
     
-    .spot-detail-row {
-        flex-direction: column;
-        margin-bottom: 0.75rem;
-    }
-    
-    .spot-detail-label {
-        min-width: auto;
-        margin-bottom: 0.25rem;
+    .spot-details-tab {
+        padding: 0.75rem 0.5rem;
         font-size: 0.9rem;
     }
     
-    .spot-detail-value {
-        font-size: 0.95rem;
-    }
-    
-    .spot-difficulty {
-        font-size: 0.75rem;
-        padding: 0.2rem 0.6rem;
-    }
-    
-    .spot-wave-type {
-        font-size: 0.75rem;
-        padding: 0.2rem 0.5rem;
-    }
-    
-    .spot-conditions {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
-    }
-    
-    .spot-condition {
-        padding: 0.5rem;
+    .spot-detail-item.condition {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
     }
     
     .spot-condition-icon {
-        font-size: 1.3rem;
-    }
-    
-    .spot-condition-label {
-        font-size: 0.75rem;
-    }
-    
-    .spot-condition-value {
-        font-size: 0.85rem;
-    }
-    
-    .spot-description {
-        font-size: 0.95rem;
-    }
-    
-    .spot-modal-actions {
-        padding: 1rem;
-        gap: 0.75rem;
-    }
-    
-    .spot-action-btn {
-        padding: 0.75rem 1rem;
-        font-size: 0.9rem;
-        min-height: 48px;
+        font-size: 1.2rem;
     }
 }
 
 @media (max-width: 480px) {
-    .surf-spot-modal {
-        width: 100%;
-        max-height: 100vh;
-        border-radius: 0;
-        top: 0;
-        left: 0;
-        transform: translateY(100%);
+    .spot-hero-section {
+        height: 120px;
+        padding: 0.75rem;
     }
     
-    .surf-spot-modal.active {
-        transform: translateY(0);
+    .spot-hero-title {
+        font-size: 1.3rem;
     }
     
-    .surf-spot-modal-header {
-        padding: 1rem;
-        border-bottom-width: 2px;
+    .spot-details-primary,
+    .spot-details-content {
+        padding: 0.75rem;
     }
     
-    .surf-spot-modal-title {
-        font-size: 1.2rem;
+    .spot-tags-container {
+        margin-bottom: 1rem;
     }
     
-    .surf-spot-modal-close {
-        width: 48px;
-        height: 48px;
-        font-size: 1.8rem;
-        min-width: 48px;
-        min-height: 48px;
+    .spot-tag {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.75rem;
     }
     
-    .surf-spot-modal-content {
-        padding: 1rem;
-        max-height: calc(100vh - 160px);
+    .spot-description {
+        font-size: 0.95rem;
     }
     
-    .spot-detail-section {
-        margin-bottom: 1.25rem;
-    }
-    
-    .spot-detail-section h3 {
-        font-size: 1rem;
-        margin-bottom: 0.75rem;
+    .spot-details-tab {
+        padding: 0.6rem 0.4rem;
+        font-size: 0.85rem;
     }
     
     .spot-detail-label {
-        font-size: 0.9rem;
-        font-weight: 600;
+        font-size: 0.85rem;
     }
     
     .spot-detail-value {
         font-size: 0.95rem;
-        line-height: 1.4;
-    }
-    
-    .spot-difficulty {
-        font-size: 0.8rem;
-        padding: 0.25rem 0.75rem;
-    }
-    
-    .spot-wave-types {
-        gap: 0.4rem;
-    }
-    
-    .spot-wave-type {
-        font-size: 0.75rem;
-        padding: 0.2rem 0.5rem;
-    }
-    
-    .spot-conditions {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.5rem;
-    }
-    
-    .spot-condition {
-        padding: 0.75rem 0.5rem;
-    }
-    
-    .spot-condition-icon {
-        font-size: 1.5rem;
-        margin-bottom: 0.25rem;
-    }
-    
-    .spot-condition-label {
-        font-size: 0.7rem;
-    }
-    
-    .spot-condition-value {
-        font-size: 0.85rem;
-    }
-    
-    .spot-description {
-        font-size: 0.9rem;
-        line-height: 1.5;
-    }
-    
-    .spot-modal-actions {
-        padding: 1rem;
-        gap: 0.75rem;
-        border-top-width: 2px;
-    }
-    
-    .spot-action-btn {
-        padding: 0.875rem 1rem;
-        font-size: 0.95rem;
-        min-height: 48px;
-        border-radius: 6px;
-    }
-    
-    /* Touch feedback */
-    .spot-action-btn:active {
-        transform: scale(0.98);
-        transition: transform 0.1s ease;
-    }
-    
-    .surf-spot-modal-close:active {
-        transform: scale(0.9);
-        transition: transform 0.1s ease;
     }
 }

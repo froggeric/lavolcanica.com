@@ -1,6 +1,6 @@
 /**
  * @fileoverview Main application script for La Sonora Volcánica website.
- * @version 1.7.1
+ * @version 1.7.2
  * @description This script handles the entire frontend logic for the La Sonora Volcánica website,
  * The application follows a modular architecture where all content is loaded from external
  * data modules located in the `/data` directory.
@@ -137,11 +137,14 @@
         // Initialize scrollbar width calculation for scroll lock
         document.documentElement.classList.add('scroll-lock-init');
 
-        // Import the data loader module which handles all content loading
-        import('./scripts/data-loader.js').then(({ dataLoader }) => {
-            initializeApp(dataLoader);
+        // Import the data loader module and surf spot panel
+        Promise.all([
+            import('./scripts/data-loader.js'),
+            import('./scripts/surf-map/surf-spot-panel.js')
+        ]).then(([{ dataLoader }, { SurfSpotPanel }]) => {
+            initializeApp(dataLoader, SurfSpotPanel);
         }).catch(error => {
-            console.error('Failed to load data modules:', error);
+            console.error('Failed to load modules:', error);
         });
     });
 
@@ -149,8 +152,9 @@
      * Main application initialization function.
      * Sets up all UI components, event listeners, and populates initial content.
      * @param {Object} dataLoader - The data loader instance with access to all content.
+     * @param {Object} SurfSpotPanel - The SurfSpotPanel class for generating surf spot content.
      */
-    const initializeApp = async (dataLoader) => {
+    const initializeApp = async (dataLoader, SurfSpotPanel) => {
         // Initialize with default language from configuration
         let currentLang = dataLoader.config.app.defaultLanguage;
         let translations = {};
@@ -1101,6 +1105,24 @@
             };
 
             window.showReleaseInfo = showReleaseInfo;
+            
+            /**
+             * Populates the side panel with a specific surf spot's details.
+             * @param {Object} spot - The surf spot data object.
+             */
+            const showSurfSpotPanel = (spot) => {
+                // Create a new instance of the SurfSpotPanel content generator
+                const surfSpotPanel = new SurfSpotPanel();
+                
+                // Generate the content for the surf spot
+                const contentFragment = surfSpotPanel.generateContent(spot);
+                
+                // Use the existing showPanel function to display the content
+                showPanel(spot.name, contentFragment);
+            };
+            
+            // Make the function available globally
+            window.showSurfSpotPanel = showSurfSpotPanel;
         }
 
         // ==================== SURF MAP MODAL LOGIC ====================
