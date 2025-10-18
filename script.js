@@ -1,6 +1,6 @@
 /**
  * @fileoverview Main application script for La Sonora Volcánica website.
- * @version 1.8.0
+ * @version 1.8.1
  * @description This script handles the entire frontend logic for the La Sonora Volcánica website,
  * The application follows a modular architecture where all content is loaded from external
  * data modules located in the `/data` directory.

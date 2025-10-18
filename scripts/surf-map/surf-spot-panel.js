@@ -1,6 +1,6 @@
 /**
  * @fileoverview SurfSpotPanel - Content generator for the surf spot detail side panel.
- * @version 1.0.0
+ * @version 1.0.1
  * @description This module provides a class to dynamically generate the HTML content
  * for a surf spot detail panel, based on the standardized surf spot data structure.
  * It is designed to be used within the main application's side panel system.
@@ -61,11 +61,23 @@ export class SurfSpotPanel {
         heroContainer.style.marginBottom = '0';
 
         const heroImg = document.createElement('img');
-        heroImg.src = spot.imageUrl || 'images/surf-map.webp'; // Fallback image
+        // Try to use the spot-specific image from the surf-spots directory
+        const spotImageName = spot.id ? `${spot.id}.webp` : null;
+        const spotImagePath = spotImageName ? `images/surf-spots/${spotImageName}` : null;
+        
+        // Set the initial image source
+        heroImg.src = spotImagePath || 'images/surf-spots/surf-spot-placeholder.webp';
         heroImg.alt = `View of ${spot.name}`;
+        
+        // Add error handling to fall back to placeholder if spot image doesn't exist
+        if (spotImagePath) {
+            heroImg.onerror = function() {
+                this.src = 'images/surf-spots/surf-spot-placeholder.webp';
+            };
+        }
         heroImg.className = 'side-panel-hero-image';
         heroImg.style.width = '100%';
-        heroImg.style.height = '200px'; // Fixed height for hero
+        heroImg.style.aspectRatio = '3/2'; // 3:2 aspect ratio
         heroImg.style.objectFit = 'cover';
         heroImg.style.display = 'block';
 

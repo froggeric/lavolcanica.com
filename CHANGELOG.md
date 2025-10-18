@@ -5,6 +5,23 @@ All notable changes to the La Sonora Volcánica website will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.1] - 2025-10-18
+
+### Changed
+- **Surf Spot Hero Images**: Updated the surf spot details side panel to use custom images from the `images/surf-spots/` directory instead of generic fallback images.
+- **Image Aspect Ratio**: Changed the hero image display to use a 3:2 aspect ratio to match the supplied surf spot images.
+
+### Technical Details
+- Modified the `SurfSpotPanel` class to attempt loading spot-specific images using the spot ID as the filename.
+- Added error handling to fall back to `surf-spot-placeholder.webp` when a spot-specific image doesn't exist.
+- Updated CSS styling to use `aspect-ratio: 3/2` for proper image display.
+
+### Files Modified
+- `scripts/surf-map/surf-spot-panel.js`: Updated hero image loading logic and aspect ratio.
+- `data/config/app-config.js`: Updated version to 1.8.1.
+- `script.js`: Updated version to 1.8.1.
+- `CHANGELOG.md`: Updated with new version information.
+
 ## [1.8.0] - 2025-10-18
 
 ### Fixed
