@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Version: 1.8.0 -->
+    <!-- La Sonora Volcánica Surf Map page -->
+
+    <!-- Viewport Meta Tag for Mobile Responsiveness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Fuerteventura Surf Map: Interactive guide to the best surf spots in Fuerteventura, Canary Islands.">
+    <meta name="keywords" content="fuerteventura, surf map, surf spots, canary islands, surfing, waves, beaches, La Sonora Volcánica">
+    <meta name="author" content="Frédéric Guigand">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Fuerteventura Surf Map | La Sonora Volcánica">
+    <meta property="og:description" content="Interactive guide to the best surf spots in Fuerteventura, Canary Islands.">
+    <meta property="og:image" content="https://lavolcanica.com/images/surf-map.webp">
+    <meta property="og:url" content="https://lavolcanica.com/surf-map.html">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fuerteventura Surf Map | La Sonora Volcánica">
+    <meta name="twitter:description" content="Interactive guide to the best surf spots in Fuerteventura, Canary Islands.">
+    <meta name="twitter:image" content="https://lavolcanica.com/images/surf-map.webp">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://lavolcanica.com/surf-map.html">
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Fuerteventura Surf Map",
+      "description": "Interactive guide to the best surf spots in Fuerteventura, Canary Islands.",
+      "url": "https://lavolcanica.com/surf-map.html",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "La Sonora Volcánica",
+        "url": "https://lavolcanica.com"
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "Fuerteventura Surf Spots",
+        "description": "Popular surfing locations in Fuerteventura, Canary Islands"
+      },
+      "creator": {
+        "@type": "Person",
+        "name": "Frédéric Guigand"
+      }
+    }
+    </script>
+    
+    <!-- Link to the main stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Preconnect to Google Fonts for performance optimization -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <title>Fuerteventura Surf Map | La Sonora Volcánica</title>
+</head>
+<body>
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    
+    <!-- Left Side Search Control -->
+    <div class="left-side-search-container" id="left-side-search">
+        <div class="surf-map-search" role="search">
+            <input type="text" class="surf-map-search-input" placeholder="Search surf spots..." aria-label="Search surf spots">
+            <button class="surf-map-search-btn" aria-label="Search">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+            </button>
+            <button class="surf-map-clear-btn" aria-label="Clear search">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                </svg>
+            </button>
+            <div class="surf-map-search-results" aria-live="polite">
+                <!-- Search results will be populated here -->
+            </div>
+        </div>
+        <!-- Surf Spots Counter -->
+        <div class="surf-spots-counter" id="surf-spots-counter" role="status" aria-live="polite" aria-label="Number of visible surf spots">
+            <span class="counter-number" id="counter-number">0</span>
+            <span class="counter-label" id="counter-label">surf spots</span>
+        </div>
+    </div>
+
+    <!--
+      SVG Icon Definitions (Sprite)
+      This block contains all SVG icons used on the site in a single, efficient sprite.
+      Each icon is wrapped in a <symbol> with a unique ID.
+      To use an icon, reference its ID with the <use> tag: <svg><use href="#icon-id"></use></svg>
+      This approach reduces HTTP requests and allows for easy styling via CSS.
+      Good sources for high-quality, free SVG icons include:
+      - https://icons.getbootstrap.com
+      - https://www.svgrepo.com
+    -->
+    <svg width="0" height="0" class="hidden">
+        <symbol xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" id="icon-spotify" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.669 11.538a.5.5 0 0 1-.686.165c-1.879-1.147-4.243-1.407-7.028-.77a.499.499 0 0 1-.222-.973c3.048-.696 5.662-.397 7.77.892a.5.5 0 0 1 .166.686m.979-2.178a.624.624 0 0 1-.858.205c-2.15-1.321-5.428-1.704-7.972-.932a.625.625 0 0 1-.362-1.194c2.905-.881 6.517-.454 8.986 1.063a.624.624 0 0 1 .206.858m.084-2.268C10.154 5.56 5.9 5.419 3.438 6.166a.748.748 0 1 1-.434-1.432c2.825-.857 7.523-.692 10.492 1.07a.747.747 0 1 1-.764 1.288"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" id="icon-youtube" viewBox="0 0 16 16">
+            <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" id="icon-apple-music" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="m10.995 0 .573.001q.241 0 .483.007c.35.01.705.03 1.051.093.352.063.68.166.999.329a3.36 3.36 0 0 1 1.47 1.468c.162.32.265.648.328 1 .063.347.084.7.093 1.051q.007.241.007.483l.001.573v5.99l-.001.573q0 .241-.008.483c-.01.35-.03.704-.092 1.05a3.5 3.5 0 0 1-.33 1 3.36 3.36 0 0 1-1.468 1.468 3.5 3.5 0 0 1-1 .33 7 7 0 0 1-1.05.092q-.241.007-.483.008l-.573.001h-5.99l-.573-.001q-.241 0-.483-.008a7 7 0 0 1-1.052-.092 3.6 3.6 0 0 1-.998-.33 3.36 3.36 0 0 1-1.47-1.468 3.6 3.6 0 0 1-.328-1 7 7 0 0 1-.093-1.05Q.002 11.81 0 11.568V5.005l.001-.573q0-.241.007-.483c.01-.35.03-.704.093-1.05a3.6 3.6 0 0 1 .329-1A3.36 3.36 0 0 1 1.9.431 3.5 3.5 0 0 1 2.896.1 7 7 0 0 1 3.95.008Q4.19.002 4.432 0h.573zm-.107 2.518-4.756.959H6.13a.66.66 0 0 0-.296.133.5.5 0 0 0-.16.31c-.004.027-.01.08-.01.16v5.952c0 .14-.012.275-.106.39-.095.115-.21.15-.347.177l-.31.063c-.393.08-.65.133-.881.223a1.4 1.4 0 0 0-.519.333 1.25 1.25 0 0 0-.332.995c.031.297.166.582.395.792.156.142.35.25.578.296.236.047.49.031.858-.043.196-.04.38-.102.555-.205a1.4 1.4 0 0 0 .438-.405 1.5 1.5 0 0 0 .233-.55c.042-.202.052-.386.052-.588V6.347c0-.276.08-.35.302-.404.024-.005 3.954-.797 4.138-.833.257-.049.378.025.378.294v3.524c0 .14-.001.28-.096.396-.094.115-.211.15-.348.178l-.31.062c-.393.08-.649.133-.88.223a1.4 1.4 0 0 0-.52.334 1.26 1.26 0 0 0-.34.994c.03.297.174.582.404.792a1.2 1.2 0 0 0 .577.294c.237.048.49.03.858-.044.197-.04.381-.098.556-.202a1.4 1.4 0 0 0 .438-.405q.173-.252.233-.549a2.7 2.7 0 0 0 .044-.589V2.865c0-.273-.143-.443-.4-.42-.04.003-.383.064-.424.073"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" id="icon-cart" viewBox="0 0 16 16">
+            <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" id="icon-envelope" viewBox="0 0 16 16">
+            <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" id="icon-play"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z" fill="currentColor"/></symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" id="icon-pause"><path d="M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z" fill="currentColor"/></symbol>
+    </svg>
+
+    <!-- Header: Contains Logo, Main Navigation, and Language Switcher -->
+    <header class="main-header">
+        <div class="header-content">
+            <a href="index.html" class="logo">Fuerteventura Surf Map</a>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="index.html#music" data-key="navMusic"></a></li>
+                    <li><a href="#map" id="surf-map-link" data-key="navMap"></a></li>
+                    <li><a href="index.html#about" data-key="navAbout"></a></li>
+                    <li><a href="index.html#collabs" data-key="navCollabs"></a></li>
+                </ul>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="es">ES</button>
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                </div>
+            </nav>
+            <!-- Hamburger button for mobile navigation, with ARIA attributes for accessibility -->
+            <button class="hamburger-menu" aria-label="Open navigation menu" aria-expanded="false" aria-controls="main-nav">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Wrapper -->
+    <main id="main-content" tabindex="-1">
+        <!-- Surf Map Section: Main interactive map container -->
+        <section id="surf-map-section" class="page-section full-height" aria-labelledby="surf-map-title">
+            <div class="surf-map-wrapper">
+                <div class="surf-map-controls">
+                    <button class="map-control-btn" id="zoom-in-btn" aria-label="Zoom in" aria-controls="surf-map-container" tabindex="0">+</button>
+                    <button class="map-control-btn" id="zoom-out-btn" aria-label="Zoom out" aria-controls="surf-map-container" tabindex="0">-</button>
+                    <button class="map-control-btn" id="reset-view-btn" aria-label="Reset view" aria-controls="surf-map-container" tabindex="0">⟲</button>
+                </div>
+                <!-- Main surf map container -->
+                <div class="surf-map-container" id="surf-map-container" role="application" aria-label="Interactive surf map of Fuerteventura">
+                    <!-- Canvas will be inserted here by JavaScript -->
+                    <div class="map-loading-indicator">
+                        <div class="loading-spinner"></div>
+                        <p>Loading surf map...</p>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+    </main>
+
+
+    <!-- Side Panel: For surf spot details -->
+    <div class="side-panel-overlay" id="side-panel-overlay"></div>
+    <div class="side-panel" id="side-panel" role="dialog" aria-modal="true" aria-labelledby="side-panel-title" aria-hidden="true" tabindex="-1">
+        <div class="side-panel-header">
+            <h2 class="side-panel-title" id="side-panel-title">Surf Spot Details</h2>
+            <button class="close-panel-btn" aria-label="Close panel">&times;</button>
+        </div>
+        <div class="side-panel-content">
+            <!-- Surf spot details will be injected here by JavaScript -->
+        </div>
+    </div>
+    
+    <!-- Surf Map Minimap: Small overview map -->
+    <div class="surf-map-minimap" id="surf-map-minimap">
+        <!-- Minimap will be rendered here -->
+    </div>
+    
+    <!-- Persistent Mini Audio Player: Appears at the bottom when a track is played -->
+    <div class="mini-player" id="mini-player" role="region" aria-label="Audio player" aria-live="polite">
+        <div class="player-progress">
+            <input type="range" class="seek-slider" value="0" max="100" aria-label="Track progress">
+        </div>
+        <div class="player-content">
+            <div class="player-track-info">
+                <img src="images/placeholder-album.svg" alt="Album cover for the current track" class="player-cover-art" loading="lazy" decoding="async">
+                <div class="player-text">
+                    <h4 class="player-title">Track Title</h4>
+                    <p class="player-artist">La Sonora Volcánica</p>
+                </div>
+            </div>
+            <div class="player-controls">
+                <button class="play-pause-btn" aria-label="Play" data-action="toggle-play">
+                    <svg class="icon icon-play"><use href="#icon-play"></use></svg>
+                    <svg class="icon icon-pause hidden"><use href="#icon-pause"></use></svg>
+                </button>
+            </div>
+            <div class="player-time-and-close">
+                <div class="time-container">
+                    <span class="current-time">0:00</span> / <span class="total-time">0:00</span>
+                </div>
+                 <button class="close-player-btn" aria-label="Close player" data-action="close-player">&times;</button>
+            </div>
+        </div>
+        <audio class="audio-element"></audio>
+        <div class="player-error-message hidden"></div>
+    </div>
+
+    <!-- Surf Map JavaScript Modules -->
+    <script type="module">
+        // Import all necessary surf map modules
+        import { SurfMap } from './scripts/surf-map/surf-map-core.js';
+        import { SurfSearch } from './scripts/surf-map/surf-search.js';
+        import { SurfSpotsManager } from './scripts/surf-map/surf-spots.js';
+        import { SurfSpotPanel } from './scripts/surf-map/surf-spot-panel.js';
+        import { SurfSpotsCounter } from './scripts/surf-map/surf-counter.js';
+        
+        // Import data loader for translations and footer links
+        import { dataLoader } from './scripts/data-loader.js';
+        
+        // Initialize the surf map when DOM is loaded
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Initialize translations
+            let currentLang = 'en'; // Default language
+            let translations = {};
+            
+            try {
+                translations = await dataLoader.loadTranslations(currentLang);
+            } catch (error) {
+                console.error('Failed to load translations:', error);
+            }
+            
+            // Update translatable elements
+            const translatableElements = document.querySelectorAll('[data-key]');
+            translatableElements.forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations.ui && translations.ui[key]) {
+                    element.textContent = translations.ui[key];
+                }
+            });
+            
+            // Populate footer links
+            const footerLinksContainer = document.getElementById('footer-links');
+            if (footerLinksContainer) {
+                const fragment = document.createDocumentFragment();
+                
+                dataLoader.artist.links.forEach(link => {
+                    const linkElement = document.createElement('a');
+                    linkElement.href = link.url;
+                    linkElement.target = '_blank';
+                    linkElement.rel = 'noopener noreferrer';
+                    linkElement.className = 'tooltip';
+                    linkElement.setAttribute('data-tooltip', link.tooltip);
+                    linkElement.setAttribute('aria-label', link.ariaLabel);
+                    
+                    // Create SVG icon
+                    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    svg.classList.add('icon');
+                    const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+                    use.setAttribute('href', `#${link.icon}`);
+                    svg.appendChild(use);
+                    
+                    linkElement.appendChild(svg);
+                    fragment.appendChild(linkElement);
+                });
+                
+                footerLinksContainer.innerHTML = '';
+                footerLinksContainer.appendChild(fragment);
+            }
+            
+            // Show the search controls
+            const leftSideSearch = document.getElementById('left-side-search');
+            
+            if (leftSideSearch) {
+                leftSideSearch.classList.add('visible');
+            }
+            
+            // Initialize the surf map
+            const surfMapContainer = document.getElementById('surf-map-container');
+            let surfMap = null; // Declare surfMap in broader scope
+            let counter = null; // Declare counter in broader scope
+            
+            if (surfMapContainer) {
+                try {
+                    // Create a new surf map instance
+                    surfMap = new SurfMap(surfMapContainer, {
+                        imagePath: 'images/surf-map.webp',
+                        minZoom: 0.2,
+                        maxZoom: 3.0,
+                        initialZoom: 0.5
+                    });
+                    
+                    // Initialize search functionality for the left-side search
+                    const leftSideSearchInput = document.querySelector('.left-side-search-container .surf-map-search-input');
+                    const leftSideSearchResults = document.querySelector('.left-side-search-container .surf-map-search-results');
+                    
+                    if (leftSideSearchInput && leftSideSearchResults) {
+                        // Wait for the map to be ready before initializing search
+                        surfMap.on('ready', () => {
+                            // Create a new SurfSpotsManager for search functionality with map image dimensions
+                            const spotsManager = new SurfSpotsManager({
+                                mapImage: surfMap.state.image
+                            });
+                            
+                            // Load the surf spots data
+                            spotsManager.loadSurfSpots().then(() => {
+                                const search = new SurfSearch(spotsManager, leftSideSearchInput, leftSideSearchResults);
+                                
+                                // Set up event listeners for search functionality
+                                search.setResultClickCallback((spot) => {
+                                    if (surfMap) {
+                                        surfMap.focusOnSpot(spot.id);
+                                    }
+                                });
+                                
+                                console.log('Left side search initialized');
+                            }).catch(error => {
+                                console.error('Failed to load surf spots for search:', error);
+                            });
+                        });
+                    }
+                    
+                    // Initialize surf spots counter
+                    const counterElement = document.getElementById('surf-spots-counter');
+                    const counterNumber = document.getElementById('counter-number');
+                    const counterLabel = document.getElementById('counter-label');
+                    
+                    if (counterElement && counterNumber && counterLabel) {
+                        counter = new SurfSpotsCounter(counterElement, {
+                            numberSelector: '#counter-number',
+                            labelSelector: '#counter-label',
+                            singularLabel: 'surf spot',
+                            pluralLabel: 'surf spots',
+                            animationDuration: 300
+                        });
+                        
+                        // Update counter when map view changes
+                        surfMap.on('viewChange', () => {
+                            counter.updateCount(surfMap.getVisibleSpots().length);
+                        });
+                    }
+                    
+                    // Set up event listeners for the surf map
+                    surfMap.on('ready', () => {
+                        console.log('Surf map is ready');
+                        
+                        // Initialize counter with initial visible spots
+                        if (counter) {
+                            counter.updateCount(surfMap.getVisibleSpots().length);
+                        }
+                    });
+                    
+                    surfMap.on('error', (error) => {
+                        console.error('Surf map error:', error);
+                    });
+                    
+                    // Handle window resize
+                    const adjustMapLayout = () => {
+                        const header = document.querySelector('.main-header');
+                        const mapSection = document.getElementById('surf-map-section');
+                        if (header && mapSection) {
+                            const headerHeight = header.offsetHeight;
+                            // Set padding-top to push the map content below the header
+                            mapSection.style.paddingTop = `${headerHeight}px`;
+                            // The map section itself will fill the full viewport height
+                            mapSection.style.height = '100vh';
+                            
+                            // Trigger a resize on the map if it exists
+                            if (surfMap && typeof surfMap.resize === 'function') {
+                                setTimeout(() => surfMap.resize(), 100);
+                            }
+                        }
+                    };
+
+                    const handleResize = () => {
+                        adjustMapLayout();
+                    };
+                    
+                    window.addEventListener('resize', handleResize);
+                    
+                    // Initial layout adjustment
+                    setTimeout(adjustMapLayout, 100);
+                    
+                    // Set up global function for showing surf spot details
+                    window.showSurfSpotPanel = (spot) => {
+                        // Create a new instance of the SurfSpotPanel content generator
+                        const surfSpotPanel = new SurfSpotPanel();
+                        
+                        // Generate the content for the surf spot
+                        const contentFragment = surfSpotPanel.generateContent(spot);
+                        
+                        // Get side panel elements
+                        const sidePanel = document.getElementById('side-panel');
+                        const panelOverlay = document.getElementById('side-panel-overlay');
+                        const panelTitle = sidePanel.querySelector('.side-panel-title');
+                        const panelContent = sidePanel.querySelector('.side-panel-content');
+                        const closePanelBtn = sidePanel.querySelector('.close-panel-btn');
+                        
+                        // Set title
+                        panelTitle.textContent = spot.name;
+                        
+                        // Clear and populate panel content
+                        panelContent.innerHTML = '';
+                        panelContent.appendChild(contentFragment);
+                        
+                        // Show the panel
+                        sidePanel.classList.add('active');
+                        panelOverlay.classList.add('active');
+                        
+                        // Set up close button
+                        const closePanel = () => {
+                            sidePanel.classList.remove('active');
+                            panelOverlay.classList.remove('active');
+                        };
+                        
+                        closePanelBtn.onclick = closePanel;
+                        panelOverlay.onclick = closePanel;
+                    };
+                    
+                } catch (error) {
+                    console.error('Failed to initialize surf map:', error);
+                }
+            }
+            
+            
+            // Handle map control buttons
+            const zoomInBtn = document.getElementById('zoom-in-btn');
+            const zoomOutBtn = document.getElementById('zoom-out-btn');
+            const resetViewBtn = document.getElementById('reset-view-btn');
+            
+            if (zoomInBtn && surfMap) {
+                zoomInBtn.addEventListener('click', () => surfMap.zoomIn());
+            }
+            
+            if (zoomOutBtn && surfMap) {
+                zoomOutBtn.addEventListener('click', () => surfMap.zoomOut());
+            }
+            
+            if (resetViewBtn && surfMap) {
+                resetViewBtn.addEventListener('click', () => surfMap.resetView());
+            }
+            
+            // Handle language switching
+            const langButtons = document.querySelectorAll('.lang-.btn');
+            langButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const selectedLang = button.getAttribute('data-lang');
+                    if (selectedLang) {
+                        langButtons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        
+                        // Reload translations
+                        dataLoader.loadTranslations(selectedLang).then(newTranslations => {
+                            translations = newTranslations;
+                            
+                            // Update translatable elements
+                            translatableElements.forEach(element => {
+                                const key = element.getAttribute('data-key');
+                                if (translations.ui && translations.ui[key]) {
+                                    element.textContent = translations.ui[key];
+                                }
+                            });
+                        }).catch(error => {
+                            console.error(`Failed to load translations for ${selectedLang}:`, error);
+                        });
+                    }
+                });
+            });
+            
+            // Handle mobile navigation
+            const hamburger = document.querySelector('.hamburger-menu');
+            const body = document.body;
+            const mainNav = document.querySelector('.main-nav');
+            
+            if (hamburger) {
+                hamburger.addEventListener('click', () => {
+                    const isOpening = !body.classList.contains('nav-open');
+                    body.classList.toggle('nav-open');
+                    hamburger.setAttribute('aria-expanded', body.classList.contains('nav-open'));
+                });
+            }
+            
+            // Close mobile nav when navigation links are clicked
+            if (mainNav) {
+                mainNav.addEventListener('click', () => {
+                    body.classList.remove('nav-open');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

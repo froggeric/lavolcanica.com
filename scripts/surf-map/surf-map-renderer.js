@@ -38,6 +38,9 @@ export class SurfMapRenderer {
         this.lastRenderTime = 0;
         this.renderThrottle = 1000 / 60; // 60 FPS
         
+        // Device pixel ratio for high-DPI displays
+        this.dpr = window.devicePixelRatio || 1;
+        
         // Initialize canvas size
         this.resize();
     }
@@ -139,8 +142,13 @@ export class SurfMapRenderer {
      * Applies zoom and pan transformations.
      */
     applyTransformations() {
-        // Move to center of canvas
-        this.ctx.translate(this.canvas.width / 2, this.canvas.height / 2);
+        // Scale for high-DPI displays
+        this.ctx.scale(this.dpr, this.dpr);
+        
+        // Move to center of canvas (in CSS pixels)
+        const cssWidth = this.canvas.width / this.dpr;
+        const cssHeight = this.canvas.height / this.dpr;
+        this.ctx.translate(cssWidth / 2, cssHeight / 2);
         
         // Apply pan
         this.ctx.translate(this.state.panX, this.state.panY);
@@ -351,8 +359,14 @@ export class SurfMapRenderer {
      */
     resize() {
         const rect = this.canvas.getBoundingClientRect();
-        this.canvas.width = rect.width;
-        this.canvas.height = rect.height;
+        
+        // Set the actual size in memory (scaled for device pixel ratio)
+        this.canvas.width = rect.width * this.dpr;
+        this.canvas.height = rect.height * this.dpr;
+        
+        // Scale the canvas down using CSS
+        this.canvas.style.width = rect.width + 'px';
+        this.canvas.style.height = rect.height + 'px';
         
         // Clear buttons array on resize
         this.buttons = [];

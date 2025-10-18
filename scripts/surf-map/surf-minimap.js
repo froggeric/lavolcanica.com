@@ -70,32 +70,63 @@ export class SurfMinimap {
     init() {
         this.createMinimap();
         this.addEventListeners();
+        
+        // Initial render
+        this.render();
     }
 
     /**
      * Creates the minimap canvas.
      */
     createMinimap() {
+        // Find the minimap container first
+        const minimapContainer = document.getElementById('surf-map-minimap');
+        if (!minimapContainer) {
+            console.error('Minimap container (#surf-map-minimap) not found');
+            return;
+        }
+
         // Create minimap canvas
         this.minimapCanvas = document.createElement('canvas');
-        this.minimapCanvas.width = this.options.width;
-        this.minimapCanvas.height = this.options.height;
         this.minimapCanvas.className = 'surf-minimap';
+        
+        // Calculate aspect ratio from the main map image
+        if (this.state.image && this.state.image.naturalWidth && this.state.image.naturalHeight) {
+            const aspectRatio = this.state.image.naturalHeight / this.state.image.naturalWidth;
+            const minimapWidth = this.options.width;
+            const minimapHeight = minimapWidth * aspectRatio;
+            
+            // Update options with the calculated height
+            this.options.height = minimapHeight;
+            
+            // Set canvas dimensions
+            this.minimapCanvas.width = minimapWidth;
+            this.minimapCanvas.height = minimapHeight;
+            
+            // Set container dimensions to match the canvas, removing padding
+            minimapContainer.style.width = `${minimapWidth}px`;
+            minimapContainer.style.height = `${minimapHeight}px`;
+        } else {
+            // Fallback to default dimensions if image is not loaded yet
+            this.minimapCanvas.width = this.options.width;
+            this.minimapCanvas.height = this.options.height;
+        }
+        
         this.minimapCanvas.style.cssText = `
-            position: absolute;
-            bottom: ${this.options.padding}px;
-            left: ${this.options.padding}px;
+            width: 100%;
+            height: 100%;
             border: ${this.options.borderWidth}px solid ${this.options.borderColor};
             border-radius: 4px;
             cursor: pointer;
-            z-index: 100;
+            box-sizing: border-box;
         `;
         
         // Get context
         this.minimapCtx = this.minimapCanvas.getContext('2d');
         
-        // Add to DOM
-        this.canvas.parentNode.appendChild(this.minimapCanvas);
+        // Add canvas to the container
+        minimapContainer.appendChild(this.minimapCanvas);
+        console.log('Minimap successfully appended to #surf-map-minimap container');
     }
 
     /**
@@ -140,7 +171,7 @@ export class SurfMinimap {
      * Renders the minimap.
      */
     render() {
-        if (!this.visible || !this.state.imageLoaded) return;
+        if (!this.visible || !this.minimapCtx || !this.state.imageLoaded) return;
         
         // Clear canvas
         this.minimapCtx.fillStyle = this.options.backgroundColor;
@@ -184,21 +215,32 @@ export class SurfMinimap {
      * @param {number} scale - The scale factor.
      */
     drawSpotIndicators(scale) {
-        if (!this.spotsManager.loaded) return;
+        if (!this.spotsManager || !this.spotsManager.loaded) return;
         
         const spots = this.spotsManager.getAllSpots();
         
         spots.forEach(spot => {
             if (spot.pixelCoordinates) {
                 const { x, y } = spot.pixelCoordinates;
-                const difficulty = spot.waveDetails.abilityLevel.primary;
-                const color = this.spotsManager.getDifficultyColor(difficulty);
                 
-                // Draw spot indicator
+                // Check if this spot should be visible
+                if (this.visibleSpotIds && !this.visibleSpotIds.has(spot.id)) {
+                    // Skip spots that aren't in the visible list
+                    return;
+                }
+                
+                const difficulty = spot.waveDetails && spot.waveDetails.abilityLevel ?
+                    spot.waveDetails.abilityLevel.primary : 'intermediate';
+                const color = this.spotsManager.getDifficultyColor ?
+                    this.spotsManager.getDifficultyColor(difficulty) : '#4CAF50';
+                
+                // Draw spot indicator with reduced opacity for filtered spots
+                this.minimapCtx.globalAlpha = this.visibleSpotIds ? 1.0 : 0.3;
                 this.minimapCtx.fillStyle = color;
                 this.minimapCtx.beginPath();
                 this.minimapCtx.arc(x, y, this.options.spotIndicatorSize, 0, Math.PI * 2);
                 this.minimapCtx.fill();
+                this.minimapCtx.globalAlpha = 1.0;
                 
                 // Highlight hovered spot
                 if (this.hoveredSpot === spot.id) {
@@ -219,11 +261,17 @@ export class SurfMinimap {
      * @param {number} offsetY - The Y offset.
      */
     drawViewportIndicator(scale, offsetX, offsetY) {
+        if (!this.canvas) return;
+        
+        // Get canvas dimensions in CSS pixels
+        const canvasWidth = this.canvas.width / (this.canvas.devicePixelRatio || 1);
+        const canvasHeight = this.canvas.height / (this.canvas.devicePixelRatio || 1);
+        
         // Calculate viewport bounds in image coordinates
-        const viewportLeft = (-this.canvas.width / 2 - this.state.panX) / this.state.zoom + this.state.image.width / 2;
-        const viewportTop = (-this.canvas.height / 2 - this.state.panY) / this.state.zoom + this.state.image.height / 2;
-        const viewportRight = (this.canvas.width / 2 - this.state.panX) / this.state.zoom + this.state.image.width / 2;
-        const viewportBottom = (this.canvas.height / 2 - this.state.panY) / this.state.zoom + this.state.image.height / 2;
+        const viewportLeft = (-canvasWidth / 2 - this.state.panX) / this.state.zoom + this.state.image.width / 2;
+        const viewportTop = (-canvasHeight / 2 - this.state.panY) / this.state.zoom + this.state.image.height / 2;
+        const viewportRight = (canvasWidth / 2 - this.state.panX) / this.state.zoom + this.state.image.width / 2;
+        const viewportBottom = (canvasHeight / 2 - this.state.panY) / this.state.zoom + this.state.image.height / 2;
         
         // Convert to minimap coordinates
         const minimapLeft = viewportLeft * scale + offsetX;
@@ -512,46 +560,7 @@ export class SurfMinimap {
         this.render();
     }
 
-    /**
-     * Draws spot indicators on the minimap with visibility filtering.
-     * @param {number} scale - The scale factor.
-     */
-    drawSpotIndicators(scale) {
-        if (!this.spotsManager.loaded) return;
-        
-        const spots = this.spotsManager.getAllSpots();
-        
-        spots.forEach(spot => {
-            if (spot.pixelCoordinates) {
-                // Check if this spot should be visible
-                if (this.visibleSpotIds && !this.visibleSpotIds.has(spot.id)) {
-                    // Skip spots that aren't in the visible list
-                    return;
-                }
-                
-                const { x, y } = spot.pixelCoordinates;
-                const difficulty = spot.waveDetails.abilityLevel.primary;
-                const color = this.spotsManager.getDifficultyColor(difficulty);
-                
-                // Draw spot indicator with reduced opacity for filtered spots
-                this.minimapCtx.globalAlpha = this.visibleSpotIds ? 1.0 : 0.3;
-                this.minimapCtx.fillStyle = color;
-                this.minimapCtx.beginPath();
-                this.minimapCtx.arc(x, y, this.options.spotIndicatorSize, 0, Math.PI * 2);
-                this.minimapCtx.fill();
-                this.minimapCtx.globalAlpha = 1.0;
-                
-                // Highlight hovered spot
-                if (this.hoveredSpot === spot.id) {
-                    this.minimapCtx.strokeStyle = '#ffffff';
-                    this.minimapCtx.lineWidth = 1;
-                    this.minimapCtx.beginPath();
-                    this.minimapCtx.arc(x, y, this.options.spotIndicatorSize + 2, 0, Math.PI * 2);
-                    this.minimapCtx.stroke();
-                }
-            }
-        });
-    }
+    // This method is a duplicate and has been merged with the drawSpotIndicators method above
 
     /**
      * Destroys the minimap and cleans up resources.

@@ -93,6 +93,9 @@ export class SurfMap {
             this.canvas = document.createElement('canvas');
             this.canvas.className = 'surf-map-canvas';
             this.container.appendChild(this.canvas);
+            
+            // Set up canvas for high-DPI displays
+            this.setupHighDPICanvas();
 
             // Load the map image first and wait for it to complete
             await this.loadImage();
@@ -207,6 +210,15 @@ export class SurfMap {
                 this.updateSpotsCounter(totalSpots);
             }
 
+            // Hide loading indicator
+            const loadingIndicator = this.container.querySelector('.map-loading-indicator');
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'none';
+            }
+            
+            // Remove loading class from container
+            this.container.classList.remove('loading');
+            
             // Emit ready event
             this.emit('ready');
         } catch (error) {
@@ -459,13 +471,30 @@ export class SurfMap {
     }
 
     /**
+     * Sets up the canvas for high-DPI displays.
+     */
+    setupHighDPICanvas() {
+        const rect = this.container.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        
+        // Set the actual size in memory
+        this.canvas.width = rect.width * dpr;
+        this.canvas.height = rect.height * dpr;
+        
+        // Scale the canvas down using CSS
+        this.canvas.style.width = rect.width + 'px';
+        this.canvas.style.height = rect.height + 'px';
+        
+        // Store the device pixel ratio for use in rendering
+        this.devicePixelRatio = dpr;
+    }
+
+    /**
      * Handles canvas resize.
      */
     resize() {
         if (this.canvas) {
-            const rect = this.container.getBoundingClientRect();
-            this.canvas.width = rect.width;
-            this.canvas.height = rect.height;
+            this.setupHighDPICanvas();
             this.constrainPan();
             this.render();
         }
@@ -813,6 +842,55 @@ export class SurfMap {
         return this.searchManager;
     }
 
+    /**
+     * Gets the currently visible surf spots based on the viewport.
+     * @returns {Array<Object>} An array of visible surf spot objects.
+     */
+    getVisibleSpots() {
+        if (!this.markersManager || !this.state.imageLoaded) {
+            return [];
+        }
+        
+        // The markersManager is responsible for tracking visibility
+        // We can get the visible spots from it
+        if (typeof this.markersManager.getVisibleSpots === 'function') {
+            return this.markersManager.getVisibleSpots();
+        }
+        
+        // Fallback: calculate visibility manually
+        const allSpots = this.spotsManager.getAllSpots();
+        const visibleSpots = [];
+        
+        // Calculate viewport bounds in image coordinates
+        const viewportLeft = (-this.canvas.width / 2 - this.state.panX) / this.state.zoom + this.state.image.width / 2;
+        const viewportTop = (-this.canvas.height / 2 - this.state.panY) / this.state.zoom + this.state.image.height / 2;
+        const viewportRight = (this.canvas.width / 2 - this.state.panX) / this.state.zoom + this.state.image.width / 2;
+        const viewportBottom = (this.canvas.height / 2 - this.state.panY) / this.state.zoom + this.state.image.height / 2;
+        
+        for (const spot of allSpots) {
+            if (spot.pixelCoordinates) {
+                const { x, y } = spot.pixelCoordinates;
+                if (x >= viewportLeft && x <= viewportRight && y >= viewportTop && y <= viewportBottom) {
+                    visibleSpots.push(spot);
+                }
+            }
+        }
+        
+        return visibleSpots;
+    }
+
+    /**
+     * Focuses on a specific surf spot by ID.
+     * @param {string} spotId - The ID of the spot to focus on.
+     */
+    focusOnSpot(spotId) {
+        if (!this.spotsManager) return;
+        
+        const spot = this.spotsManager.getSpotById(spotId);
+        if (spot) {
+            this.centerOnSpot(spot);
+        }
+    }
 
     /**
      * Destroys the surf map and cleans up resources.

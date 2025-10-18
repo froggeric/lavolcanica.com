@@ -5,6 +5,27 @@ All notable changes to the La Sonora Volcánica website will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] - 2025-10-18
+
+### Fixed
+- **Surf Map Layout Gap**: Resolved a persistent unwanted gap above the main surf map on the `surf-map.html` page. The map now correctly fills the entire viewport height below the main header.
+
+### Changed
+- **Surf Map UI Refactoring**: Removed the redundant `.surf-map-header` element from `surf-map.html` and its associated CSS. The map controls are now integrated directly into the map wrapper for a cleaner layout and improved code maintainability.
+
+### Technical Details
+- Refactored the HTML structure of `#surf-map-section` in `surf-map.html` by removing the `.surf-map-header` and moving the `.surf-map-controls` inside the `.surf-map-wrapper`.
+- Cleaned up `style.css` by removing all CSS rules related to `.surf-map-header` and `.surf-map-title`, and adjusting responsive styles accordingly.
+- This change simplifies the layout logic and removes the source of the visual gap without affecting the functionality of the map controls.
+
+### Files Modified
+- `surf-map.html`: Refactored HTML structure to remove the header and relocate map controls.
+- `style.css`: Removed outdated CSS rules and cleaned up responsive styles.
+- `data/config/app-config.js`: Updated version to 1.8.0.
+- `index.html`: Updated version to 1.8.0.
+- `script.js`: Updated version to 1.8.0.
+- `CHANGELOG.md`: Updated with new version information.
+
 ## [1.7.1] - 2025-10-16
 
 ### Changed

@@ -1,6 +1,6 @@
 /**
  * @fileoverview Main application script for La Sonora Volcánica website.
- * @version 1.7.2
+ * @version 1.8.0
  * @description This script handles the entire frontend logic for the La Sonora Volcánica website,
  * The application follows a modular architecture where all content is loaded from external
  * data modules located in the `/data` directory.
@@ -137,12 +137,9 @@
         // Initialize scrollbar width calculation for scroll lock
         document.documentElement.classList.add('scroll-lock-init');
 
-        // Import the data loader module and surf spot panel
-        Promise.all([
-            import('./scripts/data-loader.js'),
-            import('./scripts/surf-map/surf-spot-panel.js')
-        ]).then(([{ dataLoader }, { SurfSpotPanel }]) => {
-            initializeApp(dataLoader, SurfSpotPanel);
+        // Import the data loader module
+        import('./scripts/data-loader.js').then(({ dataLoader }) => {
+            initializeApp(dataLoader);
         }).catch(error => {
             console.error('Failed to load modules:', error);
         });
@@ -152,9 +149,8 @@
      * Main application initialization function.
      * Sets up all UI components, event listeners, and populates initial content.
      * @param {Object} dataLoader - The data loader instance with access to all content.
-     * @param {Object} SurfSpotPanel - The SurfSpotPanel class for generating surf spot content.
      */
-    const initializeApp = async (dataLoader, SurfSpotPanel) => {
+    const initializeApp = async (dataLoader) => {
         // Initialize with default language from configuration
         let currentLang = dataLoader.config.app.defaultLanguage;
         let translations = {};
@@ -657,11 +653,6 @@
                                 }
                                 break; // Fall through to default close if collaborator not found
                                 
-                            case 'surfmap':
-                                // Future implementation for surf map panel
-                                console.log('Surf map panel - future implementation');
-                                // For now, fall through to default close
-                                break;
                                 
                             case 'main':
                             default:
@@ -1106,180 +1097,6 @@
 
             window.showReleaseInfo = showReleaseInfo;
             
-            /**
-             * Populates the side panel with a specific surf spot's details.
-             * @param {Object} spot - The surf spot data object.
-             */
-            const showSurfSpotPanel = (spot) => {
-                // Create a new instance of the SurfSpotPanel content generator
-                const surfSpotPanel = new SurfSpotPanel();
-                
-                // Generate the content for the surf spot
-                const contentFragment = surfSpotPanel.generateContent(spot);
-                
-                // Use the existing showPanel function to display the content
-                showPanel(spot.name, contentFragment);
-            };
-            
-            // Make the function available globally
-            window.showSurfSpotPanel = showSurfSpotPanel;
-        }
-
-        // ==================== SURF MAP MODAL LOGIC ====================
-
-        // Cache surf map modal elements
-        const surfMapModal = document.getElementById('surf-map-modal');
-        const surfMapOverlay = document.getElementById('surf-map-overlay');
-        const surfMapContainer = document.getElementById('surf-map-container');
-        const surfMapCloseBtn = document.querySelector('.surf-map-close-btn');
-        
-        // Surf map instance
-        let surfMap = null;
-        
-        // Initialize surf map modal functionality if elements exist
-        if (surfMapModal && surfMapOverlay && surfMapContainer) {
-            /**
-             * Opens the surf map modal and initializes the map.
-             */
-            const openSurfMap = async () => {
-                scrollLock.enable();
-                
-                surfMapModal.classList.add('active');
-                surfMapOverlay.classList.add('active');
-                
-                // Show the search controls when surf map is open
-                const leftSideSearch = document.getElementById('left-side-search');
-                const mobileSearchToggle = document.getElementById('mobile-search-toggle');
-                
-                if (leftSideSearch) {
-                    leftSideSearch.classList.add('visible');
-                }
-                
-                if (mobileSearchToggle) {
-                    mobileSearchToggle.classList.add('visible');
-                }
-                
-                // Initialize the surf map if not already done
-                if (!surfMap) {
-                    try {
-                        // Import the SurfMap class
-                        const { SurfMap } = await import('./scripts/surf-map/surf-map-core.js');
-                        
-                        // Create a new surf map instance
-                        surfMap = new SurfMap(surfMapContainer, {
-                            imagePath: 'images/surf-map.webp',
-                            minZoom: 0.2,
-                            maxZoom: 3.0,
-                            initialZoom: 0.5
-                        });
-                        
-                        // Initialize search functionality for the left-side search
-                        const leftSideSearchInput = document.querySelector('.left-side-search-container .surf-map-search-input');
-                        const leftSideSearchResults = document.querySelector('.left-side-search-container .surf-map-search-results');
-                        
-                        if (leftSideSearchInput && leftSideSearchResults) {
-                            // Import and initialize the search functionality
-                            import('./scripts/surf-map/surf-search.js').then(({ SurfSearch }) => {
-                                import('./scripts/surf-map/surf-spots.js').then(({ SurfSpotsManager }) => {
-                                    const spotsManager = new SurfSpotsManager();
-                                    const search = new SurfSearch(spotsManager, leftSideSearchInput, leftSideSearchResults);
-                                    
-                                    // Set up event listeners for search functionality
-                                    search.setResultClickCallback((spot) => {
-                                        if (surfMap) {
-                                            surfMap.focusOnSpot(spot.id);
-                                        }
-                                    });
-                                    
-                                    console.log('Left side search initialized');
-                                });
-                            });
-                        }
-                        
-                        // Set up event listeners for the surf map
-                        surfMap.on('ready', () => {
-                            console.log('Surf map is ready');
-                        });
-                        
-                        surfMap.on('error', (error) => {
-                            console.error('Surf map error:', error);
-                        });
-                        
-                        // Handle window resize
-                        const handleResize = debounce(() => {
-                            if (surfMap) {
-                                surfMap.resize();
-                            }
-                        }, 250);
-                        
-                        window.addEventListener('resize', handleResize);
-                        
-                        // Store resize handler for cleanup
-                        surfMapModal._resizeHandler = handleResize;
-                        
-                    } catch (error) {
-                        console.error('Failed to initialize surf map:', error);
-                        closeSurfMap();
-                    }
-                }
-                
-                // Set focus to the close button for accessibility
-                setTimeout(() => {
-                    if (surfMapCloseBtn) {
-                        surfMapCloseBtn.focus();
-                    }
-                }, 100);
-            };
-            
-            /**
-             * Closes the surf map modal and cleans up resources.
-             */
-            const closeSurfMap = () => {
-                scrollLock.disable();
-                surfMapModal.classList.remove('active');
-                surfMapOverlay.classList.remove('active');
-                
-                // Hide the search controls when surf map is closed
-                const leftSideSearch = document.getElementById('left-side-search');
-                const mobileSearchToggle = document.getElementById('mobile-search-toggle');
-                
-                if (leftSideSearch) {
-                    leftSideSearch.classList.remove('visible');
-                }
-                
-                if (mobileSearchToggle) {
-                    mobileSearchToggle.classList.remove('visible');
-                }
-                
-                // Clean up event listeners
-                if (surfMapModal._resizeHandler) {
-                    window.removeEventListener('resize', surfMapModal._resizeHandler);
-                    surfMapModal._resizeHandler = null;
-                }
-                
-                // Destroy the surf map instance
-                if (surfMap) {
-                    surfMap.destroy();
-                    surfMap = null;
-                }
-            };
-            
-            // Add event listeners
-            if (surfMapCloseBtn) {
-                surfMapCloseBtn.addEventListener('click', closeSurfMap);
-            }
-            
-            surfMapOverlay.addEventListener('click', closeSurfMap);
-            
-            // Handle Escape key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && surfMapModal.classList.contains('active')) {
-                    closeSurfMap();
-                }
-            });
-            
-            // Make function available globally
-            window.openSurfMap = openSurfMap;
         }
 
         // --- 5. Mini-Player Logic ---
@@ -1555,14 +1372,6 @@
             mainNav.addEventListener('click', (e) => {
                 // Check if clicked element is a nav link or language button
                 if (e.target.matches('.nav-links a') || e.target.matches('.language-switcher .lang-btn')) {
-                    // Special handling for surf map link (only if enabled)
-                    if (e.target.id === 'surf-map-link') {
-                        e.preventDefault();
-                        // Check if surf map is enabled before opening
-                        if (dataLoader.config.app.surfMapEnabled !== false && window.openSurfMap) {
-                            window.openSurfMap();
-                        }
-                    }
                     closeMobileNav();
                 }
             });
@@ -1708,56 +1517,6 @@
             footerLinksContainer.appendChild(fragment);
         }
 
-        // ==================== SURF MAP CONFIGURATION ====================
-        // Check if surf map is enabled in configuration and hide navigation item if disabled
-        const surfMapLink = document.getElementById('surf-map-link');
-        if (surfMapLink && dataLoader.config.app.surfMapEnabled === false) {
-            // Hide the entire list item containing the surf map link
-            const surfMapListItem = surfMapLink.parentElement;
-            if (surfMapListItem) {
-                surfMapListItem.style.display = 'none';
-                console.log('Surf map navigation item hidden (surfMapEnabled is false)');
-            }
-        }
-        
-        // ==================== LEFT SIDE SEARCH FUNCTIONALITY ====================
-        // Initialize left side search functionality
-        const leftSideSearch = document.getElementById('left-side-search');
-        const mobileSearchToggle = document.getElementById('mobile-search-toggle');
-        
-        if (leftSideSearch && mobileSearchToggle) {
-            // Handle mobile search toggle button
-            mobileSearchToggle.addEventListener('click', () => {
-                leftSideSearch.classList.toggle('mobile-visible');
-                
-                // Focus on search input when opening
-                if (leftSideSearch.classList.contains('mobile-visible')) {
-                    const searchInput = leftSideSearch.querySelector('.surf-map-search-input');
-                    if (searchInput) {
-                        setTimeout(() => searchInput.focus(), 300);
-                    }
-                }
-            });
-            
-            // Close mobile search when clicking outside
-            document.addEventListener('click', (e) => {
-                if (window.innerWidth <= 768 &&
-                    leftSideSearch.classList.contains('mobile-visible') &&
-                    !leftSideSearch.contains(e.target) &&
-                    !mobileSearchToggle.contains(e.target)) {
-                    leftSideSearch.classList.remove('mobile-visible');
-                }
-            });
-            
-            // Handle window resize
-            const handleSearchResize = debounce(() => {
-                if (window.innerWidth > 768) {
-                    leftSideSearch.classList.remove('mobile-visible');
-                }
-            }, 250);
-            
-            window.addEventListener('resize', handleSearchResize);
-        }
         
         // ==================== INITIAL SETUP ====================
         // Run all population functions and set the initial language.
@@ -1857,43 +1616,11 @@
                 console.log('Lyrics cache testing complete. Open browser console to see results.');
             };
             
-            // Test function for surf map
-            window.testSurfMap = () => {
-                console.log('Testing surf map functionality...');
-                
-                // Test surf map modal elements
-                const surfMapModal = document.getElementById('surf-map-modal');
-                const surfMapOverlay = document.getElementById('surf-map-overlay');
-                const surfMapContainer = document.getElementById('surf-map-container');
-                const surfMapLink = document.getElementById('surf-map-link');
-                
-                if (surfMapModal && surfMapOverlay && surfMapContainer) {
-                    console.log('✓ Surf map modal elements found');
-                } else {
-                    console.error('✗ Surf map modal elements missing');
-                }
-                
-                if (surfMapLink) {
-                    console.log('✓ Surf map navigation link found');
-                } else {
-                    console.error('✗ Surf map navigation link missing');
-                }
-                
-                // Test openSurfMap function
-                if (window.openSurfMap) {
-                    console.log('✓ openSurfMap function exists');
-                } else {
-                    console.error('✗ openSurfMap function missing');
-                }
-                
-                console.log('Surf map testing complete. Open browser console to see results.');
-            };
             
             // Auto-run tests in development mode
             setTimeout(() => {
                 if (window.testPanels) window.testPanels();
                 if (window.testLyricsCache) window.testLyricsCache();
-                if (window.testSurfMap) window.testSurfMap();
             }, 2000);
         }
     };

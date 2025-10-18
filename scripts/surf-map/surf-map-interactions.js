@@ -146,15 +146,22 @@ export class SurfMapInteractions {
             // Check if we've moved past the drag threshold
             const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
             if (distance >= this.options.dragThreshold) {
-                // Update pan position
-                this.state.panX = this.interactionState.lastPanX + deltaX;
-                this.state.panY = this.interactionState.lastPanY + deltaY;
-                
-                // Constrain pan
-                this.surfMap.constrainPan();
-                
-                // Render
-                this.surfMap.render();
+                // Update pan position with smooth transitions
+                // Use requestAnimationFrame for smoother rendering
+                if (!this.interactionState.panAnimationFrame) {
+                    this.interactionState.panAnimationFrame = requestAnimationFrame(() => {
+                        this.state.panX = this.interactionState.lastPanX + deltaX;
+                        this.state.panY = this.interactionState.lastPanY + deltaY;
+                        
+                        // Constrain pan
+                        this.surfMap.constrainPan();
+                        
+                        // Render
+                        this.surfMap.render();
+                        
+                        this.interactionState.panAnimationFrame = null;
+                    });
+                }
             }
         }
     }
@@ -165,6 +172,12 @@ export class SurfMapInteractions {
      */
     handleMouseUp(e) {
         if (this.interactionState.isDragging) {
+            // Cancel any pending animation frame
+            if (this.interactionState.panAnimationFrame) {
+                cancelAnimationFrame(this.interactionState.panAnimationFrame);
+                this.interactionState.panAnimationFrame = null;
+            }
+            
             // Update interaction state
             this.interactionState.isDragging = false;
             
@@ -172,9 +185,9 @@ export class SurfMapInteractions {
             this.canvas.style.cursor = 'grab';
             
             // Emit pan changed event
-            this.surfMap.emit('panChanged', { 
-                panX: this.state.panX, 
-                panY: this.state.panY 
+            this.surfMap.emit('panChanged', {
+                panX: this.state.panX,
+                panY: this.state.panY
             });
         }
     }
@@ -195,9 +208,14 @@ export class SurfMapInteractions {
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
         
-        // Calculate image coordinates at mouse position
-        const imageX = (mouseX - this.state.panX) / this.state.zoom;
-        const imageY = (mouseY - this.state.panY) / this.state.zoom;
+        // Account for device pixel ratio
+        const dpr = this.surfMap.devicePixelRatio || 1;
+        const scaledMouseX = mouseX * dpr;
+        const scaledMouseY = mouseY * dpr;
+        
+        // Calculate image coordinates at mouse position before zoom
+        const imageX = (scaledMouseX - this.state.panX * dpr) / (this.state.zoom * dpr);
+        const imageY = (scaledMouseY - this.state.panY * dpr) / (this.state.zoom * dpr);
         
         // Update zoom
         const newZoom = Math.max(
@@ -210,8 +228,9 @@ export class SurfMapInteractions {
             this.state.zoom = newZoom;
             
             // Adjust pan to keep the same point under the mouse
-            this.state.panX = mouseX - imageX * this.state.zoom;
-            this.state.panY = mouseY - imageY * this.state.zoom;
+            // This ensures the zoom is centered on the mouse cursor
+            this.state.panX = (scaledMouseX - imageX * this.state.zoom * dpr) / dpr;
+            this.state.panY = (scaledMouseY - imageY * this.state.zoom * dpr) / dpr;
             
             // Constrain pan
             this.surfMap.constrainPan();
@@ -319,8 +338,12 @@ export class SurfMapInteractions {
             
             // Calculate image coordinates at center point
             const rect = this.canvas.getBoundingClientRect();
-            const imageX = (centerX - rect.left - this.state.panX) / this.state.zoom;
-            const imageY = (centerY - rect.top - this.state.panY) / this.state.zoom;
+            const dpr = this.surfMap.devicePixelRatio || 1;
+            const scaledCenterX = (centerX - rect.left) * dpr;
+            const scaledCenterY = (centerY - rect.top) * dpr;
+            
+            const imageX = (scaledCenterX - this.state.panX * dpr) / (this.state.zoom * dpr);
+            const imageY = (scaledCenterY - this.state.panY * dpr) / (this.state.zoom * dpr);
             
             // Store center point for zoom adjustment
             this.interactionState.pinchCenterX = centerX;
@@ -374,15 +397,22 @@ export class SurfMapInteractions {
             const threshold = this.options.touchDragThreshold || this.options.dragThreshold;
             
             if (distance >= threshold) {
-                // Update pan position
-                this.state.panX = this.interactionState.lastPanX + deltaX;
-                this.state.panY = this.interactionState.lastPanY + deltaY;
-                
-                // Constrain pan
-                this.surfMap.constrainPan();
-                
-                // Render
-                this.surfMap.render();
+                // Update pan position with smooth transitions
+                // Use requestAnimationFrame for smoother rendering
+                if (!this.interactionState.panAnimationFrame) {
+                    this.interactionState.panAnimationFrame = requestAnimationFrame(() => {
+                        this.state.panX = this.interactionState.lastPanX + deltaX;
+                        this.state.panY = this.interactionState.lastPanY + deltaY;
+                        
+                        // Constrain pan
+                        this.surfMap.constrainPan();
+                        
+                        // Render
+                        this.surfMap.render();
+                        
+                        this.interactionState.panAnimationFrame = null;
+                    });
+                }
             }
         }
         // Handle pinch
@@ -412,8 +442,14 @@ export class SurfMapInteractions {
                 const centerX = this.interactionState.pinchCenterX - rect.left;
                 const centerY = this.interactionState.pinchCenterY - rect.top;
                 
-                this.state.panX = centerX - this.interactionState.pinchImageX * this.state.zoom;
-                this.state.panY = centerY - this.interactionState.pinchImageY * this.state.zoom;
+                // Account for device pixel ratio
+                const dpr = this.surfMap.devicePixelRatio || 1;
+                const scaledCenterX = centerX * dpr;
+                const scaledCenterY = centerY * dpr;
+                
+                // Adjust pan to keep the pinch center point stable
+                this.state.panX = (scaledCenterX - this.interactionState.pinchImageX * this.state.zoom * dpr) / dpr;
+                this.state.panY = (scaledCenterY - this.interactionState.pinchImageY * this.state.zoom * dpr) / dpr;
                 
                 // Constrain pan
                 this.surfMap.constrainPan();
@@ -440,6 +476,12 @@ export class SurfMapInteractions {
         // End drag if no more touches
         if (touches.length === 0) {
             if (this.interactionState.isDragging) {
+                // Cancel any pending animation frame
+                if (this.interactionState.panAnimationFrame) {
+                    cancelAnimationFrame(this.interactionState.panAnimationFrame);
+                    this.interactionState.panAnimationFrame = null;
+                }
+                
                 this.interactionState.isDragging = false;
                 
                 // Start momentum scrolling if enabled and velocity is significant
@@ -481,9 +523,14 @@ export class SurfMapInteractions {
         const x = clientX - rect.left;
         const y = clientY - rect.top;
         
-        // Calculate image coordinates at tap position
-        const imageX = (x - this.state.panX) / this.state.zoom;
-        const imageY = (y - this.state.panY) / this.state.zoom;
+        // Account for device pixel ratio
+        const dpr = this.surfMap.devicePixelRatio || 1;
+        const scaledX = x * dpr;
+        const scaledY = y * dpr;
+        
+        // Calculate image coordinates at tap position before zoom
+        const imageX = (scaledX - this.state.panX * dpr) / (this.state.zoom * dpr);
+        const imageY = (scaledY - this.state.panY * dpr) / (this.state.zoom * dpr);
         
         // Zoom in
         const newZoom = Math.min(this.surfMap.options.maxZoom, this.state.zoom * 2);
@@ -493,8 +540,9 @@ export class SurfMapInteractions {
             this.state.zoom = newZoom;
             
             // Adjust pan to keep the tap point centered
-            this.state.panX = x - imageX * this.state.zoom;
-            this.state.panY = y - imageY * this.state.zoom;
+            // This ensures the zoom is centered on the tap position
+            this.state.panX = (scaledX - imageX * this.state.zoom * dpr) / dpr;
+            this.state.panY = (scaledY - imageY * this.state.zoom * dpr) / dpr;
             
             // Constrain pan
             this.surfMap.constrainPan();

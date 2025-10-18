@@ -13,6 +13,7 @@ export class SurfSpotsManager {
      * @param {Object} options - Configuration options.
      * @param {string} [options.dataPath='data/surfspots/'] - Path to surf spot data files.
      * @param {Object} [options.pixelCoordinates] - Predefined pixel coordinates for spots.
+     * @param {HTMLImageElement} [options.mapImage] - The map image element.
      */
     constructor(options = {}) {
         this.options = {
@@ -24,6 +25,12 @@ export class SurfSpotsManager {
             rateLimitPauseMs: options.rateLimitPauseMs || 150,
             ...options
         };
+        
+        // Set image dimensions if provided
+        if (options.mapImage) {
+            this.imageWidth = options.mapImage.width;
+            this.imageHeight = options.mapImage.height;
+        }
         
         // Data storage
         this.spots = new Map(); // Map of spot ID to spot data

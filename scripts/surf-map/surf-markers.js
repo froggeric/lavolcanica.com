@@ -104,13 +104,18 @@ export class SurfMarkersManager {
      * Creates the tooltip element.
      */
     createTooltip() {
-        if (document.querySelector('.surf-marker-tooltip')) {
-            this.tooltip = document.querySelector('.surf-marker-tooltip');
-            return;
-        }
-        this.tooltip = document.createElement('div');
-        this.tooltip.className = 'surf-marker-tooltip';
-        document.body.appendChild(this.tooltip);
+        // Canvas-based tooltip doesn't need DOM element
+        this.tooltip = {
+            visible: false,
+            spotId: null,
+            x: 0,
+            y: 0,
+            content: {
+                name: '',
+                difficulty: '',
+                difficultyColor: ''
+            }
+        };
     }
 
     /**
@@ -424,6 +429,11 @@ export class SurfMarkersManager {
         sortedMarkers.forEach(marker => {
             this.renderMarker(marker);
         });
+        
+        // Render tooltip if visible
+        if (this.tooltip && this.tooltip.visible) {
+            this.renderTooltip();
+        }
     }
 
     /**
@@ -766,15 +776,14 @@ export class SurfMarkersManager {
     showTooltip(spotIdOrCluster, clientX, clientY) {
         if (!this.tooltip) this.createTooltip();
 
-        let tooltipContent = '';
         if (typeof spotIdOrCluster === 'object' && spotIdOrCluster.isCluster) {
             const cluster = spotIdOrCluster;
             const spotNames = cluster.markers.slice(0, 3).map(m => m.spot.primaryName).join(', ');
             const moreText = cluster.markers.length > 3 ? ` and ${cluster.markers.length - 3} more` : '';
-            tooltipContent = `
-                <div class="tooltip-spot-name">${cluster.markers.length} Surf Spots</div>
-                <div style="font-size: 0.8rem; opacity: 0.8;">${spotNames}${moreText}</div>
-            `;
+            
+            this.tooltip.content.name = `${cluster.markers.length} Surf Spots`;
+            this.tooltip.content.difficulty = `${spotNames}${moreText}`;
+            this.tooltip.content.difficultyColor = '#666666';
         } else {
             const marker = this.markers.get(spotIdOrCluster);
             if (!marker) return;
@@ -783,22 +792,17 @@ export class SurfMarkersManager {
             const difficulty = spot.waveDetails.abilityLevel.primary;
             const difficultyColor = this.spotsManager.getDifficultyColor(difficulty);
 
-            tooltipContent = `
-                <div class="tooltip-spot-name">${spot.primaryName}</div>
-                <div class="tooltip-spot-difficulty" style="background-color: ${difficultyColor};">
-                    ${difficulty}
-                </div>
-            `;
+            this.tooltip.content.name = spot.primaryName;
+            this.tooltip.content.difficulty = difficulty;
+            this.tooltip.content.difficultyColor = difficultyColor;
         }
 
-        this.tooltip.innerHTML = tooltipContent;
-        // Position is updated on mouse move, but set initial position here
-        this.updateTooltipPosition(clientX, clientY);
-        
-        // Use a timeout to allow the DOM to update before adding the class
-        requestAnimationFrame(() => {
-            this.tooltip.classList.add('visible');
-        });
+        // Convert client coordinates to canvas coordinates
+        const rect = this.canvas.getBoundingClientRect();
+        this.tooltip.x = clientX - rect.left;
+        this.tooltip.y = clientY - rect.top;
+        this.tooltip.spotId = spotIdOrCluster;
+        this.tooltip.visible = true;
     }
 
     /**
@@ -807,30 +811,12 @@ export class SurfMarkersManager {
      * @param {number} clientY - The client Y coordinate.
      */
     updateTooltipPosition(clientX, clientY) {
-        if (!this.tooltip) return;
+        if (!this.tooltip || !this.tooltip.visible) return;
 
-        const tooltipRect = this.tooltip.getBoundingClientRect();
-        const offset = 20; // Increased offset for better visibility
-
-        let left = clientX + offset;
-        let top = clientY + offset;
-
-        // Adjust if tooltip goes beyond the right edge of the viewport
-        if (left + tooltipRect.width > window.innerWidth) {
-            left = clientX - tooltipRect.width - offset;
-        }
-
-        // Adjust if tooltip goes beyond the bottom edge of the viewport
-        if (top + tooltipRect.height > window.innerHeight) {
-            top = clientY - tooltipRect.height - offset;
-        }
-
-        // Ensure the tooltip doesn't go off the left or top of the screen
-        if (left < 0) left = 0;
-        if (top < 0) top = 0;
-
-        this.tooltip.style.left = `${left}px`;
-        this.tooltip.style.top = `${top}px`;
+        // Convert client coordinates to canvas coordinates
+        const rect = this.canvas.getBoundingClientRect();
+        this.tooltip.x = clientX - rect.left;
+        this.tooltip.y = clientY - rect.top;
     }
 
     /**
@@ -838,7 +824,8 @@ export class SurfMarkersManager {
      */
     hideTooltip() {
         if (!this.tooltip) return;
-        this.tooltip.classList.remove('visible');
+        this.tooltip.visible = false;
+        this.tooltip.spotId = null;
     }
 
     /**
@@ -929,16 +916,131 @@ export class SurfMarkersManager {
     }
 
     /**
+     * Renders the tooltip on the canvas.
+     */
+    renderTooltip() {
+        if (!this.ctx || !this.tooltip || !this.tooltip.visible) return;
+        
+        const { x, y, content } = this.tooltip;
+        
+        // Set font properties
+        this.ctx.font = '14px Roboto, sans-serif';
+        
+        // Measure text dimensions
+        const nameMetrics = this.ctx.measureText(content.name);
+        const difficultyMetrics = this.ctx.measureText(content.difficulty);
+        
+        // Calculate tooltip dimensions
+        const padding = 10;
+        const margin = 5;
+        const tooltipWidth = Math.max(nameMetrics.width, difficultyMetrics.width) + padding * 2;
+        const tooltipHeight = 40; // Height for two lines of text
+        const arrowSize = 8;
+        
+        // Calculate position to avoid going off-screen
+        let tooltipX = x + 15; // Offset from cursor
+        let tooltipY = y - tooltipHeight - 15; // Position above cursor
+        
+        // Adjust if tooltip goes beyond canvas bounds
+        if (tooltipX + tooltipWidth > this.canvas.width) {
+            tooltipX = x - tooltipWidth - 15;
+        }
+        if (tooltipY < 0) {
+            tooltipY = y + 15;
+        }
+        
+        // Save context state
+        this.ctx.save();
+        
+        // Draw tooltip background with rounded corners
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+        this.ctx.lineWidth = 1;
+        
+        // Draw rounded rectangle
+        this.roundRect(tooltipX, tooltipY, tooltipWidth, tooltipHeight, 5);
+        this.ctx.fill();
+        this.ctx.stroke();
+        
+        // Draw arrow pointing to the marker
+        this.ctx.beginPath();
+        if (tooltipY < y) {
+            // Arrow pointing down
+            this.ctx.moveTo(x - arrowSize/2, tooltipY + tooltipHeight);
+            this.ctx.lineTo(x + arrowSize/2, tooltipY + tooltipHeight);
+            this.ctx.lineTo(x, tooltipY + tooltipHeight + arrowSize);
+        } else {
+            // Arrow pointing up
+            this.ctx.moveTo(x - arrowSize/2, tooltipY);
+            this.ctx.lineTo(x + arrowSize/2, tooltipY);
+            this.ctx.lineTo(x, tooltipY - arrowSize);
+        }
+        this.ctx.closePath();
+        this.ctx.fill();
+        this.ctx.stroke();
+        
+        // Draw text
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.textAlign = 'left';
+        this.ctx.textBaseline = 'top';
+        
+        // Draw spot name
+        this.ctx.font = 'bold 14px Roboto, sans-serif';
+        this.ctx.fillText(content.name, tooltipX + padding, tooltipY + padding);
+        
+        // Draw difficulty with colored background
+        this.ctx.font = '12px Roboto, sans-serif';
+        this.ctx.fillStyle = content.difficultyColor;
+        this.ctx.fillRect(
+            tooltipX + padding,
+            tooltipY + padding + 18,
+            difficultyMetrics.width + 6,
+            16
+        );
+        
+        // Draw difficulty text
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.fillText(
+            content.difficulty,
+            tooltipX + padding + 3,
+            tooltipY + padding + 20
+        );
+        
+        // Restore context state
+        this.ctx.restore();
+    }
+    
+    /**
+     * Draws a rounded rectangle.
+     * @param {number} x - The X coordinate.
+     * @param {number} y - The Y coordinate.
+     * @param {number} width - The width.
+     * @param {number} height - The height.
+     * @param {number} radius - The corner radius.
+     */
+    roundRect(x, y, width, height, radius) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(x + radius, y);
+        this.ctx.lineTo(x + width - radius, y);
+        this.ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        this.ctx.lineTo(x + width, y + height - radius);
+        this.ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        this.ctx.lineTo(x + radius, y + height);
+        this.ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        this.ctx.lineTo(x, y + radius);
+        this.ctx.quadraticCurveTo(x, y, x + radius, y);
+        this.ctx.closePath();
+    }
+
+    /**
      * Destroys the markers manager and cleans up resources.
      */
     destroy() {
         // Remove event listeners
         this.removeEventListeners();
         
-        // Remove tooltip
-        if (this.tooltip && this.tooltip.parentNode) {
-            this.tooltip.parentNode.removeChild(this.tooltip);
-        }
+        // Clear tooltip
+        this.tooltip = null;
         
         // Clear data
         this.markers.clear();
