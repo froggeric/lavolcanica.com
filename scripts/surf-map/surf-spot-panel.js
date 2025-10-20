@@ -1,6 +1,6 @@
 /**
  * @fileoverview Enhanced SurfSpotPanel - Comprehensive interactive surf spot details panel.
- * @version 3.0.0
+ * @version 1.8.5
  * @description This module provides an enhanced class to dynamically generate the HTML content
  * for a surf spot detail panel with comprehensive interactive features. Based on the standardized
  * surf spot data structure, it incorporates semantic HTML5 elements, responsive design, 

@@ -2,6 +2,7 @@
  * @fileoverview Platform configuration for La Sonora Volcánica website.
  * Contains platform-specific settings and metadata for streaming and download platforms.
  * @module config/platform-config
+ * @version 1.8.5
  */
 
 /**

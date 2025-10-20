@@ -1,6 +1,7 @@
 /**
  * Data loader module for La Sonora Volcánica
  * Centralizes all data imports and provides a unified interface
+ * @version 1.8.5
  */
 
 // Static imports for critical path data

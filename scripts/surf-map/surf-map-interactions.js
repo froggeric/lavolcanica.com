@@ -1,6 +1,6 @@
 /**
  * @fileoverview Interaction handler for the SurfMap component.
- * @version 1.0.0
+ * @version 1.8.5
  * @description This module contains the SurfMapInteractions class that handles all
  * user interactions with the surf map, including pan, zoom, and touch gestures.
  */

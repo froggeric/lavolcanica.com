@@ -1,6 +1,7 @@
 /**
  * Collaborator biographies for La Sonora Volcánica
  * Contains biography content for all collaborators in multiple languages
+ * @version 1.8.5
  * @typedef {Object} BioContent
  * @property {string} en - English version of the biography
  * @property {string} es - Spanish version of the biography

@@ -1,6 +1,6 @@
 /**
  * @fileoverview Surf spot markers rendering module.
- * @version 1.0.1
+ * @version 1.8.5
  * @description This module handles rendering surf spot markers on the map,
  * including marker creation, styling, and interaction handling.
  */

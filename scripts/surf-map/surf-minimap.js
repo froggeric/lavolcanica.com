@@ -1,6 +1,6 @@
 /**
  * @fileoverview Surf map minimap module.
- * @version 1.0.0
+ * @version 1.8.5
  * @description This module handles the minimap component for navigation,
  * showing an overview map with spot indicators and viewport indicator.
  */
