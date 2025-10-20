@@ -1,0 +1,243 @@
+/**
+ * Optimized Styles for the Surf Spot Details Panel
+ *
+ * Filename: surf-spot-panel-optimized.css
+ *
+ * Purpose:
+ * This file contains all the styles for the redesigned surf spot details panel.
+ * It follows a BEM (Block, Element, Modifier) naming convention and a mobile-first
+ * approach to ensure maintainability, scalability, and responsiveness.
+ *
+ * Architecture Plan: doc/surf-spot-panel-plan.md
+ */
+
+:root {
+  --panel-background: #1a1a1a;
+  --panel-text: #f0f0f0;
+  --panel-border: #333;
+  --accent-color: #ff9800;
+  --panel-header-height: 70px;
+  --panel-footer-height: 60px;
+  --panel-padding: 1.5rem;
+}
+
+/* ==========================================================================
+   1. Panel Container & Core Layout
+   ========================================================================== */
+
+.surf-spot-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--panel-background);
+  color: var(--panel-text);
+  overflow: hidden;
+}
+
+.surf-spot-panel__content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: var(--panel-padding);
+}
+
+/* ==========================================================================
+   2. Header
+   ========================================================================== */
+
+.surf-spot-panel__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--panel-padding);
+  height: var(--panel-header-height);
+  border-bottom: 1px solid var(--panel-border);
+  flex-shrink: 0;
+}
+
+.surf-spot-panel__title-container {
+  overflow: hidden;
+}
+
+.surf-spot-panel__spot-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin: 0;
+}
+
+.surf-spot-panel__alternative-names {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.surf-spot-panel__close-btn {
+  background: none;
+  border: none;
+  color: var(--panel-text);
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.surf-spot-panel__close-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ==========================================================================
+   3. Hero Section (3:2 Aspect Ratio)
+   ========================================================================== */
+
+.surf-spot-panel__hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  background-color: #333;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.surf-spot-panel__hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.surf-spot-panel__hero-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--panel-padding);
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.surf-spot-panel__hero-tag {
+  background-color: rgba(0,0,0,0.7);
+  color: var(--panel-text);
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.surf-spot-panel__hero-tag--difficulty-expert { background-color: #d32f2f; }
+.surf-spot-panel__hero-tag--difficulty-advanced { background-color: #ff9800; }
+.surf-spot-panel__hero-tag--difficulty-intermediate { background-color: #4caf50; }
+.surf-spot-panel__hero-tag--difficulty-beginner { background-color: #2196f3; }
+
+
+/* ==========================================================================
+   4. Tab Navigation
+   ========================================================================== */
+
+.surf-spot-panel__tab-nav {
+  display: flex;
+  border-bottom: 1px solid var(--panel-border);
+  background-color: var(--panel-background);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.surf-spot-panel__tab-btn {
+  flex: 1;
+  padding: 1rem 0.5rem;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 0.2s ease-in-out;
+}
+
+.surf-spot-panel__tab-btn:hover {
+  color: var(--panel-text);
+}
+
+.surf-spot-panel__tab-btn.is-active {
+  color: var(--accent-color);
+  border-bottom-color: var(--accent-color);
+}
+
+
+/* ==========================================================================
+   5. Tab Panels
+   ========================================================================== */
+
+.surf-spot-panel__tab-panel {
+  padding-top: var(--panel-padding);
+}
+
+/* ==========================================================================
+   6. Data Visualization Widgets (Compass, Charts, etc.)
+   ========================================================================== */
+
+/* ==========================================================================
+   7. Common Components (Icons, Buttons, Lists)
+   ========================================================================== */
+
+/* ==========================================================================
+   8. Footer
+   ========================================================================== */
+
+.surf-spot-panel__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--panel-padding);
+  height: var(--panel-footer-height);
+  border-top: 1px solid var(--panel-border);
+  flex-shrink: 0;
+  gap: 1rem;
+}
+
+.surf-spot-panel__footer-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.surf-spot-panel__footer-label {
+  font-size: 0.75rem;
+  color: #aaa;
+  margin-bottom: 0.2rem;
+}
+
+.surf-spot-panel__footer-action {
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+  text-align: left;
+}
+
+.surf-spot-panel__share-btn {
+  border: 1px solid var(--accent-color);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   9. Animations & Transitions
+   ========================================================================== */
+
+/* ==========================================================================
+   10. Accessibility Styles (Focus states, etc.)
+   ========================================================================== */
+
+/* ==========================================================================
+   11. Responsive Breakpoints (Mobile-first)
+   ========================================================================== */

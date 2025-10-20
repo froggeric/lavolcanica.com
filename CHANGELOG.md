@@ -5,6 +5,53 @@ All notable changes to the La Sonora Volcánica website will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.3] - 2025-10-20
+
+### Fixed
+- **Rapid Marker Refresh Issue**: Resolved excessive marker re-initialization that was causing performance issues and console spam.
+- **Search Result Click Issue**: Fixed search result click functionality that was failing due to incorrect method name.
+- **Missing Image Placeholder**: Added proper fallback to placeholder image when surf spot images are not available.
+
+### Technical Details
+- Implemented state tracking in surf-map-core.js to prevent unnecessary re-rendering.
+- Added initialization state tracking in surf-markers.js to prevent excessive re-initialization.
+- Modified surf-spots.js to cache pixel coordinates after initial calculation.
+- Fixed method name from `getSpotById` to `getSpot` in surf-map-core.js.
+- Added error handling in surf-spot-panel-optimized.js to fall back to placeholder image when spot-specific images don't exist.
+
+### Files Modified
+- `scripts/surf-map/surf-map-core.js`: Updated to v1.0.2 with optimized rendering and fixed method name.
+- `scripts/surf-map/surf-markers.js`: Updated to v1.0.1 with initialization state tracking.
+- `scripts/surf-map/surf-spots.js`: Updated to v1.0.1 with pixel coordinate caching.
+- `scripts/surf-map/surf-spot-panel-optimized.js`: Updated to v1.0.1 with image placeholder fallback.
+- `data/config/app-config.js`: Updated version to 1.8.3.
+
+## [1.8.2]
+
+### Added
+- Comprehensive performance optimizations for the surf spot details panel
+- Lazy loading for images using Intersection Observer API
+- Progressive content loading with skeleton screens
+- Optimized DOM manipulation with document fragments
+- Debounced event handlers for resize and scroll events
+- Memory management with proper cleanup methods
+- RequestAnimationFrame-based animations
+- Data processing and caching system
+- Performance monitoring and metrics collection
+- Multiple performance modes (high performance, memory optimized, network slow, etc.)
+- Performance test page for validation and benchmarking
+
+### Changed
+- Enhanced surf spot panel with significant performance improvements
+- Optimized image loading with better error handling
+- Improved animation smoothness across all devices
+- Reduced memory footprint for long-running sessions
+
+### Fixed
+- Memory leaks in event listeners and observers
+- Performance issues with large datasets
+- Animation jank on low-powered devices
+
 ## [1.8.1] - 2025-10-18
 
 ### Changed

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Surf Spot Panel</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style/surf-spot-panel-optimized.css">
+</head>
+<body>
+    <div id="panel-container" style="width: 360px; height: 100vh; border: 1px solid #ccc;"></div>
+    <div id="side-panel" class="side-panel">
+        <div id="panel-container"></div>
+    </div>
+    <div id="side-panel-overlay"></div>
+
+    <script type="module">
+        import { SurfSpotPanelOptimized } from './scripts/surf-map/surf-spot-panel-optimized.js';
+
+        const testSpot = {
+            "id": "the-bubble",
+            "primaryName": "The Bubble",
+            "alternativeNames": ["Hierro Right", "El Hierro", "La Derecha/Bubble"],
+            "description": "A powerful and exposed reef break, famous for its perfect A-frame peak that produces fast, hollow right-handers and less intense lefts. Known as one of the most challenging and well-known spots on the island, it is a focal point for experienced surfers and contests.",
+            "location": {
+                "area": "North",
+                "nearestTowns": ["Majanicho", "Corralejo"],
+                "coordinates": { "lat": 28.7415, "lng": -13.9353, "accuracy": "verified" }
+            },
+            "waveDetails": {
+                "type": ["Reef Break", "Point Break"],
+                "direction": ["Right", "Left", "A-Frame"],
+                "directionNotes": "Rights are superior.",
+                "bestSwellDirection": ["N", "NW", "NNW", "W"],
+                "bestWindDirection": ["S", "SE", "SW"],
+                "bestTide": ["Low", "Mid", "High"],
+                "tideNotes": "Best at Mid and High Tide.",
+                "bestSeason": ["Autumn", "Winter"],
+                "idealConditions": "Works best on a north-northwest groundswell with an offshore south or southeast wind. Waves are powerful and hollow, hitting a triangular lava reef. Holds swells up to 3 meters (10 feet).",
+                "abilityLevel": { "primary": "Expert", "alsoSuitableFor": ["Intermediate"] }
+            },
+            "characteristics": {
+                "crowdFactor": "Crowded",
+                "crowdNotes": "Can get mobbed.",
+                "localVibe": "Competitive, but doable. Respect the locals.",
+                "hazards": ["Sharp rocks", "Heavy waves", "Submerged rocks", "Strong currents"],
+                "bottom": ["Lava", "Reef", "Coral", "Rock"],
+                "waterQuality": "Clean"
+            },
+            "practicalities": {
+                "access": "Drive along the North Track; park overlooking the breaks. Access is relatively easy.",
+                "parking": "Available, can park a vehicle right by the break.",
+                "facilities": "None on site. The nearby villages of Majanicho and Corralejo offer amenities.",
+                "paddleOut": "Medium difficulty; use channels to paddle out.",
+                "recommendedBoards": ["Shortboard", "Fish", "Gun"],
+                "additionalTips": null
+            }
+        };
+
+        const panel = new SurfSpotPanelOptimized('panel-container', [testSpot]);
+        panel.show('the-bubble');
+    </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 /**
  * @fileoverview Surf spot markers rendering module.
- * @version 1.0.0
+ * @version 1.0.1
  * @description This module handles rendering surf spot markers on the map,
  * including marker creation, styling, and interaction handling.
  */
@@ -23,9 +23,9 @@ export class SurfMarkersManager {
         
         // Configuration options
         this.options = {
-            markerSize: 20,
-            markerBorderWidth: 2,
-            markerShadowBlur: 4,
+            markerSize: 30, // Increased from 20 to make markers more visible
+            markerBorderWidth: 3, // Increased from 2 for better visibility
+            markerShadowBlur: 6, // Increased from 4 for better visibility
             markerShadowColor: 'rgba(0, 0, 0, 0.3)',
             tooltipOffset: { x: 10, y: -30 },
             tooltipPadding: 8,
@@ -33,7 +33,7 @@ export class SurfMarkersManager {
             tooltipBackground: 'rgba(0, 0, 0, 0.8)',
             tooltipTextColor: '#ffffff',
             tooltipFontSize: 12,
-            hoverRadius: 15,
+            hoverRadius: 25, // Increased from 15 to make clicking easier
             animationDuration: 200,
             enableHover: true,
             enableTooltips: true,
@@ -46,8 +46,8 @@ export class SurfMarkersManager {
             enableClustering: false, // Enable marker clustering at low zoom
             clusteringDistance: 30, // Distance in pixels for clustering
             // Mobile-specific options
-            mobileMarkerSize: 24, // Larger markers for touch
-            mobileHoverRadius: 20, // Larger touch targets
+            mobileMarkerSize: 35, // Increased from 24 for better touch targets
+            mobileHoverRadius: 30, // Increased from 20 for better touch targets
             enableMobileOptimizations: true,
             ...options
         };
@@ -68,6 +68,12 @@ export class SurfMarkersManager {
         this.lastViewportUpdate = 0;
         this.clusters = new Map(); // Marker clusters for low zoom levels
         this.isMobile = this.detectMobile();
+        
+        // Initialization state to prevent excessive re-initialization
+        this.isInitialized = false;
+        this.initializationPromise = null;
+        this.lastImageWidth = null;
+        this.lastImageHeight = null;
         
         // Adjust options for mobile if needed
         if (this.isMobile && this.options.enableMobileOptimizations) {
@@ -139,7 +145,39 @@ export class SurfMarkersManager {
     /**
      * Initializes markers for all surf spots.
      */
-    initializeMarkers(retryCount = 0) {
+    async initializeMarkers(retryCount = 0) {
+        // Prevent multiple simultaneous initializations
+        if (this.initializationPromise) {
+            return this.initializationPromise;
+        }
+        
+        // Check if already initialized with same image dimensions
+        const currentImageWidth = this.spotsManager.imageWidth;
+        const currentImageHeight = this.spotsManager.imageHeight;
+        
+        if (this.isInitialized &&
+            this.lastImageWidth === currentImageWidth &&
+            this.lastImageHeight === currentImageHeight &&
+            this.markers.size > 0) {
+            return; // Already initialized with same dimensions
+        }
+        
+        this.initializationPromise = this._initializeMarkersInternal(retryCount);
+        
+        try {
+            await this.initializationPromise;
+        } finally {
+            this.initializationPromise = null;
+        }
+    }
+    
+    /**
+     * Internal method to initialize markers.
+     * @private
+     * @param {number} retryCount - Current retry count.
+     * @returns {Promise<void>}
+     */
+    async _initializeMarkersInternal(retryCount = 0) {
         if (!this.spotsManager.loaded) {
             return;
         }
@@ -150,10 +188,8 @@ export class SurfMarkersManager {
             
             if (retryCount < maxRetries) {
                 // Try again after a short delay
-                setTimeout(() => {
-                    this.initializeMarkers(retryCount + 1);
-                }, 100);
-                return;
+                await new Promise(resolve => setTimeout(resolve, 100));
+                return this._initializeMarkersInternal(retryCount + 1);
             } else {
                 // Maximum retries reached, log a warning
                 console.warn(`Maximum retry attempts (${maxRetries}) reached for marker initialization. Image dimensions still not available.`);
@@ -163,28 +199,43 @@ export class SurfMarkersManager {
         
         const spots = this.spotsManager.getAllSpots();
         
-        // Clear existing markers
-        this.markers.clear();
-        this.visibleMarkers = [];
-        
-        let markersCreated = 0;
-        spots.forEach(spot => {
-            // Always recalculate pixel coordinates to ensure they're correct
-            const pixelCoords = this.spotsManager.getPixelCoordinates(spot.id, spot);
-            if (pixelCoords) {
-                this.markers.set(spot.id, {
-                    spot: spot,
-                    x: pixelCoords.x,
-                    y: pixelCoords.y,
-                    visible: true,
-                    scale: 1,
-                    opacity: 1
-                });
-                markersCreated++;
-            }
-        });
-        
-        console.log(`Initialized ${markersCreated} markers`);
+        // Only clear markers if image dimensions changed or this is first initialization
+        if (!this.isInitialized ||
+            this.lastImageWidth !== this.spotsManager.imageWidth ||
+            this.lastImageHeight !== this.spotsManager.imageHeight) {
+            
+            // Clear existing markers
+            this.markers.clear();
+            this.visibleMarkers = [];
+            
+            let markersCreated = 0;
+            spots.forEach(spot => {
+                // Only recalculate pixel coordinates if needed
+                let pixelCoords = spot.pixelCoordinates;
+                if (!pixelCoords) {
+                    pixelCoords = this.spotsManager.getPixelCoordinates(spot.id, spot);
+                }
+                
+                if (pixelCoords) {
+                    this.markers.set(spot.id, {
+                        spot: spot,
+                        x: pixelCoords.x,
+                        y: pixelCoords.y,
+                        visible: true,
+                        scale: 1,
+                        opacity: 1
+                    });
+                    markersCreated++;
+                }
+            });
+            
+            // Update initialization state
+            this.isInitialized = true;
+            this.lastImageWidth = this.spotsManager.imageWidth;
+            this.lastImageHeight = this.spotsManager.imageHeight;
+            
+            console.log(`Initialized ${markersCreated} markers`);
+        }
     }
 
     /**
@@ -478,19 +529,7 @@ export class SurfMarkersManager {
         const screenX = worldX + this.canvas.width / 2 + this.state.panX;
         const screenY = worldY + this.canvas.height / 2 + this.state.panY;
         
-        // Log the coordinate transformation for debugging
-        if (spot.id === 'el-cotillo') {
-            console.log(`Rendering marker for ${spot.id}:`, {
-                gps: spot.location.coordinates,
-                pixel: { x, y },
-                world: { x: worldX, y: worldY },
-                screen: { x: screenX, y: screenY },
-                zoom: this.state.zoom,
-                pan: { x: this.state.panX, y: this.state.panY },
-                imageDimensions: { width: imageWidth, height: imageHeight },
-                canvasDimensions: { width: this.canvas.width, height: this.canvas.height }
-            });
-        }
+        // Debug logging removed to prevent console spam
         
         // Check if marker is within canvas bounds
         const isInBounds = screenX >= -50 && screenX <= this.canvas.width + 50 &&
@@ -1049,5 +1088,11 @@ export class SurfMarkersManager {
         this.hoveredMarker = null;
         this.selectedMarker = null;
         this.onMarkerClick = null;
+        
+        // Reset initialization state
+        this.isInitialized = false;
+        this.initializationPromise = null;
+        this.lastImageWidth = null;
+        this.lastImageHeight = null;
     }
 }

@@ -1,6 +1,6 @@
 /**
  * @fileoverview Surf spots data management module.
- * @version 1.0.0
+ * @version 1.0.1
  * @description This module handles loading, processing, and managing surf spot data
  * for the surf map, including coordinate conversion and spot categorization.
  */
@@ -321,12 +321,18 @@ export class SurfSpotsManager {
      * @returns {Object|null} The pixel coordinates {x, y} or null if not found.
      */
     getPixelCoordinates(spotId, spot) {
-        // Always recalculate pixel coordinates to ensure they're correct
-        // This prevents issues with cached coordinates when image dimensions change
+        // Check if pixel coordinates are already cached
+        if (spot.pixelCoordinates) {
+            return spot.pixelCoordinates;
+        }
+        
+        // Calculate pixel coordinates if not cached
         if (spot.location && spot.location.coordinates) {
             const { lat, lng } = spot.location.coordinates;
             const pixelCoords = this.gpsToPixel(lat, lng);
             if (pixelCoords) {
+                // Cache the coordinates
+                spot.pixelCoordinates = pixelCoords;
                 return pixelCoords;
             } else {
                 console.warn(`Failed to calculate pixel coordinates for spot: ${spot.primaryName}`);

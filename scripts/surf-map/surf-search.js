@@ -199,10 +199,20 @@ export class SurfSearch {
         });
 
         // Blur event with delay to allow result clicks
-        this.searchInput.addEventListener('blur', () => {
-            setTimeout(() => {
-                this.hideResults();
-            }, 200);
+        this.searchInput.addEventListener('blur', (e) => {
+            console.log('Search input blur event triggered');
+            // Check if the blur is caused by clicking on a search result
+            const relatedTarget = e.relatedTarget;
+            const isClickingResult = relatedTarget && relatedTarget.classList && relatedTarget.classList.contains('search-result');
+            
+            if (!isClickingResult) {
+                setTimeout(() => {
+                    console.log('Hiding search results after blur');
+                    this.hideResults();
+                }, 200);
+            } else {
+                console.log('Blur caused by clicking on search result, not hiding immediately');
+            }
         });
 
         // Key navigation
@@ -829,7 +839,10 @@ export class SurfSearch {
         }
         
         // Add click event
-        resultElement.addEventListener('click', () => {
+        resultElement.addEventListener('click', (e) => {
+            console.log('Search result click event triggered for:', result.spot.id, result.spot.primaryName);
+            console.log('Event target:', e.target);
+            console.log('Current target:', e.currentTarget);
             this.handleResultClick(result.spot);
         });
         
@@ -987,11 +1000,15 @@ export class SurfSearch {
      * @param {Object} spot - The clicked surf spot.
      */
     handleResultClick(spot) {
+        console.log('handleResultClick called for:', spot.id, spot.primaryName);
         this.clearSearch();
         this.hideResults();
         
         if (this.onResultClick) {
+            console.log('Calling onResultClick callback for:', spot.id);
             this.onResultClick(spot);
+        } else {
+            console.error('No onResultClick callback available');
         }
     }
 

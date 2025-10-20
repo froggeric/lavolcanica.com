@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surf Spot Panel Performance Test</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style/surf-spot-panel-optimized.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-volcanic-night);
+            color: var(--text-salt-crystal);
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .test-controls {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .test-controls h2 {
+            margin-top: 0;
+            color: var(--accent-lava-glow);
+        }
+        
+        .control-group {
+            margin-bottom: 15px;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .control-group button {
+            background-color: var(--accent-lava-glow);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .control-group button:hover {
+            background-color: var(--accent-lava-glow-dark);
+        }
+        
+        .control-group button.active {
+            background-color: var(--accent-canary-teal);
+        }
+        
+        .test-results {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .test-results h3 {
+            margin-top: 0;
+            color: var(--accent-lava-glow);
+        }
+        
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        .metrics-table th, .metrics-table td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+        
+        .metrics-table th {
+            background-color: #333;
+            font-weight: 600;
+        }
+        
+        .metrics-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .panel-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 500px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+            transform: translateX(100%);
+            transition: transform 0.4s ease;
+            z-index: 2000;
+            overflow-y: auto;
+        }
+        
+        .panel-container.active {
+            transform: translateX(0);
+        }
+        
+        .close-panel {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent-lava-glow);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .sample-spots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .sample-spot {
+            background-color: #333;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .sample-spot:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Surf Spot Panel Performance Test</h1>
+        
+        <div class="test-controls">
+            <h2>Performance Controls</h2>
+            
+            <div class="control-group">
+                <label>Performance Mode:</label>
+                <button id="mode-default" class="active">Default</button>
+                <button id="mode-high-performance">High Performance</button>
+                <button id="mode-memory-optimized">Memory Optimized</button>
+                <button id="mode-network-slow">Network Slow</button>
+                <button id="mode-cpu-slow">CPU Slow</button>
+                <button id="mode-battery-low">Battery Low</button>
+            </div>
+            
+            <div class="control-group">
+                <label>Test Actions:</label>
+                <button id="test-load-panel">Load Panel</button>
+                <button id="test-clear-panel">Clear Panel</button>
+                <button id="test-toggle-metrics">Toggle Metrics</button>
+                <button id="test-run-benchmark">Run Benchmark</button>
+                <button id="test-memory-usage">Check Memory</button>
+            </div>
+            
+            <div class="control-group">
+                <label>Sample Spots:</label>
+                <div class="sample-spots">
+                    <div class="sample-spot" data-spot="pipeline">Pipeline</div>
+                    <div class="sample-spot" data-spot="banzai">Banzai Pipeline</div>
+                    <div class="sample-spot" data-spot="soup-bowl">Soup Bowl</div>
+                    <div class="sample-spot" data-spot="honolua">Honolua Bay</div>
+                    <div class="sample-spot" data-spot="supertubes">Supertubes</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-results">
+            <h3>Performance Metrics</h3>
+            <table class="metrics-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="metrics-tbody">
+                    <tr>
+                        <td>Render Time</td>
+                        <td id="metric-render-time">0 ms</td>
+                        <td id="status-render-time">-</td>
+                    </tr>
+                    <tr>
+                        <td>Image Load Time</td>
+                        <td id="metric-image-load-time">0 ms</td>
+                        <td id="status-image-load-time">-</td>
+                    </tr>
+                    <tr>
+                        <td>Interaction Time</td>
+                        <td id="metric-interaction-time">0 ms</td>
+                        <td id="status-interaction-time">-</td>
+                    </tr>
+                    <tr>
+                        <td>Memory Usage</td>
+                        <td id="metric-memory-usage">0 MB</td>
+                        <td id="status-memory-usage">-</td>
+                    </tr>
+                    <tr>
+                        <td>Cache Size</td>
+                        <td id="metric-cache-size">0 items</td>
+                        <td id="status-cache-size">-</td>
+                    </tr>
+                    <tr>
+                        <td>Active Observers</td>
+                        <td id="metric-observers">0</td>
+                        <td id="status-observers">-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="panel-container" id="panel-container">
+        <button class="close-panel" id="close-panel">×</button>
+        <div id="panel-content"></div>
+    </div>
+    
+    <div class="performance-metrics hidden" id="performance-metrics">
+        <h4>Live Metrics</h4>
+        <dl>
+            <dt>FPS:</dt>
+            <dd id="live-fps">60</dd>
+            <dt>DOM Nodes:</dt>
+            <dd id="live-dom-nodes">0</dd>
+            <dt>Event Listeners:</dt>
+            <dd id="live-event-listeners">0</dd>
+        </dl>
+    </div>
+    
+    <div class="performance-indicator" id="performance-indicator"></div>
+    
+    <script type="module">
+        import { SurfSpotPanel } from '../scripts/surf-map/surf-spot-panel-optimized.js';
+        
+        // Sample surf spot data
+        const sampleSpots = {
+            pipeline: {
+                id: 'pipeline',
+                primaryName: 'Banzai Pipeline',
+                alternativeNames: ['Pipeline', 'Pipe'],
+                description: 'World-famous reef break on the North Shore of Oahu, known for its powerful, barreling waves.',
+                location: {
+                    area: 'North Shore, Oahu',
+                    nearestTowns: ['Haleiwa', 'Waialua'],
+                    coordinates: { lat: 21.6748, lng: -158.0536 }
+                },
+                waveDetails: {
+                    type: ['Reef Break'],
+                    direction: ['NW'],
+                    bestSwellDirection: ['NW'],
+                    bestWindDirection: ['E', 'SE'],
+                    bestTide: ['Low', 'Mid'],
+                    bestSeason: ['Winter'],
+                    abilityLevel: { primary: 'Expert', alsoSuitableFor: [] },
+                    idealConditions: 'NW swell with E trade winds, low to mid tide'
+                },
+                characteristics: {
+                    crowdFactor: 'Crowded',
+                    localVibe: 'Competitive',
+                    hazards: ['Sharp reef', 'Strong currents'],
+                    bottom: ['Reef'],
+                    waterQuality: 'Clean'
+                },
+                practicalities: {
+                    access: 'Beach access with parking along Ehukai Beach Road',
+                    parking: 'Limited street parking, arrive early',
+                    facilities: 'Restrooms and showers at Ehukai Beach Park',
+                    paddleOut: 'Short paddle from beach to lineup',
+                    recommendedBoards: ['Gun', 'Step-up'],
+                    additionalTips: 'Respect locals, this spot is for experienced surfers only'
+                }
+            },
+            banzai: {
+                id: 'banzai',
+                primaryName: 'Banzai Pipeline',
+                alternativeNames: ['Pipeline', 'Pipe'],
+                description: 'World-famous reef break on the North Shore of Oahu, known for its powerful, barreling waves.',
+                location: {
+                    area: 'North Shore, Oahu',
+                    nearestTowns: ['Haleiwa', 'Waialua'],
+                    coordinates: { lat: 21.6748, lng: -158.0536 }
+                },
+                waveDetails: {
+                    type: ['Reef Break'],
+                    direction: ['NW'],
+                    bestSwellDirection: ['NW'],
+                    bestWindDirection: ['E', 'SE'],
+                    bestTide: ['Low', 'Mid'],
+                    bestSeason: ['Winter'],
+                    abilityLevel: { primary: 'Expert', alsoSuitableFor: [] },
+                    idealConditions: 'NW swell with E trade winds, low to mid tide'
+                },
+                characteristics: {
+                    crowdFactor: 'Crowded',
+                    localVibe: 'Competitive',
+                    hazards: ['Sharp reef', 'Strong currents'],
+                    bottom: ['Reef'],
+                    waterQuality: 'Clean'
+                },
+                practicalities: {
+                    access: 'Beach access with parking along Ehukai Beach Road',
+                    parking: 'Limited street parking, arrive early',
+                    facilities: 'Restrooms and showers at Ehukai Beach Park',
+                    paddleOut: 'Short paddle from beach to lineup',
+                    recommendedBoards: ['Gun', 'Step-up'],
+                    additionalTips: 'Respect locals, this spot is for experienced surfers only'
+                }
+            },
+            'soup-bowl': {
+                id: 'soup-bowl',
+                primaryName: 'Soup Bowl',
+                alternativeNames: [],
+                description: 'Powerful right-hand reef break in Maui, known for its hollow barrels.',
+                location: {
+                    area: 'Paia, Maui',
+                    nearestTowns: ['Paia', 'Haiku'],
+                    coordinates: { lat: 20.9172, lng: -156.3269 }
+                },
+                waveDetails: {
+                    type: ['Reef Break'],
+                    direction: ['N'],
+                    bestSwellDirection: ['N', 'NW'],
+                    bestWindDirection: ['S', 'SE'],
+                    bestTide: ['Low', 'Mid'],
+                    bestSeason: ['Winter'],
+                    abilityLevel: { primary: 'Advanced', alsoSuitableFor: ['Intermediate'] },
+                    idealConditions: 'N swell with S winds, low tide'
+                },
+                characteristics: {
+                    crowdFactor: 'Medium',
+                    localVibe: 'Friendly',
+                    hazards: ['Sharp reef'],
+                    bottom: ['Reef'],
+                    waterQuality: 'Clean'
+                },
+                practicalities: {
+                    access: 'Short walk from Paia town',
+                    parking: 'Limited parking near the break',
+                    facilities: 'Restaurants and shops in Paia',
+                    paddleOut: 'Short paddle from beach to lineup',
+                    recommendedBoards: ['Shortboard', 'Fish'],
+                    additionalTips: 'Best on north swells, can get crowded'
+                }
+            },
+            honolua: {
+                id: 'honolua',
+                primaryName: 'Honolua Bay',
+                alternativeNames: [],
+                description: 'Scenic right-hand point break in Northwest Maui, perfect for long rides.',
+                location: {
+                    area: 'Northwest Maui',
+                    nearestTowns: ['Kahakuloa', 'Napili'],
+                    coordinates: { lat: 21.0036, lng: -156.6728 }
+                },
+                waveDetails: {
+                    type: ['Point Break'],
+                    direction: ['N', 'NW'],
+                    bestSwellDirection: ['N', 'NW'],
+                    bestWindDirection: ['S', 'SE'],
+                    bestTide: ['Low', 'Mid', 'High'],
+                    bestSeason: ['Winter'],
+                    abilityLevel: { primary: 'Intermediate', alsoSuitableFor: ['Advanced', 'Beginner'] },
+                    idealConditions: 'N swell with S winds, any tide'
+                },
+                characteristics: {
+                    crowdFactor: 'High',
+                    localVibe: 'Respectful',
+                    hazards: ['Rocks', 'Sea urchins'],
+                    bottom: ['Reef', 'Rock'],
+                    waterQuality: 'Clean'
+                },
+                practicalities: {
+                    access: 'Steep trail down to the bay',
+                    parking: 'Limited parking at the top of the trail',
+                    facilities: 'No facilities, bring water',
+                    paddleOut: 'Long paddle to the point',
+                    recommendedBoards: ['Longboard', 'Funboard'],
+                    additionalTips: 'Respect local customs, this is a special place'
+                }
+            },
+            supertubes: {
+                id: 'supertubes',
+                primaryName: 'Supertubes',
+                alternativeNames: ['Supers'],
+                description: 'World-class right-hand point break in Jeffrey\'s Bay, South Africa.',
+                location: {
+                    area: 'Jeffrey\'s Bay, South Africa',
+                    nearestTowns: ['Jeffrey\'s Bay'],
+                    coordinates: { lat: -34.0483, lng: 24.9236 }
+                },
+                waveDetails: {
+                    type: ['Point Break'],
+                    direction: ['SW', 'W'],
+                    bestSwellDirection: ['SW', 'W'],
+                    bestWindDirection: ['NW', 'N'],
+                    bestTide: ['Low', 'Mid'],
+                    bestSeason: ['Autumn', 'Winter'],
+                    abilityLevel: { primary: 'Advanced', alsoSuitableFor: ['Expert'] },
+                    idealConditions: 'SW swell with NW winds, low to mid tide'
+                },
+                characteristics: {
+                    crowdFactor: 'High',
+                    localVibe: 'Competitive',
+                    hazards: ['Rocks'],
+                    bottom: ['Reef', 'Rock'],
+                    waterQuality: 'Clean'
+                },
+                practicalities: {
+                    access: 'Multiple access points along the point',
+                    parking: 'Parking available at various spots',
+                    facilities: 'Restaurants and shops in town',
+                    paddleOut: 'Varies depending on access point',
+                    recommendedBoards: ['Shortboard', 'Gun'],
+                    additionalTips: 'Best on solid SW swells, can get crowded'
+                }
+            }
+        };
+        
+        // Initialize panel
+        const panelContainer = document.getElementById('panel-container');
+        const panelContent = document.getElementById('panel-content');
+        const panel = new SurfSpotPanel({
+            container: panelContent,
+            enableAnimations: true,
+            enableTooltips: true,
+            enableKeyboardNav: true,
+            enablePerformanceOptimizations: true,
+            onClose: () => {
+                panelContainer.classList.remove('active');
+            }
+        });
+        
+        // Performance monitoring
+        let metricsInterval;
+        let fpsInterval;
+        let lastFrameTime = performance.now();
+        let frameCount = 0;
+        let currentFPS = 60;
+        
+        function updateMetrics() {
+            const metrics = panel.getPerformanceMetrics();
+            
+            document.getElementById('metric-render-time').textContent = `${metrics.renderTime.toFixed(2)} ms`;
+            document.getElementById('metric-image-load-time').textContent = `${metrics.imageLoadTime.toFixed(2)} ms`;
+            document.getElementById('metric-interaction-time').textContent = `${metrics.interactionTime.toFixed(2)} ms`;
+            document.getElementById('metric-memory-usage').textContent = `${(metrics.memoryUsage / 1048576).toFixed(2)} MB`;
+            document.getElementById('metric-cache-size').textContent = `${metrics.cacheSize} items`;
+            document.getElementById('metric-observers').textContent = metrics.observerCount;
+            
+            // Update status indicators
+            updateStatus('render-time', metrics.renderTime, 50, 100);
+            updateStatus('image-load-time', metrics.imageLoadTime, 200, 500);
+            updateStatus('interaction-time', metrics.interactionTime, 50, 100);
+            updateStatus('memory-usage', metrics.memoryUsage / 1048576, 50, 100);
+            updateStatus('cache-size', metrics.cacheSize, 10, 20);
+            updateStatus('observers', metrics.observerCount, 3, 5);
+        }
+        
+        function updateStatus(metric, value, goodThreshold, badThreshold) {
+            const statusElement = document.getElementById(`status-${metric}`);
+            if (value < goodThreshold) {
+                statusElement.textContent = 'Good';
+                statusElement.style.color = '#4CAF50';
+            } else if (value < badThreshold) {
+                statusElement.textContent = 'OK';
+                statusElement.style.color = '#FF9800';
+            } else {
+                statusElement.textContent = 'Poor';
+                statusElement.style.color = '#F44336';
+            }
+        }
+        
+        function updateFPS() {
+            frameCount++;
+            const currentTime = performance.now();
+            const elapsed = currentTime - lastFrameTime;
+            
+            if (elapsed >= 1000) {
+                currentFPS = Math.round((frameCount * 1000) / elapsed);
+                document.getElementById('live-fps').textContent = currentFPS;
+                
+                // Update performance indicator
+                const indicator = document.getElementById('performance-indicator');
+                if (currentFPS >= 55) {
+                    indicator.className = 'performance-indicator';
+                } else if (currentFPS >= 30) {
+                    indicator.className = 'performance-indicator slow';
+                } else {
+                    indicator.className = 'performance-indicator very-slow';
+                }
+                
+                frameCount = 0;
+                lastFrameTime = currentTime;
+            }
+            
+            requestAnimationFrame(updateFPS);
+        }
+        
+        function updateDOMMetrics() {
+            const panelElement = panelContent.querySelector('.surf-spot-panel');
+            if (panelElement) {
+                const domNodes = panelElement.querySelectorAll('*').length;
+                document.getElementById('live-dom-nodes').textContent = domNodes;
+            }
+            
+            // This is a rough estimate of event listeners
+            const eventListeners = panel.eventListeners ? panel.eventListeners.size : 0;
+            document.getElementById('live-event-listeners').textContent = eventListeners;
+        }
+        
+        // Event listeners
+        document.getElementById('close-panel').addEventListener('click', () => {
+            panelContainer.classList.remove('active');
+        });
+        
+        document.getElementById('test-load-panel').addEventListener('click', () => {
+            const spotId = 'pipeline';
+            const spot = sampleSpots[spotId];
+            
+            // Clear previous content
+            panelContent.innerHTML = '';
+            
+            // Generate new content
+            const content = panel.generateContent(spot);
+            panelContent.appendChild(content);
+            
+            // Show panel
+            panelContainer.classList.add('active');
+            
+            // Start metrics monitoring
+            if (metricsInterval) clearInterval(metricsInterval);
+            metricsInterval = setInterval(updateMetrics, 500);
+            
+            // Update DOM metrics
+            setTimeout(updateDOMMetrics, 100);
+        });
+        
+        document.getElementById('test-clear-panel').addEventListener('click', () => {
+            panelContent.innerHTML = '';
+            panelContainer.classList.remove('active');
+            
+            if (metricsInterval) {
+                clearInterval(metricsInterval);
+                metricsInterval = null;
+            }
+            
+            panel.clearPerformanceMetrics();
+            updateMetrics();
+        });
+        
+        document.getElementById('test-toggle-metrics').addEventListener('click', () => {
+            const metricsElement = document.getElementById('performance-metrics');
+            metricsElement.classList.toggle('hidden');
+        });
+        
+        document.getElementById('test-run-benchmark').addEventListener('click', () => {
+            // Clear previous metrics
+            panel.clearPerformanceMetrics();
+            
+            // Run benchmark
+            const iterations = 10;
+            const spot = sampleSpots.pipeline;
+            
+            const startTime = performance.now();
+            
+            for (let i = 0; i < iterations; i++) {
+                panelContent.innerHTML = '';
+                const content = panel.generateContent(spot);
+                panelContent.appendChild(content);
+            }
+            
+            const endTime = performance.now();
+            const avgTime = (endTime - startTime) / iterations;
+            
+            alert(`Benchmark completed:\nAverage render time: ${avgTime.toFixed(2)} ms\nIterations: ${iterations}`);
+            
+            updateMetrics();
+        });
+        
+        document.getElementById('test-memory-usage').addEventListener('click', () => {
+            if (performance.memory) {
+                const memoryInfo = {
+                    used: (performance.memory.usedJSHeapSize / 1048576).toFixed(2),
+                    total: (performance.memory.totalJSHeapSize / 1048576).toFixed(2),
+                    limit: (performance.memory.jsHeapSizeLimit / 1048576).toFixed(2)
+                };
+                
+                alert(`Memory Usage:\nUsed: ${memoryInfo.used} MB\nTotal: ${memoryInfo.total} MB\nLimit: ${memoryInfo.limit} MB`);
+            } else {
+                alert('Memory information not available in this browser.');
+            }
+        });
+        
+        // Performance mode buttons
+        const modeButtons = {
+            'mode-default': '',
+            'mode-high-performance': 'high-performance-mode',
+            'mode-memory-optimized': 'memory-optimized',
+            'mode-network-slow': 'network-slow',
+            'mode-cpu-slow': 'cpu-slow',
+            'mode-battery-low': 'battery-low'
+        };
+        
+        Object.keys(modeButtons).forEach(buttonId => {
+            document.getElementById(buttonId).addEventListener('click', () => {
+                // Remove all mode classes
+                Object.values(modeButtons).forEach(className => {
+                    if (className) document.body.classList.remove(className);
+                });
+                
+                // Remove active class from all buttons
+                Object.keys(modeButtons).forEach(id => {
+                    document.getElementById(id).classList.remove('active');
+                });
+                
+                // Add new mode class if not default
+                const modeClass = modeButtons[buttonId];
+                if (modeClass) {
+                    document.body.classList.add(modeClass);
+                }
+                
+                // Add active class to clicked button
+                document.getElementById(buttonId).classList.add('active');
+            });
+        });
+        
+        // Sample spot buttons
+        document.querySelectorAll('.sample-spot').forEach(spotElement => {
+            spotElement.addEventListener('click', () => {
+                const spotId = spotElement.getAttribute('data-spot');
+                const spot = sampleSpots[spotId];
+                
+                // Clear previous content
+                panelContent.innerHTML = '';
+                
+                // Generate new content
+                const content = panel.generateContent(spot);
+                panelContent.appendChild(content);
+                
+                // Show panel
+                panelContainer.classList.add('active');
+                
+                // Start metrics monitoring
+                if (metricsInterval) clearInterval(metricsInterval);
+                metricsInterval = setInterval(updateMetrics, 500);
+                
+                // Update DOM metrics
+                setTimeout(updateDOMMetrics, 100);
+            });
+        });
+        
+        // Start FPS monitoring
+        requestAnimationFrame(updateFPS);
+        
+        // Initial metrics update
+        updateMetrics();
+    </script>
+</body>
+</html>

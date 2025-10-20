@@ -55,6 +55,7 @@
     
     <!-- Link to the main stylesheet -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style/surf-spot-panel-optimized.css">
     
     <!-- Preconnect to Google Fonts for performance optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -178,7 +179,7 @@
             <h2 class="side-panel-title" id="side-panel-title">Surf Spot Details</h2>
             <button class="close-panel-btn" aria-label="Close panel">&times;</button>
         </div>
-        <div class="side-panel-content">
+        <div class="side-panel-content" id="panel-container">
             <!-- Surf spot details will be injected here by JavaScript -->
         </div>
     </div>
@@ -224,7 +225,8 @@
         import { SurfMap } from './scripts/surf-map/surf-map-core.js';
         import { SurfSearch } from './scripts/surf-map/surf-search.js';
         import { SurfSpotsManager } from './scripts/surf-map/surf-spots.js';
-        import { SurfSpotPanel } from './scripts/surf-map/surf-spot-panel.js';
+        import { SurfSpotPanelOptimized } from './scripts/surf-map/surf-spot-panel-optimized.js';
+        
         import { SurfSpotsCounter } from './scripts/surf-map/surf-counter.js';
         
         // Import data loader for translations and footer links
@@ -309,26 +311,49 @@
                     if (leftSideSearchInput && leftSideSearchResults) {
                         // Wait for the map to be ready before initializing search
                         surfMap.on('ready', () => {
-                            // Create a new SurfSpotsManager for search functionality with map image dimensions
-                            const spotsManager = new SurfSpotsManager({
-                                mapImage: surfMap.state.image
+                            // Expose surfMap and spotsManager globally for easier access in global functions
+                            window.surfMapInstance = surfMap;
+                            window.surfSpots = surfMap.getSpotsManager(); // Use the spotsManager from surfMap
+
+                            const spotsManager = surfMap.getSpotsManager(); // Get the manager from surfMap
+                            const search = new SurfSearch(spotsManager, leftSideSearchInput, leftSideSearchResults);
+                            
+                           const panel = new SurfSpotPanelOptimized('panel-container', surfMap.getSpotsManager().getAllSpots());
+                           
+                           // Set up global function for showing surf spot details BEFORE initializing search
+                           window.showSurfSpotPanel = function(spotId) {
+                                console.log('showSurfSpotPanel called with spotId:', spotId);
+                                panel.show(spotId);
+                                const sidePanel = document.getElementById('side-panel');
+                                const panelOverlay = document.getElementById('side-panel-overlay');
+                                sidePanel.classList.add('active');
+                                panelOverlay.classList.add('active');
+
+                                const closePanelBtn = sidePanel.querySelector('.close-panel-btn');
+                                const closePanel = () => {
+                                    sidePanel.classList.remove('active');
+                                    panelOverlay.classList.remove('active');
+                                };
+                                closePanelBtn.onclick = closePanel;
+                                panelOverlay.onclick = closePanel;
+                           };
+
+                            // Set up event listeners for search functionality
+                            search.setResultClickCallback((spot) => {
+                                console.log('Search result clicked:', spot.id, spot.primaryName);
+                                if (surfMap) {
+                                    surfMap.focusOnSpot(spot.id);
+                                    // Also open the panel
+                                    if (window.showSurfSpotPanel) {
+                                        console.log('Calling showSurfSpotPanel for spot:', spot.id);
+                                        window.showSurfSpotPanel(spot.id);
+                                    } else {
+                                        console.error('showSurfSpotPanel function not available');
+                                    }
+                                }
                             });
                             
-                            // Load the surf spots data
-                            spotsManager.loadSurfSpots().then(() => {
-                                const search = new SurfSearch(spotsManager, leftSideSearchInput, leftSideSearchResults);
-                                
-                                // Set up event listeners for search functionality
-                                search.setResultClickCallback((spot) => {
-                                    if (surfMap) {
-                                        surfMap.focusOnSpot(spot.id);
-                                    }
-                                });
-                                
-                                console.log('Left side search initialized');
-                            }).catch(error => {
-                                console.error('Failed to load surf spots for search:', error);
-                            });
+                            console.log('Left side search initialized');
                         });
                     }
                     
@@ -353,14 +378,12 @@
                     }
                     
                     // Set up event listeners for the surf map
-                    surfMap.on('ready', () => {
-                        console.log('Surf map is ready');
-                        
-                        // Initialize counter with initial visible spots
-                        if (counter) {
-                            counter.updateCount(surfMap.getVisibleSpots().length);
-                        }
-                    });
+                    surfMap.on('viewChange', () => {
+                       // Initialize counter with initial visible spots
+                       if (counter) {
+                           counter.updateCount(surfMap.getVisibleSpots().length);
+                       }
+                   });
                     
                     surfMap.on('error', (error) => {
                         console.error('Surf map error:', error);
@@ -392,43 +415,6 @@
                     
                     // Initial layout adjustment
                     setTimeout(adjustMapLayout, 100);
-                    
-                    // Set up global function for showing surf spot details
-                    window.showSurfSpotPanel = (spot) => {
-                        // Create a new instance of the SurfSpotPanel content generator
-                        const surfSpotPanel = new SurfSpotPanel();
-                        
-                        // Generate the content for the surf spot
-                        const contentFragment = surfSpotPanel.generateContent(spot);
-                        
-                        // Get side panel elements
-                        const sidePanel = document.getElementById('side-panel');
-                        const panelOverlay = document.getElementById('side-panel-overlay');
-                        const panelTitle = sidePanel.querySelector('.side-panel-title');
-                        const panelContent = sidePanel.querySelector('.side-panel-content');
-                        const closePanelBtn = sidePanel.querySelector('.close-panel-btn');
-                        
-                        // Set title
-                        panelTitle.textContent = spot.name;
-                        
-                        // Clear and populate panel content
-                        panelContent.innerHTML = '';
-                        panelContent.appendChild(contentFragment);
-                        
-                        // Show the panel
-                        sidePanel.classList.add('active');
-                        panelOverlay.classList.add('active');
-                        
-                        // Set up close button
-                        const closePanel = () => {
-                            sidePanel.classList.remove('active');
-                            panelOverlay.classList.remove('active');
-                        };
-                        
-                        closePanelBtn.onclick = closePanel;
-                        panelOverlay.onclick = closePanel;
-                    };
-                    
                 } catch (error) {
                     console.error('Failed to initialize surf map:', error);
                 }
@@ -453,7 +439,7 @@
             }
             
             // Handle language switching
-            const langButtons = document.querySelectorAll('.lang-.btn');
+            const langButtons = document.querySelectorAll('.lang-btn');
             langButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const selectedLang = button.getAttribute('data-lang');

@@ -1,6 +1,6 @@
 /**
  * @fileoverview Core SurfMap class for the fullscreen surf map interface.
- * @version 1.0.1
+ * @version 1.0.2
  * @description This module contains the core SurfMap class that manages the map state,
  * coordinates between the renderer and interaction handlers, and provides the main API
  * for the surf map functionality.
@@ -80,6 +80,17 @@ export class SurfMap {
         this.touchStartTime = 0;
         this.performanceMode = 'normal'; // 'normal', 'touch', 'memory'
         
+        // State tracking for optimized rendering
+        this.lastRenderState = {
+            zoom: null,
+            panX: null,
+            panY: null,
+            canvasWidth: null,
+            canvasHeight: null,
+            imageLoaded: null
+        };
+        this.needsRender = true;
+        
         // Initialize the map
         this.init();
     }
@@ -97,18 +108,20 @@ export class SurfMap {
             // Set up canvas for high-DPI displays
             this.setupHighDPICanvas();
 
-            // Load the map image first and wait for it to complete
-            await this.loadImage();
-
-            // Initialize the surf spots manager
+            // Initialize the surf spots manager early so it can be used by loadImage
             const { SurfSpotsManager } = await import('./surf-spots.js');
             this.spotsManager = new SurfSpotsManager();
-            await this.spotsManager.loadSurfSpots();
+
+            // Load the map image first and wait for it to complete
+            await this.loadImage();
             
             // Set the image dimensions in the spots manager now that the image has loaded
             if (this.state.imageLoaded && this.state.image) {
                 this.spotsManager.setImageDimensions(this.state.image.width, this.state.image.height);
                 
+                // Load surf spots after image dimensions are set
+                await this.spotsManager.loadSurfSpots();
+
                 // Validate coordinate conversion after setting image dimensions
                 const validationResults = this.spotsManager.validateCoordinateConversion();
                 if (!validationResults.valid) {
@@ -145,7 +158,7 @@ export class SurfMap {
             
             // Initialize markers now that the image has loaded and dimensions are set
             if (this.state.imageLoaded) {
-                this.markersManager.initializeMarkers();
+                await this.markersManager.initializeMarkers();
             }
 
             // The spot detail panel is now handled by the main application
@@ -343,7 +356,7 @@ export class SurfMap {
         this.state.panX = 0;
         this.state.panY = 0;
         this.constrainPan();
-        this.render();
+        this.forceRender();
         this.emit('viewReset');
     }
 
@@ -375,7 +388,7 @@ export class SurfMap {
             this.state.panY = canvasCenterY - imageY * this.state.zoom;
             
             this.constrainPan();
-            this.render();
+            this.forceRender();
             this.emit('zoomChanged', { zoom: this.state.zoom });
         }
     }
@@ -405,7 +418,7 @@ export class SurfMap {
         this.state.panX += deltaX;
         this.state.panY += deltaY;
         this.constrainPan();
-        this.render();
+        this.forceRender();
         this.emit('panChanged', { panX: this.state.panX, panY: this.state.panY });
     }
 
@@ -418,7 +431,7 @@ export class SurfMap {
         this.state.panX = x;
         this.state.panY = y;
         this.constrainPan();
-        this.render();
+        this.forceRender();
         this.emit('panChanged', { panX: this.state.panX, panY: this.state.panY });
     }
 
@@ -450,6 +463,27 @@ export class SurfMap {
             return;
         }
         
+        // Check if render state has changed
+        const currentState = {
+            zoom: this.state.zoom,
+            panX: this.state.panX,
+            panY: this.state.panY,
+            canvasWidth: this.canvas.width,
+            canvasHeight: this.canvas.height,
+            imageLoaded: this.state.imageLoaded
+        };
+        
+        // Only render if state has changed or render is explicitly needed
+        const stateChanged = !this.stateEquals(currentState, this.lastRenderState);
+        
+        if (!this.needsRender && !stateChanged) {
+            return;
+        }
+        
+        // Update last render state
+        this.lastRenderState = { ...currentState };
+        this.needsRender = false;
+        
         // Render base map
         this.renderer.render();
         
@@ -468,6 +502,30 @@ export class SurfMap {
         if (this.minimap) {
             this.minimap.render();
         }
+    }
+    
+    /**
+     * Compares two render states for equality.
+     * @param {Object} state1 - First state.
+     * @param {Object} state2 - Second state.
+     * @returns {boolean} Whether the states are equal.
+     */
+    stateEquals(state1, state2) {
+        if (!state1 || !state2) return false;
+        
+        return state1.zoom === state2.zoom &&
+               state1.panX === state2.panX &&
+               state1.panY === state2.panY &&
+               state1.canvasWidth === state2.canvasWidth &&
+               state1.canvasHeight === state2.canvasHeight &&
+               state1.imageLoaded === state2.imageLoaded;
+    }
+    
+    /**
+     * Forces a render on the next frame.
+     */
+    forceRender() {
+        this.needsRender = true;
     }
 
     /**
@@ -496,7 +554,7 @@ export class SurfMap {
         if (this.canvas) {
             this.setupHighDPICanvas();
             this.constrainPan();
-            this.render();
+            this.forceRender();
         }
         this.emit('resize');
     }
@@ -575,7 +633,7 @@ export class SurfMap {
     handleMarkerClick(spot) {
         // Call the global showSurfSpotPanel function from the main application
         if (window.showSurfSpotPanel) {
-            window.showSurfSpotPanel(spot);
+            window.showSurfSpotPanel(spot.id);
         }
         
         // Emit marker click event
@@ -608,7 +666,7 @@ export class SurfMap {
         
         // Call the global showSurfSpotPanel function from the main application
         if (window.showSurfSpotPanel) {
-            window.showSurfSpotPanel(spot);
+            window.showSurfSpotPanel(spot.id);
         }
         
         // Emit minimap spot click event
@@ -628,7 +686,7 @@ export class SurfMap {
         this.constrainPan();
         
         // Re-render
-        this.render();
+        this.forceRender();
         
         // Emit viewport change event
         this.emit('viewportChanged', viewport);
@@ -661,7 +719,7 @@ export class SurfMap {
             this.state.panX = newPanX;
             this.state.panY = newPanY;
             this.constrainPan();
-            this.render();
+            this.forceRender();
         }
         
         // Emit spot centered event
@@ -720,14 +778,14 @@ export class SurfMap {
         
         // Call the global showSurfSpotPanel function from the main application
         if (window.showSurfSpotPanel) {
-            window.showSurfSpotPanel(spot);
+            window.showSurfSpotPanel(spot.id);
         }
         
         // Highlight the marker
         if (this.markersManager) {
             this.markersManager.highlightMarker(spot.id);
             // Force a render to show the highlight
-            this.render();
+            this.forceRender();
         }
         
         // Emit search result click event
@@ -743,7 +801,7 @@ export class SurfMap {
         this.updateSearchVisibility();
         
         // Re-render
-        this.render();
+        this.forceRender();
         
         // Emit search change event
         this.emit('searchChange', { results });
@@ -886,7 +944,7 @@ export class SurfMap {
     focusOnSpot(spotId) {
         if (!this.spotsManager) return;
         
-        const spot = this.spotsManager.getSpotById(spotId);
+        const spot = this.spotsManager.getSpot(spotId);
         if (spot) {
             this.centerOnSpot(spot);
         }
