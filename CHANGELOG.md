@@ -5,6 +5,34 @@ All notable changes to the La Sonora Volcánica website will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.7] - 2025-10-21
+
+### Fixed
+- **Marker Sizing System**: Resolved issue where surf spot markers were scaling with the map zoom level, causing them to become larger when zoomed in and smaller when zoomed out.
+- **Style Consistency**: Fixed LOD (Level of Detail) system that was changing marker style from surf spot style (circle with point) to simple circles at low zoom levels.
+- **Cross-Device Compatibility**: Ensured marker fixes work consistently across desktop, tablet, and mobile viewports with proper touch target sizing.
+
+### Technical Details
+- Applied inverse zoom scaling (`1 / this.state.zoom`) to counteract canvas transformation zoom scaling
+- Disabled LOD system by setting `enableLOD: false` in marker configuration
+- Maintained fixed marker size (30px desktop, 35px mobile) across all zoom levels
+- Preserved full surf spot marker shape (circle with point) at all zoom levels
+- Applied same inverse scaling to cluster rendering for consistency
+
+### Performance
+- Added inverse zoom scaling with minimal performance impact
+- Maintained existing performance optimizations (viewport culling, coordinate caching)
+- Preserved touch interaction functionality across all zoom levels
+
+### Files Modified
+- `scripts/surf-map/surf-markers.js`: Updated to v1.8.7 with fixed marker sizing and disabled LOD system
+- `scripts/surf-map/surf-spots.js`: Updated to v1.8.7 for version consistency
+- `data/config/app-config.js`: Updated version to 1.8.7
+- `index.html`: Updated version to 1.8.7
+- `script.js`: Updated version to 1.8.7
+- `style.css`: Updated version to 1.8.7
+- `CHANGELOG.md`: Added comprehensive v1.8.7 entry
+
 ## [1.8.6] - 2025-10-21
 
 ### Fixed

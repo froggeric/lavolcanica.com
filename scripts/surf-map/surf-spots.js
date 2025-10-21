@@ -1,6 +1,6 @@
 /**
  * @fileoverview Surf spots data management module.
- * @version 1.8.6
+ * @version 1.8.7
  * @description This module handles loading, processing, and managing surf spot data
  * for the surf map, including coordinate conversion and spot categorization.
  */

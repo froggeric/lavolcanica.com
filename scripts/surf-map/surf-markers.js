@@ -1,6 +1,6 @@
 /**
  * @fileoverview Surf spot markers rendering module.
- * @version 1.8.6
+ * @version 1.8.7
  * @description This module handles rendering surf spot markers on the map,
  * including marker creation, styling, and interaction handling.
  */
@@ -23,7 +23,7 @@ export class SurfMarkersManager {
         
         // Configuration options
         this.options = {
-            markerSize: 30, // Increased from 20 to make markers more visible
+            markerSize: 30, // Fixed size for all zoom levels
             markerBorderWidth: 3, // Increased from 2 for better visibility
             markerShadowBlur: 6, // Increased from 4 for better visibility
             markerShadowColor: 'rgba(0, 0, 0, 0.3)',
@@ -41,8 +41,8 @@ export class SurfMarkersManager {
             // Performance optimization options
             viewportBuffer: 50, // Extra space around viewport to pre-render markers
             maxVisibleMarkers: 100, // Maximum number of markers to render at once
-            enableLOD: true, // Level of detail - simplify markers at low zoom
-            lodZoomThreshold: 0.5, // Zoom level below which to use simplified markers
+            enableLOD: false, // Disabled - markers maintain consistent style at all zoom levels
+            lodZoomThreshold: 0.5, // Zoom level below which to use simplified markers (unused)
             enableClustering: false, // Enable marker clustering at low zoom
             clusteringDistance: 30, // Distance in pixels for clustering
             // Mobile-specific options
@@ -535,12 +535,13 @@ export class SurfMarkersManager {
         this.ctx.scale(scale, scale);
         this.ctx.globalAlpha = opacity;
         
-        // Determine marker size based on zoom level (LOD)
-        let markerSize = this.options.markerSize;
-        if (this.options.enableLOD && this.state.zoom < this.options.lodZoomThreshold) {
-            // Simplified marker at low zoom
-            markerSize = this.options.markerSize * 0.7;
-        }
+        // Apply inverse zoom scaling to maintain fixed marker size
+        // This counteracts the zoom scaling from the canvas transformations
+        const inverseZoomScale = 1 / this.state.zoom;
+        this.ctx.scale(inverseZoomScale, inverseZoomScale);
+        
+        // Use fixed marker size (no LOD-dependent sizing)
+        const markerSize = this.options.markerSize;
         
         // Draw shadow
         this.ctx.shadowColor = this.options.markerShadowColor;
@@ -553,30 +554,22 @@ export class SurfMarkersManager {
         this.ctx.strokeStyle = '#ffffff';
         this.ctx.lineWidth = this.options.markerBorderWidth;
         
-        if (this.options.enableLOD && this.state.zoom < this.options.lodZoomThreshold) {
-            // Simplified marker shape at low zoom
-            this.ctx.beginPath();
-            this.ctx.arc(0, 0, markerSize / 2, 0, Math.PI * 2);
-            this.ctx.fill();
-            this.ctx.stroke();
-        } else {
-            // Full marker shape at normal zoom
-            // Draw marker shape (circle with point)
-            this.ctx.beginPath();
-            this.ctx.arc(0, -markerSize / 2, markerSize / 2, 0, Math.PI * 2);
-            this.ctx.fill();
-            this.ctx.stroke();
-            
-            // Draw point
-            this.ctx.beginPath();
-            this.ctx.moveTo(0, 0);
-            this.ctx.lineTo(-markerSize / 3, 0);
-            this.ctx.lineTo(0, -markerSize / 2);
-            this.ctx.lineTo(markerSize / 3, 0);
-            this.ctx.closePath();
-            this.ctx.fill();
-            this.ctx.stroke();
-        }
+        // Always render full marker shape (no LOD style changes)
+        // Draw marker shape (circle with point)
+        this.ctx.beginPath();
+        this.ctx.arc(0, -markerSize / 2, markerSize / 2, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.stroke();
+        
+        // Draw point
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, 0);
+        this.ctx.lineTo(-markerSize / 3, 0);
+        this.ctx.lineTo(0, -markerSize / 2);
+        this.ctx.lineTo(markerSize / 3, 0);
+        this.ctx.closePath();
+        this.ctx.fill();
+        this.ctx.stroke();
         
         // Draw hover effect
         if (this.hoveredMarker === marker.spot.id) {
@@ -614,7 +607,12 @@ export class SurfMarkersManager {
         this.ctx.scale(scale, scale);
         this.ctx.globalAlpha = opacity;
         
-        // Calculate cluster size based on count
+        // Apply inverse zoom scaling to maintain fixed cluster size
+        // This counteracts the zoom scaling from the canvas transformations
+        const inverseZoomScale = 1 / this.state.zoom;
+        this.ctx.scale(inverseZoomScale, inverseZoomScale);
+        
+        // Calculate cluster size based on count (fixed size)
         const clusterSize = Math.min(
             this.options.markerSize * 1.5,
             this.options.markerSize + Math.log(count) * 5
