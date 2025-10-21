@@ -1,6 +1,6 @@
 /**
  * @fileoverview Surf spot markers rendering module.
- * @version 1.8.5
+ * @version 1.8.6
  * @description This module handles rendering surf spot markers on the map,
  * including marker creation, styling, and interaction handling.
  */
@@ -74,6 +74,15 @@ export class SurfMarkersManager {
         this.initializationPromise = null;
         this.lastImageWidth = null;
         this.lastImageHeight = null;
+        
+        // Performance optimization: Coordinate transformation caching
+        this.transformationCache = new Map();
+        this.lastTransformState = null;
+        this.cacheEnabled = true;
+        
+        // Performance optimization: Shared transformation matrix
+        this.transformationMatrix = null;
+        this.matrixDirty = true;
         
         // Adjust options for mobile if needed
         if (this.isMobile && this.options.enableMobileOptimizations) {
@@ -516,32 +525,13 @@ export class SurfMarkersManager {
         const difficulty = spot.waveDetails.abilityLevel.primary;
         const color = this.spotsManager.getDifficultyColor(difficulty);
         
-        // Get image dimensions from spotsManager
-        const imageWidth = this.spotsManager.imageWidth;
-        const imageHeight = this.spotsManager.imageHeight;
+        // Apply shared canvas transformations
+        this.applyCanvasTransformations();
         
-        // Calculate screen position - this is the key transformation
-        // First transform from image coordinates to world coordinates
-        const worldX = (x - imageWidth / 2) * this.state.zoom;
-        const worldY = (y - imageHeight / 2) * this.state.zoom;
+        // Move to marker position in image coordinates
+        this.ctx.translate(x, y);
         
-        // Then transform from world coordinates to screen coordinates
-        const screenX = worldX + this.canvas.width / 2 + this.state.panX;
-        const screenY = worldY + this.canvas.height / 2 + this.state.panY;
-        
-        // Debug logging removed to prevent console spam
-        
-        // Check if marker is within canvas bounds
-        const isInBounds = screenX >= -50 && screenX <= this.canvas.width + 50 &&
-                           screenY >= -50 && screenY <= this.canvas.height + 50;
-        
-        // Skip if marker is completely outside canvas bounds
-        if (!isInBounds) {
-            return;
-        }
-        
-        // Apply transformations
-        this.ctx.translate(screenX, screenY);
+        // Apply marker-specific transformations
         this.ctx.scale(scale, scale);
         this.ctx.globalAlpha = opacity;
         
@@ -614,19 +604,13 @@ export class SurfMarkersManager {
     renderCluster(cluster) {
         const { x, y, scale, opacity, count } = cluster;
         
-        // Get image dimensions from spotsManager
-        const imageWidth = this.spotsManager.imageWidth;
-        const imageHeight = this.spotsManager.imageHeight;
+        // Apply shared canvas transformations
+        this.applyCanvasTransformations();
         
-        // Calculate screen position - same transformation as individual markers
-        const worldX = (x - imageWidth / 2) * this.state.zoom;
-        const worldY = (y - imageHeight / 2) * this.state.zoom;
+        // Move to cluster position in image coordinates
+        this.ctx.translate(x, y);
         
-        const screenX = worldX + this.canvas.width / 2 + this.state.panX;
-        const screenY = worldY + this.canvas.height / 2 + this.state.panY;
-        
-        // Apply transformations
-        this.ctx.translate(screenX, screenY);
+        // Apply cluster-specific transformations
         this.ctx.scale(scale, scale);
         this.ctx.globalAlpha = opacity;
         
@@ -766,8 +750,8 @@ export class SurfMarkersManager {
 
     /**
      * Gets the marker at the specified position.
-     * @param {number} x - The X coordinate.
-     * @param {number} y - The Y coordinate.
+     * @param {number} x - The X coordinate (in CSS pixels).
+     * @param {number} y - The Y coordinate (in CSS pixels).
      * @returns {string|null} The spot ID or null if no marker found.
      */
     getMarkerAtPosition(x, y) {
@@ -775,16 +759,38 @@ export class SurfMarkersManager {
         const imageWidth = this.spotsManager.imageWidth;
         const imageHeight = this.spotsManager.imageHeight;
         
+        // Get device pixel ratio for consistent coordinate handling
+        const dpr = window.devicePixelRatio || 1;
+        
         for (const marker of this.visibleMarkers) {
-            // Calculate screen position - same transformation as rendering
-            const worldX = (marker.x - imageWidth / 2) * this.state.zoom;
-            const worldY = (marker.y - imageHeight / 2) * this.state.zoom;
+            // Apply the INVERSE transformation to convert screen coordinates to image coordinates
+            // This is the reverse of the transformation used in rendering
             
-            const screenX = worldX + this.canvas.width / 2 + this.state.panX;
-            const screenY = worldY + this.canvas.height / 2 + this.state.panY;
+            // 1. Convert CSS pixels to canvas pixels (account for DPR)
+            const canvasX = x * dpr;
+            const canvasY = y * dpr;
             
-            // Check if position is within marker bounds
-            const distance = Math.sqrt(Math.pow(x - screenX, 2) + Math.pow(y - screenY, 2));
+            // 2. Inverse: Move from canvas center to origin
+            const relX = canvasX - this.canvas.width / 2;
+            const relY = canvasY - this.canvas.height / 2;
+            
+            // 3. Inverse: Remove pan
+            const panAdjustedX = relX - this.state.panX;
+            const panAdjustedY = relY - this.state.panY;
+            
+            // 4. Inverse: Remove zoom
+            const zoomAdjustedX = panAdjustedX / this.state.zoom;
+            const zoomAdjustedY = panAdjustedY / this.state.zoom;
+            
+            // 5. Inverse: Move from image center to origin
+            const imageX = zoomAdjustedX + imageWidth / 2;
+            const imageY = zoomAdjustedY + imageHeight / 2;
+            
+            // 6. Check distance to marker position in image coordinates
+            const distance = Math.sqrt(
+                Math.pow(imageX - marker.x, 2) + 
+                Math.pow(imageY - marker.y, 2)
+            );
             
             if (marker.isCluster) {
                 // Check cluster hover
@@ -1050,6 +1056,119 @@ export class SurfMarkersManager {
     }
     
     /**
+     * Applies the shared canvas transformation sequence.
+     * This method centralizes the coordinate transformation logic to eliminate code duplication
+     * and ensure consistent rendering across all marker types.
+     */
+    applyCanvasTransformations() {
+        // Check if transformation matrix needs updating
+        if (this.matrixDirty) {
+            this.updateTransformationMatrix();
+            this.matrixDirty = false;
+        }
+        
+        // Get image dimensions from spotsManager
+        const imageWidth = this.spotsManager.imageWidth;
+        const imageHeight = this.spotsManager.imageHeight;
+        
+        // Apply the SAME transformation sequence as the raster map renderer
+        // This ensures perfect alignment between markers and the underlying map
+        
+        // 1. Scale for high-DPI displays (same as renderer)
+        const dpr = window.devicePixelRatio || 1;
+        this.ctx.scale(dpr, dpr);
+        
+        // 2. Move to center of canvas (in CSS pixels) - same as renderer
+        const cssWidth = this.canvas.width / dpr;
+        const cssHeight = this.canvas.height / dpr;
+        this.ctx.translate(cssWidth / 2, cssHeight / 2);
+        
+        // 3. Apply pan - same as renderer
+        this.ctx.translate(this.state.panX, this.state.panY);
+        
+        // 4. Apply zoom - same as renderer
+        this.ctx.scale(this.state.zoom, this.state.zoom);
+        
+        // 5. Move to center of image - same as renderer
+        this.ctx.translate(-imageWidth / 2, -imageHeight / 2);
+    }
+    
+    /**
+     * Updates the transformation matrix for coordinate caching.
+     * This matrix is used to cache coordinate transformations and improve performance.
+     */
+    updateTransformationMatrix() {
+        const imageWidth = this.spotsManager.imageWidth;
+        const imageHeight = this.spotsManager.imageHeight;
+        const dpr = window.devicePixelRatio || 1;
+        const cssWidth = this.canvas.width / dpr;
+        const cssHeight = this.canvas.height / dpr;
+        
+        // Create transformation matrix (2D affine transformation)
+        // Matrix represents: translate(cssWidth/2, cssHeight/2) * translate(panX, panY) * 
+        // scale(zoom, zoom) * translate(-imageWidth/2, -imageHeight/2)
+        this.transformationMatrix = {
+            a: this.state.zoom,
+            b: 0,
+            c: 0,
+            d: this.state.zoom,
+            e: (this.state.panX * this.state.zoom) + (cssWidth / 2 * this.state.zoom) - (imageWidth / 2 * this.state.zoom),
+            f: (this.state.panY * this.state.zoom) + (cssHeight / 2 * this.state.zoom) - (imageHeight / 2 * this.state.zoom)
+        };
+        
+        // Update the last transform state for caching
+        this.lastTransformState = {
+            zoom: this.state.zoom,
+            panX: this.state.panX,
+            panY: this.state.panY,
+            imageWidth,
+            imageHeight,
+            canvasWidth: this.canvas.width,
+            canvasHeight: this.canvas.height,
+            dpr
+        };
+    }
+    
+    /**
+     * Transforms image coordinates to screen coordinates using the cached transformation matrix.
+     * This method provides better performance for repeated coordinate transformations.
+     * 
+     * @param {number} imageX - The X coordinate in image space.
+     * @param {number} imageY - The Y coordinate in image space.
+     * @returns {Object} The transformed screen coordinates {x, y}.
+     */
+    transformImageToScreen(imageX, imageY) {
+        if (!this.transformationMatrix || this.matrixDirty) {
+            this.updateTransformationMatrix();
+            this.matrixDirty = false;
+        }
+        
+        const { a, b, c, d, e, f } = this.transformationMatrix;
+        
+        return {
+            x: a * imageX + b * imageY + e,
+            y: c * imageX + d * imageY + f
+        };
+    }
+    
+    /**
+     * Gets the current transformation state key for caching purposes.
+     * @returns {string} A string representing the current transformation state.
+     */
+    getTransformStateKey() {
+        return `${this.state.zoom}_${this.state.panX}_${this.state.panY}_${this.canvas.width}_${this.canvas.height}`;
+    }
+    
+    /**
+     * Clears the coordinate transformation cache.
+     * This should be called when the transformation state changes significantly.
+     */
+    clearTransformationCache() {
+        this.transformationCache.clear();
+        this.matrixDirty = true;
+    }
+    
+    /**
      * Draws a rounded rectangle.
      * @param {number} x - The X coordinate.
      * @param {number} y - The Y coordinate.
@@ -1088,6 +1207,10 @@ export class SurfMarkersManager {
         this.hoveredMarker = null;
         this.selectedMarker = null;
         this.onMarkerClick = null;
+        
+        // Clear performance optimization caches
+        this.transformationCache.clear();
+        this.transformationMatrix = null;
         
         // Reset initialization state
         this.isInitialized = false;

@@ -1,6 +1,6 @@
 /**
  * @fileoverview Surf spots data management module.
- * @version 1.8.5
+ * @version 1.8.6
  * @description This module handles loading, processing, and managing surf spot data
  * for the surf map, including coordinate conversion and spot categorization.
  */
@@ -273,12 +273,21 @@ export class SurfSpotsManager {
      * @returns {Object} Map of spot ID to pixel coordinates.
      */
     /**
-     * Converts GPS coordinates to pixel coordinates.
-     * @param {number} lat - Latitude.
-     * @param {number} lng - Longitude.
-     * @returns {Object} The pixel coordinates {x, y}.
+     * Converts GPS coordinates to pixel coordinates with error handling and recovery.
+     * @param {number} lat - Latitude in decimal degrees (-90 to 90).
+     * @param {number} lng - Longitude in decimal degrees (-180 to 180).
+     * @returns {Object|null} The pixel coordinates {x, y} or null if conversion fails.
+     * @throws {RangeError} When coordinates are outside expected bounds.
      */
     gpsToPixel(lat, lng) {
+        // Input validation with error handling
+        if (typeof lat !== 'number' || typeof lng !== 'number' || 
+            isNaN(lat) || isNaN(lng) || 
+            !isFinite(lat) || !isFinite(lng)) {
+            console.error(`Invalid GPS coordinates: (${lat}, ${lng}) - must be finite numbers`);
+            return null;
+        }
+        
         // Map boundaries for Fuerteventura (accurate bounds)
         const mapBounds = {
             north: 28.815195,    // Northernmost point of Fuerteventura
@@ -286,6 +295,18 @@ export class SurfSpotsManager {
             east: -13.706680,    // Easternmost point of Fuerteventura
             west: -14.641998     // Westernmost point of Fuerteventura
         };
+        
+        // Validate coordinates are within reasonable bounds
+        if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+            throw new RangeError(`GPS coordinates out of valid range: lat=${lat}, lng=${lng}`);
+        }
+        
+        // Check if coordinates are within expected map bounds
+        if (lat < mapBounds.south - 0.5 || lat > mapBounds.north + 0.5 || 
+            lng < mapBounds.west - 0.5 || lng > mapBounds.east + 0.5) {
+            console.warn(`GPS coordinates (${lat}, ${lng}) are outside expected Fuerteventura bounds`);
+            // Continue with conversion but warn user
+        }
         
         // Ensure image dimensions are set
         if (!this.imageWidth || !this.imageHeight) {
@@ -309,6 +330,11 @@ export class SurfSpotsManager {
         // Validate the calculated coordinates are within the image bounds
         if (pixelX < 0 || pixelX > imageWidth || pixelY < 0 || pixelY > imageHeight) {
             console.warn(`Calculated pixel coordinates (${pixelX}, ${pixelY}) are outside image bounds for GPS (${lat}, ${lng})`);
+            // Return clamped coordinates as fallback
+            return {
+                x: Math.max(0, Math.min(imageWidth, pixelX)),
+                y: Math.max(0, Math.min(imageHeight, pixelY))
+            };
         }
         
         return { x: pixelX, y: pixelY };
@@ -428,7 +454,17 @@ export class SurfSpotsManager {
             issues: [],
             spotCount: 0,
             validSpotCount: 0,
-            invalidSpots: []
+            invalidSpots: [],
+            coordinateStats: {
+                minLat: Infinity,
+                maxLat: -Infinity,
+                minLng: Infinity,
+                maxLng: -Infinity,
+                minPixelX: Infinity,
+                maxPixelX: -Infinity,
+                minPixelY: Infinity,
+                maxPixelY: -Infinity
+            }
         };
         
         // Check if image dimensions are set
@@ -451,6 +487,12 @@ export class SurfSpotsManager {
             
             const { lat, lng } = spot.location.coordinates;
             
+            // Update coordinate statistics
+            results.coordinateStats.minLat = Math.min(results.coordinateStats.minLat, lat);
+            results.coordinateStats.maxLat = Math.max(results.coordinateStats.maxLat, lat);
+            results.coordinateStats.minLng = Math.min(results.coordinateStats.minLng, lng);
+            results.coordinateStats.maxLng = Math.max(results.coordinateStats.maxLng, lng);
+            
             // Check if GPS coordinates are within expected bounds
             if (lat < 27.5 || lat > 29.0 || lng < -15.0 || lng > -13.5) {
                 results.valid = false;
@@ -465,8 +507,15 @@ export class SurfSpotsManager {
                 spot.pixelCoordinates = this.gpsToPixel(lat, lng);
             }
             
-            // Check if pixel coordinates are within image bounds
             const { x, y } = spot.pixelCoordinates;
+            
+            // Update pixel coordinate statistics
+            results.coordinateStats.minPixelX = Math.min(results.coordinateStats.minPixelX, x);
+            results.coordinateStats.maxPixelX = Math.max(results.coordinateStats.maxPixelX, x);
+            results.coordinateStats.minPixelY = Math.min(results.coordinateStats.minPixelY, y);
+            results.coordinateStats.maxPixelY = Math.max(results.coordinateStats.maxPixelY, y);
+            
+            // Check if pixel coordinates are within image bounds
             if (x < 0 || x > this.imageWidth || y < 0 || y > this.imageHeight) {
                 results.valid = false;
                 results.issues.push(`Spot ${spot.primaryName} has pixel coordinates outside image bounds: (${x}, ${y})`);
@@ -477,12 +526,127 @@ export class SurfSpotsManager {
             results.validSpotCount++;
         });
         
-        // Only log if there are issues
+        // Add coordinate system validation summary
+        results.coordinateSummary = {
+            gpsBounds: {
+                lat: `${results.coordinateStats.minLat.toFixed(4)} to ${results.coordinateStats.maxLat.toFixed(4)}`,
+                lng: `${results.coordinateStats.minLng.toFixed(4)} to ${results.coordinateStats.maxLng.toFixed(4)}`
+            },
+            pixelBounds: {
+                x: `${Math.round(results.coordinateStats.minPixelX)} to ${Math.round(results.coordinateStats.maxPixelX)}`,
+                y: `${Math.round(results.coordinateStats.minPixelY)} to ${Math.round(results.coordinateStats.maxPixelY)}`
+            },
+            imageSize: `${this.imageWidth}x${this.imageHeight}`
+        };
+        
+        // Only log if there are issues or in debug mode
         if (!results.valid && results.issues.length > 0) {
             console.warn('Coordinate conversion validation failed:', results.issues);
+            console.warn('Coordinate summary:', results.coordinateSummary);
         }
         
         return results;
+    }
+    
+    /**
+     * Generates a coordinate system debug report with lazy evaluation for performance.
+     * @returns {Object} Detailed debug information about the coordinate system.
+     */
+    generateCoordinateDebugReport() {
+        const report = {
+            timestamp: new Date().toISOString(),
+            imageDimensions: {
+                width: this.imageWidth,
+                height: this.imageHeight
+            },
+            mapBounds: {
+                north: 28.815195,
+                south: 27.984300,
+                east: -13.706680,
+                west: -14.641998
+            },
+            spots: {
+                total: this.spots.size,
+                withPixelCoords: 0,
+                withoutPixelCoords: 0
+            },
+            sampleSpots: []
+        };
+        
+        // Lazy evaluation: Only analyze coordinates if needed
+        if (this.spots.size === 0) {
+            return report;
+        }
+        
+        // Analyze spot coordinates with early termination for large datasets
+        let spotCount = 0;
+        const maxSampleSize = 5; // Limit sample size for performance
+        
+        this.spots.forEach(spot => {
+            if (spot.pixelCoordinates) {
+                report.spots.withPixelCoords++;
+            } else {
+                report.spots.withoutPixelCoords++;
+            }
+            
+            // Early termination for debug reporting
+            spotCount++;
+            if (spotCount <= maxSampleSize) {
+                const sample = {
+                    id: spot.id,
+                    name: spot.primaryName,
+                    gps: spot.location?.coordinates || null,
+                    pixel: spot.pixelCoordinates || null
+                };
+                
+                // Only perform conversion verification if coordinates exist
+                if (sample.gps && sample.pixel) {
+                    const backConverted = this.pixelToGPS(sample.pixel.x, sample.pixel.y);
+                    sample.backConvertedGPS = backConverted;
+                    sample.conversionError = {
+                        lat: Math.abs(backConverted.lat - sample.gps.lat),
+                        lng: Math.abs(backConverted.lng - sample.gps.lng)
+                    };
+                }
+                
+                report.sampleSpots.push(sample);
+            }
+        });
+        
+        return report;
+    }
+    
+    /**
+     * Converts pixel coordinates back to GPS coordinates.
+     * This is the inverse of gpsToPixel and is used for validation.
+     * @param {number} pixelX - The X coordinate in pixels.
+     * @param {number} pixelY - The Y coordinate in pixels.
+     * @returns {Object} The GPS coordinates {lat, lng}.
+     */
+    pixelToGPS(pixelX, pixelY) {
+        // Map boundaries for Fuerteventura (same as in gpsToPixel)
+        const mapBounds = {
+            north: 28.815195,
+            south: 27.984300,
+            east: -13.706680,
+            west: -14.641998
+        };
+        
+        // Ensure image dimensions are set
+        if (!this.imageWidth || !this.imageHeight) {
+            console.warn('Image dimensions not set in pixelToGPS, returning null');
+            return null;
+        }
+        
+        // Convert pixel coordinates to relative position
+        const latRatio = pixelY / this.imageHeight;
+        const lngRatio = pixelX / this.imageWidth;
+        
+        // Convert to GPS coordinates
+        const lat = mapBounds.north - (latRatio * (mapBounds.north - mapBounds.south));
+        const lng = mapBounds.west + (lngRatio * (mapBounds.east - mapBounds.west));
+        
+        return { lat, lng };
     }
 
     /**
