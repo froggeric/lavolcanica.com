@@ -147,6 +147,7 @@ export class SurfMap {
                 this.canvas,
                 this.state,
                 this.spotsManager,
+                this,
                 {
                     enableMobileOptimizations: this.isMobile,
                     maxVisibleMarkers: this.isMobile ? 50 : 100,

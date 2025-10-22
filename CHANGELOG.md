@@ -5,6 +5,27 @@ All notable changes to the La Sonora Volcánica website will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0/).
 
+## [1.9.0] - 2025-10-22
+
+### Fixed
+- **Marker Click/Touch Interaction**: Resolved a critical bug where click and touch events on surf spot markers were not being correctly detected on mobile and tablet devices. The hit detection logic has been completely rewritten to ensure accurate and reliable interactions across all platforms.
+
+### Changed
+- **Coordinate Transformation Logic**: Replaced the faulty inverse coordinate transformation in the marker hit detection with a mathematically correct implementation. This eliminates the coordinate mismatch that caused clicks to be registered in the wrong location.
+- **Unified Hit Detection**: Removed all device-specific hit detection functions (`getMarkerAtPosition_Desktop`, `getMarkerAtPosition_Mobile`, `getMarkerAtPosition_Tablet`) and consolidated into a single, unified `getMarkerAtPosition` function.
+- **Touch Handling**: Improved touch event handling to reliably distinguish between `tap` and `drag` gestures, ensuring that taps are correctly registered as clicks.
+
+### Technical Details
+- The new `getMarkerAtPosition` function now uses a single, correct formula to transform screen coordinates to image coordinates, eliminating the use of incorrect "precision factors".
+- The `handleTouchEnd` function in `surf-map-interactions.js` now dispatches a synthetic `click` event when a tap is detected, ensuring consistent behavior with mouse clicks.
+- Added a `touchTolerance` to the hit detection logic to provide a small buffer for touch interactions, improving usability on mobile devices.
+
+### Files Modified
+- `scripts/surf-map/surf-markers.js`: Rewrote the `getMarkerAtPosition` function with correct coordinate transformation logic.
+- `scripts/surf-map/surf-map-interactions.js`: Improved touch handling to reliably detect taps and fire click events.
+- `data/config/app-config.js`: Updated version to 1.9.0.
+- `CHANGELOG.md`: Added comprehensive v1.9.0 entry.
+
 ## [1.8.9] - 2025-10-22
 
 ### Fixed

@@ -12,13 +12,15 @@ export class SurfMarkersManager {
      * @param {HTMLCanvasElement} canvas - The canvas element to render on.
      * @param {Object} state - The map state object.
      * @param {SurfSpotsManager} spotsManager - The surf spots data manager.
+     * @param {SurfMap} surfMap - The main surf map instance.
      * @param {Object} options - Configuration options.
      */
-    constructor(canvas, state, spotsManager, options = {}) {
+    constructor(canvas, state, spotsManager, surfMap, options = {}) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.state = state;
         this.spotsManager = spotsManager;
+        this.surfMap = surfMap;
         
         // Configuration options
         this.options = {
@@ -413,10 +415,10 @@ export class SurfMarkersManager {
     }
     
     /**
-     * Detects the device type for precise handling.
-     * @returns {string} Device type: 'desktop', 'mobile', or 'tablet'.
+     * Detects if the device is mobile (legacy method for compatibility).
+     * @returns {boolean} Whether the device is mobile.
      */
-    detectDeviceType() {
+    detectMobile() {
         const userAgent = navigator.userAgent;
         const hasTouch = 'ontouchstart' in window;
         const screenWidth = window.innerWidth;
@@ -425,26 +427,17 @@ export class SurfMarkersManager {
         if (/iPad/i.test(userAgent) || 
             (/Android/i.test(userAgent) && !/Mobile/i.test(userAgent)) ||
             (screenWidth >= 768 && screenWidth <= 1024 && hasTouch)) {
-            return 'tablet';
+            return true;
         }
         
         // Mobile detection
         if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent) ||
             (screenWidth < 768 && hasTouch)) {
-            return 'mobile';
+            return true;
         }
         
         // Desktop fallback
-        return 'desktop';
-    }
-
-    /**
-     * Detects if the device is mobile (legacy method for compatibility).
-     * @returns {boolean} Whether the device is mobile.
-     */
-    detectMobile() {
-        const deviceType = this.detectDeviceType();
-        return deviceType === 'mobile' || deviceType === 'tablet';
+        return false;
     }
 
     /**
@@ -762,66 +755,27 @@ export class SurfMarkersManager {
     }
 
     /**
-     * Gets the marker at the specified position using device-specific detection.
+     * Gets the marker at the specified position.
      * @param {number} x - The X coordinate (in CSS pixels).
      * @param {number} y - The Y coordinate (in CSS pixels).
      * @returns {string|null} The spot ID or null if no marker found.
      */
     getMarkerAtPosition(x, y) {
-        const deviceType = this.detectDeviceType();
-        
-        switch (deviceType) {
-            case 'desktop':
-                return this.getMarkerAtPosition_Desktop(x, y);
-            case 'mobile':
-                return this.getMarkerAtPosition_Mobile(x, y);
-            case 'tablet':
-                return this.getMarkerAtPosition_Tablet(x, y);
-            default:
-                return this.getMarkerAtPosition_Desktop(x, y);
-        }
-    }
-
-    /**
-     * Desktop-specific marker detection - the working baseline.
-     * @param {number} x - The X coordinate (in CSS pixels).
-     * @param {number} y - The Y coordinate (in CSS pixels).
-     * @returns {string|null} The spot ID or null if no marker found.
-     */
-    getMarkerAtPosition_Desktop(x, y) {
-        // Get image dimensions from spotsManager
         const imageWidth = this.spotsManager.imageWidth;
         const imageHeight = this.spotsManager.imageHeight;
-        
-        // Get device pixel ratio for consistent coordinate handling
         const dpr = window.devicePixelRatio || 1;
-        
+        const cssWidth = this.canvas.width / dpr;
+        const cssHeight = this.canvas.height / dpr;
+        const panX = this.state.panX;
+        const panY = this.state.panY;
+        const zoom = this.state.zoom;
+
+        // Transform screen coordinates (CSS pixels) to image coordinates
+        const imageX = ((x - cssWidth / 2 - panX) / zoom) + (imageWidth / 2);
+        const imageY = ((y - cssHeight / 2 - panY) / zoom) + (imageHeight / 2);
+
         for (const marker of this.visibleMarkers) {
-            // Apply the INVERSE transformation to convert screen coordinates to image coordinates
-            // This is the reverse of the transformation used in rendering
-            
-            // 1. Convert CSS pixels to canvas pixels (account for DPR)
-            const canvasX = x * dpr;
-            const canvasY = y * dpr;
-            
-            // 2. Inverse: Move from canvas center to origin
-            const relX = canvasX - this.canvas.width / 2;
-            const relY = canvasY - this.canvas.height / 2;
-            
-            // 3. Inverse: Remove pan
-            const panAdjustedX = relX - this.state.panX;
-            const panAdjustedY = relY - this.state.panY;
-            
-            // 4. Inverse: Remove zoom
-            const zoomAdjustedX = panAdjustedX / this.state.zoom;
-            const zoomAdjustedY = panAdjustedY / this.state.zoom;
-            
-            // 5. Inverse: Move from image center to origin
-            const imageX = zoomAdjustedX + imageWidth / 2;
-            const imageY = zoomAdjustedY + imageHeight / 2;
-            
             if (marker.isCluster) {
-                // Check cluster hover
                 const distance = Math.sqrt(
                     Math.pow(imageX - marker.x, 2) + 
                     Math.pow(imageY - marker.y, 2)
@@ -830,160 +784,14 @@ export class SurfMarkersManager {
                     this.options.markerSize * 1.5,
                     this.options.markerSize + Math.log(marker.count) * 5
                 );
-                if (distance <= clusterSize / 2 + this.options.hoverRadius) {
+                if (distance <= clusterSize / 2) {
                     return marker;
                 }
             } else {
-                // Desktop marker: 30px size, 15px radius, centered at actual spot location
-                const markerSize = 30; // Fixed desktop size
-                const radius = markerSize / 2; // 15px radius
+                const markerSize = this.options.markerSize;
+                const radius = markerSize / 2;
+                const touchTolerance = this.isMobile ? 5 : 0; // 5px tolerance for touch
                 
-                // Check if click is within the circular marker
-                const distance = Math.sqrt(
-                    Math.pow(imageX - marker.x, 2) + 
-                    Math.pow(imageY - marker.y, 2)
-                );
-                
-                if (distance <= radius) {
-                    return marker.spot.id;
-                }
-            }
-        }
-        
-        return null;
-    }
-
-    /**
-     * Mobile-specific marker detection - optimized for touch interfaces.
-     * @param {number} x - The X coordinate (in CSS pixels).
-     * @param {number} y - The Y coordinate (in CSS pixels).
-     * @returns {string|null} The spot ID or null if no marker found.
-     */
-    getMarkerAtPosition_Mobile(x, y) {
-        // Get image dimensions from spotsManager
-        const imageWidth = this.spotsManager.imageWidth;
-        const imageHeight = this.spotsManager.imageHeight;
-        
-        // Mobile-specific coordinate handling - account for touch precision and DPI
-        const dpr = window.devicePixelRatio || 1;
-        const touchPrecisionFactor = 1.2; // Account for touch imprecision
-        
-        for (const marker of this.visibleMarkers) {
-            // Apply the INVERSE transformation with mobile-specific adjustments
-            // Mobile devices have different coordinate scaling due to higher DPI and touch handling
-            
-            // 1. Convert CSS pixels to canvas pixels with touch precision adjustment
-            const canvasX = x * dpr * touchPrecisionFactor;
-            const canvasY = y * dpr * touchPrecisionFactor;
-            
-            // 2. Inverse: Move from canvas center to origin
-            const relX = canvasX - this.canvas.width / 2;
-            const relY = canvasY - this.canvas.height / 2;
-            
-            // 3. Inverse: Remove pan
-            const panAdjustedX = relX - this.state.panX;
-            const panAdjustedY = relY - this.state.panY;
-            
-            // 4. Inverse: Remove zoom
-            const zoomAdjustedX = panAdjustedX / this.state.zoom;
-            const zoomAdjustedY = panAdjustedY / this.state.zoom;
-            
-            // 5. Inverse: Move from image center to origin
-            const imageX = zoomAdjustedX + imageWidth / 2;
-            const imageY = zoomAdjustedY + imageHeight / 2;
-            
-            if (marker.isCluster) {
-                // Check cluster hover with mobile-specific sizing
-                const distance = Math.sqrt(
-                    Math.pow(imageX - marker.x, 2) + 
-                    Math.pow(imageY - marker.y, 2)
-                );
-                const clusterSize = Math.min(
-                    35 * 1.5, // Mobile cluster size
-                    35 + Math.log(marker.count) * 5
-                );
-                if (distance <= clusterSize / 2 + 30) { // Mobile hover radius
-                    return marker;
-                }
-            } else {
-                // Mobile marker: 35px size, 17.5px radius, centered at actual spot location
-                const markerSize = 35; // Fixed mobile size
-                const radius = markerSize / 2; // 17.5px radius
-                const touchTolerance = 3; // Extra tolerance for touch imprecision
-                
-                // Check if click is within the circular marker with touch tolerance
-                const distance = Math.sqrt(
-                    Math.pow(imageX - marker.x, 2) + 
-                    Math.pow(imageY - marker.y, 2)
-                );
-                
-                if (distance <= radius + touchTolerance) {
-                    return marker.spot.id;
-                }
-            }
-        }
-        
-        return null;
-    }
-
-    /**
-     * Tablet-specific marker detection - optimized for tablet touch interfaces.
-     * @param {number} x - The X coordinate (in CSS pixels).
-     * @param {number} y - The Y coordinate (in CSS pixels).
-     * @returns {string|null} The spot ID or null if no marker found.
-     */
-    getMarkerAtPosition_Tablet(x, y) {
-        // Get image dimensions from spotsManager
-        const imageWidth = this.spotsManager.imageWidth;
-        const imageHeight = this.spotsManager.imageHeight;
-        
-        // Tablet-specific coordinate handling - balance between desktop precision and mobile touch
-        const dpr = window.devicePixelRatio || 1;
-        const touchPrecisionFactor = 1.1; // Less than mobile, more than desktop
-        
-        for (const marker of this.visibleMarkers) {
-            // Apply the INVERSE transformation with tablet-specific adjustments
-            
-            // 1. Convert CSS pixels to canvas pixels with tablet precision adjustment
-            const canvasX = x * dpr * touchPrecisionFactor;
-            const canvasY = y * dpr * touchPrecisionFactor;
-            
-            // 2. Inverse: Move from canvas center to origin
-            const relX = canvasX - this.canvas.width / 2;
-            const relY = canvasY - this.canvas.height / 2;
-            
-            // 3. Inverse: Remove pan
-            const panAdjustedX = relX - this.state.panX;
-            const panAdjustedY = relY - this.state.panY;
-            
-            // 4. Inverse: Remove zoom
-            const zoomAdjustedX = panAdjustedX / this.state.zoom;
-            const zoomAdjustedY = panAdjustedY / this.state.zoom;
-            
-            // 5. Inverse: Move from image center to origin
-            const imageX = zoomAdjustedX + imageWidth / 2;
-            const imageY = zoomAdjustedY + imageHeight / 2;
-            
-            if (marker.isCluster) {
-                // Check cluster hover with tablet-specific sizing
-                const distance = Math.sqrt(
-                    Math.pow(imageX - marker.x, 2) + 
-                    Math.pow(imageY - marker.y, 2)
-                );
-                const clusterSize = Math.min(
-                    32 * 1.5, // Tablet cluster size (between mobile and desktop)
-                    32 + Math.log(marker.count) * 5
-                );
-                if (distance <= clusterSize / 2 + 28) { // Tablet hover radius
-                    return marker;
-                }
-            } else {
-                // Tablet marker: 32px size, 16px radius, centered at actual spot location
-                const markerSize = 32; // Fixed tablet size (between mobile and desktop)
-                const radius = markerSize / 2; // 16px radius
-                const touchTolerance = 2; // Less tolerance than mobile, more than desktop
-                
-                // Check if click is within the circular marker with touch tolerance
                 const distance = Math.sqrt(
                     Math.pow(imageX - marker.x, 2) + 
                     Math.pow(imageY - marker.y, 2)
@@ -1065,6 +873,7 @@ export class SurfMarkersManager {
      */
     selectMarker(spotId) {
         this.selectedMarker = spotId;
+        this.surfMap.render();
     }
 
     /**

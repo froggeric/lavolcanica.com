@@ -22,6 +22,7 @@ export class SurfMapInteractions {
         this.interactionState = {
             isDragging: false,
             isPinching: false,
+            isTap: true,
             dragStartX: 0,
             dragStartY: 0,
             lastPanX: 0,
@@ -308,6 +309,7 @@ export class SurfMapInteractions {
             
             // Start drag
             this.interactionState.isDragging = true;
+            this.interactionState.isTap = true;
             this.interactionState.dragStartX = touch.clientX;
             this.interactionState.dragStartY = touch.clientY;
             this.interactionState.lastPanX = this.state.panX;
@@ -396,6 +398,7 @@ export class SurfMapInteractions {
             const threshold = this.options.touchDragThreshold || this.options.dragThreshold;
             
             if (distance >= threshold) {
+                this.interactionState.isTap = false;
                 // Update pan position with smooth transitions
                 // Use requestAnimationFrame for smoother rendering
                 if (!this.interactionState.panAnimationFrame) {
@@ -467,6 +470,7 @@ export class SurfMapInteractions {
      * @param {TouchEvent} e - The touch event.
      */
     handleTouchEnd(e) {
+        const wasTap = this.interactionState.isTap;
         // Prevent default behavior
         e.preventDefault();
         
@@ -502,6 +506,16 @@ export class SurfMapInteractions {
                 
                 // Emit zoom changed event
                 this.surfMap.emit('zoomChanged', { zoom: this.state.zoom });
+            }
+            
+            if (wasTap) {
+                const event = new MouseEvent('click', {
+                    bubbles: true,
+                    cancelable: true,
+                    clientX: this.interactionState.dragStartX,
+                    clientY: this.interactionState.dragStartY
+                });
+                this.canvas.dispatchEvent(event);
             }
             
             // Hide touch feedback
