@@ -1,6 +1,5 @@
 /**
  * @fileoverview Test specification for the surf map implementation.
- * @version 1.0.0
  * @description This specification defines the test cases and expected behaviors
  * for the surf map functionality, including manual testing procedures.
  */

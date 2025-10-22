@@ -1,7 +1,6 @@
 /**
  * @fileoverview Artist data configuration for La Sonora Volcánica website.
  * Contains artist profile links and contact information for the main page footer.
- * @version 1.8.5
  * @module config/artist-data
  */
 

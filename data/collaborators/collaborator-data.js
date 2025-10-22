@@ -21,7 +21,6 @@
 
 /**
  * Array of all collaborators.
- * @version 1.8.5
  * To add a new collaborator, create a new object following the Collaborator type definition
  * and add it to this array.
  * @type {Collaborator[]}

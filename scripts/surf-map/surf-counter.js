@@ -1,6 +1,5 @@
 /**
  * @fileoverview Surf spots counter module.
- * @version 1.8.5
  * @description This module provides a dynamic counter that displays the number of surf spots
  * currently visible on the map based on search results.
  */

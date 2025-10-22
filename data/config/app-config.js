@@ -5,11 +5,12 @@
  *
  * VERSION MANAGEMENT:
  * This file contains the authoritative version number for the entire application.
- * When updating the version number here, ensure the following files are also updated
- * to maintain version consistency across the project:
- * - index.html (version comment in head)
- * - script.js (version comment in header)
- * - style.css (version comment in header)
+ * The version is dynamically read from this central location by all components.
+ *
+ * To update the version number:
+ * 1. Update the version property below
+ * 2. The version will automatically appear in the footer and be available programmatically
+ * 3. No other files need to be updated
  *
  * The version number follows semantic versioning (MAJOR.MINOR.PATCH).
  * Increment MAJOR for breaking changes, MINOR for new features, PATCH for bug fixes.
@@ -32,7 +33,7 @@
  * @property {boolean} surfMapEnabled - Controls whether the surf map feature is accessible through the navigation menu.
  */
 export const appConfig = {
-  version: "1.8.8",
+  version: "1.8.9",
   defaultLanguage: "en",
   supportedLanguages: ["en", "es", "fr"],
   featuredReleaseCount: 2,

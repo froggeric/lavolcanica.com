@@ -1,6 +1,5 @@
 /**
  * @fileoverview Test results and report for the surf map implementation.
- * @version 1.0.0
  * @description This file contains the comprehensive test results and report
  * for the surf map functionality, including all issues found and fixes implemented.
  */

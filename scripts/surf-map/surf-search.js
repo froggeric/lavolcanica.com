@@ -1,6 +1,5 @@
 /**
  * @fileoverview Search functionality for surf spots.
- * @version 1.8.5
  * @description This module provides instant search functionality for surf spots,
  * including text highlighting and result display with difficulty indicators.
  */

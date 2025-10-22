@@ -1,5 +1,28 @@
 # La Sonora Volcánica - Official Website
 
+[![Version](https://img.shields.io/badge/version-1.8.9-blue.svg)](CHANGELOG.md)
+[![License](https://img.shields.io/badge/license-All%20Rights%20Reserved-red.svg)](NOTICE.txt)
+[![Status](https://img.shields.io/badge/status-active-brightgreen.svg)](https://lavolcanica.com)
+
+## Version Management
+
+This project uses a centralized version management system:
+
+- **Single Source of Truth**: Version number is stored only in `data/config/app-config.js`
+- **Dynamic Display**: Version is automatically displayed in the footer and available programmatically
+- **No Version Drift**: Eliminates inconsistencies between files
+- **Easy Updates**: Version changes only require updating one file
+
+### Updating the Version
+
+1. Update the `version` property in `data/config/app-config.js`
+2. The version will automatically appear in the footer and be available throughout the application
+3. No other files need to be updated
+
+### Version History
+
+For detailed version history and changelog, see [CHANGELOG.md](CHANGELOG.md).
+
 This repository contains the source code for the official website of La Sonora Volcánica, a musical project by Frédéric Guigand. The site is a modern, single-page application designed to showcase the artist's music, stories, and collaborations.
 
 ## Website Purpose and Capabilities

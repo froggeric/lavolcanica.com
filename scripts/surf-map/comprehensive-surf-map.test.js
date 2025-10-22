@@ -1,6 +1,5 @@
 /**
  * @fileoverview Comprehensive test suite for the redesigned surf map interface
- * @version 1.0.0
  * @description This test suite verifies all functionality of the redesigned surf map interface,
  * including search functionality, positioning, counter, filter removal, and design consistency.
  */

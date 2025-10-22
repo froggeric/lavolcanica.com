@@ -1,6 +1,5 @@
 /**
  * @fileoverview Test suite for the surf map implementation.
- * @version 1.0.0
  * @description This test suite provides comprehensive testing for the surf map functionality,
  * including marker display, search, filters, minimap, and responsive design.
  */

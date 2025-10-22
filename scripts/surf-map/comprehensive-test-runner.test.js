@@ -327,7 +327,6 @@ class ComprehensiveTestRunner {
         const report = {
             timestamp: new Date().toISOString(),
             testSuite: 'Comprehensive Surf Map Interface Tests',
-            version: '1.0.0',
             summary: {
                 totalTests: this.results.summary.total,
                 passedTests: this.results.summary.passed,

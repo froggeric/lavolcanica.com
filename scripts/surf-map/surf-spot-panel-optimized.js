@@ -1,6 +1,5 @@
 /**
  * @class SurfSpotPanelOptimized
- * @version 1.8.5
  *
  * @description
  * Manages the enhanced, component-based surf spot details panel.

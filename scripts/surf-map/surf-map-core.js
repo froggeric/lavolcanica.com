@@ -1,6 +1,5 @@
 /**
  * @fileoverview Core SurfMap class for the fullscreen surf map interface.
- * @version 1.8.5
  * @description This module contains the core SurfMap class that manages the map state,
  * coordinates between the renderer and interaction handlers, and provides the main API
  * for the surf map functionality.

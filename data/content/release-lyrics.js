@@ -1,7 +1,6 @@
 /**
  * @fileoverview Release lyrics for La Sonora Volcánica website.
  * Contains lyrics content for all releases in multiple languages.
- * @version 1.8.5
  * @module data/content/release-lyrics
  */
 

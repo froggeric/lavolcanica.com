@@ -1,7 +1,6 @@
 /**
  * @fileoverview Main application script for La Sonora Volcánica website.
- * @version 1.8.7
- * @description This script handles the entire frontend logic for the La Sonora Volcánica website,
+ * @description This script handles the entire frontend logic for the La Sonora Volcánica website.
  * The application follows a modular architecture where all content is loaded from external
  * data modules located in the `/data` directory.
  *
@@ -24,12 +23,6 @@
     'use strict'; // Enforces stricter parsing and error handling in JavaScript.
 
     // ==================== UTILITY FUNCTIONS ====================
-
-/**
- * @fileoverview Main application script for La Sonora Volcánica website.
- * @version 1.8.8
- * @description Handles initialization, data loading, UI interactions, and component management.
- */
     const sanitizeHTML = (str) => {
         const temp = document.createElement('div');
         temp.textContent = str;
@@ -1485,14 +1478,22 @@
         }
 
         /**
-         * Populates the footer with artist links from the centralized data.
+         * Populates the footer with artist links and version information from the centralized data.
          */
         function populateFooterLinks() {
             const footerLinksContainer = document.getElementById('footer-links');
             if (!footerLinksContainer) return;
-            
+
             const fragment = document.createDocumentFragment();
-            
+
+            // Add version information
+            const versionElement = document.createElement('span');
+            versionElement.className = 'app-version';
+            versionElement.textContent = `Version ${dataLoader.config.app.version}`;
+            versionElement.setAttribute('aria-label', `Application version ${dataLoader.config.app.version}`);
+            fragment.appendChild(versionElement);
+
+            // Add artist links
             dataLoader.artist.links.forEach(link => {
                 const linkElement = document.createElement('a');
                 linkElement.href = link.url;
@@ -1501,18 +1502,18 @@
                 linkElement.className = 'tooltip';
                 linkElement.setAttribute('data-tooltip', link.tooltip);
                 linkElement.setAttribute('aria-label', link.ariaLabel);
-                
+
                 // Create SVG icon
                 const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                 svg.classList.add('icon');
                 const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
                 use.setAttribute('href', `#${link.icon}`);
                 svg.appendChild(use);
-                
+
                 linkElement.appendChild(svg);
                 fragment.appendChild(linkElement);
             });
-            
+
             footerLinksContainer.innerHTML = '';
             footerLinksContainer.appendChild(fragment);
         }

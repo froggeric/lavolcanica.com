@@ -5,6 +5,38 @@ All notable changes to the La Sonora Volcánica website will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0/).
 
+## [1.8.9] - 2025-10-22
+
+### Fixed
+- **Centralized Version Management**: Streamlined version tracking by removing redundant version comments from all files and establishing a single source of truth.
+- **Version Display System**: Implemented dynamic version display in the footer that reads from the central configuration.
+
+### Changed
+- **Version Management Architecture**: Completely restructured version management to use a centralized approach:
+  - Single version source: `data/config/app-config.js`
+  - Dynamic version display in footer
+  - Removed version comments from 20+ files across the project
+  - Updated documentation to reflect new centralized approach
+
+### Technical Details
+- **Files Cleaned Up**: Removed version comments from all core files, surf map modules, data configuration files, and content files
+- **Centralized Version Display**: Footer now dynamically reads version from `app-config.js`
+- **Documentation Updates**: Updated README.md with GitHub shields and version management guidelines
+- **JSDoc Comments**: Updated all JSDoc comments to reference centralized versioning
+
+### Files Modified
+- **Core Files**: `index.html`, `script.js`, `style.css` - Removed version comments
+- **Surf Map Module**: All 13 files in `scripts/surf-map/` - Removed version comments
+- **Data Configuration**: `data/config/artist-data.js`, `data/config/platform-config.js` - Removed version comments
+- **Content Files**: `scripts/data-loader.js`, `data/content/release-stories.js`, `data/content/release-lyrics.js`, `data/content/collaborator-bios.js`, `data/collaborators/collaborator-data.js` - Removed version comments
+- **Documentation**: `README.md` - Added GitHub shields and version management section
+- **Configuration**: `data/config/app-config.js` - Updated version management comments
+
+### GitHub Shields Added
+- **Version Shield**: [![Version](https://img.shields.io/badge/version-1.8.9-blue.svg)](CHANGELOG.md)
+- **License Shield**: [![License](https://img.shields.io/badge/license-All%20Rights%20Reserved-red.svg)](NOTICE.txt)
+- **Status Shield**: [![Status](https://img.shields.io/badge/status-active-brightgreen.svg)](https://lavolcanica.com)
+
 ## [1.8.8] - 2025-10-22
 
 ### Fixed

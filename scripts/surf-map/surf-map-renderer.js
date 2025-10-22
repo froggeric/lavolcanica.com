@@ -1,6 +1,5 @@
 /**
  * @fileoverview Renderer for the SurfMap component.
- * @version 1.8.5
  * @description This module contains the SurfMapRenderer class that handles all canvas
  * rendering operations for the surf map, including drawing the image and applying
  * transformations for zoom and pan.
