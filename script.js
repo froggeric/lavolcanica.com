@@ -25,11 +25,11 @@
 
     // ==================== UTILITY FUNCTIONS ====================
 
-    /**
-     * Sanitizes a string to prevent XSS attacks by escaping HTML entities.
-     * @param {string} str - The string to sanitize.
-     * @returns {string} The sanitized HTML string.
-     */
+/**
+ * @fileoverview Main application script for La Sonora Volcánica website.
+ * @version 1.8.8
+ * @description Handles initialization, data loading, UI interactions, and component management.
+ */
     const sanitizeHTML = (str) => {
         const temp = document.createElement('div');
         temp.textContent = str;

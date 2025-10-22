@@ -3,7 +3,42 @@
 All notable changes to the La Sonora Volcánica website will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0/).
+
+## [1.8.8] - 2025-10-22
+
+### Fixed
+- **Device-Specific Click Detection**: Resolved critical issue where surf spot marker click areas were misaligned on mobile and tablet devices, causing poor user experience and interaction difficulties.
+- **Touch Interface Optimization**: Fixed touch coordinate handling to ensure click areas match visual markers exactly across all device types.
+- **Cross-Platform Consistency**: Eliminated discrepancies between desktop mouse interactions and mobile/tablet touch interactions.
+
+### Changed
+- **Complete Click Detection Rewrite**: Completely rewrote the marker click detection system with device-specific implementations instead of shared logic.
+- **Enhanced Device Detection**: Improved device detection to properly separate desktop, mobile, and tablet devices with distinct handling for each.
+- **Marker Size Optimization**: Optimized marker sizes and click areas for each device type:
+  - Desktop: 30px markers with 15px radius (precise mouse detection)
+  - Mobile: 35px markers with 17.5px radius + 3px touch tolerance (touch-optimized)
+  - Tablet: 32px markers with 16px radius + 2px touch tolerance (balanced approach)
+
+### Technical Details
+- Implemented device-specific coordinate transformation pipelines with touch precision factors:
+  - Desktop: Standard coordinate transformation (1.0x precision factor)
+  - Mobile: 1.2x touch precision factor + 3px tolerance for touch imprecision
+  - Tablet: 1.1x touch precision factor + 2px tolerance for intermediate precision
+- Added separate detection methods: `getMarkerAtPosition_Desktop()`, `getMarkerAtPosition_Mobile()`, `getMarkerAtPosition_Tablet()`
+- Enhanced `detectDeviceType()` method to properly identify tablets separately from mobile devices
+- Maintained backward compatibility with existing `detectMobile()` method
+- Removed all legacy triangle-based detection code and assumptions
+
+### Performance
+- Device-specific routing adds minimal overhead (single device type check per interaction)
+- Optimized coordinate transformations with device-specific precision factors
+- Maintained existing performance optimizations while adding device-specific logic
+
+### Files Modified
+- `scripts/surf-map/surf-markers.js`: Updated to v1.8.8 with complete device-specific click detection rewrite
+- `data/config/app-config.js`: Updated version to 1.8.8
+- `CHANGELOG.md`: Added comprehensive v1.8.8 entry
 
 ## [1.8.7] - 2025-10-21
 
