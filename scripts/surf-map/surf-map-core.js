@@ -133,6 +133,7 @@ export class SurfMap {
             this.renderer = new SurfMapRenderer(this.canvas, this.state);
 
             // Initialize the interaction handler with mobile optimizations
+            const { InteractionManager } = await import('./interaction-manager.js');
             const { SurfMapInteractions } = await import('./surf-map-interactions.js');
             this.interactions = new SurfMapInteractions(this.canvas, this.state, this);
             

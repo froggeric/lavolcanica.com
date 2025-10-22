@@ -5,6 +5,23 @@ All notable changes to the La Sonora Volcánica website will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0/).
 
+## [1.9.1] - 2025-10-22
+
+### Changed
+- **Map Controls**: Refactored the surf map's panning and zooming controls to be smoother and more responsive. The new implementation uses a velocity-based model for panning and a calibrated, percentage-based approach for zooming, providing a more natural and intuitive user experience.
+- **InteractionManager**: The new `InteractionManager` now correctly calculates drag deltas based on the previous frame's position, resulting in smoother panning.
+- **Zoom Sensitivity**: Zoom sensitivity is now calibrated to be proportional to the current zoom level, preventing overly fast or slow zooming.
+
+### Fixed
+- **Panning Animation**: Fixed an issue where the panning animation was not being properly cancelled, leading to a "jerky" feel.
+- **Pinch-to-Zoom**: Implemented the missing logic for pinch-to-zoom, which now correctly adjusts the pan position to keep the center point between the fingers stable.
+
+### Files Modified
+- `scripts/surf-map/surf-map-interactions.js`: Updated to use the new velocity-based panning and calibrated zoom logic.
+- `scripts/surf-map/interaction-manager.js`: Refined to provide smoother drag deltas.
+- `data/config/app-config.js`: Updated version to 1.9.1.
+- `CHANGELOG.md`: Added comprehensive v1.9.1 entry.
+
 ## [1.9.0] - 2025-10-22
 
 ### Fixed

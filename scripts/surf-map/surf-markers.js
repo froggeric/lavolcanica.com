@@ -93,9 +93,7 @@ export class SurfMarkersManager {
         
         // Event handlers
         this.eventHandlers = {
-            mousemove: this.handleMouseMove.bind(this),
-            click: this.handleClick.bind(this),
-            touchstart: this.handleTouchStart.bind(this)
+            handleTap: this.handleTap.bind(this)
         };
         
         // Initialize
@@ -138,18 +136,14 @@ export class SurfMarkersManager {
      * Adds event listeners.
      */
     addEventListeners() {
-        this.canvas.addEventListener('mousemove', this.eventHandlers.mousemove);
-        this.canvas.addEventListener('click', this.eventHandlers.click);
-        this.canvas.addEventListener('touchstart', this.eventHandlers.touchstart, { passive: false });
+        this.canvas.addEventListener('tap', this.eventHandlers.handleTap);
     }
 
     /**
      * Removes event listeners.
      */
     removeEventListeners() {
-        this.canvas.removeEventListener('mousemove', this.eventHandlers.mousemove);
-        this.canvas.removeEventListener('click', this.eventHandlers.click);
-        this.canvas.removeEventListener('touchstart', this.eventHandlers.touchstart);
+        this.canvas.removeEventListener('tap', this.eventHandlers.handleTap);
     }
 
     /**
@@ -661,46 +655,17 @@ export class SurfMarkersManager {
     }
 
     /**
-     * Handles mouse move events.
-     * @param {MouseEvent} e - The mouse event.
+     * Handles tap events on the markers.
+     * @param {CustomEvent} e - The tap event.
      */
-    handleMouseMove(e) {
-        if (!this.options.enableHover) return;
-        
+    handleTap(e) {
+        if (!e.detail) return;
+        const { x, y } = e.detail;
         const rect = this.canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        // Check for marker hover
-        const hoveredMarker = this.getMarkerAtPosition(x, y);
-        
-        if (hoveredMarker !== this.hoveredMarker) {
-            this.hoveredMarker = hoveredMarker;
-            
-            if (hoveredMarker && this.options.enableTooltips) {
-                this.showTooltip(hoveredMarker, e.clientX, e.clientY);
-                this.canvas.style.cursor = 'pointer';
-            } else {
-                this.hideTooltip();
-                this.canvas.style.cursor = 'grab';
-            }
-        } else if (hoveredMarker && this.options.enableTooltips) {
-            this.updateTooltipPosition(e.clientX, e.clientY);
-        }
-    }
+        const tapX = x - rect.left;
+        const tapY = y - rect.top;
 
-    /**
-     * Handles click events.
-     * @param {MouseEvent} e - The mouse event.
-     */
-    handleClick(e) {
-        if (!this.options.enableClick) return;
-        
-        const rect = this.canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const clickedMarker = this.getMarkerAtPosition(x, y);
+        const clickedMarker = this.getMarkerAtPosition(tapX, tapY);
         
         if (clickedMarker) {
             this.selectMarker(clickedMarker);
@@ -708,45 +673,6 @@ export class SurfMarkersManager {
             // Emit marker click event
             if (this.onMarkerClick) {
                 const marker = this.markers.get(clickedMarker);
-                if (marker) {
-                    this.onMarkerClick(marker.spot);
-                }
-            }
-        }
-    }
-
-    /**
-     * Handles touch start events.
-     * @param {TouchEvent} e - The touch event.
-     */
-    handleTouchStart(e) {
-        if (!this.options.enableClick) return;
-        
-        const rect = this.canvas.getBoundingClientRect();
-        const touch = e.touches[0];
-        const x = touch.clientX - rect.left;
-        const y = touch.clientY - rect.top;
-        
-        const touchedMarker = this.getMarkerAtPosition(x, y);
-        
-        if (touchedMarker) {
-            e.preventDefault();
-            
-            // Show tooltip for touched marker on mobile
-            if (this.options.enableTooltips) {
-                this.showTooltip(touchedMarker, touch.clientX, touch.clientY);
-                
-                // Hide tooltip after delay
-                setTimeout(() => {
-                    this.hideTooltip();
-                }, 2000);
-            }
-            
-            this.selectMarker(touchedMarker);
-            
-            // Emit marker click event
-            if (this.onMarkerClick) {
-                const marker = this.markers.get(touchedMarker);
                 if (marker) {
                     this.onMarkerClick(marker.spot);
                 }

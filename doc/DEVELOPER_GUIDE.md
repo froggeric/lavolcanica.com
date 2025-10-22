@@ -101,7 +101,8 @@ The Fuerteventura Surf Map is a significant new feature designed to provide an i
 #### Core Components
 - **[`SurfMap`](scripts/surf-map/surf-map-core.js)**: The central class managing the map's state, rendering, and interactions. It orchestrates all sub-components.
 - **[`SurfMapRenderer`](scripts/surf-map/surf-map-renderer.js)**: Handles the drawing of the map image and other visual elements onto the HTML Canvas.
-- **[`SurfMapInteractions`](scripts/surf-map/surf-map-interactions.js)**: Manages user interactions such as zooming, panning, and touch gestures.
+- **[`InteractionManager`](scripts/surf-map/interaction-manager.js)**: A centralized class that handles all raw user input (mouse and touch) and translates it into semantic gestures like `tap`, `drag`, and `pinch`.
+- **[`SurfMapInteractions`](scripts/surf-map/surf-map-interactions.js)**: Consumes the semantic events from the `InteractionManager` and updates the map state (pan, zoom) accordingly.
 - **[`SurfSpotsManager`](scripts/surf-map/surf-spots.js)**: Loads and manages the surf spots data from [`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json), including coordinate conversion between GPS and image pixels.
 - **[`SurfMarkersManager`](scripts/surf-map/surf-markers.js)**: Renders and manages interactive markers for each surf spot on the map, handling their visibility and click events.
 - **[`SurfSpotModal`](scripts/surf-map/surf-spot-modal.js)**: Displays detailed information about a surf spot when its marker is clicked.

@@ -48,11 +48,8 @@ export class SurfMinimap {
         
         // Event handlers
         this.eventHandlers = {
-            click: this.handleClick.bind(this),
-            mousedown: this.handleMouseDown.bind(this),
-            mousemove: this.handleMouseMove.bind(this),
-            mouseup: this.handleMouseUp.bind(this),
-            mouseleave: this.handleMouseLeave.bind(this)
+            handleTap: this.handleTap.bind(this),
+            handleDrag: this.handleDrag.bind(this)
         };
         
         // Callbacks
@@ -132,38 +129,16 @@ export class SurfMinimap {
      * Adds event listeners.
      */
     addEventListeners() {
-        if (this.options.enableClick) {
-            this.minimapCanvas.addEventListener('click', this.eventHandlers.click);
-            this.minimapCanvas.addEventListener('mousedown', this.eventHandlers.mousedown);
-        }
-        
-        if (this.options.enableHover) {
-            this.minimapCanvas.addEventListener('mousemove', this.eventHandlers.mousemove);
-            this.minimapCanvas.addEventListener('mouseleave', this.eventHandlers.mouseleave);
-        }
-        
-        if (this.options.enableClick) {
-            document.addEventListener('mouseup', this.eventHandlers.mouseup);
-        }
+        this.minimapCanvas.addEventListener('tap', this.eventHandlers.handleTap);
+        this.minimapCanvas.addEventListener('drag', this.eventHandlers.handleDrag);
     }
 
     /**
      * Removes event listeners.
      */
     removeEventListeners() {
-        if (this.options.enableClick) {
-            this.minimapCanvas.removeEventListener('click', this.eventHandlers.click);
-            this.minimapCanvas.removeEventListener('mousedown', this.eventHandlers.mousedown);
-        }
-        
-        if (this.options.enableHover) {
-            this.minimapCanvas.removeEventListener('mousemove', this.eventHandlers.mousemove);
-            this.minimapCanvas.removeEventListener('mouseleave', this.eventHandlers.mouseleave);
-        }
-        
-        if (this.options.enableClick) {
-            document.removeEventListener('mouseup', this.eventHandlers.mouseup);
-        }
+        this.minimapCanvas.removeEventListener('tap', this.eventHandlers.handleTap);
+        this.minimapCanvas.removeEventListener('drag', this.eventHandlers.handleDrag);
     }
 
     /**
@@ -297,94 +272,41 @@ export class SurfMinimap {
     }
 
     /**
-     * Handles click events on the minimap.
-     * @param {MouseEvent} e - The mouse event.
+     * Handles tap events on the minimap.
+     * @param {CustomEvent} e - The tap event.
      */
-    handleClick(e) {
+    handleTap(e) {
+        const { x, y } = e.detail;
         const rect = this.minimapCanvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        // Check if a spot was clicked
-        const clickedSpot = this.getSpotAtPosition(x, y);
+        const tapX = x - rect.left;
+        const tapY = y - rect.top;
+
+        const clickedSpot = this.getSpotAtPosition(tapX, tapY);
         if (clickedSpot) {
             if (this.onSpotClick) {
                 this.onSpotClick(clickedSpot);
             }
             return;
         }
-        
-        // Check if click is within viewport indicator
-        if (this.isWithinViewportIndicator(x, y)) {
-            // Click is within viewport, don't navigate
+
+        if (this.isWithinViewportIndicator(tapX, tapY)) {
             return;
         }
-        
-        // Otherwise, navigate to the clicked position
-        this.navigateToPosition(x, y);
+
+        this.navigateToPosition(tapX, tapY);
     }
 
     /**
-     * Handles mouse down events.
-     * @param {MouseEvent} e - The mouse event.
+     * Handles drag events on the minimap.
+     * @param {CustomEvent} e - The drag event.
      */
-    handleMouseDown(e) {
+    handleDrag(e) {
+        const { x, y } = e.detail;
         const rect = this.minimapCanvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        // Check if a spot was clicked
-        const clickedSpot = this.getSpotAtPosition(x, y);
-        if (!clickedSpot && !this.isWithinViewportIndicator(x, y)) {
-            this.isDragging = true;
-            this.dragStart = { x, y };
-            this.minimapCanvas.style.cursor = 'grabbing';
-            e.preventDefault();
-        }
-    }
+        const dragX = x - rect.left;
+        const dragY = y - rect.top;
 
-    /**
-     * Handles mouse move events.
-     * @param {MouseEvent} e - The mouse event.
-     */
-    handleMouseMove(e) {
-        const rect = this.minimapCanvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        if (this.isDragging) {
-            // Navigate to the dragged position
-            this.navigateToPosition(x, y);
-        } else {
-            // Check for spot hover
-            const hoveredSpot = this.getSpotAtPosition(x, y);
-            
-            if (hoveredSpot !== this.hoveredSpot) {
-                this.hoveredSpot = hoveredSpot;
-                this.minimapCanvas.style.cursor = hoveredSpot ? 'pointer' : 'grab';
-                this.render();
-            }
-        }
-    }
-
-    /**
-     * Handles mouse up events.
-     */
-    handleMouseUp() {
-        if (this.isDragging) {
-            this.isDragging = false;
-            this.minimapCanvas.style.cursor = 'grab';
-        }
-    }
-
-    /**
-     * Handles mouse leave events.
-     */
-    handleMouseLeave() {
-        this.hoveredSpot = null;
-        this.isDragging = false;
-        this.minimapCanvas.style.cursor = 'grab';
-        this.render();
+        this.navigateToPosition(dragX, dragY);
     }
 
     /**
