@@ -92,7 +92,7 @@ export class SurfMapInteractions {
             this.state.panX = (mouseX - rect.width / 2) - imageX * newZoom;
             this.state.panY = (mouseY - rect.height / 2) - imageY * newZoom;
             this.surfMap.constrainPan();
-            this.surfMap.render();
+            this.surfMap.forceRender();
             this.surfMap.emit('zoomChanged', { zoom: this.state.zoom });
         }
     }
@@ -117,10 +117,11 @@ export class SurfMapInteractions {
             this.state.panX = (mouseX - rect.width / 2) - imageX * newZoom;
             this.state.panY = (mouseY - rect.height / 2) - imageY * newZoom;
             this.surfMap.constrainPan();
-            this.surfMap.render();
+            this.surfMap.forceRender();
             this.surfMap.emit('zoomChanged', { zoom: this.state.zoom });
         }
     }
+
 
     handleDoubleTap({ detail }) {
         this.handleZoom({ detail: { ...detail, delta: 1 } });

@@ -67,7 +67,6 @@ export class SurfMap {
         this.spotsManager = null;
         this.markersManager = null;
         this.spotModal = null;
-        this.minimap = null;
         this.searchManager = null;
         this.spotsCounter = null;
 
@@ -103,8 +102,7 @@ export class SurfMap {
     async init() {
         try {
             this.viewport = new Viewport(this.container, [
-                document.getElementById('left-side-search'),
-                document.getElementById('surf-map-minimap')
+                document.getElementById('left-side-search')
             ]);
             // Create the canvas element
             this.canvas = document.createElement('canvas');
@@ -171,12 +169,6 @@ export class SurfMap {
 
             // The spot detail panel is now handled by the main application
             // No need to initialize a separate modal
-
-            // Initialize the minimap
-            const { SurfMinimap } = await import('./surf-minimap.js');
-            this.minimap = new SurfMinimap(this.canvas, this.state, this.spotsManager);
-            this.minimap.setSpotClickCallback(this.handleMinimapSpotClick.bind(this));
-            this.minimap.setViewportChangeCallback(this.handleMinimapViewportChange.bind(this));
 
             // Initialize search functionality
             const { SurfSearch } = await import('./surf-search.js');
@@ -471,8 +463,9 @@ export class SurfMap {
     constrainPan() {
         if (!this.state.imageLoaded) return;
 
-        const canvasWidth = this.canvas.width;
-        const canvasHeight = this.canvas.height;
+        const visibleRect = this.viewport.getVisibleRect();
+        const canvasWidth = visibleRect.width;
+        const canvasHeight = visibleRect.height;
         const imageWidth = this.state.image.width * this.state.zoom;
         const imageHeight = this.state.image.height * this.state.zoom;
 
@@ -514,7 +507,7 @@ export class SurfMap {
         this.lastRenderState = { ...currentState };
         this.needsRender = false;
         
-        // Render base map
+        // Render base map first
         this.renderer.render();
         
         // Update marker visibility based on current viewport
@@ -523,14 +516,9 @@ export class SurfMap {
         // Apply search visibility
         this.updateSearchVisibility();
         
-        // Render markers
+        // Render markers with proper canvas clearing
         if (this.markersManager) {
             this.markersManager.render();
-        }
-        
-        // Render minimap
-        if (this.minimap) {
-            this.minimap.render();
         }
     }
     
@@ -684,43 +672,6 @@ export class SurfMap {
         this.emit('panelClose');
     }
 
-    /**
-     * Handles minimap spot click events.
-     * @param {Object} spot - The clicked surf spot data.
-     */
-    handleMinimapSpotClick(spot) {
-        // Center the view on the spot
-        if (spot.pixelCoordinates) {
-            this.centerOnSpot(spot);
-        }
-        
-        // Call the global showSurfSpotPanel function from the main application
-        if (window.showSurfSpotPanel) {
-            window.showSurfSpotPanel(spot.id);
-        }
-        
-        // Emit minimap spot click event
-        this.emit('minimapSpotClick', { spot });
-    }
-
-    /**
-     * Handles minimap viewport change events.
-     * @param {Object} viewport - The new viewport state.
-     */
-    handleMinimapViewportChange(viewport) {
-        // Update pan position
-        this.state.panX = viewport.panX;
-        this.state.panY = viewport.panY;
-        
-        // Constrain pan
-        this.constrainPan();
-        
-        // Re-render
-        this.forceRender();
-        
-        // Emit viewport change event
-        this.emit('viewportChanged', viewport);
-    }
 
     /**
      * Centers the view on a specific surf spot.
@@ -788,11 +739,6 @@ export class SurfMap {
         
         // Update marker visibility
         this.markersManager.updateSpotVisibility(visibleSpots);
-        
-        // Update minimap to show only visible spots
-        if (this.minimap && typeof this.minimap.updateVisibleSpots === 'function') {
-            this.minimap.updateVisibleSpots(visibleSpots);
-        }
         
         // Update the surf spots counter
         this.updateSpotsCounter(visibleSpots.length);
@@ -872,23 +818,6 @@ export class SurfMap {
         }
     }
 
-    /**
-     * Shows the minimap.
-     */
-    showMinimap() {
-        if (this.minimap) {
-            this.minimap.show();
-        }
-    }
-
-    /**
-     * Hides the minimap.
-     */
-    hideMinimap() {
-        if (this.minimap) {
-            this.minimap.hide();
-        }
-    }
 
     /**
      * Gets the surf spots manager.
@@ -914,13 +843,6 @@ export class SurfMap {
         return this.spotModal;
     }
 
-    /**
-     * Gets the minimap.
-     * @returns {SurfMinimap|null} The minimap.
-     */
-    getMinimap() {
-        return this.minimap;
-    }
 
     /**
      * Gets the search manager.
@@ -1012,11 +934,6 @@ export class SurfMap {
         if (this.markersManager) {
             this.markersManager.destroy();
         }
-        // The spot detail panel is now handled by the main application
-        // No need to destroy a separate modal
-        if (this.minimap) {
-            this.minimap.destroy();
-        }
         if (this.searchManager) {
             this.searchManager.destroy();
         }
@@ -1035,9 +952,6 @@ export class SurfMap {
         this.interactions = null;
         this.spotsManager = null;
         this.markersManager = null;
-        // The spot detail panel is now handled by the main application
-        // No need to clear a separate modal reference
-        this.minimap = null;
         this.searchManager = null;
         this.spotsCounter = null;
         this.state.image = null;

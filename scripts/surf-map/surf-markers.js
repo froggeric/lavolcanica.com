@@ -491,21 +491,28 @@ export class SurfMarkersManager {
     render() {
         if (!this.ctx) return;
         
-        // Update animations
+        // Clear any existing marker drawings by saving and restoring context state
+        // This ensures markers don't accumulate on top of each other
+        this.ctx.save();
+        
+        // Update animations first
         this.updateAnimations();
         
-        // Sort markers by y position for proper layering
+        // Sort markers by y position for proper layering (markers further back render first)
         const sortedMarkers = [...this.visibleMarkers].sort((a, b) => a.y - b.y);
         
-        // Render each marker
+        // Render each marker with proper isolation
         sortedMarkers.forEach(marker => {
             this.renderMarker(marker);
         });
         
-        // Render tooltip if visible
+        // Render tooltip if visible (rendered last to appear on top)
         if (this.tooltip && this.tooltip.visible) {
             this.renderTooltip();
         }
+        
+        // Restore the context state to prevent accumulation
+        this.ctx.restore();
     }
 
     /**

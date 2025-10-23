@@ -5,6 +5,14 @@ All notable changes to the La Sonora Volcánica website will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0/).
 
+## [Unreleased]
+
+## [1.9.4] - 2025-10-23
+
+### Fixed
+- **Surf Map Marker Duplication**: Resolved a persistent issue where surf spot markers would duplicate during zoom operations. The fix involved removing a secondary render cycle from the minimap and centralizing all rendering authority in the main `requestAnimationFrame` loop.
+- **Mobile Panning Restriction**: Fixed a bug where panning on mobile devices was incorrectly restricted when zoomed in. The pan constraint calculation now correctly uses CSS pixels instead of device pixels, ensuring a full and smooth panning range on high-DPR screens.
+
 ## [1.9.3] - 2025-10-23
 
 ### Fixed
