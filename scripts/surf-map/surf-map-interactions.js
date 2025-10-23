@@ -38,29 +38,59 @@ export class SurfMapInteractions {
     }
 
     handleDrag({ detail }) {
-        this.state.panX += detail.deltaX;
-        this.state.panY += detail.deltaY;
-        this.surfMap.constrainPan();
-        this.surfMap.render();
+        this.panVelocity.x = detail.deltaX;
+        this.panVelocity.y = detail.deltaY;
+        if (!this.isPanning) {
+            this.isPanning = true;
+            this.startPanning();
+        }
     }
 
     handleDragEnd() {
-        // No inertia for now, just emit the final pan position
-        this.surfMap.emit('panChanged', {
-            panX: this.state.panX,
-            panY: this.state.panY
-        });
+        this.isPanning = false;
+    }
+
+    startPanning() {
+        if (!this.panAnimationFrame) {
+            this.panAnimationFrame = requestAnimationFrame(() => {
+                if (this.isPanning) {
+                    this.state.panX += this.panVelocity.x;
+                    this.state.panY += this.panVelocity.y;
+                    this.panVelocity.x *= 0.92; // Damping
+                    this.panVelocity.y *= 0.92; // Damping
+                    this.surfMap.constrainPan();
+                    this.surfMap.render();
+                    this.panAnimationFrame = null;
+                    this.startPanning();
+                } else {
+                    this.surfMap.emit('panChanged', {
+                        panX: this.state.panX,
+                        panY: this.state.panY
+                    });
+                    this.panAnimationFrame = null;
+                }
+            });
+        }
     }
 
     handlePinch({ detail }) {
-        const { scale } = detail;
+        const { scale, clientX, clientY } = detail;
+        const rect = this.surfMap.viewport.getVisibleRect();
+        const mouseX = clientX - rect.left;
+        const mouseY = clientY - rect.top;
+
+        const imageX = (mouseX - rect.width / 2 - this.state.panX) / this.state.zoom;
+        const imageY = (mouseY - rect.height / 2 - this.state.panY) / this.state.zoom;
+
         const newZoom = Math.max(
             this.surfMap.options.minZoom,
             Math.min(this.surfMap.options.maxZoom, this.state.zoom * scale)
         );
 
-        if (newZoom !== this.state.zoom) {
+        if (Math.abs(newZoom - this.state.zoom) > 1e-6) {
             this.state.zoom = newZoom;
+            this.state.panX = (mouseX - rect.width / 2) - imageX * newZoom;
+            this.state.panY = (mouseY - rect.height / 2) - imageY * newZoom;
             this.surfMap.constrainPan();
             this.surfMap.render();
             this.surfMap.emit('zoomChanged', { zoom: this.state.zoom });
@@ -70,26 +100,22 @@ export class SurfMapInteractions {
     handleZoom({ detail }) {
         const { delta, clientX, clientY } = detail;
         const zoomSensitivity = 0.01;
-        const rect = this.canvas.getBoundingClientRect();
+        const rect = this.surfMap.viewport.getVisibleRect();
         const mouseX = clientX - rect.left;
         const mouseY = clientY - rect.top;
 
-        const dpr = this.surfMap.devicePixelRatio || 1;
-        const scaledMouseX = mouseX * dpr;
-        const scaledMouseY = mouseY * dpr;
-
-        const imageX = (scaledMouseX - this.state.panX * dpr) / (this.state.zoom * dpr);
-        const imageY = (scaledMouseY - this.state.panY * dpr) / (this.state.zoom * dpr);
+        const imageX = (mouseX - rect.width / 2 - this.state.panX) / this.state.zoom;
+        const imageY = (mouseY - rect.height / 2 - this.state.panY) / this.state.zoom;
 
         const newZoom = Math.max(
             this.surfMap.options.minZoom,
             Math.min(this.surfMap.options.maxZoom, this.state.zoom + delta * zoomSensitivity)
         );
 
-        if (newZoom !== this.state.zoom) {
+        if (Math.abs(newZoom - this.state.zoom) > 1e-6) {
             this.state.zoom = newZoom;
-            this.state.panX = (scaledMouseX - imageX * this.state.zoom * dpr) / dpr;
-            this.state.panY = (scaledMouseY - imageY * this.state.zoom * dpr) / dpr;
+            this.state.panX = (mouseX - rect.width / 2) - imageX * newZoom;
+            this.state.panY = (mouseY - rect.height / 2) - imageY * newZoom;
             this.surfMap.constrainPan();
             this.surfMap.render();
             this.surfMap.emit('zoomChanged', { zoom: this.state.zoom });

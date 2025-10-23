@@ -5,6 +5,9 @@
  * for the surf map functionality.
  */
 
+import { appConfig } from '../../data/config/app-config.js';
+import { Viewport } from './viewport.js';
+
 /**
  * Core SurfMap class that manages the map state and coordinates between components.
  */
@@ -22,7 +25,7 @@ export class SurfMap {
         this.options = {
             imagePath: options.imagePath || 'images/surf-map.webp',
             minZoom: options.minZoom || 0.5,
-            maxZoom: options.maxZoom || 2.0, // Default to 2x to prevent over-zooming
+            maxZoom: appConfig.surfMap.maxZoom || 2.0,
             initialZoom: options.initialZoom || 1.0,
             // Performance optimization options
             renderThrottle: options.renderThrottle || (1000 / 60), // 60 FPS
@@ -99,6 +102,10 @@ export class SurfMap {
      */
     async init() {
         try {
+            this.viewport = new Viewport(this.container, [
+                document.getElementById('left-side-search'),
+                document.getElementById('surf-map-minimap')
+            ]);
             // Create the canvas element
             this.canvas = document.createElement('canvas');
             this.canvas.className = 'surf-map-canvas';
@@ -353,7 +360,12 @@ export class SurfMap {
      * Resets the map view to the initial state.
      */
     resetView() {
-        this.state.zoom = this.options.initialZoom;
+        const visibleRect = this.viewport.getVisibleRect();
+        const scaleX = visibleRect.width / this.state.image.width;
+        const scaleY = visibleRect.height / this.state.image.height;
+        const initialZoom = Math.min(scaleX, scaleY);
+        this.state.zoom = Number(initialZoom.toFixed(6));
+        this.options.minZoom = Number(initialZoom.toFixed(6));
         this.state.panX = 0;
         this.state.panY = 0;
         this.constrainPan();
@@ -368,30 +380,47 @@ export class SurfMap {
      * @param {number} [centerY=0] - The Y coordinate to center on (in image coordinates).
      */
     setZoom(zoom, centerX = 0, centerY = 0) {
-        // Constrain zoom level
         const newZoom = Math.max(this.options.minZoom, Math.min(this.options.maxZoom, zoom));
-        
-        if (newZoom !== this.state.zoom) {
-            // Calculate the point in canvas coordinates before zoom
-            const canvasRect = this.canvas.getBoundingClientRect();
-            const canvasCenterX = canvasRect.width / 2;
-            const canvasCenterY = canvasRect.height / 2;
-            
-            // Calculate the image coordinates at the center of the canvas
-            const imageX = (canvasCenterX - this.state.panX) / this.state.zoom;
-            const imageY = (canvasCenterY - this.state.panY) / this.state.zoom;
-            
-            // Update zoom
-            this.state.zoom = newZoom;
-            
-            // Adjust pan to keep the same point centered
-            this.state.panX = canvasCenterX - imageX * this.state.zoom;
-            this.state.panY = canvasCenterY - imageY * this.state.zoom;
-            
+        this.zoomTo(newZoom, centerX, centerY);
+    }
+
+    zoomTo(newZoom, x, y) {
+        const startZoom = this.state.zoom;
+        const startPanX = this.state.panX;
+        const startPanY = this.state.panY;
+        const duration = 200;
+        let startTime = null;
+
+        const animate = (currentTime) => {
+            if (!startTime) startTime = currentTime;
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            const easedProgress = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+
+            const currentZoom = startZoom + (newZoom - startZoom) * easedProgress;
+
+            const imageX = (x - startPanX) / startZoom;
+            const imageY = (y - startPanY) / startZoom;
+
+            const newPanX = x - imageX * currentZoom;
+            const newPanY = y - imageY * currentZoom;
+
+            this.state.zoom = currentZoom;
+            this.state.panX = newPanX;
+            this.state.panY = newPanY;
+
             this.constrainPan();
-            this.forceRender();
-            this.emit('zoomChanged', { zoom: this.state.zoom });
-        }
+            this.render();
+
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                this.emit('zoomChanged', { zoom: this.state.zoom });
+            }
+        };
+
+        requestAnimationFrame(animate);
     }
 
     /**

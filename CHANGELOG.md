@@ -5,6 +5,24 @@ All notable changes to the La Sonora Volcánica website will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0/).
 
+## [1.9.2] - 2025-10-23
+
+### Fixed
+- **Map Viewport Calculation**: Corrected the initial zoom and minimum zoom calculations to account for overlaying UI elements, ensuring the map fits perfectly within the visible area.
+- **Zoom Centering**: Fixed the zoom centering logic to use the visible map area, resulting in a perfectly centered zoom on all devices.
+- **"Stuck Zoom" Issue**: Resolved an issue where zooming out would get stuck near the minimum zoom level due to floating-point inaccuracies.
+
+### Changed
+- **Panning Inertia**: Fine-tuned the damping factor for panning to provide a smoother, more natural feel.
+- **Smooth Zooming**: Implemented a new `zoomTo` method that animates zoom transitions, providing a smoother user experience.
+
+### Files Modified
+- `scripts/surf-map/surf-map-core.js`: Updated `resetView` to correctly calculate the initial zoom and added the `zoomTo` method.
+- `scripts/surf-map/surf-map-interactions.js`: Updated `handlePinch` and `handleZoom` to use the new `zoomTo` method and corrected the centering logic.
+- `scripts/surf-map/viewport.js`: Created a new `Viewport` class to dynamically calculate the visible map area.
+- `data/config/app-config.js`: Updated version to 1.9.2.
+- `CHANGELOG.md`: Added comprehensive v1.9.2 entry.
+
 ## [1.9.1] - 2025-10-22
 
 ### Changed
