@@ -5,6 +5,30 @@ All notable changes to the La Sonora Volcánica website will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0/).
 
+## [1.9.3] - 2025-10-23
+
+### Fixed
+- **Footer Character Encoding**: Resolved UTF-8 encoding issue where "Frédéric Guigand" was displaying as "FrÃ©dÃ©ric Guigand" in the footer copyright text.
+- **Footer Layout Structure**: Fixed footer layout to display version information after the copyright text on the same line, instead of before the link icons.
+
+### Changed
+- **Centralized Footer Configuration**: Implemented centralized footer management through `data/config/app-config.js` with dynamic copyright and version generation.
+- **Footer Content Management**: Moved all footer text (copyright year, holder, rights text, and version) to central configuration for easier maintenance.
+- **Dynamic Footer Generation**: Refactored `populateFooterLinks()` function to generate footer content dynamically from configuration rather than hardcoded values.
+
+### Technical Details
+- Added `footer` configuration object to `app-config.js` with `copyrightYear`, `copyrightHolder`, and `copyrightText` properties
+- Updated `populateFooterLinks()` function to dynamically construct copyright text using template literals
+- Removed hardcoded copyright text from `index.html` and replaced with empty paragraph for dynamic population
+- Ensured proper UTF-8 character encoding throughout the footer generation process
+- Version number now appears at the end of copyright line: "© 2025 Frédéric Guigand. All Rights Reserved. Version 1.9.3"
+
+### Files Modified
+- `data/config/app-config.js`: Added footer configuration and updated version to 1.9.3
+- `index.html`: Removed hardcoded copyright text
+- `script.js`: Updated `populateFooterLinks()` function for dynamic content generation
+- `CHANGELOG.md`: Added comprehensive v1.9.3 entry
+
 ## [1.9.2] - 2025-10-23
 
 ### Fixed

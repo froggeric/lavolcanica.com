@@ -1,6 +1,6 @@
 # La Sonora Volcánica - Official Website
 
-[![Version](https://img.shields.io/badge/version-1.9.2-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.9.3-blue.svg)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-All%20Rights%20Reserved-red.svg)](NOTICE.txt)
 [![Status](https://img.shields.io/badge/status-active-brightgreen.svg)](https://lavolcanica.com)
 
@@ -43,7 +43,7 @@ All content is managed through a structured set of JavaScript modules located in
 - **External Links**: Links to streaming platforms are managed in `data/config/platform-config.js` and `data/config/artist-data.js`.
 - **Surf Spots**: Information about Fuerteventura surf spots, including their characteristics and GPS coordinates, is managed in [`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json).
 
-For a detailed guide on how to add or modify content, please see the [**Developer Guide**](DEVELOPER_GUIDE.md).
+For a detailed guide on how to add or modify content, please see the [**Developer Guide**](docs/DEVELOPER_GUIDE.md).
 
 ## Technical Specifications
 
@@ -98,7 +98,7 @@ Several recent updates have significantly improved the user experience and inter
 - **User Interaction**: Within the release information panel, if multiple lyric languages are available for a song, a language selector will appear. Users can click on the language codes (e.g., "EN", "ES", "FR") to instantly switch between translations. The system remembers the user's last selected language for each release.
 - **Technical Details**: This feature is powered by two new JavaScript classes: `LyricsLanguageManager` (manages language preferences and state) and `LyricsCacheManager` (handles efficient caching of lyric translations for instant switching). The `script.js` file now dynamically generates a language selector and integrates with the data loader to fetch and display the appropriate lyric content.
 
-For a more detailed overview of the architecture, see the [**Developer Guide**](DEVELOPER_GUIDE.md).
+For a more detailed overview of the architecture, see the [**Developer Guide**](docs/DEVELOPER_GUIDE.md).
 
 ### 6. Fuerteventura Surf Map
 - **Description**: An interactive surf map showcasing detailed information about various surf spots across Fuerteventura. Users can explore spots, view their characteristics, and get practical information.
@@ -154,4 +154,4 @@ Deployment procedures for all environments are streamlined. The site is static a
 - **Maintenance**: Regularly update the data files in the `/data` directory, including surf spots data in [`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json), to keep the content fresh.
 - **Troubleshooting**: If you encounter issues, check the browser's developer console for errors. The `TEST_FUNCTIONS_ANALYSIS.md` document provides insights into the test functions available in `script.js` for debugging.
 
-For more detailed maintenance and troubleshooting solutions, refer to the [**Developer Guide**](DEVELOPER_GUIDE.md).
+For more detailed maintenance and troubleshooting solutions, refer to the [**Developer Guide**](docs/DEVELOPER_GUIDE.md).

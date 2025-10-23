@@ -33,7 +33,7 @@
  * @property {boolean} surfMapEnabled - Controls whether the surf map feature is accessible through the navigation menu.
  */
 export const appConfig = {
-  version: "1.9.2",
+  version: "1.9.3",
   defaultLanguage: "en",
   supportedLanguages: ["en", "es", "fr"],
   featuredReleaseCount: 2,
@@ -52,6 +52,12 @@ export const appConfig = {
     maxSessionStorageSize: 100,
     sessionStorageKey: "lyricsCache",
     cleanupThreshold: 0.8
+  },
+  // Footer configuration for centralized copyright and version management
+  footer: {
+    copyrightYear: "2025",
+    copyrightHolder: "Frédéric Guigand",
+    copyrightText: "All Rights Reserved"
   },
   // Feature flag to control surf map accessibility through navigation
   // Set to false until the surf map feature is fully ready for production

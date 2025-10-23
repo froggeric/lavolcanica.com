@@ -1478,22 +1478,17 @@
         }
 
         /**
-         * Populates the footer with artist links and version information from the centralized data.
+         * Populates the footer with artist links and dynamically generates copyright text with version.
          */
         function populateFooterLinks() {
             const footerLinksContainer = document.getElementById('footer-links');
+            const copyrightElement = document.querySelector('.copyright');
+            
             if (!footerLinksContainer) return;
 
             const fragment = document.createDocumentFragment();
 
-            // Add version information
-            const versionElement = document.createElement('span');
-            versionElement.className = 'app-version';
-            versionElement.textContent = `Version ${dataLoader.config.app.version}`;
-            versionElement.setAttribute('aria-label', `Application version ${dataLoader.config.app.version}`);
-            fragment.appendChild(versionElement);
-
-            // Add artist links
+            // Add artist links (version removed from before links)
             dataLoader.artist.links.forEach(link => {
                 const linkElement = document.createElement('a');
                 linkElement.href = link.url;
@@ -1516,6 +1511,13 @@
 
             footerLinksContainer.innerHTML = '';
             footerLinksContainer.appendChild(fragment);
+
+            // Generate copyright text dynamically from central configuration
+            if (copyrightElement) {
+                const { footer } = dataLoader.config.app;
+                const copyrightText = `© ${footer.copyrightYear} ${footer.copyrightHolder}. ${footer.copyrightText}. Version ${dataLoader.config.app.version}`;
+                copyrightElement.textContent = copyrightText;
+            }
         }
 
         
