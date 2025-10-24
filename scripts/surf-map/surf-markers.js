@@ -579,24 +579,33 @@ export class SurfMarkersManager {
         this.ctx.arc(0, 0, radius, 0, Math.PI * 2);
         this.ctx.fill();
         this.ctx.stroke();
+
+        // Reset shadow before drawing hover/selection rings to prevent them from having shadows
+        this.ctx.shadowColor = 'transparent';
+        this.ctx.shadowBlur = 0;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 0;
         
-        // Draw hover effect
-        if (this.hoveredMarker === marker.spot.id) {
-            this.ctx.strokeStyle = '#ffffff';
+        // Draw selection effect if marker is selected
+        if (this.selectedMarker === marker.spot.id) {
+            this.ctx.strokeStyle = '#FFD700'; // Gold color
+            this.ctx.lineWidth = 3;
+            this.ctx.beginPath();
+            this.ctx.arc(0, 0, radius + 4, 0, Math.PI * 2);
+            this.ctx.stroke();
+        } 
+        // Draw hover effect if marker is hovered but not selected
+        else if (this.hoveredMarker === marker.spot.id) {
+            this.ctx.strokeStyle = '#00C2A8'; // Teal color
             this.ctx.lineWidth = 3;
             this.ctx.beginPath();
             this.ctx.arc(0, 0, radius + 4, 0, Math.PI * 2);
             this.ctx.stroke();
         }
-        
-        // Draw selection effect
-        if (this.selectedMarker === marker.spot.id) {
-            this.ctx.strokeStyle = '#FFD700';
-            this.ctx.lineWidth = 3;
-            this.ctx.beginPath();
-            this.ctx.arc(0, 0, radius + 6, 0, Math.PI * 2);
-            this.ctx.stroke();
-        }
+
+        // The shadow is now reset before the hover/selection rings are drawn,
+        // and the context is restored in the calling renderMarker() function,
+        // so this is no longer needed.
     }
     
     /**
@@ -672,18 +681,37 @@ export class SurfMarkersManager {
         const tapX = x - rect.left;
         const tapY = y - rect.top;
 
-        const clickedMarker = this.getMarkerAtPosition(tapX, tapY);
+        const clickedMarkerId = this.getMarkerAtPosition(tapX, tapY);
         
-        if (clickedMarker) {
-            this.selectMarker(clickedMarker);
+        if (clickedMarkerId) {
+            this.selectMarker(clickedMarkerId);
             
             // Emit marker click event
             if (this.onMarkerClick) {
-                const marker = this.markers.get(clickedMarker);
+                const marker = this.markers.get(clickedMarkerId);
                 if (marker) {
                     this.onMarkerClick(marker.spot);
                 }
             }
+        } else {
+            // If tap is on the background, deselect
+            this.deselectAllMarkers();
+        }
+    }
+
+    handleHover(event) {
+        if (!this.options.enableHover) return;
+
+        const rect = this.canvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+
+        const hoveredMarkerId = this.getMarkerAtPosition(mouseX, mouseY);
+        
+        if (this.hoveredMarker !== hoveredMarkerId) {
+            this.hoveredMarker = hoveredMarkerId;
+            this.canvas.style.cursor = hoveredMarkerId ? 'pointer' : 'grab';
+            this.surfMap.forceRender();
         }
     }
 
@@ -814,6 +842,14 @@ export class SurfMarkersManager {
      */
     deselectMarker() {
         this.selectedMarker = null;
+        this.surfMap.forceRender();
+    }
+
+    deselectAllMarkers() {
+        if (this.selectedMarker) {
+            this.selectedMarker = null;
+            this.surfMap.forceRender();
+        }
     }
 
     /**

@@ -29,6 +29,13 @@ export class SurfMapInteractions {
         this.canvas.addEventListener('zoom', this.handleZoom.bind(this));
         this.canvas.addEventListener('pinch', this.handlePinch.bind(this));
         this.canvas.addEventListener('doubletap', this.handleDoubleTap.bind(this));
+        this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
+    }
+
+    handleMouseMove(event) {
+        if (this.surfMap.markersManager) {
+            this.surfMap.markersManager.handleHover(event);
+        }
     }
 
     handleTap({ detail }) {

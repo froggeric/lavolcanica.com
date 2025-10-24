@@ -82,14 +82,14 @@
                     <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
                 </svg>
             </button>
-            <div class="surf-map-search-results" aria-live="polite">
-                <!-- Search results will be populated here -->
-            </div>
         </div>
         <!-- Surf Spots Counter -->
         <div class="surf-spots-counter" id="surf-spots-counter" role="status" aria-live="polite" aria-label="Number of visible surf spots">
             <span class="counter-number" id="counter-number">0</span>
             <span class="counter-label" id="counter-label">surf spots</span>
+        </div>
+        <div class="surf-map-search-results" aria-live="polite">
+            <!-- Search results will be populated here -->
         </div>
     </div>
 
@@ -153,9 +153,11 @@
         <section id="surf-map-section" class="page-section full-height" aria-labelledby="surf-map-title">
             <div class="surf-map-wrapper">
                 <div class="surf-map-controls">
-                    <button class="map-control-btn" id="zoom-in-btn" aria-label="Zoom in" aria-controls="surf-map-container" tabindex="0">+</button>
-                    <button class="map-control-btn" id="zoom-out-btn" aria-label="Zoom out" aria-controls="surf-map-container" tabindex="0">-</button>
-                    <button class="map-control-btn" id="reset-view-btn" aria-label="Reset view" aria-controls="surf-map-container" tabindex="0">⟲</button>
+                    <div class="zoom-controls">
+                        <button class="map-control-btn" id="zoom-in-btn" aria-label="Zoom in" aria-controls="surf-map-container" tabindex="0">+</button>
+                        <button class="map-control-btn" id="zoom-out-btn" aria-label="Zoom out" aria-controls="surf-map-container" tabindex="0">-</button>
+                    </div>
+                    <button class="map-control-btn" id="reset-view-btn" aria-label="Reset view" aria-controls="surf-map-container" tabindex="0">&#x21bb;</button>
                 </div>
                 <!-- Main surf map container -->
                 <div class="surf-map-container" id="surf-map-container" role="application" aria-label="Interactive surf map of Fuerteventura">
@@ -220,6 +222,7 @@
         import { SurfSearch } from './scripts/surf-map/surf-search.js';
         import { SurfSpotsManager } from './scripts/surf-map/surf-spots.js';
         import { SurfSpotPanelOptimized } from './scripts/surf-map/surf-spot-panel-optimized.js';
+        import { ButtonInteractionManager } from './scripts/surf-map/button-interactions.js';
         
         import { SurfSpotsCounter } from './scripts/surf-map/surf-counter.js';
         
@@ -293,9 +296,7 @@
                     // Create a new surf map instance
                     surfMap = new SurfMap(surfMapContainer, {
                         imagePath: 'images/surf-map.webp',
-                        minZoom: 0.2,
-                        maxZoom: 3.0,
-                        initialZoom: 0.5
+                        maxZoom: 3.0
                     });
                     
                     // Initialize search functionality for the left-side search
@@ -327,6 +328,9 @@
                                 const closePanel = () => {
                                     sidePanel.classList.remove('active');
                                     panelOverlay.classList.remove('active');
+                                    // The search.onPanelClose() is preserved if it handles other logic,
+                                    // but we no longer deselect the marker here.
+                                    search.onPanelClose(); 
                                 };
                                 closePanelBtn.onclick = closePanel;
                                 panelOverlay.onclick = closePanel;
@@ -408,7 +412,16 @@
                     window.addEventListener('resize', handleResize);
                     
                     // Initial layout adjustment
-                    setTimeout(adjustMapLayout, 100);
+                    let initialLayoutAdjusted = false;
+                    const initialAdjust = () => {
+                        adjustMapLayout();
+                        if (surfMap && !initialLayoutAdjusted) {
+                            surfMap.resetView();
+                            initialLayoutAdjusted = true;
+                        }
+                    };
+                    setTimeout(initialAdjust, 100);
+
                 } catch (error) {
                     console.error('Failed to initialize surf map:', error);
                 }
@@ -419,17 +432,41 @@
             const zoomInBtn = document.getElementById('zoom-in-btn');
             const zoomOutBtn = document.getElementById('zoom-out-btn');
             const resetViewBtn = document.getElementById('reset-view-btn');
-            
-            if (zoomInBtn && surfMap) {
-                zoomInBtn.addEventListener('click', () => surfMap.zoomIn());
-            }
-            
-            if (zoomOutBtn && surfMap) {
-                zoomOutBtn.addEventListener('click', () => surfMap.zoomOut());
-            }
-            
-            if (resetViewBtn && surfMap) {
-                resetViewBtn.addEventListener('click', () => surfMap.resetView());
+
+            if (surfMap) {
+                // Handle simple click for reset
+                resetViewBtn.addEventListener('click', (e) => {
+                    surfMap.resetView();
+                    if (e.detail !== 0) resetViewBtn.blur();
+                });
+
+                // Initialize continuous press-and-hold for zoom buttons
+                const buttonConfigs = [
+                    {
+                        element: zoomInBtn,
+                        action: () => surfMap.zoomIn(),
+                        isContinuous: true
+                    },
+                    {
+                        element: zoomOutBtn,
+                        action: () => surfMap.zoomOut(),
+                        isContinuous: true
+                    },
+                    {
+                        element: resetViewBtn,
+                        action: () => surfMap.resetView(),
+                        isContinuous: false
+                    }
+                ];
+                const buttonManager = new ButtonInteractionManager(buttonConfigs);
+
+                // Add accessibility-aware blur for single clicks
+                zoomInBtn.addEventListener('click', (e) => {
+                    if (e.detail !== 0) zoomInBtn.blur();
+                });
+                zoomOutBtn.addEventListener('click', (e) => {
+                    if (e.detail !== 0) zoomOutBtn.blur();
+                });
             }
             
             // Handle language switching

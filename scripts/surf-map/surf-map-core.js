@@ -749,19 +749,17 @@ export class SurfMap {
      * @param {Object} spot - The clicked surf spot.
      */
     handleSearchResultClick(spot) {
+        // Select the marker first to make the orange ring appear
+        if (this.markersManager) {
+            this.markersManager.selectMarker(spot.id);
+        }
+
         // Center on the spot
         this.centerOnSpot(spot);
         
         // Call the global showSurfSpotPanel function from the main application
         if (window.showSurfSpotPanel) {
             window.showSurfSpotPanel(spot.id);
-        }
-        
-        // Highlight the marker
-        if (this.markersManager) {
-            this.markersManager.highlightMarker(spot.id);
-            // Force a render to show the highlight
-            this.forceRender();
         }
         
         // Emit search result click event

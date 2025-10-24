@@ -20,34 +20,50 @@ export class Viewport {
      */
     getVisibleRect() {
         const mapRect = this.mapContainer.getBoundingClientRect();
-        let visibleRect = {
+        let visible = {
             left: mapRect.left,
             top: mapRect.top,
             right: mapRect.right,
-            bottom: mapRect.bottom,
-            width: mapRect.width,
-            height: mapRect.height
+            bottom: mapRect.bottom
         };
 
         this.overlayElements.forEach(element => {
+            if (!element) return;
             const elementRect = element.getBoundingClientRect();
-            const intersection = this.getIntersection(visibleRect, elementRect);
 
-            if (intersection) {
-                // For simplicity, we'll just reduce the size of the viewport
-                // A more complex implementation could handle multiple, non-overlapping overlays
-                if (intersection.width > 0 && intersection.height > 0) {
-                    if (intersection.left > visibleRect.left) {
-                        visibleRect.width -= intersection.width;
+            // Check if the element is actually visible and has dimensions
+            if (elementRect.width > 0 && elementRect.height > 0) {
+                const intersection = this.getIntersection(visible, elementRect);
+
+                if (intersection) {
+                    // If the overlay is at the top, move the visible top down
+                    if (Math.abs(intersection.top - visible.top) < 1) {
+                        visible.top = intersection.bottom;
                     }
-                    if (intersection.top > visibleRect.top) {
-                        visibleRect.height -= intersection.height;
+                    // If the overlay is at the bottom, move the visible bottom up
+                    if (Math.abs(intersection.bottom - visible.bottom) < 1) {
+                        visible.bottom = intersection.top;
+                    }
+                    // If the overlay is on the left, move the visible left over
+                    if (Math.abs(intersection.left - visible.left) < 1) {
+                        visible.left = intersection.right;
+                    }
+                    // If the overlay is on the right, move the visible right over
+                    if (Math.abs(intersection.right - visible.right) < 1) {
+                        visible.right = intersection.left;
                     }
                 }
             }
         });
 
-        return visibleRect;
+        return {
+            left: visible.left,
+            top: visible.top,
+            right: visible.right,
+            bottom: visible.bottom,
+            width: visible.right - visible.left,
+            height: visible.bottom - visible.top
+        };
     }
 
     /**

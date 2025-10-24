@@ -26,8 +26,6 @@ export class SurfSearch {
             // Mobile-specific options
             mobileDebounceTime: options.mobileDebounceTime || 200, // Faster response on mobile
             mobileMaxResults: options.mobileMaxResults || 8, // Fewer results on mobile
-            enableVoiceSearch: options.enableVoiceSearch !== false, // Enable voice search on mobile
-            enableLocationSearch: options.enableLocationSearch !== false, // Enable location-based search
             touchFeedback: options.touchFeedback !== false, // Visual feedback for touch
             ...options
         };
@@ -271,245 +269,6 @@ export class SurfSearch {
                 this.showTouchFeedback(e.touches[0].clientX, e.touches[0].clientY);
             }
         });
-        
-        // Voice search support
-        if (this.options.enableVoiceSearch && 'webkitSpeechRecognition' in window) {
-            this.setupVoiceSearch();
-        }
-        
-        // Location-based search
-        if (this.options.enableLocationSearch && 'geolocation' in navigator) {
-            this.setupLocationSearch();
-        }
-    }
-    
-    /**
-     * Sets up voice search functionality.
-     */
-    setupVoiceSearch() {
-        // Create voice search button
-        const voiceButton = document.createElement('button');
-        voiceButton.className = 'surf-map-voice-search-btn';
-        voiceButton.innerHTML = '🎤';
-        voiceButton.setAttribute('aria-label', 'Voice search');
-        voiceButton.style.cssText = `
-            background: none;
-            border: none;
-            color: var(--text-salt-crystal);
-            cursor: pointer;
-            padding: 0.5rem;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: background-color 0.2s ease;
-        `;
-        
-        // Add click event
-        voiceButton.addEventListener('click', () => {
-            this.startVoiceSearch();
-        });
-        
-        // Insert after search input
-        this.searchInput.parentNode.insertBefore(voiceButton, this.searchInput.nextSibling);
-        this.voiceButton = voiceButton;
-    }
-    
-    /**
-     * Starts voice search.
-     */
-    startVoiceSearch() {
-        if (!('webkitSpeechRecognition' in window)) return;
-        
-        const recognition = new webkitSpeechRecognition();
-        recognition.continuous = false;
-        recognition.interimResults = false;
-        recognition.lang = 'en-US';
-        
-        recognition.onstart = () => {
-            if (this.voiceButton) {
-                this.voiceButton.innerHTML = '🔴';
-                this.voiceButton.style.backgroundColor = 'rgba(255, 77, 77, 0.2)';
-            }
-        };
-        
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            this.searchInput.value = transcript;
-            this.handleSearchInput(transcript);
-        };
-        
-        recognition.onerror = (event) => {
-            console.error('Voice search error:', event.error);
-            this.resetVoiceButton();
-        };
-        
-        recognition.onend = () => {
-            this.resetVoiceButton();
-        };
-        
-        recognition.start();
-    }
-    
-    /**
-     * Resets the voice search button.
-     */
-    resetVoiceButton() {
-        if (this.voiceButton) {
-            this.voiceButton.innerHTML = '🎤';
-            this.voiceButton.style.backgroundColor = 'transparent';
-        }
-    }
-    
-    /**
-     * Sets up location-based search.
-     */
-    setupLocationSearch() {
-        // Create location search button
-        const locationButton = document.createElement('button');
-        locationButton.className = 'surf-map-location-search-btn';
-        locationButton.innerHTML = '📍';
-        locationButton.setAttribute('aria-label', 'Search near my location');
-        locationButton.style.cssText = `
-            background: none;
-            border: none;
-            color: var(--text-salt-crystal);
-            cursor: pointer;
-            padding: 0.5rem;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: background-color 0.2s ease;
-        `;
-        
-        // Add click event
-        locationButton.addEventListener('click', () => {
-            this.searchNearLocation();
-        });
-        
-        // Insert after search input or voice button
-        const insertAfter = this.voiceButton || this.searchInput;
-        insertAfter.parentNode.insertBefore(locationButton, insertAfter.nextSibling);
-        this.locationButton = locationButton;
-    }
-    
-    /**
-     * Searches for surf spots near the user's location.
-     */
-    searchNearLocation() {
-        if (!('geolocation' in navigator)) return;
-        
-        // Show loading state
-        if (this.locationButton) {
-            this.locationButton.innerHTML = '⏳';
-        }
-        
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const { latitude, longitude } = position.coords;
-                
-                // Find spots near this location
-                const nearbySpots = this.findNearbySpots(latitude, longitude);
-                
-                // Update search results
-                this.searchResults = nearbySpots.slice(0, this.options.maxResults);
-                this.displayResults();
-                
-                // Reset button
-                if (this.locationButton) {
-                    this.locationButton.innerHTML = '📍';
-                }
-            },
-            (error) => {
-                console.error('Geolocation error:', error);
-                
-                // Reset button
-                if (this.locationButton) {
-                    this.locationButton.innerHTML = '📍';
-                }
-                
-                // Show error message
-                this.showLocationError();
-            }
-        );
-    }
-    
-    /**
-     * Finds surf spots near a given location.
-     * @param {number} latitude - The latitude.
-     * @param {number} longitude - The longitude.
-     * @returns {Array<Object>} Array of nearby spots with distance.
-     */
-    findNearbySpots(latitude, longitude) {
-        const allSpots = this.spotsManager.getAllSpots();
-        const nearbySpots = [];
-        
-        allSpots.forEach(spot => {
-            if (spot.location && spot.location.coordinates) {
-                const distance = this.calculateDistance(
-                    latitude, longitude,
-                    spot.location.coordinates.lat, spot.location.coordinates.lng
-                );
-                
-                nearbySpots.push({
-                    spot,
-                    score: Math.max(0, 10 - distance), // Higher score for closer spots
-                    distance
-                });
-            }
-        });
-        
-        // Sort by distance
-        nearbySpots.sort((a, b) => a.distance - b.distance);
-        
-        return nearbySpots;
-    }
-    
-    /**
-     * Calculates the distance between two coordinates in km.
-     * @param {number} lat1 - First latitude.
-     * @param {number} lon1 - First longitude.
-     * @param {number} lat2 - Second latitude.
-     * @param {number} lon2 - Second longitude.
-     * @returns {number} Distance in km.
-     */
-    calculateDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371; // Earth's radius in km
-        const dLat = this.toRadians(lat2 - lat1);
-        const dLon = this.toRadians(lon2 - lon1);
-        const a =
-            Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(this.toRadians(lat1)) * Math.cos(this.toRadians(lat2)) *
-            Math.sin(dLon/2) * Math.sin(dLon/2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        return R * c;
-    }
-    
-    /**
-     * Converts degrees to radians.
-     * @param {number} degrees - The degrees to convert.
-     * @returns {number} The radians.
-     */
-    toRadians(degrees) {
-        return degrees * (Math.PI / 180);
-    }
-    
-    /**
-     * Shows location error message.
-     */
-    showLocationError() {
-        if (this.resultsContainer) {
-            this.resultsContainer.innerHTML = `
-                <div class="search-location-error">
-                    <div>Unable to get your location</div>
-                    <div style="font-size: 0.8rem; opacity: 0.7;">Please check your location settings</div>
-                </div>
-            `;
-            this.showResults();
-        }
     }
     
     /**
@@ -604,6 +363,7 @@ export class SurfSearch {
         if (trimmedQuery === '') {
             this.clearResults();
             this.notifySearchChange([]);
+            this.updateCounter();
             return;
         }
 
@@ -625,7 +385,7 @@ export class SurfSearch {
                     // Name matches (highest priority)
                     components.names.forEach(name => {
                         if (name.toLowerCase().includes(word)) {
-                            score += 5; // High score for name matches
+                            score += 8; // Increased from 5
                             matchedText.push(name);
                             matchedCategories.add('name');
                         }
@@ -634,7 +394,7 @@ export class SurfSearch {
                     // Location matches (high priority)
                     components.location.forEach(location => {
                         if (location.toLowerCase().includes(word)) {
-                            score += 3; // High score for location matches
+                            score += 5; // Increased from 3
                             matchedText.push(location);
                             matchedCategories.add('location');
                         }
@@ -643,7 +403,7 @@ export class SurfSearch {
                     // Wave detail matches (medium-high priority)
                     components.waveDetails.forEach(detail => {
                         if (detail.toLowerCase().includes(word)) {
-                            score += 2.5; // Medium-high score for wave details
+                            score += 3; // Increased from 2.5
                             matchedText.push(detail);
                             matchedCategories.add('waveDetails');
                         }
@@ -681,8 +441,8 @@ export class SurfSearch {
             });
 
             // Bonus for matching multiple categories (diversity bonus)
-            if (matchedCategories.size > 1) {
-                score += matchedCategories.size * 0.5;
+            if (matchedCategories.size > 2) {
+                score += matchedCategories.size * 0.8;
             }
 
             // Bonus for matching multiple query words
@@ -704,8 +464,8 @@ export class SurfSearch {
         // Sort by relevance score
         results.sort((a, b) => b.score - a.score);
 
-        // Limit results
-        this.searchResults = results.slice(0, this.options.maxResults);
+        // Show all results
+        this.searchResults = results;
 
         // Display results
         this.displayResults();
@@ -748,7 +508,7 @@ export class SurfSearch {
      * @returns {HTMLElement} The result element.
      */
     createResultElement(result, index) {
-        const { spot, matchedText, distance, matchedCategories } = result;
+        const { spot, matchedText } = result;
         const resultElement = document.createElement('div');
         resultElement.className = 'search-result';
         resultElement.setAttribute('data-index', index);
@@ -774,68 +534,17 @@ export class SurfSearch {
         nameElement.className = 'search-result-name';
         nameElement.innerHTML = this.highlightText(spot.primaryName || spot.id, matchedText);
         
-        // Create location info with highlighting
-        const locationElement = document.createElement('div');
-        locationElement.className = 'search-result-location';
-        const locationText = [
-            spot.location.area,
-            ...(spot.location.nearestTowns || [])
-        ].filter(Boolean).join(', ');
-        locationElement.innerHTML = this.highlightText(locationText || 'Unknown location', matchedText);
-        
-        // Create wave type info with highlighting
-        const waveTypeElement = document.createElement('div');
-        waveTypeElement.className = 'search-result-wave-type';
-        const waveType = (spot.waveDetails.type && spot.waveDetails.type[0]) || 'Unknown';
-        waveTypeElement.innerHTML = this.highlightText(`Wave: ${waveType}`, matchedText);
-        
-        // Create match categories info if available
-        let matchCategoriesElement = null;
-        if (matchedCategories && matchedCategories.length > 0) {
-            matchCategoriesElement = document.createElement('div');
-            matchCategoriesElement.className = 'search-result-match-categories';
-            matchCategoriesElement.style.fontSize = '0.8rem';
-            matchCategoriesElement.style.opacity = '0.7';
-            matchCategoriesElement.style.marginTop = '4px';
-            
-            // Create category labels
-            const categoryLabels = {
-                'name': 'Name',
-                'location': 'Location',
-                'waveDetails': 'Wave Details',
-                'characteristics': 'Characteristics',
-                'practicalities': 'Practicalities',
-                'description': 'Description'
-            };
-            
-            const categoryText = matchedCategories
-                .map(cat => categoryLabels[cat] || cat)
-                .join(' • ');
-            
-            matchCategoriesElement.textContent = `Matched in: ${categoryText}`;
-        }
-        
-        // Create distance info if available
-        let distanceElement = null;
-        if (distance !== undefined) {
-            distanceElement = document.createElement('div');
-            distanceElement.className = 'search-result-distance';
-            distanceElement.textContent = `${distance.toFixed(1)} km away`;
+        // Create alternative names with highlighting
+        const alternativesElement = document.createElement('div');
+        alternativesElement.className = 'search-result-alternatives';
+        if (spot.alternativeNames && spot.alternativeNames.length > 0) {
+            alternativesElement.innerHTML = this.highlightText(spot.alternativeNames.join(', '), matchedText);
         }
         
         // Assemble the result element
         resultElement.appendChild(difficultyIndicator);
         resultElement.appendChild(nameElement);
-        resultElement.appendChild(locationElement);
-        resultElement.appendChild(waveTypeElement);
-        
-        if (matchCategoriesElement) {
-            resultElement.appendChild(matchCategoriesElement);
-        }
-        
-        if (distanceElement) {
-            resultElement.appendChild(distanceElement);
-        }
+        resultElement.appendChild(alternativesElement);
         
         // Add click event
         resultElement.addEventListener('click', (e) => {
@@ -915,6 +624,7 @@ export class SurfSearch {
             this.resultsContainer.innerHTML = '';
         }
         this.hideResults();
+        this.updateCounter();
     }
 
     /**
@@ -1000,14 +710,21 @@ export class SurfSearch {
      */
     handleResultClick(spot) {
         console.log('handleResultClick called for:', spot.id, spot.primaryName);
-        this.clearSearch();
-        this.hideResults();
         
         if (this.onResultClick) {
             console.log('Calling onResultClick callback for:', spot.id);
             this.onResultClick(spot);
         } else {
             console.error('No onResultClick callback available');
+        }
+    }
+
+    onPanelClose() {
+        if (window.surfMapInstance) {
+            window.surfMapInstance.resetView();
+        }
+        if (this.searchInput.value) {
+            this.displayResults();
         }
     }
 
@@ -1018,8 +735,13 @@ export class SurfSearch {
         if (this.searchInput) {
             this.searchInput.value = '';
         }
-        this.clearResults();
-        this.notifySearchChange([]);
+        this.searchResults = [];
+        if (this.resultsContainer) {
+            this.resultsContainer.innerHTML = '';
+        }
+        this.hideResults();
+        this.notifySearchChange(this.spotsManager.getAllSpots());
+        this.updateCounter(true);
     }
 
     /**
@@ -1079,6 +801,27 @@ export class SurfSearch {
      */
     getSearchResults() {
         return this.searchResults;
+    }
+
+    updateCounter(isReset = false) {
+        const totalCount = this.spotsManager.getAllSpots().length;
+        let visibleCount = this.searchResults.length;
+
+        if (isReset || !this.searchInput.value) {
+            visibleCount = totalCount;
+        }
+        
+        const counterNumber = document.getElementById('counter-number');
+        const counterLabel = document.getElementById('counter-label');
+
+        if(counterNumber && counterLabel) {
+            counterNumber.textContent = visibleCount;
+            if (isReset || !this.searchInput.value) {
+                counterLabel.textContent = 'surf spots';
+            } else {
+                counterLabel.textContent = `of ${totalCount} surf spots`;
+            }
+        }
     }
 
     /**

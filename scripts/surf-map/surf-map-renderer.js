@@ -114,8 +114,7 @@ export class SurfMapRenderer {
         // Restore context state
         this.ctx.restore();
         
-        // Draw UI elements
-        this.drawUI();
+        // UI elements are now in the DOM, no longer drawn on canvas
     }
 
     /**
@@ -180,95 +179,6 @@ export class SurfMapRenderer {
         );
     }
 
-    /**
-     * Draws UI elements on top of the map.
-     */
-    drawUI() {
-        // Draw zoom controls
-        this.drawZoomControls();
-    }
-
-    /**
-     * Draws zoom controls.
-     */
-    drawZoomControls() {
-        const buttonSize = 40;
-        const padding = 20;
-        const x = this.canvas.width - buttonSize - padding;
-        const y = padding;
-        
-        // Draw zoom in button
-        this.drawButton(x, y, buttonSize, '+', () => {
-            // This will be handled by the interactions module
-        });
-        
-        // Draw zoom out button
-        this.drawButton(x, y + buttonSize + 10, buttonSize, '-', () => {
-            // This will be handled by the interactions module
-        });
-        
-        // Draw reset button
-        this.drawButton(x, y + (buttonSize + 10) * 2, buttonSize, '⟲', () => {
-            // This will be handled by the interactions module
-        });
-    }
-
-    /**
-     * Draws a button.
-     * @param {number} x - The X coordinate.
-     * @param {number} y - The Y coordinate.
-     * @param {number} size - The button size.
-     * @param {string} text - The button text.
-     * @param {Function} onClick - The click handler.
-     */
-    drawButton(x, y, size, text, onClick) {
-        // Store button for click detection
-        if (!this.buttons) {
-            this.buttons = [];
-        }
-        this.buttons.push({ x, y, size, onClick });
-        
-        // Draw button background
-        this.ctx.fillStyle = 'rgba(26, 26, 26, 0.8)';
-        this.ctx.fillRect(x, y, size, size);
-        
-        // Draw button border
-        this.ctx.strokeStyle = '#FF4D4D';
-        this.ctx.lineWidth = 2;
-        this.ctx.strokeRect(x, y, size, size);
-        
-        // Draw button text
-        this.ctx.fillStyle = '#F0F0F0';
-        this.ctx.font = 'bold 20px Roboto, sans-serif';
-        this.ctx.textAlign = 'center';
-        this.ctx.textBaseline = 'middle';
-        this.ctx.fillText(text, x + size / 2, y + size / 2);
-    }
-
-
-    /**
-     * Handles a click event and checks if it hit any buttons.
-     * @param {number} x - The X coordinate.
-     * @param {number} y - The Y coordinate.
-     * @returns {boolean} Whether a button was clicked.
-     */
-    handleClick(x, y) {
-        if (!this.buttons) return false;
-        
-        for (const button of this.buttons) {
-            if (
-                x >= button.x &&
-                x <= button.x + button.size &&
-                y >= button.y &&
-                y <= button.y + button.size
-            ) {
-                button.onClick();
-                return true;
-            }
-        }
-        
-        return false;
-    }
 
     /**
      * Starts a transition to a new state.
@@ -367,9 +277,6 @@ export class SurfMapRenderer {
         this.canvas.style.width = rect.width + 'px';
         this.canvas.style.height = rect.height + 'px';
         
-        // Clear buttons array on resize
-        this.buttons = [];
-        
         // Re-render with throttling (not forced)
         this.render();
     }
@@ -387,6 +294,5 @@ export class SurfMapRenderer {
         // Clear references
         this.canvas = null;
         this.ctx = null;
-        this.buttons = null;
     }
 }

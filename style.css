@@ -12,6 +12,7 @@
     --accent-lava-glow: #FF4D4D;
     --accent-lava-glow-dark: #e63939; /* Darker shade for hover states */
     --accent-canary-teal: #00C2A8;
+    --accent-selection-gold: #FFD700;
     --font-heading: 'Montserrat', sans-serif;
     --font-body: 'Roboto', sans-serif;
     --player-height: 80px; /* Controls the height of the mini-player */
@@ -203,6 +204,7 @@ ul {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    position: relative; /* Added for positioning context */
 }
 
 .logo {
@@ -222,6 +224,10 @@ ul {
     border: none;
     cursor: pointer;
     z-index: 1002; /* Must be above the nav overlay */
+    position: absolute; /* Changed from flex item to absolute */
+    top: 50%; /* Center vertically */
+    right: 0; /* Align to the edge of the padded container */
+    transform: translateY(-50%); /* Fine-tune vertical centering */
 }
 .hamburger-menu .bar {
     display: block;
@@ -1883,6 +1889,9 @@ body.player-active .side-panel-content {
 /* --- 20. Surf Map Styles --- */
 /* Left side search container */
 .left-side-search-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0; /* Remove gaps to avoid artificial spacing */
     position: fixed;
     top: 80px;
     left: 20px;
@@ -1893,7 +1902,7 @@ body.player-active .side-panel-content {
     -webkit-backdrop-filter: blur(10px);
     border-radius: 8px;
     padding: 1rem;
-    z-index: 999;
+    z-index: 1000;
     transform: translateY(-20px);
     opacity: 0;
     transition: transform 0.3s ease, opacity 0.3s ease;
@@ -1980,20 +1989,20 @@ body.player-active .side-panel-content {
 
 /* Search results */
 .surf-map-search-results {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    max-height: 300px;
+    order: 3;
+    flex-grow: 1;
+    max-height: calc(50vh - 100px); /* Adjusted for better mobile experience */
     overflow-y: auto;
+    border-radius: 0 0 8px 8px;
+    position: relative;
     background-color: rgba(26, 26, 26, 0.95);
-    border-radius: 4px;
     margin-top: 0.5rem;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
     transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: none;
+    z-index: 999;
 }
 
 .surf-map-search-results.visible {
@@ -2060,13 +2069,17 @@ body.player-active .side-panel-content {
 
 /* Surf spots counter */
 .surf-spots-counter {
+    order: 2;
+    border-radius: 0; /* Remove rounding to fit flush */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0.5rem;
     background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
     font-size: 0.9rem;
+    z-index: 998;
 }
 
 .counter-number {
@@ -2091,38 +2104,64 @@ body.player-active .side-panel-content {
 
 .surf-map-controls {
     display: flex;
-    gap: 0.5rem;
+    flex-direction: column;
+    gap: 1rem; /* Increased gap for better separation */
     position: absolute;
     top: 1rem;
     right: 1rem;
     z-index: 15;
 }
 
+.zoom-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* Consistent spacing within the group */
+}
+
 .map-control-btn {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     background-color: rgba(26, 26, 26, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     color: var(--text-salt-crystal);
-    font-size: 1.2rem;
-    font-weight: 700;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+    font-size: 1.6rem; /* Increased font size */
+    font-weight: 400; /* Thinner, more elegant symbols */
+    line-height: 1; /* Ensure vertical centering is perfect */
+}
+
+#reset-view-btn {
+    font-size: 1.2rem; /* Slightly smaller for visual balance */
 }
 
 .map-control-btn:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--bg-volcanic-night); /* High contrast on hover */
     transform: scale(1.05);
+}
+
+.map-control-btn.map-control-btn--active,
+.map-control-btn:active {
+    transform: scale(0.9);
+    background-color: rgba(255, 255, 255, 0.7);
+    outline: 3px solid var(--accent-canary-teal);
+    outline-offset: 2px;
 }
 
 .map-control-btn:focus-visible {
     outline: 2px solid var(--accent-canary-teal);
     outline-offset: 2px;
 }
+
+/* No separator needed, grouping provides visual separation */
 
 .surf-map-wrapper {
     position: relative;
@@ -2194,33 +2233,19 @@ body.player-active .side-panel-content {
 
 /* Mobile adaptations */
 @media (max-width: 768px) {
-    /* Ensure the left-side search is hidden by default on mobile,
-       even if the .visible class is added for desktop compatibility.
-       It should only appear when .mobile-visible is toggled. */
-    .left-side-search-container.visible:not(.mobile-visible) {
-        transform: translateX(-100%);
-    }
-
     .left-side-search-container {
-        top: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        max-width: 100%;
-        height: 100vh;
-        border-radius: 0;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-    }
-    
-    .left-side-search-container.mobile-visible {
-        transform: translateX(0);
+        top: 70px; /* Position it just below the header */
+        left: 1rem;
+        right: 1rem;
+        width: auto;
+        transform: translateY(0); /* Ensure it's not translated off-screen */
+        opacity: 1; /* Ensure it's visible */
     }
     
     #surf-map-section {
         height: 100vh;
-        width: 100vw;
-        margin-left: calc(-50vw + 50%);
+        width: 100%; /* Use 100% for robust full-width */
+        margin-left: 0; /* Remove fragile calculation */
     }
     
     .surf-map-title {
@@ -2228,7 +2253,7 @@ body.player-active .side-panel-content {
     }
     
     .surf-map-controls {
-        top: 0.75rem;
+        top: 150px; /* Correctly positioned just below the search container */
         right: 0.75rem;
     }
     
@@ -2238,29 +2263,16 @@ body.player-active .side-panel-content {
         bottom: 10px;
         left: 10px;
     }
-    
-    .map-control-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 1rem;
-    }
 }
 
 @media (max-width: 480px) {
-    .surf-map-controls {
-        top: 0.75rem;
-        right: 0.75rem;
-    }
-    
+    /*
+     This rule was incorrectly moving the controls back to the top.
+     It is removed to allow the 768px rule to apply consistently.
+    */
     .surf-map-minimap {
         width: 120px;
         height: 90px;
-    }
-    
-    .map-control-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 0.9rem;
     }
 }
 

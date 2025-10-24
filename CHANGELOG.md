@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.5] - 2025-10-24
+
+### Fixed
+- **Canvas Rendering**: Resolved a "ghost shadow" bug on surf map markers by implementing an explicit shadow reset in the rendering loop.
+- **Marker Interaction**: Corrected the styling for hover (teal) and selection (gold) indicators to ensure they render correctly and consistently.
+- **Selection Persistence**: Ensured the marker selection state persists correctly when the details panel is closed.
+
 ## [1.9.4] - 2025-10-23
 
 ### Fixed

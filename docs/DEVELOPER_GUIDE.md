@@ -247,6 +247,37 @@ npm test
 - **Browser Console:** Check the browser's developer console for errors.
 - **Test Functions:** The `TEST_FUNCTIONS_ANALYSIS.md` document provides insights into the test functions available in `script.js` for debugging.
 
+### 12.1. Debugging Canvas Rendering
+
+When working with the HTML Canvas, especially in `SurfMarkersManager`, be aware of **context state pollution**.
+
+-   **The Problem**: Bugs like "ghosting" (e.g., shadows appearing on the wrong objects) often happen because the canvas context (`ctx`) is not properly reset between drawing different objects in the same render loop. Properties like `shadowBlur` or `globalAlpha` can persist unexpectedly.
+-   **The Solution**: Do not rely solely on `ctx.save()` and `ctx.restore()` to manage state between individual components within a single, complex object. After drawing a part of an object that uses a specific state (like a shadow), **explicitly reset those properties** before drawing the next part.
+
+**Example (from `SurfMarkersManager`):**
+
+```javascript
+// 1. Set shadow for the main marker body
+ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+ctx.shadowBlur = 6;
+
+// 2. Draw the main marker body
+ctx.beginPath();
+ctx.arc(0, 0, radius, 0, Math.PI * 2);
+ctx.fill();
+
+// 3. CRITICAL: Reset shadow state immediately after
+ctx.shadowColor = 'transparent';
+ctx.shadowBlur = 0;
+
+// 4. Now, draw other parts (like hover rings) that should NOT have a shadow
+if (isHovered) {
+    ctx.beginPath();
+    ctx.arc(0, 0, radius + 4, 0, Math.PI * 2);
+    ctx.stroke();
+}
+```
+
 ## 13. Contribution Workflow
 
 Contributions are welcome! For significant changes, please open an issue first to discuss your ideas. All content updates should be made according to this guide.
