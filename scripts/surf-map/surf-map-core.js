@@ -91,6 +91,7 @@ export class SurfMap {
             imageLoaded: null
         };
         this.needsRender = true;
+        this.isPanelOpening = false;
         
         // Initialize the map
         this.init();
@@ -547,6 +548,18 @@ export class SurfMap {
     }
 
     /**
+     * Forces a render and returns a promise that resolves after the next frame is painted.
+     * This ensures that any state changes are visible before proceeding.
+     * @returns {Promise<void>}
+     */
+    async forceRenderAndWait() {
+        this.needsRender = true;
+        // Wait for two frames: one to queue the render, one to ensure it has painted.
+        await new Promise(resolve => requestAnimationFrame(resolve));
+        await new Promise(resolve => requestAnimationFrame(resolve));
+    }
+
+    /**
      * Sets up the canvas for high-DPI displays.
      */
     setupHighDPICanvas() {
@@ -648,14 +661,32 @@ export class SurfMap {
      * Handles marker click events.
      * @param {Object} spot - The clicked surf spot data.
      */
-    handleMarkerClick(spot) {
-        // Call the global showSurfSpotPanel function from the main application
-        if (window.showSurfSpotPanel) {
-            window.showSurfSpotPanel(spot.id);
+    async handleMarkerClick(spot) {
+        if (this.isPanelOpening) return;
+        this.isPanelOpening = true;
+
+        try {
+            // Select the marker first to make the orange ring appear
+            if (this.markersManager) {
+                this.markersManager.selectMarker(spot.id);
+            }
+
+            // Force a render and wait for it to complete
+            await this.forceRenderAndWait();
+
+            // Call the global showSurfSpotPanel function from the main application
+            if (window.showSurfSpotPanel) {
+                window.showSurfSpotPanel(spot.id);
+            }
+
+            // Emit marker click event
+            this.emit('markerClick', { spot });
+        } finally {
+            // Reset the lock after a short delay to prevent rapid re-clicks
+            setTimeout(() => {
+                this.isPanelOpening = false;
+            }, 300);
         }
-        
-        // Emit marker click event
-        this.emit('markerClick', { spot });
     }
 
     /**
@@ -748,22 +779,35 @@ export class SurfMap {
      * Handles search result click events.
      * @param {Object} spot - The clicked surf spot.
      */
-    handleSearchResultClick(spot) {
-        // Select the marker first to make the orange ring appear
-        if (this.markersManager) {
-            this.markersManager.selectMarker(spot.id);
-        }
+    async handleSearchResultClick(spot) {
+        if (this.isPanelOpening) return;
+        this.isPanelOpening = true;
 
-        // Center on the spot
-        this.centerOnSpot(spot);
-        
-        // Call the global showSurfSpotPanel function from the main application
-        if (window.showSurfSpotPanel) {
-            window.showSurfSpotPanel(spot.id);
+        try {
+            // Select the marker first to make the orange ring appear
+            if (this.markersManager) {
+                this.markersManager.selectMarker(spot.id);
+            }
+
+            // Center on the spot
+            this.centerOnSpot(spot);
+
+            // Force a render and wait for it to complete
+            await this.forceRenderAndWait();
+
+            // Call the global showSurfSpotPanel function from the main application
+            if (window.showSurfSpotPanel) {
+                window.showSurfSpotPanel(spot.id);
+            }
+
+            // Emit search result click event
+            this.emit('searchResultClick', { spot });
+        } finally {
+            // Reset the lock after a short delay
+            setTimeout(() => {
+                this.isPanelOpening = false;
+            }, 300);
         }
-        
-        // Emit search result click event
-        this.emit('searchResultClick', { spot });
     }
 
     /**

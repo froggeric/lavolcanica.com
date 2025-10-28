@@ -18,3 +18,24 @@ Improvements_Identified_For_Consolidation:
 - General pattern: When debugging canvas rendering, always suspect state pollution. Explicitly reset properties (`shadow`, `globalAlpha`, etc.) within a render loop rather than relying solely on `save()`/`restore()` to manage state between drawn objects.
 - Project Specific: The `renderIndividualMarker` function in this project is a good example of complex, stateful canvas drawing that requires careful ordering of operations and state resets.
 ---
+---
+Date: 2025-10-25
+TaskRef: "Fix surf map marker selection indicator rendering order"
+
+Learnings:
+- **Async UI Race Conditions:** Identified a classic race condition where a synchronous state update (`selectMarker`) was not visually rendered before a subsequent action (`showSurfSpotPanel`) was triggered, because the rendering itself happens asynchronously via `requestAnimationFrame`.
+- **Ensuring Paint Before Action:** The most robust solution is to make the event handler `async` and `await` a promise that resolves after the next paint cycle. Waiting for two `requestAnimationFrame` calls provides a stronger guarantee that the browser has completed the paint operation.
+- **State Locking for UI Flows:** For user-triggered asynchronous operations, implementing a simple boolean state lock (e.g., `isPanelOpening`) is crucial to prevent new interactions from starting before the current one completes. This avoids unpredictable behavior from rapid clicks or taps.
+
+Difficulties:
+- The initial plan correctly identified the need for an `async` approach but was incomplete. It overlooked the necessity of waiting for a full paint cycle and the potential for regressions from rapid user input. The critical review step was vital for identifying these gaps and creating a more resilient solution.
+
+Successes:
+- The final implementation was clean and contained within a single file (`surf-map-core.js`), respecting the existing architecture where `SurfMap` acts as the central orchestrator.
+- The `forceRenderAndWait` method is a reusable and clear utility for handling similar timing issues in the future.
+- A dedicated test file (`test-surf-map-marker-fix.html`) was created, providing a straightforward way to manually verify the fix and prevent future regressions.
+
+Improvements_Identified_For_Consolidation:
+- **General Pattern:** When a UI state change must be visually confirmed before a subsequent action, the handler should be `async`. It should `await` a promise that resolves after at least one `requestAnimationFrame`, and ideally two, to ensure the paint has occurred.
+- **General Pattern:** Protect user-triggered async UI flows with a state lock to prevent race conditions from multiple, rapid inputs.
+---
