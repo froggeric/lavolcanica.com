@@ -1,0 +1,676 @@
+{
+  "spots": [
+    {
+      "id": "acid-drop",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "bahia-la-pared",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "bristol-shooting-gallery",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "the-bubble",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "campo-de-futbol",
+      "realTime": {
+        "waveDirection": "W",
+        "windDirection": "E",
+        "waveHeight": 1.8,
+        "waveInterval": 12,
+        "windSpeed": 5,
+        "airTemperature": 24,
+        "waterTemperature": 22,
+        "tide": {
+          "status": "rising",
+          "level": 0.75
+        }
+      }
+    },
+    {
+      "id": "cruz-roja",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "el-burro",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "el-cotillo-piedra-playa",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "playa-del-moro",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "el-muelle",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "el-pozo",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "spew-pits",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "esquinzo-jandia",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "esquinzo",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "flag-beach",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "generoso",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "cofete-graveyard",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "la-caleta-boneyard",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "la-concava",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "la-derecha-de-los-alemanes",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "la-entubadera",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "la-escalera",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "la-izquierda-del-hierro",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "la-pared",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "la-turbia",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "playa-de-las-mujeres-jarugo",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "las-playas-muelle",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "las-salinas",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "isla-de-lobos",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "los-hoteles",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "majanicho",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "mejillones-popcorn-reef",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "pico-de-las-motos",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "playa-blanca",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "puerto-lajas",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "punta-blanca",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "punta-del-tigre",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "punta-elena",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "punta-gorda",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "playa-de-garcey-racetracks",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "suicidios",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    },
+    {
+      "id": "waikiki-beach",
+      "realTime": {
+        "waveDirection": null,
+        "windDirection": null,
+        "waveHeight": null,
+        "waveInterval": null,
+        "windSpeed": null,
+        "airTemperature": null,
+        "waterTemperature": null,
+        "tide": {
+          "status": null,
+          "level": null
+        }
+      }
+    }
+  ]
+}

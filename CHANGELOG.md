@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.0] - 2025-10-29
+
+### Added
+- **Surf Spot Panel Real-Time Data**: Implemented the data structure and display logic for future real-time weather information on the surf spot panel.
+- **Graphical Data Displays**: Added dynamic SVG charts for visualizing best season, swell/wind direction, and tides.
+- **New Icons**: Added new SVG icons for crowds, seabed, and hazards to improve at-a-glance readability.
+
+### Changed
+- **Surf Spot Panel Redesign**: Complete architectural and visual overhaul of the surf spot details panel, focusing on improved UI/UX, information hierarchy, and a modern, dark-themed design.
+- **Information Architecture**: Re-organized surf spot details into three logical tabs: "The Vibe", "The Wave", and "The Trip".
+- **Visual Hierarchy**: Refined typography, spacing, and element sizing to guide the user's focus to the most critical information.
+
+### Fixed
+- **Paddle Out Title**: Added the missing title for the "Paddle Out" section for improved clarity.
+
 ## [1.9.6] - 2025-10-28
 
 ## [1.9.5] - 2025-10-24

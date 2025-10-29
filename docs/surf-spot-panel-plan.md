@@ -1,114 +1,95 @@
-# Plan: Redesign of the Surf Spot Details Panel
+# Plan: Final Implemented Design for the Surf Spot Details Panel
 
-## 1. Analysis of Current Implementation
+## 1. Analysis of Previous Implementation
 
-The current `SurfSpotPanel` is overly complex and unintuitive. 
-- **Problem**: A monolithic JavaScript class (`surf-spot-panel.js`) handles UI generation, state, and interactions, making it difficult to maintain.
-- **Problem**: The UI relies on a tabbed and accordion-style layout, which hides critical information and requires excessive clicks.
-- **Problem**: The CSS contains conflicting design systems and inefficient selectors, leading to visual inconsistency and wasted space.
-- **Problem**: The user experience is poor, especially on mobile, due to the fragmented presentation of data.
+The initial `SurfSpotPanel` was overly complex. The goal of the redesign was to create a best-in-class, elegant, and informative panel that prioritizes the user. This document outlines the final, implemented design that achieves this goal.
 
 ## 2. Architectural Vision: The "At-a-Glance" Surf Dashboard
 
-The goal is to create a best-in-class, elegant, and informative panel that prioritizes the user.
+The implemented design follows these core principles:
 
-- **Principle**: **Refined Tabbed Interface.** Instead of a long scroll, information will be organized into a carefully planned, intuitive tab system. This maintains consistency with other site components and avoids overwhelming the user.
-- **Principle**: **Visual Hierarchy.** Use typography, spacing, color, and iconography to guide the user's eye to the most critical data points instantly *within each tab*.
-- **Principle**: **Data Visualization.** Transform raw data into intuitive visual elements like icons, progress bars, and custom-designed widgets.
-- **Principle**: **Mobile-First & Responsive.** Design for a seamless experience on mobile that scales elegantly to desktop. The tab navigation will be optimized for touch.
-- **Principle**: **Component-Based Architecture.** Break the panel into smaller, logical, and reusable components for clarity and maintainability.
+- **Principle**: **Refined Tabbed Interface.** Information is organized into a three-tab system: "The Vibe," "The Wave," and "The Trip." This provides a clear narrative flow for the user.
+- **Principle**: **Visual Hierarchy.** Typography, spacing, color, and iconography guide the user's eye to the most critical data points instantly.
+- **Principle**: **Data Visualization.** Raw data is transformed into intuitive visual elements, including dynamic SVG charts and icons.
+- **Principle**: **Mobile-First & Responsive.** The design is fully responsive, ensuring a seamless experience on all devices.
+- **Principle**: **Component-Based Architecture.** The panel is built from smaller, logical, and reusable JavaScript functions for clarity and maintainability.
 
-## 3. New Information Architecture & Layout
+## 3. Final Information Architecture & Layout
 
-The panel will be structured with a fixed header and hero, followed by a tabbed interface to organize the detailed content.
+The panel is structured with a fixed header, an optional alternative names section, a hero image, and a tabbed interface.
 
 1.  **Header (Fixed):**
-    *   `Spot Name` (h1)
-    *   `Alternative Names` (subtitle)
-    *   `Close Button` (accessibility-focused)
+    *   `Spot Name` (h2, dynamically updated in the main panel header).
+    *   `Close Button`.
 
-2.  **Hero Section (Fixed):**
+2.  **Alternative Names (Below Header):**
+    *   A simple text display of alternative names, left-aligned.
+
+3.  **Hero Section:**
     *   Optimized `Hero Image` with a **strict 3:2 aspect ratio**.
-    *   **Key Info Overlay:**
-        *   `Location Area` (e.g., "North Shore")
-        *   `Difficulty Rating` (e.g., "Expert") - Visually distinct.
-        *   `Wave Type` (e.g., "Reef Break")
+    *   **Top-Left Overlay:** Clickable GPS coordinates with a globe icon, linking to Google Maps.
+    *   **Bottom-Right Overlay:** `Wave Type` and `Difficulty Rating` tags.
 
-3.  **Tabbed Content Area:**
+4.  **Tabbed Content Area:**
     *   An accessible tablist (`role="tablist"`) for navigation.
-    *   **Tab 1: Overview (Default)**
+    *   **Tab 1: The Vibe (Default)**
         *   `Description`: A concise, readable paragraph.
-        *   `Ideal Conditions`: Summary of what makes the spot work.
-        *   `Hazards`: A prioritized list with icons.
+        *   `Season Chart`: A visual 12-month calendar showing best seasons, with the current month highlighted.
+        *   `Info Grid`: An icon-led grid for "Crowds" and "Seabed".
+        *   `Hazards`: A list where each item is prefixed with a high-visibility warning icon.
         *   `Local Vibe`: A summary of the atmosphere.
-    *   **Tab 2: Conditions**
-        *   **Swell Widget:** A visual compass for best swell directions.
-        *   **Wind Widget:** A visual compass for best offshore wind directions.
-        *   **Tide Widget:** A visual representation of the best tides.
-        *   **Season Chart:** A simple, visual 12-month calendar showing best seasons.
-        *   `Wave Direction` & `Bottom Type`.
-    *   **Tab 3: Practicalities**
-        *   `Access & Parking`: Clear, actionable text.
-        *   `Paddle Out` & `Facilities`.
-        *   `Recommended Boards`: A visual list of board icons with labels.
-        *   `Crowd Factor` & `Water Quality`.
-        *   `Additional Tips`.
-
-4.  **Footer/Actions (Fixed):**
-    *   `GPS Coordinates` (with a "Copy" or "View on Map" button).
-    *   `Share Button`.
+    *   **Tab 2: The Wave**
+        *   `Ideal Conditions` description.
+        *   `Paddle Out` description.
+        *   `Compass Grid`: Side-by-side visual compasses for "Best Swell" and "Best Wind", with real-time indicators.
+        *   `Tide Chart`: A visual sine wave with a filled background for best tides and a "lollipop" real-time marker.
+        *   `Recommended Boards`.
+    *   **Tab 3: The Trip**
+        *   `Location`: Formatted location string (e.g., "North Coast").
+        *   `Access & Parking`.
+        *   `Facilities`.
+        *   `Insider Tips` (if available).
 
 ## 4. Component-Based Code Structure
 
-The new `SurfSpotPanel` class will manage the overall panel and tab state. UI generation will be delegated to smaller, focused functions for each component and tab panel.
+The `SurfSpotPanelOptimized` class manages the panel. UI generation is delegated to smaller, focused functions.
 
 ```mermaid
 graph TD
-    A[SurfSpotPanel.js] --> B(generatePanelHTML);
-    B --> C{Header};
-    B --> D{Hero};
-    B --> E{TabNavigation};
-    B --> F{TabPanels};
-    F --> G[OverviewPanel];
-    F --> H[ConditionsPanel];
-    H --> H1[SwellWidget];
-    H --> H2[WindWidget];
-    H --> H3[TideWidget];
-    H --> H4[SeasonChart];
-    F --> I[PracticalitiesPanel];
-    B --> J{Footer};
+    A[SurfSpotPanelOptimized.js] --> B(show);
+    B --> C(_generatePanelHTML);
+    C --> D{_createHero};
+    C --> E{_createTabNavigation};
+    C --> F{_createTabPanels};
+    F --> G[_createVibePanel];
+    G --> G1[_createSeasonChart];
+    G --> G2[_createCrowdIcons];
+    F --> H[_createWavePanel];
+    H --> H1[_createCompass];
+    H --> H2[_createTideChart];
+    F --> I[_createTripPanel];
 
     subgraph "style/surf-spot-panel-optimized.css"
-        style C fill:#f9f,stroke:#333,stroke-width:2px;
         style D fill:#f9f,stroke:#333,stroke-width:2px;
         style E fill:#f9f,stroke:#333,stroke-width:2px;
         style F fill:#f9f,stroke:#333,stroke-width:2px;
-        style J fill:#f9f,stroke:#333,stroke-width:2px;
     end
 ```
 
-## 5. Technical Implementation Plan
+## 5. Technical Implementation
 
-1.  **Create New Files:**
-    *   `scripts/surf-map/surf-spot-panel-optimized.js`: A new, lean JavaScript module for the redesigned panel.
-    *   `style/surf-spot-panel-optimized.css`: A dedicated, scoped CSS file for the new panel, using BEM naming conventions to avoid style conflicts.
+1.  **New Files Created:**
+    *   `scripts/surf-map/surf-spot-panel-optimized.js`: The new JavaScript module.
+    *   `style/surf-spot-panel-optimized.css`: The dedicated, scoped CSS file.
+    *   `data/surf-spot-real-time.json`: The data structure for future real-time information.
 
-2.  **HTML Structure (`surf-spot-panel-optimized.js`):**
-    *   Implement the new information architecture using semantic HTML5 (`article`, `section`, `header`, `h1`-`h6`, `figure`).
-    *   Implement a fully accessible tab component (`role="tablist"`, `role="tab"`, `role="tabpanel"`, `aria-controls`, `aria-labelledby`, `aria-selected`).
-    *   Create helper functions for each component (e.g., `_createHeader(spot)`, `_createTabs(spot)`).
+2.  **JavaScript Logic (`surf-spot-panel-optimized.js`):**
+    *   The main class fetches both static and real-time data.
+    *   Reusable SVG icons are defined as constants.
+    *   Helper functions (`_create...`) generate the HTML for each component, including dynamic SVGs for charts.
+    *   Event listeners manage tab switching and panel visibility.
 
 3.  **CSS Styling (`surf-spot-panel-optimized.css`):**
-    *   Use CSS Grid and Flexbox for a fully responsive layout.
-    *   Implement the 3:2 aspect ratio for the hero image (`aspect-ratio: 3 / 2;`).
-    *   Create custom styles for the new data visualization widgets (compass, season chart, etc.).
-    *   Style the tab navigation and panels, ensuring clear active states.
-
-4.  **JavaScript Logic (`surf-spot-panel-optimized.js`):**
-    *   The main class will be responsible for rendering the panel and managing the state of the active tab.
-    *   Event listeners will be added for tab navigation, close, share, and map buttons.
-    *   Lazy loading for the hero image will be preserved.
-
-## 6. TODO List
-
-I will now update the TODO list to track the implementation of this revised plan.
+    *   Uses CSS Custom Properties for a consistent dark theme.
+    *   Employs Flexbox and Grid for a fully responsive layout.
+    *   Contains custom styles for all data visualization widgets and new UI elements.
