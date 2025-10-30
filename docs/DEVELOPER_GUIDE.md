@@ -195,7 +195,14 @@ The system is designed to accommodate future panels, such as the now-implemented
 
 Recent updates have significantly refined the user experience and interface, with several technical considerations for developers:
 
-#### 1. Unified Panel Layout
+#### 1. Advanced Tide Chart
+- **Description**: A completely redesigned, best-in-class tide chart that provides a clear and accurate visualization of tide conditions.
+- **Technical Implementation**: The tide chart is implemented as a 6-section layout (mh, hi, mh, ml, lo, ml) with a proper sine wave curve. It uses a sophisticated mapping logic to highlight the recommended tide sections based on the surf spot's data. The real-time tide indicator is updated dynamically. The entire component is built with vanilla JavaScript and SVG, and is fully responsive and accessible.
+- **Data Structure**: The `bestTide` property in the surf spot data is an array of strings (e.g., `['Low', 'Mid']`). The `realTimeTide` object contains a `level` property (a number between 0 and 1).
+- **CSS Architecture**: The tide chart styling is located in `style/surf-spot-panel-optimized.css` under the "Tide Chart - Advanced 6-Section Implementation" section. It uses a BEM-like naming convention and is designed to be easily customizable.
+- **Extending Real-Time Data**: To extend the real-time data functionality, you can add more properties to the `realTimeTide` object in `data/surf-spot-real-time.json` and update the `_createTideChart` function in `scripts/surf-map/surf-spot-panel-optimized.js` to handle the new data.
+
+#### 2. Unified Panel Layout
 - **Description**: The collaborator panel now consistently appears on the right side, mirroring other information panels. This required refactoring of CSS and JavaScript to manage panel display in a unified manner.
 - **Technical Implementation**: Developers should ensure any new panels adhere to the established CSS classes and JavaScript functions for right-side panel display to maintain consistency.
 

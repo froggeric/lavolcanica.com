@@ -1,6 +1,6 @@
 # La Sonora Volcánica - Official Website
 
-[![Version](https://img.shields.io/badge/version-1.10.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.10.1-blue.svg)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-All%20Rights%20Reserved-red.svg)](NOTICE.txt)
 [![Status](https://img.shields.io/badge/status-active-brightgreen.svg)](https://lavolcanica.com)
 
@@ -104,6 +104,11 @@ For a more detailed overview of the architecture, see the [**Developer Guide**](
 - **Description**: An interactive surf map showcasing detailed information about various surf spots across Fuerteventura. Users can explore spots, view their characteristics, and get practical information.
 - **User Interaction**: Navigate to the "Surf Map" section to view an interactive map. Clicking on surf spot markers reveals detailed information in a modal. Search and filter functionalities allow users to find spots based on criteria like ability level, wave type, and location.
 - **Technical Details**: The surf map is implemented using a custom `SurfMap` class in [`scripts/surf-map/surf-map-core.js`](scripts/surf-map/surf-map-core.js), leveraging HTML Canvas for rendering. It uses a consolidated JSON data structure for surf spots ([`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json)) and includes components for markers, a minimap, search, and filtering. The feature's visibility is controlled by the `surfMapEnabled` flag in [`data/config/app-config.js`](data/config/app-config.js:57).
+
+### 7. Advanced Tide Chart
+- **Description**: A completely redesigned, best-in-class tide chart that provides a clear and accurate visualization of tide conditions.
+- **User Interaction**: The tide chart is displayed within the surf spot details panel and shows the optimal tide conditions for that spot. It also includes a real-time indicator of the current tide level.
+- **Technical Details**: The tide chart is implemented as a 6-section layout (mh, hi, mh, ml, lo, ml) with a proper sine wave curve. It uses a sophisticated mapping logic to highlight the recommended tide sections based on the surf spot's data. The real-time tide indicator is updated dynamically. The entire component is built with vanilla JavaScript and SVG, and is fully responsive and accessible.
 
 ## Local Development
 

@@ -195,7 +195,8 @@ export class SurfSpotPanelOptimized {
             </div>
             <div class="panel-section">
                 <h3 class="panel-section__title">Best Tide</h3>
-                ${this._createTideChart(activeTides, spot.realTime?.tide)}
+                ${this._createTideChart(spot.waveDetails.bestTide, spot.realTime?.tide)}
+                ${spot.waveDetails.tideNotes ? `<p class="panel-section__description">${spot.waveDetails.tideNotes}</p>` : ''}
             </div>
             <div class="panel-section">
                 <h3 class="panel-section__title">Recommended Boards</h3>
@@ -297,42 +298,120 @@ export class SurfSpotPanelOptimized {
         return `M ${center} ${center} L ${x1} ${y1} A ${radius} ${radius} 0 0 1 ${x2} ${y2} Z`;
     }
 
-    _createTideChart(activeTides, realTimeTide) {
-        const phases = [ { name: 'low', label: 'Low' }, { name: 'rising', label: 'Rising' }, { name: 'high', label: 'High' }, { name: 'ebbing', label: 'Ebbing' }];
-        const path = "M 0 10 Q 25 0, 50 10 T 100 10";
-        
-        let backgroundPath = '';
-        if (activeTides.length > 0) {
-            const tideToX = { low: 0, rising: 25, high: 50, ebbing: 75 };
-            backgroundPath = activeTides.map(tide => {
-                const startX = tideToX[tide];
-                const endX = startX + 25;
-                // Create a path that goes from the bottom, up to the wave, along the wave, and back down
-                return `M ${startX},20 L ${startX},10 Q ${startX + 12.5},${tide === 'rising' ? 0 : (tide === 'ebbing' ? 20 : 10)} ${startX + 25},10 L ${endX},20 Z`;
-            }).join(' ');
-        }
+    _createTideChart(bestTide, realTimeTide) {
+        // Map tide combinations to 6-section layout: mh hi mh ml lo ml
+        const sections = [
+            { index: 0, type: 'mid-high', name: 'MH' },
+            { index: 1, type: 'high', name: 'HI' },
+            { index: 2, type: 'mid-high', name: 'MH' },
+            { index: 3, type: 'mid-low', name: 'ML' },
+            { index: 4, type: 'low', name: 'LO' },
+            { index: 5, type: 'mid-low', name: 'ML' }
+        ];
 
-        let realTimeMarker = '';
-        if (realTimeTide && realTimeTide.level !== null) {
-            const x = realTimeTide.level * 100;
-            const yOnWave = 10 - 10 * Math.cos(Math.PI * realTimeTide.level);
-            realTimeMarker = `
-                <line x1="${x}" y1="20" x2="${x}" y2="${yOnWave}" class="real-time-tide-line" />
-                <circle cx="${x}" cy="${yOnWave}" r="3" class="real-time-tide-marker" />
-            `;
-        }
+        // Determine which sections to highlight based on tide combinations
+        const highlightedSections = this._mapTideToSections(bestTide);
+
+        // Generate precise sine wave points
+        const sineWavePath = this._generateSineWavePath();
+
+        // Generate section highlighting backgrounds
+        const backgroundPaths = this._generateSectionBackgrounds(highlightedSections);
+
+        // Add real-time tide indicator if available
+        const realTimeIndicator = realTimeTide ? this._generateRealTimeIndicator(realTimeTide) : '';
 
         return `
             <div class="tide-chart-container">
-                <div class="tide-phases">
-                    ${phases.map(p => `<div class="tide-phase ${activeTides.includes(p.name) ? 'is-active' : ''}">${p.label}</div>`).join('')}
-                </div>
-                <svg class="tide-wave" viewBox="0 0 100 20">
-                    <path d="${backgroundPath}" class="tide-wave-bg" />
-                    <path d="${path}" class="tide-wave-fg" />
-                    ${realTimeMarker}
+                <svg class="tide-chart__svg" viewBox="0 0 240 80">
+                    <!-- Grid lines -->
+                    <g class="tide-chart__grid">
+                        ${sections.map((section, i) => `
+                            <line x1="${i * 40}" y1="0" x2="${i * 40}" y2="80" class="tide-chart__grid-line" />
+                        `).join('')}
+                        <line x1="0" y1="80" x2="240" y2="80" class="tide-chart__grid-line" />
+                    </g>
+                    
+                    <!-- Section highlights -->
+                    ${backgroundPaths}
+                    
+                    <!-- Sine wave -->
+                    <path d="${sineWavePath}" class="tide-chart__sine-wave" />
+                    
+                    <!-- Real-time indicator -->
+                    ${realTimeIndicator}
                 </svg>
             </div>
+        `;
+    }
+
+    _mapTideToSections(bestTide) {
+        // Corrected tide mapping logic
+        const sectionMap = {
+            'Low': [4],
+            'Mid': [0, 2, 3, 5],
+            'High': [1],
+            'Low, Mid': [3, 4, 5], // Corrected: Only mid-low and low
+            'Low, High': [1, 4],
+            'Mid, High': [0, 1, 2], // Corrected: Only mid-high and high
+            'Low, Mid, High': [0, 1, 2, 3, 4, 5]
+        };
+        
+        return sectionMap[bestTide.join(', ')] || [];
+    }
+
+    _generateSineWavePath() {
+        const points = [];
+        const amplitude = 30;
+        const centerY = 40;
+        
+        // Generate smooth sine wave across 6 sections (240px)
+        for (let x = 0; x <= 240; x += 2) {
+            // Map x to angle: complete sine cycle across full width
+            const angle = (x / 240) * Math.PI * 2;
+            const y = centerY - Math.sin(angle) * amplitude;
+            points.push(`${x},${y}`);
+        }
+        
+        return `M ${points.join(' L ')}`;
+    }
+
+    _generateSectionBackgrounds(highlightedSections) {
+        const backgrounds = [];
+        
+        highlightedSections.forEach(sectionIndex => {
+            const x = sectionIndex * 40;
+            const width = 40;
+            const height = 80;
+            
+            backgrounds.push(`
+                <rect x="${x}" y="0" width="${width}" height="${height}" 
+                      class="tide-chart__section-highlight" />
+            `);
+        });
+        
+        return backgrounds.join('');
+    }
+
+    _generateRealTimeIndicator(realTimeTide) {
+        if (!realTimeTide || realTimeTide.level === null) {
+            return '';
+        }
+        
+        // Calculate position based on tide level (0-1 maps to 0-240)
+        const x = realTimeTide.level * 240;
+        
+        // Calculate y position on sine wave
+        const angle = (realTimeTide.level) * Math.PI * 2;
+        const centerY = 40;
+        const amplitude = 30;
+        const y = centerY - Math.sin(angle) * amplitude;
+        
+        return `
+            <g class="tide-chart__current-tide">
+                <line x1="${x}" y1="80" x2="${x}" y2="${y}" class="tide-chart__current-tide-line" />
+                <circle cx="${x}" cy="${y}" r="4" class="tide-chart__current-tide-marker" />
+            </g>
         `;
     }
 

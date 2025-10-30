@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.1] - 2025-10-30
+
+### Fixed
+- **Tide Chart Logic**: Corrected the tide mapping logic for "Low, Mid" and "Mid, High" combinations to be more precise.
+- **Tide Chart UI**: Removed unnecessary labels and the section indicator bar for a cleaner design.
+- **Tide Notes Styling**: Updated the tide notes to use the same styling as other informational text for consistency.
+- **Tide Marker Animation**: Removed the animation from the real-time tide marker for a more subtle look.
+- **Tide Chart Styling**: Unified the background and border styling of the tide chart with the wind and wave direction indicators.
+
+### Changed
+- **Tide Chart Layout**: The tide chart now extends to the full width of the panel's usable area.
+
 ## [1.10.0] - 2025-10-29
 
 ### Added

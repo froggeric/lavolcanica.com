@@ -137,6 +137,9 @@
     animation: fadeIn 0.3s ease-in-out;
 }
 
+/* The FOUC fix was removed as it was not effective.
+   The issue is now solved by restructuring the HTML. */
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -321,6 +324,12 @@
     transition: fill 0.2s;
 }
 
+.tide-chart__grid-line {
+    stroke: var(--highlight-bg);
+    stroke-width: 1;
+    opacity: 1;
+}
+
 .compass-segment.is-active {
     fill: var(--highlight-color-good);
 }
@@ -344,58 +353,185 @@
     transform-origin: center;
 }
 
-/* Tide Chart */
+/* Tide Chart - Advanced 6-Section Implementation */
 .tide-chart-container {
     width: 100%;
-    padding-top: 1.5rem; /* Space for labels above */
-}
-
-.tide-chart {
-    position: relative;
-}
-
-.tide-phases {
-    position: absolute;
-    top: -1.5rem;
-    left: 0;
-    right: 0;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    text-align: center;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-}
-
-.tide-phase.is-active {
-    color: var(--highlight-color-good);
-    font-weight: bold;
-}
-
-.tide-wave {
-    width: 100%;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
     overflow: visible;
 }
 
-.tide-wave-bg {
-    fill: var(--highlight-color-good);
-    opacity: 0.3;
-    stroke: none;
+.tide-chart__svg {
+    width: 100%;
+    height: 80px;
+    display: block;
 }
 
-.tide-wave-fg {
+.tide-chart__grid-line {
+    stroke: var(--panel-border);
+    stroke-width: 1;
+    opacity: 0.6;
+}
+
+.tide-chart__sine-wave {
+    stroke: #4a90e2;
+    stroke-width: 3;
     fill: none;
-    stroke: var(--text-secondary);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 2px 4px rgba(74, 144, 226, 0.3));
+}
+
+.tide-chart__section-highlight {
+    fill: rgba(46, 204, 113, 0.6);
+    stroke: #27ae60;
+    stroke-width: 1;
+    transition: all 0.3s ease-in-out;
+}
+
+.tide-chart__current-tide-line {
+    stroke: var(--accent-color);
+    stroke-width: 2;
+    opacity: 0.8;
+}
+
+.tide-chart__current-tide-marker {
+    fill: var(--accent-color);
+    stroke: var(--panel-bg);
     stroke-width: 2;
 }
 
-.real-time-tide-line {
-    stroke: var(--text-primary);
-    stroke-width: 1.5px;
-    stroke-dasharray: 2 2;
+.tide-chart__sections {
+    display: none;
 }
 
-.real-time-tide-marker {
-    fill: var(--text-primary);
-    stroke: var(--panel-bg);
-    stroke-width: 2px;
+.tide-chart__section {
+    background: var(--highlight-bg);
+    padding: 0.5rem 0;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    position: relative;
+}
+
+.tide-chart__section--highlighted {
+    background: rgba(46, 204, 113, 0.6);
+    border: 1px solid #27ae60;
+    color: var(--panel-bg);
+}
+
+.tide-chart__section:hover {
+    transform: translateY(-1px);
+    background: rgba(46, 204, 113, 0.1);
+}
+
+.tide-chart__section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.tide-chart__section--highlighted .tide-chart__section-label {
+    opacity: 1;
+    color: var(--panel-bg);
+}
+
+/* Responsive Design */
+@media (min-width: 480px) {
+    .tide-chart-container {
+        max-width: 400px;
+    }
+    
+    .tide-chart__svg {
+        height: 120px;
+    }
+    
+    .tide-chart__label {
+        font-size: 13px;
+    }
+    
+    .tide-chart__section-label {
+        font-size: 11px;
+    }
+}
+
+@media (min-width: 768px) {
+    .tide-chart-container {
+        max-width: 440px;
+    }
+    
+    .tide-chart__svg {
+        height: 140px;
+    }
+    
+    .tide-chart__label {
+        font-size: 14px;
+    }
+    
+    .tide-chart__section-label {
+        font-size: 12px;
+    }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .tide-chart__grid-line {
+        stroke: #666;
+    }
+    
+    .tide-chart__sine-wave {
+        stroke: #6bb6ff;
+        stroke-width: 4;
+    }
+    
+    .tide-chart__section-highlight {
+        fill: rgba(46, 204, 113, 0.8);
+        stroke: #2ecc71;
+        stroke-width: 3;
+    }
+    
+    .tide-chart__section--highlighted {
+        border-width: 2px;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .tide-chart__section,
+    .tide-chart__section-highlight {
+        transition: none;
+    }
+    
+    .tide-chart__section:hover {
+        transform: none;
+    }
+}
+
+/* Accessibility */
+.tide-chart__section:focus {
+    outline: 2px solid #4a90e2;
+    outline-offset: 2px;
+}
+
+.tide-chart__section[aria-hidden="true"] {
+    display: none;
+}
+
+/* Animation for current tide indicator */
+@keyframes tidePulse {
+    0%, 100% { 
+        opacity: 1; 
+        transform: scaleY(1); 
+    }
+    50% { 
+        opacity: 0.8; 
+        transform: scaleY(1.1); 
+    }
+}
+
+.tide-chart__current-tide-line {
+    animation: tidePulse 2s ease-in-out infinite;
 }
