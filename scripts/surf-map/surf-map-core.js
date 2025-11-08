@@ -2,11 +2,12 @@
  * @fileoverview Core SurfMap class for the fullscreen surf map interface.
  * @description This module contains the core SurfMap class that manages the map state,
  * coordinates between the renderer and interaction handlers, and provides the main API
- * for the surf map functionality.
+ * for the surf map functionality. Enhanced with smooth gesture handling and momentum.
  */
 
 import { appConfig } from '../../data/config/app-config.js';
 import { Viewport } from './viewport.js';
+import { InteractionManager } from './interaction-manager.js';
 
 /**
  * Core SurfMap class that manages the map state and coordinates between components.
@@ -15,10 +16,6 @@ export class SurfMap {
     /**
      * @param {HTMLElement} container - The container element for the map.
      * @param {Object} options - Configuration options for the map.
-     * @param {string} options.imagePath - Path to the surf map image.
-     * @param {number} [options.minZoom=0.5] - Minimum zoom level.
-     * @param {number} [options.maxZoom=3.0] - Maximum zoom level.
-     * @param {number} [options.initialZoom=1.0] - Initial zoom level.
      */
     constructor(container, options = {}) {
         this.container = container;
@@ -63,7 +60,7 @@ export class SurfMap {
 
         // Component references
         this.renderer = null;
-        this.interactions = null;
+        this.interactionManager = null;
         this.spotsManager = null;
         this.markersManager = null;
         this.spotModal = null;
@@ -105,6 +102,7 @@ export class SurfMap {
             this.viewport = new Viewport(this.container, [
                 document.getElementById('left-side-search')
             ]);
+            
             // Create the canvas element
             this.canvas = document.createElement('canvas');
             this.canvas.className = 'surf-map-canvas';
@@ -138,15 +136,20 @@ export class SurfMap {
             const { SurfMapRenderer } = await import('./surf-map-renderer.js');
             this.renderer = new SurfMapRenderer(this.canvas, this.state);
 
-            // Initialize the interaction handler with mobile optimizations
-            const { InteractionManager } = await import('./interaction-manager.js');
-            const { SurfMapInteractions } = await import('./surf-map-interactions.js');
-            this.interactions = new SurfMapInteractions(this.canvas, this.state, this);
+            // Initialize the NEW interaction manager
+            this.interactionManager = new InteractionManager(
+                this.canvas,
+                null, // No minimap
+                this.state,
+                {
+                    minZoom: this.options.minZoom,
+                    maxZoom: this.options.maxZoom,
+                    momentumEnabled: true
+                }
+            );
             
-            // Set up touch performance optimizations
-            if (this.options.enableTouchOptimizations) {
-                this.setupTouchOptimizations();
-            }
+            // Set up interaction event listeners
+            this.setupInteractionListeners();
 
             // Initialize the markers manager with mobile optimizations
             const { SurfMarkersManager } = await import('./surf-markers.js');
@@ -167,9 +170,6 @@ export class SurfMap {
             if (this.state.imageLoaded) {
                 await this.markersManager.initializeMarkers();
             }
-
-            // The spot detail panel is now handled by the main application
-            // No need to initialize a separate modal
 
             // Initialize search functionality
             const { SurfSearch } = await import('./surf-search.js');
@@ -242,8 +242,170 @@ export class SurfMap {
     }
 
     /**
+     * Sets up event listeners for the interaction manager.
+     */
+    setupInteractionListeners() {
+        // Handle tap events
+        this.canvas.addEventListener('tap', (e) => {
+            const { x, y, target } = e.detail;
+            if (target === 'map') {
+                this.handleTap(x, y);
+            }
+        });
+
+        // Handle double tap events (zoom in)
+        this.canvas.addEventListener('doubletap', (e) => {
+            const { x, y, target } = e.detail;
+            if (target === 'map') {
+                this.handleDoubleTap(x, y);
+            }
+        });
+
+        // Handle drag events
+        this.canvas.addEventListener('drag', (e) => {
+            const { deltaX, deltaY } = e.detail;
+            this.handleDrag(deltaX, deltaY);
+        });
+
+        // Handle momentum events
+        this.canvas.addEventListener('momentum', (e) => {
+            const { deltaX, deltaY } = e.detail;
+            this.handleDrag(deltaX, deltaY);
+        });
+
+        // Handle drag end
+        this.canvas.addEventListener('dragend', (e) => {
+            this.state.isDragging = false;
+        });
+
+        // Handle pinch zoom
+        this.canvas.addEventListener('pinch', (e) => {
+            const { zoom, centerX, centerY } = e.detail;
+            this.handlePinchZoom(zoom, centerX, centerY);
+        });
+
+        // Handle wheel zoom
+        this.canvas.addEventListener('zoom', (e) => {
+            const { delta, x, y } = e.detail;
+            this.handleWheelZoom(delta, x, y);
+        });
+    }
+
+    /**
+     * Handles tap events on the map.
+     */
+    handleTap(x, y) {
+        // Check if a marker was tapped
+        if (this.markersManager) {
+            const clickedSpot = this.markersManager.getSpotAtPosition(x, y);
+            if (clickedSpot) {
+                this.handleMarkerClick(clickedSpot);
+            }
+        }
+    }
+
+    /**
+     * Handles double tap events (zoom in to that point).
+     */
+    handleDoubleTap(x, y) {
+        const newZoom = Math.min(this.state.zoom * 1.5, this.options.maxZoom);
+        this.zoomToPoint(newZoom, x, y);
+    }
+
+    /**
+     * Handles drag events for panning.
+     */
+    handleDrag(deltaX, deltaY) {
+        this.state.isDragging = true;
+        this.state.panX += deltaX;
+        this.state.panY += deltaY;
+        this.constrainPan();
+        this.forceRender();
+    }
+
+    /**
+     * Handles pinch zoom gestures.
+     */
+    handlePinchZoom(newZoom, centerX, centerY) {
+        // Clamp zoom to valid range
+        newZoom = Math.max(this.options.minZoom, Math.min(this.options.maxZoom, newZoom));
+        
+        // Calculate the image coordinates of the pinch center
+        const imageX = (centerX - this.canvas.width / 2 - this.state.panX) / this.state.zoom;
+        const imageY = (centerY - this.canvas.height / 2 - this.state.panY) / this.state.zoom;
+        
+        // Update zoom
+        this.state.zoom = newZoom;
+        
+        // Adjust pan to keep the pinch center point fixed
+        this.state.panX = centerX - this.canvas.width / 2 - imageX * newZoom;
+        this.state.panY = centerY - this.canvas.height / 2 - imageY * newZoom;
+        
+        // Constrain pan to valid bounds
+        this.constrainPan();
+        this.forceRender();
+    }
+
+    /**
+     * Handles wheel zoom events.
+     */
+    handleWheelZoom(delta, x, y) {
+        const zoomFactor = 1 + delta;
+        const newZoom = Math.max(
+            this.options.minZoom,
+            Math.min(this.options.maxZoom, this.state.zoom * zoomFactor)
+        );
+        
+        this.zoomToPoint(newZoom, x, y);
+    }
+
+    /**
+     * Zooms to a specific point with smooth animation.
+     */
+    zoomToPoint(newZoom, canvasX, canvasY) {
+        const startZoom = this.state.zoom;
+        const startPanX = this.state.panX;
+        const startPanY = this.state.panY;
+        const duration = 200;
+        let startTime = null;
+
+        // Calculate the image coordinates of the zoom center
+        const imageX = (canvasX - this.canvas.width / 2 - startPanX) / startZoom;
+        const imageY = (canvasY - this.canvas.height / 2 - startPanY) / startZoom;
+
+        const animate = (currentTime) => {
+            if (!startTime) startTime = currentTime;
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // easeOutCubic for smooth deceleration
+            const easedProgress = 1 - Math.pow(1 - progress, 3);
+
+            const currentZoom = startZoom + (newZoom - startZoom) * easedProgress;
+
+            // Calculate new pan to keep the zoom point fixed
+            const newPanX = canvasX - this.canvas.width / 2 - imageX * currentZoom;
+            const newPanY = canvasY - this.canvas.height / 2 - imageY * currentZoom;
+
+            this.state.zoom = currentZoom;
+            this.state.panX = newPanX;
+            this.state.panY = newPanY;
+
+            this.constrainPan();
+            this.forceRender();
+
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                this.emit('zoomChanged', { zoom: this.state.zoom });
+            }
+        };
+
+        requestAnimationFrame(animate);
+    }
+
+    /**
      * Loads the map image.
-     * @returns {Promise<HTMLImageElement>} The loaded image.
      */
     loadImage() {
         return new Promise((resolve, reject) => {
@@ -253,8 +415,7 @@ export class SurfMap {
                 this.state.imageLoaded = true;
                 
                 // Dynamically adjust max zoom to be 2x the actual image size
-                // This prevents excessive zooming that would make the image blurry
-                const maxZoomBasedOnImage = 2.0; // 2x the actual size
+                const maxZoomBasedOnImage = 2.0;
                 this.options.maxZoom = Math.min(this.options.maxZoom, maxZoomBasedOnImage);
                 
                 // Ensure current zoom is within bounds
@@ -271,33 +432,10 @@ export class SurfMap {
 
     /**
      * Detects if the device is a mobile device.
-     * @returns {boolean} True if the device is mobile, false otherwise.
      */
     detectMobile() {
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
                (window.innerWidth <= 768 && 'ontouchstart' in window);
-    }
-
-    /**
-     * Sets up touch optimizations for mobile devices.
-     */
-    setupTouchOptimizations() {
-        if (!this.isTouchDevice) return;
-        
-        // Set up touch event listeners for performance optimization
-        this.canvas.addEventListener('touchstart', () => {
-            this.isTouchActive = true;
-            this.touchStartTime = Date.now();
-            this.performanceMode = 'touch';
-        }, { passive: true });
-        
-        this.canvas.addEventListener('touchend', () => {
-            // Reset performance mode after a short delay
-            setTimeout(() => {
-                this.isTouchActive = false;
-                this.performanceMode = 'normal';
-            }, 100);
-        }, { passive: true });
     }
 
     /**
@@ -368,15 +506,15 @@ export class SurfMap {
 
     /**
      * Sets the zoom level and centers the view on the specified point.
-     * @param {number} zoom - The new zoom level.
-     * @param {number} [centerX=0] - The X coordinate to center on (in image coordinates).
-     * @param {number} [centerY=0] - The Y coordinate to center on (in image coordinates).
      */
     setZoom(zoom, centerX = 0, centerY = 0) {
         const newZoom = Math.max(this.options.minZoom, Math.min(this.options.maxZoom, zoom));
         this.zoomTo(newZoom, centerX, centerY);
     }
 
+    /**
+     * Zooms to a specific level with animation.
+     */
     zoomTo(newZoom, x, y) {
         const startZoom = this.state.zoom;
         const startPanX = this.state.panX;
@@ -404,7 +542,7 @@ export class SurfMap {
             this.state.panY = newPanY;
 
             this.constrainPan();
-            this.render();
+            this.forceRender();
 
             if (progress < 1) {
                 requestAnimationFrame(animate);
@@ -418,24 +556,26 @@ export class SurfMap {
 
     /**
      * Zooms in by the specified amount.
-     * @param {number} [amount=0.1] - The amount to zoom in.
      */
     zoomIn(amount = 0.1) {
-        this.setZoom(this.state.zoom + amount);
+        const centerX = this.canvas.width / 2;
+        const centerY = this.canvas.height / 2;
+        const newZoom = this.state.zoom + amount;
+        this.zoomToPoint(newZoom, centerX, centerY);
     }
 
     /**
      * Zooms out by the specified amount.
-     * @param {number} [amount=0.1] - The amount to zoom out.
      */
     zoomOut(amount = 0.1) {
-        this.setZoom(this.state.zoom - amount);
+        const centerX = this.canvas.width / 2;
+        const centerY = this.canvas.height / 2;
+        const newZoom = this.state.zoom - amount;
+        this.zoomToPoint(newZoom, centerX, centerY);
     }
 
     /**
      * Pans the map by the specified amount.
-     * @param {number} deltaX - The amount to pan horizontally.
-     * @param {number} deltaY - The amount to pan vertically.
      */
     pan(deltaX, deltaY) {
         this.state.panX += deltaX;
@@ -447,8 +587,6 @@ export class SurfMap {
 
     /**
      * Sets the pan position to the specified coordinates.
-     * @param {number} x - The X coordinate.
-     * @param {number} y - The Y coordinate.
      */
     setPan(x, y) {
         this.state.panX = x;
@@ -525,9 +663,6 @@ export class SurfMap {
     
     /**
      * Compares two render states for equality.
-     * @param {Object} state1 - First state.
-     * @param {Object} state2 - Second state.
-     * @returns {boolean} Whether the states are equal.
      */
     stateEquals(state1, state2) {
         if (!state1 || !state2) return false;
@@ -549,12 +684,9 @@ export class SurfMap {
 
     /**
      * Forces a render and returns a promise that resolves after the next frame is painted.
-     * This ensures that any state changes are visible before proceeding.
-     * @returns {Promise<void>}
      */
     async forceRenderAndWait() {
         this.needsRender = true;
-        // Wait for two frames: one to queue the render, one to ensure it has painted.
         await new Promise(resolve => requestAnimationFrame(resolve));
         await new Promise(resolve => requestAnimationFrame(resolve));
     }
@@ -592,8 +724,6 @@ export class SurfMap {
 
     /**
      * Adds an event listener.
-     * @param {string} event - The event name.
-     * @param {Function} callback - The event callback.
      */
     on(event, callback) {
         if (!this.eventListeners.has(event)) {
@@ -604,8 +734,6 @@ export class SurfMap {
 
     /**
      * Removes an event listener.
-     * @param {string} event - The event name.
-     * @param {Function} callback - The event callback to remove.
      */
     off(event, callback) {
         if (this.eventListeners.has(event)) {
@@ -619,8 +747,6 @@ export class SurfMap {
 
     /**
      * Emits an event.
-     * @param {string} event - The event name.
-     * @param {*} data - The event data.
      */
     emit(event, data) {
         if (this.eventListeners.has(event)) {
@@ -659,7 +785,6 @@ export class SurfMap {
 
     /**
      * Handles marker click events.
-     * @param {Object} spot - The clicked surf spot data.
      */
     async handleMarkerClick(spot) {
         if (this.isPanelOpening) return;
@@ -691,7 +816,6 @@ export class SurfMap {
 
     /**
      * Handles panel close events.
-     * This is now handled by the main application.
      */
     handlePanelClose() {
         // Deselect marker
@@ -703,10 +827,8 @@ export class SurfMap {
         this.emit('panelClose');
     }
 
-
     /**
      * Centers the view on a specific surf spot.
-     * @param {Object} spot - The surf spot to center on.
      */
     centerOnSpot(spot) {
         if (!spot.pixelCoordinates) return;
@@ -777,7 +899,6 @@ export class SurfMap {
 
     /**
      * Handles search result click events.
-     * @param {Object} spot - The clicked surf spot.
      */
     async handleSearchResultClick(spot) {
         if (this.isPanelOpening) return;
@@ -812,7 +933,6 @@ export class SurfMap {
 
     /**
      * Handles search change events.
-     * @param {Array<Object>} results - The search results.
      */
     handleSearchChange(results) {
         // Update marker visibility
@@ -827,7 +947,6 @@ export class SurfMap {
 
     /**
      * Updates the surf spots counter with the current count.
-     * @param {number} count - The number of visible spots.
      */
     updateSpotsCounter(count) {
         if (this.spotsCounter) {
@@ -837,7 +956,6 @@ export class SurfMap {
 
     /**
      * Handles results update events.
-     * @param {Array<Object>} results - The updated search results.
      */
     handleResultsUpdate(results) {
         // Update the counter with the new results count
@@ -860,10 +978,8 @@ export class SurfMap {
         }
     }
 
-
     /**
      * Gets the surf spots manager.
-     * @returns {SurfSpotsManager|null} The surf spots manager.
      */
     getSpotsManager() {
         return this.spotsManager;
@@ -871,7 +987,6 @@ export class SurfMap {
 
     /**
      * Gets the markers manager.
-     * @returns {SurfMarkersManager|null} The markers manager.
      */
     getMarkersManager() {
         return this.markersManager;
@@ -879,16 +994,13 @@ export class SurfMap {
 
     /**
      * Gets the spot modal.
-     * @returns {SurfSpotModal|null} The spot modal.
      */
     getSpotModal() {
         return this.spotModal;
     }
 
-
     /**
      * Gets the search manager.
-     * @returns {SurfSearch|null} The search manager.
      */
     getSearchManager() {
         return this.searchManager;
@@ -896,7 +1008,6 @@ export class SurfMap {
 
     /**
      * Gets the currently visible surf spots based on the viewport.
-     * @returns {Array<Object>} An array of visible surf spot objects.
      */
     getVisibleSpots() {
         if (!this.markersManager || !this.state.imageLoaded) {
@@ -904,7 +1015,6 @@ export class SurfMap {
         }
         
         // The markersManager is responsible for tracking visibility
-        // We can get the visible spots from it
         if (typeof this.markersManager.getVisibleSpots === 'function') {
             return this.markersManager.getVisibleSpots();
         }
@@ -933,7 +1043,6 @@ export class SurfMap {
 
     /**
      * Focuses on a specific surf spot by ID.
-     * @param {string} spotId - The ID of the spot to focus on.
      */
     focusOnSpot(spotId) {
         if (!this.spotsManager) return;
@@ -964,8 +1073,8 @@ export class SurfMap {
         this.eventListeners.clear();
 
         // Destroy components
-        if (this.interactions) {
-            this.interactions.destroy();
+        if (this.interactionManager) {
+            this.interactionManager.destroy();
         }
         if (this.renderer) {
             this.renderer.destroy();
@@ -991,7 +1100,7 @@ export class SurfMap {
         // Clear references
         this.canvas = null;
         this.renderer = null;
-        this.interactions = null;
+        this.interactionManager = null;
         this.spotsManager = null;
         this.markersManager = null;
         this.searchManager = null;

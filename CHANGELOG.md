@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.2] - 2025-11-08
+
+### **Changelog Entry**
+
+Map interaction (zoom and pan) refactoring by Anthropic Claude Sonnet 4.5
+
+####  New Features & Enhancements
+
+This release introduces a complete overhaul of the map's touch and mouse interaction system, focusing on providing a fluid, responsive, and native-app-like user experience.
+
+*   **Added Momentum-Based Panning:** Users can now "flick" the map to scroll. The map will continue to glide with a natural, friction-based deceleration, making navigation across large distances effortless.
+*   **Added Animated Zoom:** All zoom actions, including mouse wheel, UI buttons (`+`/`-`), and double-tap, are now smoothly animated for a more polished feel.
+*   **Added Double-Tap to Zoom:** Double-tapping on a point on the map now smoothly zooms in, centered on that specific point.
+
+#### 🛠️ Changes & Fixes
+
+*   **`InteractionManager` Rewrite:** The user interaction logic has been completely rewritten with a sophisticated gesture and physics engine.
+    *   Replaced simple drag detection with a velocity-tracking system to enable momentum.
+    *   Improved gesture recognition to be more reliable and responsive on all devices.
+*   **Fixed Pinch-to-Zoom Centering:** Pinch-to-zoom gestures are now perfectly centered on the midpoint of the user's fingers, providing a natural and intuitive scaling experience.
+*   **Fixed Jerky Panning:** Replaced the previous clunky panning with a smooth, `requestAnimationFrame`-based system that eliminates lag and stuttering.
+
+#### Internal & Refactoring
+
+*   **Architectural Improvement:** The `SurfMap` core is now decoupled from the gesture detection logic. `InteractionManager` emits semantic events (e.g., `drag`, `pinch`, `momentum`), which `SurfMap` consumes to update its state.
+*   **Code Simplification:** Removed the intermediary `SurfMapInteractions` class, creating a cleaner and more direct integration between `SurfMap` and the new `InteractionManager`.
+
 ## [1.10.1] - 2025-10-30
 
 ### Fixed
