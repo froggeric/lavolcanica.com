@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.3] - 2025-11-08
+
+### Enhancements
+
+*   **Momentum Panning:** The map now supports "flick-to-scroll" gestures. Panning gestures with sufficient velocity will cause the map to glide to a stop with natural, physics-based deceleration.
+*   **Animated Zooming:** All zoom actions (mouse wheel, UI buttons, double-tap) are now smoothly animated for a more polished user experience.
+*   **Double-Tap to Zoom:** Users can now double-tap on the map to zoom in, centered on the tap location.
+*   **Improved Pinch-to-Zoom:** The pinch-to-zoom gesture is now perfectly centered on the midpoint of the user's fingers, providing a more intuitive and natural scaling interaction.
+
+### Fixes
+
+*   **Fixed** a potential regression where marker click/tap coordinates would be inaccurate when the side search panel was visible. The interaction logic now correctly uses the `Viewport` system for all coordinate calculations.
+*   **Fixed** a potential regression where desktop hover tooltips on surf spots would have been disabled. The hover detection logic has been preserved.
+*   **Fixed** an issue in the interaction layer where pinch-to-zoom gestures were not scaling smoothly relative to the current zoom level.
+*   **Fixed** a potential JavaScript error by ensuring click detection logic uses the correct `getMarkerAtPosition` method from the `SurfMarkersManager`.
+
+### Refactoring & Internal
+
+*   **Refactor:** The `InteractionManager` has been replaced with a significantly more advanced version that includes velocity tracking and a state machine for robust gesture detection.
+*   **Refactor:** The `SurfMapInteractions` class has been enhanced to integrate the new momentum and advanced gesture capabilities from the `InteractionManager`. This preserves the application's architecture by cleanly separating low-level gesture detection from high-level map operations.
+*   **Performance:** The new momentum system uses a single, interruptible `requestAnimationFrame` loop, preventing conflicts with other animations and ensuring optimal performance.
+
 ## [1.10.2] - 2025-11-08
 
 ### **Changelog Entry**
@@ -21,7 +43,7 @@ This release introduces a complete overhaul of the map's touch and mouse interac
 *   **Added Animated Zoom:** All zoom actions, including mouse wheel, UI buttons (`+`/`-`), and double-tap, are now smoothly animated for a more polished feel.
 *   **Added Double-Tap to Zoom:** Double-tapping on a point on the map now smoothly zooms in, centered on that specific point.
 
-#### 🛠️ Changes & Fixes
+#### Changes & Fixes
 
 *   **`InteractionManager` Rewrite:** The user interaction logic has been completely rewritten with a sophisticated gesture and physics engine.
     *   Replaced simple drag detection with a velocity-tracking system to enable momentum.

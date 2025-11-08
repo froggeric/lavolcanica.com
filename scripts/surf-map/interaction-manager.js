@@ -1,8 +1,9 @@
 /**
  * @fileoverview Enhanced Interaction Manager for the Surf Map.
  * @description This module provides a high-performance, mobile-first interaction
- * system with momentum scrolling, natural pinch-to-zoom, and smooth animations.
- * Designed to feel as fluid as native mapping applications.
+ * system with smooth gesture recognition for tap, drag, pinch, and zoom operations.
+ * Designed to provide crisp, responsive gesture detection as the foundation for
+ * momentum scrolling and natural interactions.
  */
 
 export class InteractionManager {
@@ -22,27 +23,15 @@ export class InteractionManager {
             dragThreshold: 5,
             doubleTapDelay: 300,
             
-            // Momentum physics
-            momentumEnabled: true,
-            momentumFriction: 0.92, // Deceleration factor per frame (0-1)
-            momentumMinVelocity: 0.5, // Minimum velocity to trigger momentum
-            momentumMaxVelocity: 50, // Cap maximum velocity
-            
             // Zoom configuration
             zoomSpeed: 0.002, // Mouse wheel zoom speed
-            pinchZoomSpeed: 1.0, // Pinch zoom sensitivity
-            minZoom: 0.5,
-            maxZoom: 3.0,
-            
-            // Animation
-            animationDuration: 300,
             
             ...options
         };
 
         // Interaction state machine
         this.interactionState = {
-            mode: 'idle', // idle, panning, pinching, animating
+            mode: 'idle', // idle, dragging, pinching
             isTap: true,
             
             // Touch/mouse tracking
@@ -53,15 +42,17 @@ export class InteractionManager {
             lastX: 0,
             lastY: 0,
             
-            // Velocity tracking for momentum
+            // Velocity tracking for momentum (in pixels per millisecond)
             velocityX: 0,
             velocityY: 0,
+            lastVelocityX: 0,
+            lastVelocityY: 0,
             velocityHistory: [], // Store last few velocity samples
             maxVelocityHistory: 5,
             
             // Pinch gesture
             pinchStartDistance: 0,
-            pinchStartZoom: 0,
+            pinchLastDistance: 0,
             pinchCenterX: 0,
             pinchCenterY: 0,
             
@@ -73,14 +64,6 @@ export class InteractionManager {
             // Timestamps
             lastMoveTime: 0,
             gestureStartTime: 0
-        };
-
-        // Momentum animation state
-        this.momentum = {
-            active: false,
-            velocityX: 0,
-            velocityY: 0,
-            animationFrame: null
         };
 
         // Bind event handlers
@@ -99,7 +82,7 @@ export class InteractionManager {
      * Initializes all event listeners with proper passive flags.
      */
     initEventListeners() {
-        // Touch events
+        // Touch events - must be non-passive to allow preventDefault
         this.canvas.addEventListener('touchstart', this.boundHandlers.handleStart, { passive: false });
         this.canvas.addEventListener('touchmove', this.boundHandlers.handleMove, { passive: false });
         this.canvas.addEventListener('touchend', this.boundHandlers.handleEnd, { passive: false });
@@ -135,21 +118,18 @@ export class InteractionManager {
         const target = event.target === this.minimapCanvas ? 'minimap' : 'map';
         const now = Date.now();
         
-        // Stop any ongoing momentum animation
-        this.stopMomentum();
-        
         if (event.type === 'touchstart') {
             const touches = event.touches;
             
             if (touches.length === 1) {
-                // Single touch - prepare for pan
+                // Single touch - prepare for pan or tap
                 this.startSingleTouch(touches[0], target, now);
             } else if (touches.length === 2) {
                 // Two fingers - pinch zoom
                 this.startPinch(touches, target);
             }
         } else {
-            // Mouse down - start pan
+            // Mouse down - start pan or prepare for click
             this.startSingleTouch(event, target, now);
         }
     }
@@ -158,9 +138,9 @@ export class InteractionManager {
      * Starts a single touch/mouse interaction.
      */
     startSingleTouch(point, target, now) {
-        const coords = this.getCanvasCoordinates(point);
+        const coords = { x: point.clientX, y: point.clientY };
         
-        this.interactionState.mode = 'panning';
+        this.interactionState.mode = 'dragging';
         this.interactionState.isTap = true;
         this.interactionState.startX = coords.x;
         this.interactionState.startY = coords.y;
@@ -174,13 +154,15 @@ export class InteractionManager {
         // Reset velocity tracking
         this.interactionState.velocityX = 0;
         this.interactionState.velocityY = 0;
+        this.interactionState.lastVelocityX = 0;
+        this.interactionState.lastVelocityY = 0;
         this.interactionState.velocityHistory = [];
         
         // Handle double tap detection
         if (now - this.interactionState.lastTouchTime < this.options.doubleTapDelay) {
             this.interactionState.tapCount++;
             if (this.interactionState.tapCount === 2) {
-                this.emit('doubletap', { x: coords.x, y: coords.y, target });
+                this.emit('doubletap', { clientX: coords.x, clientY: coords.y, target });
                 this.interactionState.tapCount = 0;
                 clearTimeout(this.interactionState.doubleTapTimeout);
                 return;
@@ -206,13 +188,13 @@ export class InteractionManager {
         const touch2 = touches[1];
         
         // Calculate initial distance
-        this.interactionState.pinchStartDistance = this.getTouchDistance(touch1, touch2);
-        this.interactionState.pinchStartZoom = this.state.zoom;
+        const distance = this.getTouchDistance(touch1, touch2);
+        this.interactionState.pinchStartDistance = distance;
+        this.interactionState.pinchLastDistance = distance;
         
-        // Calculate pinch center in canvas coordinates
-        const center = this.getPinchCenter(touch1, touch2);
-        this.interactionState.pinchCenterX = center.x;
-        this.interactionState.pinchCenterY = center.y;
+        // Calculate pinch center
+        this.interactionState.pinchCenterX = (touch1.clientX + touch2.clientX) / 2;
+        this.interactionState.pinchCenterY = (touch1.clientY + touch2.clientY) / 2;
         
         this.emit('pinchstart', { target });
     }
@@ -223,33 +205,39 @@ export class InteractionManager {
     handleMove(event) {
         event.preventDefault();
         
-        if (this.interactionState.mode === 'idle') return;
+        if (this.interactionState.mode === 'idle') {
+            // Allow mousemove for hover effects even when idle
+            if (event.type === 'mousemove') {
+                this.canvas.dispatchEvent(new MouseEvent('mousemove', event));
+            }
+            return;
+        }
         
         const target = event.target === this.minimapCanvas ? 'minimap' : 'map';
         const now = Date.now();
-        const timeDelta = now - this.interactionState.lastMoveTime;
+        const timeDelta = Math.max(now - this.interactionState.lastMoveTime, 1); // Avoid division by zero
         
         if (event.type === 'touchmove') {
             const touches = event.touches;
             
-            if (touches.length === 1 && this.interactionState.mode === 'panning') {
-                this.handlePanMove(touches[0], target, timeDelta);
+            if (touches.length === 1 && this.interactionState.mode === 'dragging') {
+                this.handleDragMove(touches[0], target, timeDelta);
             } else if (touches.length === 2 && this.interactionState.mode === 'pinching') {
                 this.handlePinchMove(touches, target);
             }
-        } else if (this.interactionState.mode === 'panning') {
+        } else if (this.interactionState.mode === 'dragging') {
             // Mouse move while dragging
-            this.handlePanMove(event, target, timeDelta);
+            this.handleDragMove(event, target, timeDelta);
         }
         
         this.interactionState.lastMoveTime = now;
     }
 
     /**
-     * Handles pan movement.
+     * Handles drag movement.
      */
-    handlePanMove(point, target, timeDelta) {
-        const coords = this.getCanvasCoordinates(point);
+    handleDragMove(point, target, timeDelta) {
+        const coords = { x: point.clientX, y: point.clientY };
         
         // Calculate delta from last position
         const deltaX = coords.x - this.interactionState.lastX;
@@ -268,20 +256,21 @@ export class InteractionManager {
             this.interactionState.isTap = false;
         }
         
-        // Calculate velocity (pixels per millisecond)
+        // Calculate instantaneous velocity (pixels per millisecond)
         if (timeDelta > 0) {
             const velocityX = deltaX / timeDelta;
             const velocityY = deltaY / timeDelta;
             
-            // Add to velocity history
-            this.interactionState.velocityHistory.push({ x: velocityX, y: velocityY });
+            // Add to velocity history for smoothing
+            this.interactionState.velocityHistory.push({ x: velocityX, y: velocityY, time: timeDelta });
             if (this.interactionState.velocityHistory.length > this.interactionState.maxVelocityHistory) {
                 this.interactionState.velocityHistory.shift();
             }
             
-            // Calculate average velocity from recent history
-            this.interactionState.velocityX = this.getAverageVelocity('x');
-            this.interactionState.velocityY = this.getAverageVelocity('y');
+            // Calculate weighted average velocity (more recent = more weight)
+            const { avgX, avgY } = this.getWeightedAverageVelocity();
+            this.interactionState.velocityX = avgX;
+            this.interactionState.velocityY = avgY;
         }
         
         // Emit drag event with delta
@@ -301,22 +290,24 @@ export class InteractionManager {
         const touch1 = touches[0];
         const touch2 = touches[1];
         
-        // Calculate current distance and scale
+        // Calculate current distance
         const currentDistance = this.getTouchDistance(touch1, touch2);
-        const scale = currentDistance / this.interactionState.pinchStartDistance;
         
-        // Calculate new zoom
-        const newZoom = this.interactionState.pinchStartZoom * scale;
+        // Calculate scale relative to last distance (incremental)
+        const scale = currentDistance / this.interactionState.pinchLastDistance;
         
-        // Get current pinch center (it may move during the gesture)
-        const center = this.getPinchCenter(touch1, touch2);
+        // Update last distance for next frame
+        this.interactionState.pinchLastDistance = currentDistance;
         
-        // Emit pinch event with zoom and center information
+        // Calculate current pinch center
+        const centerX = (touch1.clientX + touch2.clientX) / 2;
+        const centerY = (touch1.clientY + touch2.clientY) / 2;
+        
+        // Emit pinch event with INCREMENTAL scale (not absolute zoom)
         this.emit('pinch', {
-            zoom: newZoom,
-            centerX: center.x,
-            centerY: center.y,
-            scale: scale,
+            scale: scale, // Multiplicative factor (1.0 = no change)
+            clientX: centerX,
+            clientY: centerY,
             target
         });
     }
@@ -329,21 +320,23 @@ export class InteractionManager {
         
         const target = event.target === this.minimapCanvas ? 'minimap' : 'map';
         
-        if (this.interactionState.mode === 'panning') {
+        if (this.interactionState.mode === 'dragging') {
             // If it's still a tap, emit tap event
             if (this.interactionState.isTap) {
                 this.emit('tap', {
+                    clientX: this.interactionState.startX,
+                    clientY: this.interactionState.startY,
                     x: this.interactionState.startX,
                     y: this.interactionState.startY,
                     target
                 });
             } else {
-                // End of drag - check for momentum
-                this.emit('dragend', { target });
-                
-                if (this.options.momentumEnabled) {
-                    this.startMomentum();
-                }
+                // End of drag - emit velocity for momentum
+                this.emit('dragend', {
+                    velocityX: this.interactionState.velocityX,
+                    velocityY: this.interactionState.velocityY,
+                    target
+                });
             }
         } else if (this.interactionState.mode === 'pinching') {
             this.emit('pinchend', { target });
@@ -354,99 +347,20 @@ export class InteractionManager {
     }
 
     /**
-     * Starts momentum animation after a pan gesture.
-     */
-    startMomentum() {
-        // Get final velocity
-        const velocityX = this.interactionState.velocityX * 16; // Convert to pixels per frame (assuming 60fps)
-        const velocityY = this.interactionState.velocityY * 16;
-        
-        const speed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
-        
-        // Only start momentum if velocity is significant
-        if (speed < this.options.momentumMinVelocity) {
-            return;
-        }
-        
-        // Cap velocity
-        let finalVelocityX = velocityX;
-        let finalVelocityY = velocityY;
-        
-        if (speed > this.options.momentumMaxVelocity) {
-            const scale = this.options.momentumMaxVelocity / speed;
-            finalVelocityX *= scale;
-            finalVelocityY *= scale;
-        }
-        
-        // Start momentum animation
-        this.momentum.active = true;
-        this.momentum.velocityX = finalVelocityX;
-        this.momentum.velocityY = finalVelocityY;
-        
-        this.animateMomentum();
-    }
-
-    /**
-     * Animates momentum deceleration.
-     */
-    animateMomentum() {
-        if (!this.momentum.active) return;
-        
-        // Apply friction
-        this.momentum.velocityX *= this.options.momentumFriction;
-        this.momentum.velocityY *= this.options.momentumFriction;
-        
-        // Calculate speed
-        const speed = Math.sqrt(
-            this.momentum.velocityX * this.momentum.velocityX +
-            this.momentum.velocityY * this.momentum.velocityY
-        );
-        
-        // Stop if velocity is too low
-        if (speed < 0.1) {
-            this.stopMomentum();
-            return;
-        }
-        
-        // Emit momentum drag event
-        this.emit('momentum', {
-            deltaX: this.momentum.velocityX,
-            deltaY: this.momentum.velocityY
-        });
-        
-        // Continue animation
-        this.momentum.animationFrame = requestAnimationFrame(() => this.animateMomentum());
-    }
-
-    /**
-     * Stops momentum animation.
-     */
-    stopMomentum() {
-        if (this.momentum.animationFrame) {
-            cancelAnimationFrame(this.momentum.animationFrame);
-            this.momentum.animationFrame = null;
-        }
-        this.momentum.active = false;
-        this.momentum.velocityX = 0;
-        this.momentum.velocityY = 0;
-    }
-
-    /**
      * Handles wheel events for zooming.
      */
     handleWheel(event) {
         event.preventDefault();
         
         const target = event.target === this.minimapCanvas ? 'minimap' : 'map';
-        const coords = this.getCanvasCoordinates(event);
         
         // Calculate zoom delta
         const delta = -event.deltaY * this.options.zoomSpeed;
         
         this.emit('zoom', {
             delta: delta,
-            x: coords.x,
-            y: coords.y,
+            clientX: event.clientX,
+            clientY: event.clientY,
             target
         });
     }
@@ -459,17 +373,6 @@ export class InteractionManager {
     }
 
     /**
-     * Gets canvas coordinates from a mouse or touch event.
-     */
-    getCanvasCoordinates(point) {
-        const rect = this.canvas.getBoundingClientRect();
-        return {
-            x: point.clientX - rect.left,
-            y: point.clientY - rect.top
-        };
-    }
-
-    /**
      * Calculates distance between two touch points.
      */
     getTouchDistance(touch1, touch2) {
@@ -479,29 +382,40 @@ export class InteractionManager {
     }
 
     /**
-     * Calculates the center point between two touches in canvas coordinates.
+     * Calculates weighted average velocity from recent history.
+     * More recent samples have higher weight.
      */
-    getPinchCenter(touch1, touch2) {
-        const rect = this.canvas.getBoundingClientRect();
-        const centerX = (touch1.clientX + touch2.clientX) / 2 - rect.left;
-        const centerY = (touch1.clientY + touch2.clientY) / 2 - rect.top;
-        return { x: centerX, y: centerY };
-    }
-
-    /**
-     * Calculates average velocity from recent history.
-     */
-    getAverageVelocity(axis) {
-        if (this.interactionState.velocityHistory.length === 0) return 0;
+    getWeightedAverageVelocity() {
+        if (this.interactionState.velocityHistory.length === 0) {
+            return { avgX: 0, avgY: 0 };
+        }
         
-        const sum = this.interactionState.velocityHistory.reduce((acc, v) => acc + v[axis], 0);
-        return sum / this.interactionState.velocityHistory.length;
+        let totalWeight = 0;
+        let weightedSumX = 0;
+        let weightedSumY = 0;
+        
+        // Apply exponential weighting (more recent = higher weight)
+        this.interactionState.velocityHistory.forEach((sample, index) => {
+            const weight = Math.pow(2, index); // Exponential: 1, 2, 4, 8, 16
+            weightedSumX += sample.x * weight;
+            weightedSumY += sample.y * weight;
+            totalWeight += weight;
+        });
+        
+        return {
+            avgX: weightedSumX / totalWeight,
+            avgY: weightedSumY / totalWeight
+        };
     }
 
     /**
      * Resets the interaction state.
      */
     resetInteractionState() {
+        // Preserve velocity for momentum
+        this.interactionState.lastVelocityX = this.interactionState.velocityX;
+        this.interactionState.lastVelocityY = this.interactionState.velocityY;
+        
         this.interactionState.mode = 'idle';
         this.interactionState.isTap = true;
         this.interactionState.velocityX = 0;
@@ -521,9 +435,6 @@ export class InteractionManager {
      * Destroys the interaction manager and cleans up resources.
      */
     destroy() {
-        // Stop any ongoing animations
-        this.stopMomentum();
-        
         // Remove event listeners
         this.canvas.removeEventListener('touchstart', this.boundHandlers.handleStart);
         this.canvas.removeEventListener('touchmove', this.boundHandlers.handleMove);

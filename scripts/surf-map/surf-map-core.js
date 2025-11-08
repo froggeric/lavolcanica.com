@@ -136,20 +136,19 @@ export class SurfMap {
             const { SurfMapRenderer } = await import('./surf-map-renderer.js');
             this.renderer = new SurfMapRenderer(this.canvas, this.state);
 
-            // Initialize the NEW interaction manager
-            this.interactionManager = new InteractionManager(
+            // Initialize the interaction handler (which wraps InteractionManager)
+            const { SurfMapInteractions } = await import('./surf-map-interactions.js');
+            this.interactions = new SurfMapInteractions(
                 this.canvas,
-                null, // No minimap
                 this.state,
+                this,
                 {
-                    minZoom: this.options.minZoom,
-                    maxZoom: this.options.maxZoom,
-                    momentumEnabled: true
+                    momentumEnabled: true,
+                    momentumFriction: 0.92,
+                    momentumMinVelocity: 0.5,
+                    zoomSensitivity: 0.01
                 }
             );
-            
-            // Set up interaction event listeners
-            this.setupInteractionListeners();
 
             // Initialize the markers manager with mobile optimizations
             const { SurfMarkersManager } = await import('./surf-markers.js');
