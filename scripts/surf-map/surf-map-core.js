@@ -356,8 +356,19 @@ export class SurfMap {
      * Zooms to a specific level with animation.
      */
     zoomTo(newZoom, x, y) {
-        // Just use zoomToPoint with the provided coordinates
-        this.zoomToPoint(newZoom, x, y);
+        // Apply zoom changes with animation if renderer supports it
+        if (this.renderer && typeof this.renderer.startTransition === 'function') {
+            this.renderer.startTransition({
+                zoom: newZoom,
+                panX: this.state.panX,
+                panY: this.state.panY
+            });
+        } else {
+            // Fallback: direct zoom without animation
+            this.state.zoom = newZoom;
+            this.constrainPan();
+            this.forceRender();
+        }
     }
 
     /**
@@ -367,7 +378,7 @@ export class SurfMap {
         const centerX = this.canvas.width / 2;
         const centerY = this.canvas.height / 2;
         const newZoom = this.state.zoom + amount;
-        this.zoomToPoint(newZoom, centerX, centerY);
+        this.zoomTo(newZoom, centerX, centerY);
     }
 
     /**
@@ -377,7 +388,7 @@ export class SurfMap {
         const centerX = this.canvas.width / 2;
         const centerY = this.canvas.height / 2;
         const newZoom = this.state.zoom - amount;
-        this.zoomToPoint(newZoom, centerX, centerY);
+        this.zoomTo(newZoom, centerX, centerY);
     }
 
     /**
