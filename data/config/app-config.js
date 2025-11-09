@@ -68,10 +68,10 @@ export const appConfig = {
     // These are NOT the geographical extents of the island itself.
     // Use the `gps-calculator.html` tool to recalculate these values when the map image is updated.
     mapBounds: {
-        north: 28.815195,
-        south: 27.984300,
-        east: -13.706680,
-        west: -14.641998
+        north: 28.785263,
+        south: 28.027194,
+        east: -13.726687,
+        west: -14.618658
     }
   }
 };
