@@ -60,7 +60,7 @@ export class SurfMap {
 
         // Component references
         this.renderer = null;
-        this.interactionManager = null;
+        this.interactions = null;
         this.spotsManager = null;
         this.markersManager = null;
         this.spotModal = null;
@@ -136,7 +136,7 @@ export class SurfMap {
             const { SurfMapRenderer } = await import('./surf-map-renderer.js');
             this.renderer = new SurfMapRenderer(this.canvas, this.state);
 
-            // Initialize the interaction handler (which wraps InteractionManager)
+            // Initialize the optimized interaction handler
             const { SurfMapInteractions } = await import('./surf-map-interactions.js');
             this.interactions = new SurfMapInteractions(
                 this.canvas,
@@ -144,9 +144,11 @@ export class SurfMap {
                 this,
                 {
                     momentumEnabled: true,
-                    momentumFriction: 0.92,
-                    momentumMinVelocity: 0.5,
-                    zoomSensitivity: 0.01
+                    momentumFriction: 0.92, // Smooth deceleration
+                    momentumMinVelocity: 0.5, // Trigger threshold (px/ms)
+                    momentumMaxVelocity: 50, // Cap speed (px/frame)
+                    zoomSensitivity: 1.0, // Direct multiplier for smooth wheel zoom
+                    doubleTapZoomFactor: 1.5 // 1.5x zoom on double tap
                 }
             );
 
@@ -240,168 +242,7 @@ export class SurfMap {
         }
     }
 
-    /**
-     * Sets up event listeners for the interaction manager.
-     */
-    setupInteractionListeners() {
-        // Handle tap events
-        this.canvas.addEventListener('tap', (e) => {
-            const { x, y, target } = e.detail;
-            if (target === 'map') {
-                this.handleTap(x, y);
-            }
-        });
 
-        // Handle double tap events (zoom in)
-        this.canvas.addEventListener('doubletap', (e) => {
-            const { x, y, target } = e.detail;
-            if (target === 'map') {
-                this.handleDoubleTap(x, y);
-            }
-        });
-
-        // Handle drag events
-        this.canvas.addEventListener('drag', (e) => {
-            const { deltaX, deltaY } = e.detail;
-            this.handleDrag(deltaX, deltaY);
-        });
-
-        // Handle momentum events
-        this.canvas.addEventListener('momentum', (e) => {
-            const { deltaX, deltaY } = e.detail;
-            this.handleDrag(deltaX, deltaY);
-        });
-
-        // Handle drag end
-        this.canvas.addEventListener('dragend', (e) => {
-            this.state.isDragging = false;
-        });
-
-        // Handle pinch zoom
-        this.canvas.addEventListener('pinch', (e) => {
-            const { zoom, centerX, centerY } = e.detail;
-            this.handlePinchZoom(zoom, centerX, centerY);
-        });
-
-        // Handle wheel zoom
-        this.canvas.addEventListener('zoom', (e) => {
-            const { delta, x, y } = e.detail;
-            this.handleWheelZoom(delta, x, y);
-        });
-    }
-
-    /**
-     * Handles tap events on the map.
-     */
-    handleTap(x, y) {
-        // Check if a marker was tapped
-        if (this.markersManager) {
-            const clickedSpot = this.markersManager.getSpotAtPosition(x, y);
-            if (clickedSpot) {
-                this.handleMarkerClick(clickedSpot);
-            }
-        }
-    }
-
-    /**
-     * Handles double tap events (zoom in to that point).
-     */
-    handleDoubleTap(x, y) {
-        const newZoom = Math.min(this.state.zoom * 1.5, this.options.maxZoom);
-        this.zoomToPoint(newZoom, x, y);
-    }
-
-    /**
-     * Handles drag events for panning.
-     */
-    handleDrag(deltaX, deltaY) {
-        this.state.isDragging = true;
-        this.state.panX += deltaX;
-        this.state.panY += deltaY;
-        this.constrainPan();
-        this.forceRender();
-    }
-
-    /**
-     * Handles pinch zoom gestures.
-     */
-    handlePinchZoom(newZoom, centerX, centerY) {
-        // Clamp zoom to valid range
-        newZoom = Math.max(this.options.minZoom, Math.min(this.options.maxZoom, newZoom));
-        
-        // Calculate the image coordinates of the pinch center
-        const imageX = (centerX - this.canvas.width / 2 - this.state.panX) / this.state.zoom;
-        const imageY = (centerY - this.canvas.height / 2 - this.state.panY) / this.state.zoom;
-        
-        // Update zoom
-        this.state.zoom = newZoom;
-        
-        // Adjust pan to keep the pinch center point fixed
-        this.state.panX = centerX - this.canvas.width / 2 - imageX * newZoom;
-        this.state.panY = centerY - this.canvas.height / 2 - imageY * newZoom;
-        
-        // Constrain pan to valid bounds
-        this.constrainPan();
-        this.forceRender();
-    }
-
-    /**
-     * Handles wheel zoom events.
-     */
-    handleWheelZoom(delta, x, y) {
-        const zoomFactor = 1 + delta;
-        const newZoom = Math.max(
-            this.options.minZoom,
-            Math.min(this.options.maxZoom, this.state.zoom * zoomFactor)
-        );
-        
-        this.zoomToPoint(newZoom, x, y);
-    }
-
-    /**
-     * Zooms to a specific point with smooth animation.
-     */
-    zoomToPoint(newZoom, canvasX, canvasY) {
-        const startZoom = this.state.zoom;
-        const startPanX = this.state.panX;
-        const startPanY = this.state.panY;
-        const duration = 200;
-        let startTime = null;
-
-        // Calculate the image coordinates of the zoom center
-        const imageX = (canvasX - this.canvas.width / 2 - startPanX) / startZoom;
-        const imageY = (canvasY - this.canvas.height / 2 - startPanY) / startZoom;
-
-        const animate = (currentTime) => {
-            if (!startTime) startTime = currentTime;
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-
-            // easeOutCubic for smooth deceleration
-            const easedProgress = 1 - Math.pow(1 - progress, 3);
-
-            const currentZoom = startZoom + (newZoom - startZoom) * easedProgress;
-
-            // Calculate new pan to keep the zoom point fixed
-            const newPanX = canvasX - this.canvas.width / 2 - imageX * currentZoom;
-            const newPanY = canvasY - this.canvas.height / 2 - imageY * currentZoom;
-
-            this.state.zoom = currentZoom;
-            this.state.panX = newPanX;
-            this.state.panY = newPanY;
-
-            this.constrainPan();
-            this.forceRender();
-
-            if (progress < 1) {
-                requestAnimationFrame(animate);
-            } else {
-                this.emit('zoomChanged', { zoom: this.state.zoom });
-            }
-        };
-
-        requestAnimationFrame(animate);
-    }
 
     /**
      * Loads the map image.
@@ -515,42 +356,8 @@ export class SurfMap {
      * Zooms to a specific level with animation.
      */
     zoomTo(newZoom, x, y) {
-        const startZoom = this.state.zoom;
-        const startPanX = this.state.panX;
-        const startPanY = this.state.panY;
-        const duration = 200;
-        let startTime = null;
-
-        const animate = (currentTime) => {
-            if (!startTime) startTime = currentTime;
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-
-            const easedProgress = 1 - Math.pow(1 - progress, 3); // easeOutCubic
-
-            const currentZoom = startZoom + (newZoom - startZoom) * easedProgress;
-
-            const imageX = (x - startPanX) / startZoom;
-            const imageY = (y - startPanY) / startZoom;
-
-            const newPanX = x - imageX * currentZoom;
-            const newPanY = y - imageY * currentZoom;
-
-            this.state.zoom = currentZoom;
-            this.state.panX = newPanX;
-            this.state.panY = newPanY;
-
-            this.constrainPan();
-            this.forceRender();
-
-            if (progress < 1) {
-                requestAnimationFrame(animate);
-            } else {
-                this.emit('zoomChanged', { zoom: this.state.zoom });
-            }
-        };
-
-        requestAnimationFrame(animate);
+        // Just use zoomToPoint with the provided coordinates
+        this.zoomToPoint(newZoom, x, y);
     }
 
     /**
@@ -1072,8 +879,8 @@ export class SurfMap {
         this.eventListeners.clear();
 
         // Destroy components
-        if (this.interactionManager) {
-            this.interactionManager.destroy();
+        if (this.interactions) {
+            this.interactions.destroy();
         }
         if (this.renderer) {
             this.renderer.destroy();
@@ -1099,7 +906,7 @@ export class SurfMap {
         // Clear references
         this.canvas = null;
         this.renderer = null;
-        this.interactionManager = null;
+        this.interactions = null;
         this.spotsManager = null;
         this.markersManager = null;
         this.searchManager = null;

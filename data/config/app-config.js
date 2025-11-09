@@ -33,7 +33,7 @@
  * @property {boolean} surfMapEnabled - Controls whether the surf map feature is accessible through the navigation menu.
  */
 export const appConfig = {
-  version: "1.10.4",
+  version: "1.10.5",
   defaultLanguage: "en",
   supportedLanguages: ["en", "es", "fr"],
   featuredReleaseCount: 2,

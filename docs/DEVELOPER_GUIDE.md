@@ -101,8 +101,12 @@ The Fuerteventura Surf Map is a significant new feature designed to provide an i
 #### Core Components
 - **[`SurfMap`](scripts/surf-map/surf-map-core.js)**: The central class managing the map's state, rendering, and interactions. It orchestrates all sub-components.
 - **[`SurfMapRenderer`](scripts/surf-map/surf-map-renderer.js)**: Handles the drawing of the map image and other visual elements onto the HTML Canvas.
-- **[`InteractionManager`](scripts/surf-map/interaction-manager.js)**: A centralized class that handles all raw user input (mouse and touch) and translates it into semantic gestures like `tap`, `drag`, and `pinch`.
-- **[`SurfMapInteractions`](scripts/surf-map/surf-map-interactions.js)**: Consumes the semantic events from the `InteractionManager` and updates the map state (pan, zoom) accordingly.
+- **[`InteractionManager`](scripts/surf-map/interaction-manager.js)**: A centralized class that handles all raw user input (mouse, wheel, and touch events). It translates these inputs into semantic gestures like `tap`, `drag`, and `pinch`. To ensure maximum performance and prevent UI blocking, it registers `mousemove` and other frequent events with `{ passive: true }`, which is critical for smooth hover effects and avoiding potential infinite loops during rapid mouse movement.
+- **[`SurfMapInteractions`](scripts/surf-map/surf-map-interactions.js)**: Consumes the semantic events from the `InteractionManager` and applies them to the map's state with significant performance and UX enhancements:
+    - **Zero-Latency Panning:** The drag-to-pan interaction is optimized to update the map's position within the same animation frame as the user's input, eliminating any perceptible lag.
+    - **Animated & Responsive Zoom:** Both mouse wheel and UI button zooming are now smoothly animated over 200ms with a pleasant easing curve. The mouse wheel zoom also features intelligent acceleration based on scroll speed.
+    - **Refined Momentum Physics:** The "flick-to-scroll" momentum effect uses an exponential weighting system for velocity, resulting in a smoother and more accurate coasting motion.
+    - **Critical Fixes:** Resolves a stack overflow error caused by improper event handling during rapid mouse movement and corrects coordinate calculations on high-DPI displays for UI button zooming.
 - **[`SurfSpotsManager`](scripts/surf-map/surf-spots.js)**: Loads and manages the surf spots data from [`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json), including coordinate conversion between GPS and image pixels.
 - **[`SurfMarkersManager`](scripts/surf-map/surf-markers.js)**: Renders and manages interactive markers for each surf spot on the map, handling their visibility and click events.
 - **[`SurfSpotModal`](scripts/surf-map/surf-spot-modal.js)**: Displays detailed information about a surf spot when its marker is clicked.

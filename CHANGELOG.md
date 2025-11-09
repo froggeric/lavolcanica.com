@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.5] - 2025-11-09
+### ⚡ Performance
+*   **Zero-Latency Panning:** The drag-to-pan interaction has been fundamentally optimized to update the map's position in the same frame as the user's input. This eliminates any perceptible lag and creates an immediate, perfectly responsive feel.
+*   **Optimized Event Listeners:** The `mousemove` event listener is now configured as `{ passive: true }`, which prevents it from blocking the browser's main thread, significantly improving performance for hover effects and eliminating a potential source of infinite loops.
+*   **Refined Momentum Physics:** The momentum calculation now uses an exponential weighting system for velocity, resulting in a smoother and more accurate "flick-to-scroll" effect that better reflects the user's most recent movement.
+
+### ✨ Enhancements
+*   **Animated Mouse Wheel Zoom:** Mouse wheel zooming is no longer instantaneous. It now animates smoothly over 200ms with a pleasant easing curve, providing a more controlled and polished user experience.
+*   **Improved Zoom Responsiveness:** The mouse wheel zoom now features intelligent acceleration, scaling its speed based on how fast the user is scrolling. The base sensitivity has also been carefully tuned for better control.
+*   **Improved Zoom Button Feel:** The zoom-in/out UI buttons now have a slightly larger zoom increment and are animated, making them feel more impactful and responsive.
+
+### 🛠️ Fixes
+*   **CRITICAL FIX:** Fixed a stack overflow error that could occur during rapid mouse movement. This was caused by improper event handling that created an infinite recursion loop. The fix also improves the performance of marker hover tooltips on desktop.
+*   **Fixed:** The zoom-in/out UI buttons now correctly center the map on high-DPI (Retina) displays. A coordinate calculation error that ignored the device's pixel ratio has been resolved.
+*   **Fixed:** The underlying mathematics for mouse wheel zooming have been corrected to use multiplicative scaling, which provides a more natural and intuitive zoom feel at all levels.
 ## [1.10.4] - 2025-11-09
 ### Fixed
 - Centralized the surf map's GPS boundary configuration into `data/config/app-config.js`.
