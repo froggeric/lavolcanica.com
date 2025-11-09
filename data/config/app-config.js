@@ -33,7 +33,7 @@
  * @property {boolean} surfMapEnabled - Controls whether the surf map feature is accessible through the navigation menu.
  */
 export const appConfig = {
-  version: "1.10.3",
+  version: "1.10.4",
   defaultLanguage: "en",
   supportedLanguages: ["en", "es", "fr"],
   featuredReleaseCount: 2,
@@ -63,6 +63,15 @@ export const appConfig = {
   // Set to false until the surf map feature is fully ready for production
   surfMapEnabled: false,
   surfMap: {
-    maxZoom: 2.0
+    maxZoom: 2.0,
+    // GPS coordinates for the boundaries of the surf map raster image.
+    // These are NOT the geographical extents of the island itself.
+    // Use the `gps-calculator.html` tool to recalculate these values when the map image is updated.
+    mapBounds: {
+        north: 28.815195,
+        south: 27.984300,
+        east: -13.706680,
+        west: -14.641998
+    }
   }
 };

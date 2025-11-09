@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Boundary GPS Calculator - Fuerteventura</title>
+    
+    <style>
+        /* --- CSS Custom Properties Design System --- */
+        :root {
+            --gps-primary: #0077BE;
+            --gps-accent: #FF6B35;
+            --gps-panel-bg: rgba(26, 26, 26, 0.9);
+            --gps-panel-border: rgba(255, 255, 255, 0.2);
+            --gps-text-primary: #F0F0F0;
+            --gps-text-secondary: rgba(240, 240, 240, 0.8);
+            --gps-line-color: #FF6B35;
+            --gps-line-width: 2px;
+            --gps-space-md: 1rem;
+            --gps-space-lg: 1.5rem;
+            --gps-font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --gps-font-mono: 'Courier New', monospace;
+            --gps-transition-fast: 0.15s ease;
+        }
+
+        /* --- Global Reset & Base Styles --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--gps-font-family); background: #000; color: var(--gps-text-primary); overflow: hidden; height: 100vh; }
+        *:focus-visible { outline: 3px solid var(--gps-accent); outline-offset: 2px; }
+
+        /* --- Main Application Container --- */
+        .gps-calc-app { width: 100vw; height: 100vh; position: relative; }
+
+        /* --- File Upload Section (Initial View) --- */
+        .gps-calc-upload-section { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 40; background: var(--gps-panel-bg); padding: var(--gps-space-lg); border-radius: 12px; backdrop-filter: blur(10px); border: 1px solid var(--gps-panel-border); }
+        .gps-calc-upload-section.hidden { display: none; }
+        .gps-calc-title { font-size: 1.8rem; margin-bottom: 0.75rem; }
+        .gps-calc-subtitle { color: var(--gps-text-secondary); margin-bottom: var(--gps-space-lg); max-width: 40ch; }
+        .gps-calc-file-input { display: none; }
+        .gps-calc-file-button { display: inline-block; padding: 0.8rem 1.5rem; background: var(--gps-primary); color: white; border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color var(--gps-transition-fast), transform var(--gps-transition-fast); }
+        .gps-calc-file-button:hover { background: #0095E6; transform: scale(1.05); }
+
+        /* --- Image Display Container (Main View) --- */
+        .gps-calc-image-container { width: 100%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center; background: #000; }
+        .gps-calc-image-container.hidden { display: none; }
+        .gps-calc-image { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .gps-calc-detection-canvas { position: absolute; opacity: 0; pointer-events: none; z-index: 1; }
+
+        /* --- Boundary Lines & Handles --- */
+        .gps-calc-boundary-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; }
+        .gps-calc-boundary-line { position: absolute; background: var(--gps-line-color); pointer-events: auto; }
+        .gps-calc-boundary-line.dragging, .gps-calc-boundary-line:hover { background: #FF8555; }
+        .gps-calc-boundary-line--horizontal { width: 100%; height: var(--gps-line-width); cursor: ns-resize; }
+        .gps-calc-boundary-line--vertical { width: var(--gps-line-width); height: 100%; cursor: ew-resize; }
+        .gps-calc-boundary-line--north { top: 0; left: 0; }
+        .gps-calc-boundary-line--south { top: 100%; left: 0; }
+        .gps-calc-boundary-line--west { top: 0; left: 0; }
+        .gps-calc-boundary-line--east { top: 0; left: 100%; }
+        /* UX Enhancement: Create a larger, invisible draggable area around the thin line */
+        .gps-calc-boundary-line::before { content: ''; position: absolute; }
+        .gps-calc-boundary-line--horizontal::before { top: -8px; left: 0; width: 100%; height: 18px; }
+        .gps-calc-boundary-line--vertical::before { top: 0; left: -8px; width: 18px; height: 100%; }
+
+        /* --- Visual Masking Overlay --- */
+        .gps-calc-mask-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+        .gps-calc-mask-region { position: absolute; background: rgba(0,0,0,0.5); }
+        .gps-calc-mask-region--north { top: 0; left: 0; width: 100%; }
+        .gps-calc-mask-region--south { bottom: 0; left: 0; width: 100%; }
+        .gps-calc-mask-region--west { top: 0; left: 0; height: 100%; }
+        .gps-calc-mask-region--east { top: 0; right: 0; height: 100%; }
+
+        /* --- Information Panels & Controls --- */
+        .gps-calc-panel { position: absolute; background: var(--gps-panel-bg); backdrop-filter: blur(10px); border: 1px solid var(--gps-panel-border); border-radius: 8px; padding: var(--gps-space-md); z-index: 30; font-family: var(--gps-font-mono); font-size: 0.9rem; line-height: 1.5; }
+        .gps-calc-panel--top-left { top: var(--gps-space-md); left: var(--gps-space-md); }
+        .gps-calc-panel--bottom-right { bottom: var(--gps-space-md); right: var(--gps-space-md); }
+        .gps-calc-panel-title { font-weight: 700; margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--gps-panel-border); }
+        .gps-calc-item { display: flex; justify-content: space-between; align-items: center; }
+        .gps-calc-value { font-weight: 600; user-select: all; cursor: pointer; padding: 2px 4px; border-radius: 3px; transition: background-color var(--gps-transition-fast); }
+        .gps-calc-value:hover { background: rgba(255, 255, 255, 0.1); }
+        .gps-calc-ref-value { color: var(--gps-accent); }
+        /* Styles for the relocated control buttons */
+        .gps-calc-controls { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--gps-panel-border); }
+        .gps-calc-control-button { background: rgba(255,255,255,0.05); border: 1px solid var(--gps-panel-border); color: var(--gps-text-primary); padding: 0.3rem 0.6rem; cursor: pointer; font-size: 0.8rem; border-radius: 4px; transition: background-color var(--gps-transition-fast); flex-grow: 1; }
+        .gps-calc-control-button:hover { background: rgba(255, 255, 255, 0.15); }
+
+        /* --- Loading & Error States --- */
+        .gps-calc-state-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 50; }
+        .gps-calc-state-overlay.hidden { display: none; }
+        .gps-calc-loading-spinner { width: 50px; height: 50px; border: 4px solid rgba(255, 255, 255, 0.2); border-top-color: var(--gps-primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .gps-calc-error-panel { background: #D32F2F; padding: var(--gps-space-lg); border-radius: 8px; max-width: 350px; }
+        .gps-calc-error-title { font-weight: 700; margin-bottom: 0.5rem; }
+        .gps-calc-error-button { background: white; color: #D32F2F; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; margin-top: 1rem; font-weight: 600; }
+
+        /* --- Accessibility --- */
+        /* Hides content visually but keeps it available for screen readers */
+        .gps-calc-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 600px) {
+            .gps-calc-panel { font-size: 0.8rem; padding: 0.75rem; }
+            .gps-calc-panel--top-left { top: 0.5rem; left: 0.5rem; }
+            .gps-calc-panel--bottom-right { bottom: 0.5rem; right: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main application container with ARIA role for accessibility -->
+    <main class="gps-calc-app" role="application" aria-label="GPS Boundary Calculator">
+        
+        <!-- Section for the initial file upload interface -->
+        <section class="gps-calc-upload-section" id="uploadSection">
+            <h1 class="gps-calc-title">GPS Boundary Calculator</h1>
+            <p class="gps-calc-subtitle">Upload an image of Fuerteventura to calculate the GPS boundaries of the map.</p>
+            <label class="gps-calc-file-button" for="fileInput">Select Image</label>
+            <input type="file" id="fileInput" class="gps-calc-file-input" accept="image/*">
+        </section>
+
+        <!-- Container for the main interactive image view -->
+        <div class="gps-calc-image-container hidden" id="imageContainer">
+            <!-- The user-uploaded image is displayed here -->
+            <img id="displayImage" class="gps-calc-image" alt="Uploaded map for GPS boundary calculation" crossOrigin="anonymous">
+            
+            <!-- A hidden canvas used for pixel analysis for auto-detection -->
+            <canvas id="detectionCanvas" class="gps-calc-detection-canvas"></canvas>
+            
+            <!-- Overlay containing the four draggable boundary lines -->
+            <div class="gps-calc-boundary-overlay">
+                <div class="gps-calc-boundary-line gps-calc-boundary-line--horizontal gps-calc-boundary-line--north" id="northLine" data-direction="north" role="slider" aria-label="North boundary"></div>
+                <div class="gps-calc-boundary-line gps-calc-boundary-line--horizontal gps-calc-boundary-line--south" id="southLine" data-direction="south" role="slider" aria-label="South boundary"></div>
+                <div class="gps-calc-boundary-line gps-calc-boundary-line--vertical gps-calc-boundary-line--west" id="westLine" data-direction="west" role="slider" aria-label="West boundary"></div>
+                <div class="gps-calc-boundary-line gps-calc-boundary-line--vertical gps-calc-boundary-line--east" id="eastLine" data-direction="east" role="slider" aria-label="East boundary"></div>
+            </div>
+            
+            <!-- Overlay containing the four semi-transparent masks for the "cropped" areas -->
+            <div class="gps-calc-mask-overlay">
+                <div class="gps-calc-mask-region gps-calc-mask-region--north" id="maskNorth"></div>
+                <div class="gps-calc-mask-region gps-calc-mask-region--south" id="maskSouth"></div>
+                <div class="gps-calc-mask-region gps-calc-mask-region--west" id="maskWest"></div>
+                <div class="gps-calc-mask-region gps-calc-mask-region--east" id="maskEast"></div>
+            </div>
+        </div>
+
+        <!-- Information Panels displayed over the image -->
+        <!-- Top-left panel for controls and calculated coordinates -->
+        <div class="gps-calc-panel gps-calc-panel--top-left hidden" id="coordinatesPanel">
+            <div class="gps-calc-controls">
+                <button class="gps-calc-control-button" id="resetButton">Reset</button>
+                <button class="gps-calc-control-button" id="newImageButton">New Image</button>
+            </div>
+            <div class="gps-calc-item"><span>North:</span><span class="gps-calc-value" id="northCoord">--.----°</span></div>
+            <div class="gps-calc-item"><span>South:</span><span class="gps-calc-value" id="southCoord">--.----°</span></div>
+            <div class="gps-calc-item"><span>West:</span><span class="gps-calc-value" id="westCoord">--.----°</span></div>
+            <div class="gps-calc-item"><span>East:</span><span class="gps-calc-value" id="eastCoord">--.----°</span></div>
+        </div>
+        <!-- Bottom-right panel for static reference coordinates -->
+        <div class="gps-calc-panel gps-calc-panel--bottom-right hidden" id="referencePanel">
+            <h2 class="gps-calc-panel-title">Reference (Fuerteventura)</h2>
+            <div class="gps-calc-item"><span>North:</span><span class="gps-calc-ref-value">28°45'56.6"N</span></div>
+            <div class="gps-calc-item"><span>South:</span><span class="gps-calc-ref-value">28°02'37.9"N</span></div>
+            <div class="gps-calc-item"><span>West:</span><span class="gps-calc-ref-value">14°30'36.7"W</span></div>
+            <div class="gps-calc-item"><span>East:</span><span class="gps-calc-ref-value">13°48'39.2"W</span></div>
+        </div>
+        
+        <!-- Overlays for loading and error states -->
+        <div class="gps-calc-state-overlay hidden" id="loadingState">
+            <div class="gps-calc-loading-spinner"></div>
+            <p>Processing image...</p>
+        </div>
+        <div class="gps-calc-state-overlay hidden" id="errorState">
+            <div class="gps-calc-error-panel">
+                <h3 class="gps-calc-error-title">Error</h3>
+                <p id="errorMessage"></p>
+                <button class="gps-calc-error-button" id="errorButton">OK</button>
+            </div>
+        </div>
+
+        <!-- Accessibility: A live region for screen reader announcements -->
+        <div class="gps-calc-sr-only" aria-live="polite" id="srAnnouncements"></div>
+    </main>
+
+    <script>
+        /**
+         * @summary Main script for the Image Boundary GPS Calculator.
+         * This script is encapsulated in an Immediately Invoked Function Expression (IIFE)
+         * to prevent polluting the global scope.
+         */
+        (function() {
+            'use strict';
+
+            /**
+             * @summary Application-wide configuration constants.
+             * @type {object}
+             */
+            const CONFIG = {
+                /** @type {object} The ground-truth GPS coordinates for Fuerteventura & Isla de Lobos. */
+                REFERENCE_COORDS: { north: 28.765722, south: 28.043861, west: -14.510194, east: -13.810889 },
+                /** @type {number} Alpha value (0-255) below which a pixel is considered transparent. */
+                DETECTION_ALPHA_THRESHOLD: 20,
+                /** @type {number} How different a color's RGB values must be from the background (0-255) to be considered content. Higher is more tolerant. */
+                COLOR_DIFFERENCE_THRESHOLD: 35,
+                /** @type {number} A row/column needs at least this many content pixels to be considered a boundary, preventing noise. */
+                DETECTION_PIXEL_COUNT_THRESHOLD: 5, 
+                /** @type {number} The number of decimal places for the final GPS coordinates. */
+                COORDINATE_PRECISION: 6,
+                /** @type {number} Maximum allowed file size in megabytes. */
+                MAX_FILE_SIZE_MB: 10,
+            };
+
+            /**
+             * @summary Holds the dynamic state of the application.
+             * @type {object}
+             */
+            const AppState = {
+                /** @type {HTMLImageElement|null} The loaded image object. */
+                image: null,
+                /** @type {object|null} The current positions of the boundary lines as percentages (0-100). */
+                boundaries: null,
+                /** @type {object|null} The initially auto-detected boundaries, used for the 'Reset' button. */
+                detectedBoundaries: null,
+                /** @type {boolean} Flag indicating if a user is currently dragging a line. */
+                isDragging: false,
+                /** @type {object|null} The target element and direction of the current drag operation. */
+                dragTarget: null,
+                /** @type {object} The sampled background color of the image {r, g, b}. */
+                backgroundColor: { r: 0, g: 0, b: 0 },
+            };
+
+            /**
+             * @summary A cache of frequently accessed DOM elements.
+             * @type {object}
+             */
+            const Elements = {
+                uploadSection: document.getElementById('uploadSection'),
+                imageContainer: document.getElementById('imageContainer'),
+                displayImage: document.getElementById('displayImage'),
+                detectionCanvas: document.getElementById('detectionCanvas'),
+                northLine: document.getElementById('northLine'),
+                southLine: document.getElementById('southLine'),
+                westLine: document.getElementById('westLine'),
+                eastLine: document.getElementById('eastLine'),
+                coordinatesPanel: document.getElementById('coordinatesPanel'),
+                referencePanel: document.getElementById('referencePanel'),
+                northCoord: document.getElementById('northCoord'),
+                southCoord: document.getElementById('southCoord'),
+                westCoord: document.getElementById('westCoord'),
+                eastCoord: document.getElementById('eastCoord'),
+                fileInput: document.getElementById('fileInput'),
+                resetButton: document.getElementById('resetButton'),
+                newImageButton: document.getElementById('newImageButton'),
+                loadingState: document.getElementById('loadingState'),
+                errorState: document.getElementById('errorState'),
+                errorMessage: document.getElementById('errorMessage'),
+                errorButton: document.getElementById('errorButton'),
+                maskNorth: document.getElementById('maskNorth'),
+                maskSouth: document.getElementById('maskSouth'),
+                maskWest: document.getElementById('maskWest'),
+                maskEast: document.getElementById('maskEast'),
+                srAnnouncements: document.getElementById('srAnnouncements'),
+            };
+
+            /**
+             * @summary Initializes the application by setting up all event listeners.
+             * @returns {void}
+             */
+            function initializeApp() {
+                Elements.fileInput.addEventListener('change', handleFileSelect);
+                Elements.resetButton.addEventListener('click', handleReset);
+                Elements.newImageButton.addEventListener('click', resetApplication);
+                Elements.errorButton.addEventListener('click', () => showError(false));
+                
+                // Add mousedown/touchstart listeners to all boundary lines for dragging
+                [Elements.northLine, Elements.southLine, Elements.westLine, Elements.eastLine].forEach(line => {
+                    line.addEventListener('mousedown', handleDragStart);
+                    line.addEventListener('touchstart', handleDragStart, { passive: false });
+                });
+
+                // Add click listeners to coordinate values for copy-to-clipboard
+                [Elements.northCoord, Elements.southCoord, Elements.westCoord, Elements.eastCoord].forEach(el => {
+                    el.addEventListener('click', handleCoordinateCopy);
+                });
+
+                // Add global listeners for drag movement and release
+                document.addEventListener('mousemove', handleDragMove);
+                document.addEventListener('mouseup', handleDragEnd);
+                document.addEventListener('touchmove', handleDragMove, { passive: false });
+                document.addEventListener('touchend', handleDragEnd);
+                
+                announceToScreenReader('GPS Boundary Calculator initialized. Please select an image.');
+            }
+
+            /**
+             * @summary Handles the file selection event, validates the file, and starts the loading process.
+             * @param {Event} event The file input change event.
+             * @returns {void}
+             */
+            function handleFileSelect(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                // Basic file validation
+                if (!file.type.startsWith('image/')) {
+                    return showError(true, 'Invalid file type. Please select an image.');
+                }
+                if (file.size > CONFIG.MAX_FILE_SIZE_MB * 1024 * 1024) {
+                    return showError(true, `File is too large. Maximum size is ${CONFIG.MAX_FILE_SIZE_MB}MB.`);
+                }
+                
+                loadImage(file);
+            }
+
+            /**
+             * @summary Loads the selected image file into an Image object.
+             * @param {File} file The image file to load.
+             * @returns {void}
+             */
+            function loadImage(file) {
+                setLoading(true);
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const img = new Image();
+                    img.onload = () => {
+                        Elements.displayImage.src = img.src; 
+                        AppState.image = img;
+                        
+                        // Fix for race condition:
+                        // 1. First, make the UI visible so the browser renders the image element.
+                        showImageUI(true);
+                        
+                        // 2. Then, wait for the next frame to ensure the layout is complete before we measure the element's dimensions.
+                        requestAnimationFrame(() => {
+                            setupCanvasAndDetectBoundaries();
+                            setLoading(false);
+                            announceToScreenReader('Image loaded. Boundaries automatically detected.');
+                        });
+                    };
+                    img.onerror = () => {
+                        setLoading(false);
+                        showError(true, 'Could not load the image file. It may be corrupted.');
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+
+            /**
+             * @summary Sets up the hidden canvas, runs the boundary detection, and translates the results to the on-screen display.
+             * @returns {void}
+             */
+            function setupCanvasAndDetectBoundaries() {
+                // Draw the full-resolution image to our hidden analysis canvas
+                const canvas = Elements.detectionCanvas;
+                canvas.width = AppState.image.naturalWidth;
+                canvas.height = AppState.image.naturalHeight;
+                const ctx = canvas.getContext('2d', { willReadFrequently: true });
+                ctx.drawImage(AppState.image, 0, 0);
+
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                
+                // Sample the background color from the top-left pixel
+                const bgData = ctx.getImageData(0, 0, 1, 1).data;
+                AppState.backgroundColor = { r: bgData[0], g: bgData[1], b: bgData[2] };
+
+                // Get raw pixel boundaries from the image canvas
+                const rawBoundaries = {
+                    north: findEdge(imageData, 'north'),
+                    south: findEdge(imageData, 'south'),
+                    west: findEdge(imageData, 'west'),
+                    east: findEdge(imageData, 'east'),
+                };
+                
+                // --- Coordinate Transformation for Letterboxing ---
+                // Get the dimensions of the overall container and the actual on-screen image
+                const containerRect = Elements.imageContainer.getBoundingClientRect();
+                const imageRect = Elements.displayImage.getBoundingClientRect();
+
+                // Calculate the empty space (letterboxing) around the image in pixels
+                const offsetX = imageRect.left - containerRect.left;
+                const offsetY = imageRect.top - containerRect.top;
+
+                // Convert raw pixel boundaries into the container's percentage-based coordinate system
+                const detected = {
+                    north: ((rawBoundaries.north / canvas.height) * imageRect.height + offsetY) / containerRect.height * 100,
+                    south: ((rawBoundaries.south / canvas.height) * imageRect.height + offsetY) / containerRect.height * 100,
+                    west: ((rawBoundaries.west / canvas.width) * imageRect.width + offsetX) / containerRect.width * 100,
+                    east: ((rawBoundaries.east / canvas.width) * imageRect.width + offsetX) / containerRect.width * 100,
+                };
+                
+                AppState.detectedBoundaries = { ...detected };
+                AppState.boundaries = { ...detected };
+                
+                updateAllUI();
+            }
+
+            /**
+             * @summary Checks if a pixel is significantly different from the background color or is not transparent.
+             * @param {number} i The starting index of the pixel in the ImageData data array.
+             * @param {Uint8ClampedArray} data The entire pixel data array.
+             * @returns {boolean} True if the pixel is considered content.
+             */
+            function isPixelDifferent(i, data) {
+                // If pixel is mostly transparent, it's definitely background.
+                if (data[i + 3] < CONFIG.DETECTION_ALPHA_THRESHOLD) return false;
+                
+                const r = data[i], g = data[i + 1], b = data[i + 2];
+                const bg = AppState.backgroundColor;
+                
+                // Use squared Euclidean distance for performance (avoids Math.sqrt).
+                const distanceSq = Math.pow(r - bg.r, 2) + Math.pow(g - bg.g, 2) + Math.pow(b - bg.b, 2);
+                
+                return distanceSq > Math.pow(CONFIG.COLOR_DIFFERENCE_THRESHOLD, 2);
+            }
+
+            /**
+             * @summary Scans pixel data to find the outermost significant line of pixels for a given side.
+             * @param {ImageData} imageData The pixel data object from the canvas.
+             * @param {'north'|'south'|'west'|'east'} side The side to scan for.
+             * @returns {number} The pixel coordinate of the found edge.
+             */
+            function findEdge(imageData, side) {
+                const { data, width, height } = imageData;
+                switch (side) {
+                    case 'north':
+                        for (let y = 0; y < height; y++) {
+                            let count = 0;
+                            for (let x = 0; x < width; x++) {
+                                if (isPixelDifferent((y * width + x) * 4, data)) count++;
+                            }
+                            if (count > CONFIG.DETECTION_PIXEL_COUNT_THRESHOLD) return y;
+                        }
+                        return 0; // Fallback
+                    case 'south':
+                        for (let y = height - 1; y >= 0; y--) {
+                            let count = 0;
+                            for (let x = 0; x < width; x++) {
+                                if (isPixelDifferent((y * width + x) * 4, data)) count++;
+                            }
+                            if (count > CONFIG.DETECTION_PIXEL_COUNT_THRESHOLD) return y;
+                        }
+                        return height; // Fallback
+                    case 'west':
+                        for (let x = 0; x < width; x++) {
+                            let count = 0;
+                            for (let y = 0; y < height; y++) {
+                                if (isPixelDifferent((y * width + x) * 4, data)) count++;
+                            }
+                            if (count > CONFIG.DETECTION_PIXEL_COUNT_THRESHOLD) return x;
+                        }
+                        return 0; // Fallback
+                    case 'east':
+                        for (let x = width - 1; x >= 0; x--) {
+                            let count = 0;
+                            for (let y = 0; y < height; y++) {
+                                if (isPixelDifferent((y * width + x) * 4, data)) count++;
+                            }
+                            if (count > CONFIG.DETECTION_PIXEL_COUNT_THRESHOLD) return x;
+                        }
+                        return width; // Fallback
+                }
+            }
+            
+            /**
+             * @summary Handles the start of a drag operation on a boundary line.
+             * @param {MouseEvent|TouchEvent} event The mousedown or touchstart event.
+             * @returns {void}
+             */
+            function handleDragStart(event) {
+                event.preventDefault();
+                const target = event.currentTarget;
+                AppState.isDragging = true;
+                AppState.dragTarget = { element: target, direction: target.dataset.direction };
+                target.classList.add('dragging');
+                announceToScreenReader(`Dragging ${target.dataset.direction} boundary.`);
+            }
+
+            /**
+             * @summary Handles the movement during a drag operation.
+             * @param {MouseEvent|TouchEvent} event The mousemove or touchmove event.
+             * @returns {void}
+             */
+            function handleDragMove(event) {
+                if (!AppState.isDragging) return;
+                event.preventDefault();
+
+                const { direction } = AppState.dragTarget;
+                const rect = Elements.imageContainer.getBoundingClientRect();
+                const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+                const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+
+                if (direction === 'north' || direction === 'south') {
+                    let percentage = (clientY - rect.top) / rect.height * 100;
+                    // Add constraints to prevent lines from crossing each other
+                    if (direction === 'north') AppState.boundaries.north = Math.max(0, Math.min(percentage, AppState.boundaries.south - 1));
+                    else AppState.boundaries.south = Math.min(100, Math.max(percentage, AppState.boundaries.north + 1));
+                } else {
+                    let percentage = (clientX - rect.left) / rect.width * 100;
+                    // Add constraints to prevent lines from crossing each other
+                    if (direction === 'west') AppState.boundaries.west = Math.max(0, Math.min(percentage, AppState.boundaries.east - 1));
+                    else AppState.boundaries.east = Math.min(100, Math.max(percentage, AppState.boundaries.west + 1));
+                }
+                
+                // Use requestAnimationFrame to batch updates for smoother rendering
+                requestAnimationFrame(updateAllUI);
+            }
+
+            /**
+             * @summary Handles the end of a drag operation.
+             * @returns {void}
+             */
+            function handleDragEnd() {
+                if (!AppState.isDragging) return;
+                AppState.dragTarget.element.classList.remove('dragging');
+                AppState.isDragging = false;
+                AppState.dragTarget = null;
+            }
+
+            /**
+             * @summary Resets the boundary lines to their last auto-detected positions.
+             * @returns {void}
+             */
+            function handleReset() {
+                if (AppState.detectedBoundaries) {
+                    AppState.boundaries = { ...AppState.detectedBoundaries };
+                    updateAllUI();
+                    announceToScreenReader('Boundaries reset.');
+                }
+            }
+
+            /**
+             * @summary Calculates and displays the final GPS coordinates based on the current line positions.
+             * @returns {void}
+             */
+            function calculateAndDisplayGPS() {
+                if (!AppState.boundaries) return;
+                const { north, south, west, east } = AppState.boundaries;
+                const ref = CONFIG.REFERENCE_COORDS;
+
+                const islandPercentWidth = east - west;
+                const islandPercentHeight = south - north;
+                if (islandPercentWidth <= 0 || islandPercentHeight <= 0) return; // Avoid division by zero
+
+                // Calculate the "scale factor": how many GPS degrees correspond to 1% of the container's width/height
+                const lonDegreesPerPercent = (ref.east - ref.west) / islandPercentWidth;
+                const latDegreesPerPercent = (ref.north - ref.south) / islandPercentHeight;
+                
+                // Extrapolate from the known island boundaries to the container edges (0% and 100%)
+                const imageWestGps = ref.west - (west * lonDegreesPerPercent);
+                const imageEastGps = ref.east + ((100 - east) * lonDegreesPerPercent);
+                const imageNorthGps = ref.north + (north * latDegreesPerPercent);
+                const imageSouthGps = ref.south - ((100 - south) * latDegreesPerPercent);
+
+                // Update the UI
+                Elements.northCoord.textContent = imageNorthGps.toFixed(CONFIG.COORDINATE_PRECISION) + '°';
+                Elements.southCoord.textContent = imageSouthGps.toFixed(CONFIG.COORDINATE_PRECISION) + '°';
+                Elements.westCoord.textContent = imageWestGps.toFixed(CONFIG.COORDINATE_PRECISION) + '°';
+                Elements.eastCoord.textContent = imageEastGps.toFixed(CONFIG.COORDINATE_PRECISION) + '°';
+
+                // Update ARIA values for accessibility
+                Elements.northLine.setAttribute('aria-valuenow', north.toFixed(0));
+                Elements.southLine.setAttribute('aria-valuenow', south.toFixed(0));
+                Elements.westLine.setAttribute('aria-valuenow', west.toFixed(0));
+                Elements.eastLine.setAttribute('aria-valuenow', east.toFixed(0));
+            }
+
+            /**
+             * @summary Copies the text content of a clicked coordinate element to the clipboard.
+             * @param {Event} event The click event on a coordinate span.
+             * @returns {void}
+             */
+            async function handleCoordinateCopy(event) {
+                const el = event.currentTarget;
+                const textToCopy = el.textContent;
+                try {
+                    await navigator.clipboard.writeText(textToCopy);
+                    const originalText = el.textContent;
+                    el.textContent = "Copied!";
+                    announceToScreenReader(`Coordinate ${originalText} copied to clipboard.`);
+                    setTimeout(() => { el.textContent = originalText; }, 1500);
+                } catch (err) {
+                    announceToScreenReader('Failed to copy coordinates.');
+                }
+            }
+
+            /**
+             * @summary A central function to update all visual elements based on the current state.
+             * @returns {void}
+             */
+            function updateAllUI() {
+                updateBoundaryLines();
+                updateMasking();
+                calculateAndDisplayGPS();
+            }
+
+            /**
+             * @summary Updates the CSS positions of the four boundary lines.
+             * @returns {void}
+             */
+            function updateBoundaryLines() {
+                const { north, south, west, east } = AppState.boundaries;
+                Elements.northLine.style.top = `${north}%`;
+                Elements.southLine.style.top = `${south}%`;
+                Elements.westLine.style.left = `${west}%`;
+                Elements.eastLine.style.left = `${east}%`;
+            }
+
+            /**
+             * @summary Updates the size of the four masking regions.
+             * @returns {void}
+             */
+            function updateMasking() {
+                const { north, south, west, east } = AppState.boundaries;
+                Elements.maskNorth.style.height = `${north}%`;
+                Elements.maskSouth.style.height = `${100 - south}%`;
+                Elements.maskWest.style.width = `${west}%`;
+                Elements.maskEast.style.width = `${100 - east}%`;
+            }
+
+            /**
+             * @summary Toggles the visibility of the main UI components.
+             * @param {boolean} show Whether to show or hide the image view UI.
+             * @returns {void}
+             */
+            function showImageUI(show) {
+                Elements.uploadSection.classList.toggle('hidden', show);
+                Elements.imageContainer.classList.toggle('hidden', !show);
+                Elements.coordinatesPanel.classList.toggle('hidden', !show);
+                Elements.referencePanel.classList.toggle('hidden', !show);
+            }
+            
+            /**
+             * @summary Resets the entire application to its initial state to load a new image.
+             * @returns {void}
+             */
+            function resetApplication() {
+                showImageUI(false);
+                AppState.image = null;
+                AppState.boundaries = null;
+                AppState.detectedBoundaries = null;
+                Elements.fileInput.value = ''; // Allow re-selection of the same file
+                announceToScreenReader('Application reset. Please select a new image.');
+            }
+
+            /**
+             * @summary Toggles the visibility of the loading spinner.
+             * @param {boolean} isLoading Whether to show the spinner.
+             * @returns {void}
+             */
+            function setLoading(isLoading) {
+                Elements.loadingState.classList.toggle('hidden', !isLoading);
+            }
+
+            /**
+             * @summary Shows or hides the error message panel.
+             * @param {boolean} show Whether to show the error panel.
+             * @param {string} [message] The error message to display.
+             * @returns {void}
+             */
+            function showError(show, message = '') {
+                Elements.errorMessage.textContent = message;
+                Elements.errorState.classList.toggle('hidden', !show);
+                if (show) announceToScreenReader(`Error: ${message}`);
+            }
+            
+            /**
+             * @summary Sends a message to a screen-reader-only live region for accessibility announcements.
+             * @param {string} message The message to be announced.
+             * @returns {void}
+             */
+            function announceToScreenReader(message) {
+                Elements.srAnnouncements.textContent = message;
+            }
+
+            // --- Start Application ---
+            initializeApp();
+        })();
+    </script>
+</body>
+</html>

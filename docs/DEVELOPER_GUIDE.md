@@ -116,6 +116,21 @@ All surf spot data is consolidated into a single JSON file: [`data/fuerteventura
 #### Configuration
 The visibility of the surf map feature in the main navigation is controlled by the `surfMapEnabled` flag in [`data/config/app-config.js`](data/config/app-config.js:57).
 
+#### Coordinate System and Tooling
+
+The accurate placement of surf spot markers on the map depends on a precise mapping between the raster image (`images/surf-map.webp`) and the real-world GPS coordinates of its boundaries.
+
+**Configuration:**
+
+The single source of truth for the map's geographical boundaries is the `mapBounds` object located in `data/config/app-config.js`. This object defines the exact latitude and longitude of the image's four corners.
+
+**The GPS Boundary Calculator Tool:**
+
+To facilitate updates, a dedicated tool, `gps-calculator.html`, is included in the repository.
+
+-   **Purpose:** This tool allows an operator to upload a new map image and visually align four boundary lines with the edges of the landmass. It then automatically calculates the precise GPS coordinates for the image's four corners.
+-   **Workflow:** When the main surf map image is replaced, the operator must use this tool to generate the new `mapBounds` values. These values are then manually copied into the `data/config/app-config.js` configuration file. This ensures that all surf spot GPS coordinates are correctly translated into pixel positions on the new map.
+
 ### 6.2. Multi-Language Lyrics Feature
 
 The multi-language lyrics feature allows users to switch between different language versions of song lyrics within the release information panel. This system is designed for flexibility, performance, and accessibility.

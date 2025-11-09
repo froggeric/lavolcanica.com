@@ -7,6 +7,8 @@
 /**
  * Surf spots data manager class.
  */
+import { appConfig } from '../../data/config/app-config.js';
+
 export class SurfSpotsManager {
     /**
      * @param {Object} options - Configuration options.
@@ -287,13 +289,8 @@ export class SurfSpotsManager {
             return null;
         }
         
-        // Map boundaries for Fuerteventura (accurate bounds)
-        const mapBounds = {
-            north: 28.815195,    // Northernmost point of Fuerteventura
-            south: 27.984300,    // Southernmost point of Fuerteventura
-            east: -13.706680,    // Easternmost point of Fuerteventura
-            west: -14.641998     // Westernmost point of Fuerteventura
-        };
+        // Get map boundaries from the centralized application configuration
+        const mapBounds = appConfig.surfMap.mapBounds;
         
         // Validate coordinates are within reasonable bounds
         if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
@@ -623,13 +620,8 @@ export class SurfSpotsManager {
      * @returns {Object} The GPS coordinates {lat, lng}.
      */
     pixelToGPS(pixelX, pixelY) {
-        // Map boundaries for Fuerteventura (same as in gpsToPixel)
-        const mapBounds = {
-            north: 28.815195,
-            south: 27.984300,
-            east: -13.706680,
-            west: -14.641998
-        };
+        // Get map boundaries from the centralized application configuration
+        const mapBounds = appConfig.surfMap.mapBounds;
         
         // Ensure image dimensions are set
         if (!this.imageWidth || !this.imageHeight) {

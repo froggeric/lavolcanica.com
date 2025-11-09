@@ -1,11 +1,17 @@
 # Changelog
 
-All notable changes to the La Sonora Volcánica website will be documented in this file.
+All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0/).
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.10.4] - 2025-11-09
+### Fixed
+- Centralized the surf map's GPS boundary configuration into `data/config/app-config.js`.
+- Refactored `scripts/surf-map/surf-spots.js` to use the new centralized configuration.
+- Updated `README.md` and `docs/DEVELOPER_GUIDE.md` with instructions for the new configuration and the `gps-calculator.html` tool.
 
 ## [1.10.3] - 2025-11-08
 

@@ -1,6 +1,6 @@
 # La Sonora Volcánica - Official Website
 
-[![Version](https://img.shields.io/badge/version-1.10.3-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.10.4-blue.svg)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-All%20Rights%20Reserved-red.svg)](NOTICE.txt)
 [![Status](https://img.shields.io/badge/status-active-brightgreen.svg)](https://lavolcanica.com)
 
@@ -104,6 +104,35 @@ For a more detailed overview of the architecture, see the [**Developer Guide**](
 - **Description**: An interactive surf map showcasing detailed information about various surf spots across Fuerteventura. Users can explore spots, view their characteristics, and get practical information.
 - **User Interaction**: Navigate to the "Surf Map" section to view an interactive map. Clicking on surf spot markers reveals detailed information in a modal. Search and filter functionalities allow users to find spots based on criteria like ability level, wave type, and location.
 - **Technical Details**: The surf map is implemented using a custom `SurfMap` class in [`scripts/surf-map/surf-map-core.js`](scripts/surf-map/surf-map-core.js), leveraging HTML Canvas for rendering. It uses a consolidated JSON data structure for surf spots ([`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json)) and includes components for markers, a minimap, search, and filtering. The feature's visibility is controlled by the `surfMapEnabled` flag in [`data/config/app-config.js`](data/config/app-config.js:57).
+
+### Updating the Surf Map Image
+
+When the main raster image for the surf map is updated (located at `images/surf-map.webp`), the corresponding GPS boundaries must be recalculated and updated in the application's configuration.
+
+**Workflow:**
+
+1.  **Launch the GPS Calculator Tool:** A dedicated tool is provided to calculate the new coordinates.
+    *   [**Launch the Image Boundary GPS Calculator**](gps-calculator.html)
+
+2.  **Calculate New Coordinates:** Upload the new surf map image into the calculator. The tool will automatically detect the boundaries and display the four corner GPS coordinates (North, South, East, West).
+
+3.  **Update the Configuration:** Copy the four new decimal degree values from the calculator and paste them into the `mapBounds` object in the `data/config/app-config.js` file.
+
+    ```javascript
+    // file: data/config/app-config.js
+
+    const appConfig = {
+      // ... other configurations
+      surfMap: {
+        mapBounds: {
+            north: 28.815195, // <-- New North coordinate
+            south: 27.984300, // <-- New South coordinate
+            east: -13.706680,  // <-- New East coordinate
+            west: -14.641998   // <-- New West coordinate
+        }
+      }
+    };
+    ```
 
 ### 7. Advanced Tide Chart
 - **Description**: A completely redesigned, best-in-class tide chart that provides a clear and accurate visualization of tide conditions.
