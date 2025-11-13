@@ -36,6 +36,30 @@
  */
 export const releaseData = [
   {
+    id: "tendido-cero-sentido",
+    title: "Tendido Cero Sentido",
+    year: "2025",
+    type: "single",
+    coverArt: "images/art-tendido-cero-sentido.webp",
+    audioSrc: "audio/single-tendido-cero-sentido.m4a",
+    featured: true,
+    links: {
+      spotify: "https://open.spotify.com/track/4AyUCKaXTkVNEKAmkbBFvj?si=c3dbb2b180ed46a1",
+      apple: "https://music.apple.com/us/album/tendido-cero-sentido-feat-cututo/1845935592?i=1845935593",
+      youtube: "https://youtu.be/HiZQ_rU-EvM?si=W-hc_Wa01hWuL5GX",
+      bandcamp: "#"
+    },
+    collaboratorIds: ["cututo", "piero"],
+    collaborationType: "featured",
+    contentIds: {
+      story: "tendido-cero-sentido-story",
+      lyrics: "tendido-cero-sentido-lyrics",
+      gallery: "tendido-cero-sentido-gallery"
+    },
+    visibleSections: ["story", "lyrics","gallery"],
+    tags: ["single", "2025", "collaboration", "bolero", "queer"]
+  },
+  {
     id: "cumbia-del-barrio",
     title: "Cumbia del Barrio",
     year: "2025",
@@ -172,29 +196,5 @@ export const releaseData = [
     },
     visibleSections: ["story", "lyrics", "gallery"],
     tags: ["album", "2024", "surf", "fuerteventura"]
-  },
-  {
-    id: "tendido-cero-sentido",
-    title: "Tendido Cero Sentido",
-    year: "2025",
-    type: "single",
-    coverArt: "images/art-tendido-cero-sentido.webp",
-    audioSrc: "audio/single-tendido-cero-sentido.m4a",
-    featured: true,
-    links: {
-      spotify: "#",
-      apple: "#",
-      youtube: "#",
-      bandcamp: "#"
-    },
-    collaboratorIds: ["cututo", "piero"],
-    collaborationType: "featured",
-    contentIds: {
-      story: "tendido-cero-sentido-story",
-      lyrics: "tendido-cero-sentido-lyrics",
-      gallery: "tendido-cero-sentido-gallery"
-    },
-    visibleSections: ["story", "lyrics","gallery"],
-    tags: ["single", "2025", "collaboration", "bolero", "queer"]
   }
 ];
