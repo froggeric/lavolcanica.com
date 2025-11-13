@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.7] - 2025-11-13
+
+### Changed
+- **Version Increment**: Updated application version to 1.10.7 for release preparation.
+- **Code Quality**: General maintenance and optimization of existing features.
+
+## [1.10.6] - 2025-11-13
+
+### ✨ Enhancements
+*   **Collapsible Search Panel (Desktop):** Added a manual toggle button that allows users to collapse the search panel on desktop for better map visibility. Features smooth animations and a pulsing glow indicator when collapsed.
+*   **Auto-Collapse Search Panel (Mobile):** Implemented intelligent auto-collapse of the search panel on mobile devices when viewing surf spot details, providing more screen space for the content.
+*   **Keyboard Accessibility:** Added Ctrl+/ keyboard shortcut to toggle the search panel, improving accessibility for power users.
+*   **Enhanced Visual Feedback:** Implemented smooth GPU-accelerated animations for all panel transitions with proper easing curves.
+
+### 🛠️ Fixes
+*   **CRITICAL FIX:** Resolved a stack overflow error in the interaction manager that could occur during rapid mouse movement by changing the mousemove listener to passive mode.
+*   **Fixed:** Corrected zoom button coordinate calculations for high-DPI (Retina) displays, ensuring proper centering of zoom operations.
+*   **Fixed:** Improved mouse wheel zoom with smooth animations and intelligent acceleration based on scroll speed.
+
+### 🎨 UI/UX Improvements
+*   **Responsive Design:** Enhanced mobile responsiveness with better breakpoint handling and touch-optimized interactions.
+*   **Accessibility:** Full ARIA support, high contrast mode compatibility, and reduced motion preferences for the collapsible panel.
+*   **Visual Polish:** Added subtle visual indicators including a pulsing glow effect for collapsed state and smooth hover transitions.
+
+### 📱 Mobile Enhancements
+*   **Auto-Collapse Behavior:** Search panel automatically collapses when surf spot details are opened, maximizing available screen space.
+*   **Touch Optimization:** Improved touch targets and gesture handling for better mobile user experience.
+*   **Performance:** Optimized rendering performance for mobile devices with adaptive frame rates.
+
+### 🔧 Technical Improvements
+*   **CSS Architecture:** Added 130+ lines of specialized CSS for collapsible panel functionality with proper cascade management.
+*   **Event Handling:** Enhanced event listener management with proper cleanup and performance optimization.
+*   **Animation System:** Implemented hardware-accelerated animations using CSS transforms and proper timing functions.
+
 ## [1.10.5] - 2025-11-09
 ### ⚡ Performance
 *   **Zero-Latency Panning:** The drag-to-pan interaction has been fundamentally optimized to update the map's position in the same frame as the user's input. This eliminates any perceptible lag and creates an immediate, perfectly responsive feel.

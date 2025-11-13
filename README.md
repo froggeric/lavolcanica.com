@@ -1,6 +1,6 @@
 # La Sonora Volcánica - Official Website
 
-[![Version](https://img.shields.io/badge/version-1.10.5-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.10.7-blue.svg)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-All%20Rights%20Reserved-red.svg)](NOTICE.txt)
 [![Status](https://img.shields.io/badge/status-active-brightgreen.svg)](https://lavolcanica.com)
 
