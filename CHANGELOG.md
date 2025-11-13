@@ -30,7 +30,59 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 📚 Documentation Updates
 *   **Keyboard Navigation Documentation:** Added comprehensive documentation for all keyboard shortcuts and accessibility features.
 
+## [1.12.1] - 2025-11-13
+
+### ✨ Enhancements
+*   **Enhanced Mouse Interactions:** Added comprehensive cursor feedback system with proper visual states for all mouse interactions.
+*   **Smart Cursor Management:** Implemented intelligent cursor state management with priority system (marker hover > drag > idle).
+
+### 🎨 UI/UX Enhancements
+*   **Visual Cursor Feedback:** Added grab/grabbing/pointer cursor states that properly indicate current interaction mode.
+*   **Cross-Browser Compatibility:** Enhanced cursor styles with vendor prefixes for consistent behavior across all browsers.
+*   **Professional User Experience:** Improved visual feedback provides clear indication of map state and interaction capabilities.
+
+### 🛠️ Technical Improvements
+*   **Drag State Tracking:** Added comprehensive drag state management in interaction handler for proper cursor lifecycle.
+*   **CSS Class-Based Approach:** Migrated from inline styles to CSS classes for better maintainability and performance.
+*   **Hover State Coordination:** Enhanced hover logic to properly coordinate between drag states and marker hover interactions.
+
+### 🔧 Accessibility Features
+*   **Enhanced Visual Feedback:** Improved accessibility with clear visual indicators for different interaction modes.
+*   **Focus Management:** Better coordination between cursor states and accessibility features.
+
 ## [Unreleased]
+
+### ✨ Enhancements
+*   **Comprehensive Keyboard Navigation System:** Added full keyboard controls for surf map navigation including arrow keys for panning, +/- for zoom, 0 for reset view, Escape for panel closing, and ? for shortcuts panel.
+*   **Enhanced Mouse Interactions:** Added comprehensive cursor feedback system with proper visual states for all mouse interactions.
+*   **Keyboard Shortcuts Panel:** Added a discoverable keyboard shortcuts panel with visual indicators and help documentation.
+*   **Smart Cursor Management:** Implemented intelligent cursor state management with priority system (marker hover > drag > idle).
+
+### 🎨 UI/UX Enhancements
+*   **Visual Keyboard Shortcuts:** Added discoverable "?" button and elegantly designed shortcuts panel with proper HTML entity encoding for cross-browser compatibility.
+*   **Visual Cursor Feedback:** Added grab/grabbing/pointer cursor states that properly indicate current interaction mode.
+*   **Cross-Browser Compatibility:** Enhanced cursor styles with vendor prefixes for consistent behavior across all browsers.
+*   **Responsive Shortcuts Panel:** Mobile-friendly keyboard shortcuts interface with smooth animations and proper positioning.
+*   **Professional User Experience:** Improved visual feedback provides clear indication of map state and interaction capabilities.
+
+### 🛠️ Technical Improvements
+*   **New Keyboard Handler Module:** Created modular `KeyboardHandler` class for centralized keyboard event management with configurable options.
+*   **Smart Input Detection:** Implemented intelligent typing detection to prevent keyboard shortcuts from interfering with form inputs and search functionality.
+*   **Continuous Panning System:** Added smooth, hardware-accelerated continuous panning when holding arrow keys with performance optimizations.
+*   **Drag State Tracking:** Added comprehensive drag state management in interaction handler for proper cursor lifecycle.
+*   **CSS Class-Based Approach:** Migrated from inline styles to CSS classes for better maintainability and performance.
+*   **Hover State Coordination:** Enhanced hover logic to properly coordinate between drag states and marker hover interactions.
+
+### 🔧 Accessibility Features
+*   **Full Keyboard Support:** Complete keyboard navigation for all surf map functions without requiring mouse/touch input.
+*   **Enhanced Visual Feedback:** Improved accessibility with clear visual indicators for different interaction modes.
+*   **Screen Reader Optimization:** Enhanced ARIA labels and live regions for keyboard navigation state changes.
+*   **Focus Management:** Proper focus trapping and visual indicators for keyboard users and better coordination between cursor states and accessibility features.
+
+### 📚 Documentation Updates
+*   **Keyboard Navigation Documentation:** Added comprehensive documentation for all keyboard shortcuts and accessibility features.
+
+## [1.12.0] - 2025-11-13
 
 ## [1.11.0] - 2025-11-13
 

@@ -707,10 +707,17 @@ export class SurfMarkersManager {
         const mouseY = event.clientY - rect.top;
 
         const hoveredMarkerId = this.getMarkerAtPosition(mouseX, mouseY);
-        
+
         if (this.hoveredMarker !== hoveredMarkerId) {
             this.hoveredMarker = hoveredMarkerId;
-            this.canvas.style.cursor = hoveredMarkerId ? 'pointer' : 'grab';
+
+            // Update cursor using CSS classes
+            if (hoveredMarkerId) {
+                this.canvas.classList.add('has-hover-marker');
+            } else {
+                this.canvas.classList.remove('has-hover-marker');
+            }
+
             this.surfMap.forceRender();
         }
     }
@@ -1171,6 +1178,11 @@ export class SurfMarkersManager {
         this.hoveredMarker = null;
         this.selectedMarker = null;
         this.onMarkerClick = null;
+
+        // Clean up hover state
+        if (this.canvas) {
+            this.canvas.classList.remove('has-hover-marker');
+        }
         
         // Clear performance optimization caches
         this.transformationCache.clear();

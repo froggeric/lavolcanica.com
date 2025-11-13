@@ -54,7 +54,10 @@ export class SurfMapInteractions {
         // Cached viewport for performance
         this.cachedViewport = null;
         this.viewportDirty = true;
-        
+
+        // Drag state for cursor feedback
+        this.isDragging = false;
+
         // Initialize interaction manager
         this.interactionManager = new InteractionManager(canvas, null, state);
         
@@ -150,14 +153,20 @@ export class SurfMapInteractions {
     handleDrag(event) {
         const { detail } = event;
         const { deltaX, deltaY } = detail;
-        
+
         // Stop any momentum
         this.stopMomentum();
-        
+
+        // Update cursor state
+        if (!this.isDragging) {
+            this.isDragging = true;
+            this.canvas.classList.add('dragging');
+        }
+
         // Direct state update - zero overhead
         this.state.panX += deltaX;
         this.state.panY += deltaY;
-        
+
         // Constrain and render immediately
         this.surfMap.constrainPan();
         this.surfMap.forceRender();
@@ -176,23 +185,27 @@ export class SurfMapInteractions {
             const vx = velocityX * 16;
             const vy = velocityY * 16;
             const speed = Math.sqrt(vx * vx + vy * vy);
-            
+
             if (speed >= this.options.momentumMinVelocity) {
                 // Cap velocity
                 let finalVX = vx;
                 let finalVY = vy;
-                
+
                 if (speed > this.options.momentumMaxVelocity) {
                     const scale = this.options.momentumMaxVelocity / speed;
                     finalVX *= scale;
                     finalVY *= scale;
                 }
-                
+
                 this.startMomentum(finalVX, finalVY);
                 return;
             }
         }
-        
+
+        // Reset cursor state when drag ends (only if no momentum)
+        this.isDragging = false;
+        this.canvas.classList.remove('dragging');
+
         this.surfMap.emit('panChanged', {
             panX: this.state.panX,
             panY: this.state.panY
@@ -262,6 +275,10 @@ export class SurfMapInteractions {
         this.momentum.active = false;
         this.momentum.velocityX = 0;
         this.momentum.velocityY = 0;
+
+        // Reset cursor state when momentum ends
+        this.isDragging = false;
+        this.canvas.classList.remove('dragging');
     }
 
     /**
@@ -414,6 +431,12 @@ export class SurfMapInteractions {
             this.interactionManager.destroy();
         }
         
+        // Clean up drag state
+        if (this.canvas) {
+            this.canvas.classList.remove('dragging');
+        }
+        this.isDragging = false;
+
         this.canvas = null;
         this.state = null;
         this.surfMap = null;
