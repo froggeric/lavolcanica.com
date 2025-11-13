@@ -68,10 +68,24 @@
     <a href="#main-content" class="skip-link">Skip to main content</a>
     
     
-    <!-- Left Side Search Control -->
+    <!-- Left Side Search Control with Collapsible Panel -->
     <div class="left-side-search-container" id="left-side-search">
+        <!-- Toggle button for collapsing/expanding the panel -->
+        <button class="search-panel-toggle" 
+                aria-label="Collapse search panel" 
+                aria-expanded="true"
+                aria-controls="left-side-search"
+                id="search-panel-toggle">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+            </svg>
+        </button>
+        
         <div class="surf-map-search" role="search">
-            <input type="text" class="surf-map-search-input" placeholder="Search surf spots..." aria-label="Search surf spots">
+            <input type="text" 
+                   class="surf-map-search-input" 
+                   placeholder="Search surf spots..." 
+                   aria-label="Search surf spots">
             <button class="surf-map-search-btn" aria-label="Search">
                 <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -83,11 +97,13 @@
                 </svg>
             </button>
         </div>
+        
         <!-- Surf Spots Counter -->
         <div class="surf-spots-counter" id="surf-spots-counter" role="status" aria-live="polite" aria-label="Number of visible surf spots">
             <span class="counter-number" id="counter-number">0</span>
             <span class="counter-label" id="counter-label">surf spots</span>
         </div>
+        
         <div class="surf-map-search-results" aria-live="polite">
             <!-- Search results will be populated here -->
         </div>
@@ -249,6 +265,54 @@
                     element.textContent = translations.ui[key];
                 }
             });
+
+            // ==================== SURF MAP NAVIGATION VISIBILITY ====================
+
+            /**
+             * Controls the visibility of surf map navigation entries based on configuration.
+             */
+            const setupSurfMapNavigationVisibility = () => {
+                // Check if surf map is enabled in configuration
+                const isSurfMapEnabled = dataLoader.config.app.surfMapEnabled;
+
+                // Find all navigation elements with navMap key
+                const surfMapNavItems = document.querySelectorAll('[data-key="navMap"]');
+
+                if (isSurfMapEnabled === false) {
+                    // Hide surf map navigation items
+                    surfMapNavItems.forEach(item => {
+                        item.classList.add('surf-map-disabled');
+                        item.setAttribute('aria-hidden', 'true');
+
+                        // Also hide the parent list item for proper navigation structure
+                        const parentLi = item.closest('li');
+                        if (parentLi) {
+                            parentLi.classList.add('surf-map-disabled');
+                            parentLi.setAttribute('aria-hidden', 'true');
+                        }
+                    });
+
+                    console.log('Surf map navigation: Hidden (surfMapEnabled = false)');
+                } else {
+                    // Ensure surf map navigation items are visible (default behavior)
+                    surfMapNavItems.forEach(item => {
+                        item.classList.remove('surf-map-disabled');
+                        item.removeAttribute('aria-hidden');
+
+                        // Also ensure parent list item is visible
+                        const parentLi = item.closest('li');
+                        if (parentLi) {
+                            parentLi.classList.remove('surf-map-disabled');
+                            parentLi.removeAttribute('aria-hidden');
+                        }
+                    });
+
+                    console.log('Surf map navigation: Visible (surfMapEnabled =', isSurfMapEnabled, ')');
+                }
+            };
+
+            // Initialize surf map navigation visibility
+            setupSurfMapNavigationVisibility();
             
             // Populate footer links
             const footerLinksContainer = document.getElementById('footer-links');
@@ -385,6 +449,24 @@
                     
                     surfMap.on('error', (error) => {
                         console.error('Surf map error:', error);
+                    });
+                    
+                    // Set up search panel toggle button
+                    const searchToggleBtn = document.getElementById('search-panel-toggle');
+                    if (searchToggleBtn && surfMap) {
+                        searchToggleBtn.addEventListener('click', () => {
+                            surfMap.toggleSearchPanel();
+                        });
+                    }
+                    
+                    // Optional: Add keyboard shortcut for toggling search panel (Ctrl+/)
+                    document.addEventListener('keydown', (event) => {
+                        if (event.ctrlKey && event.key === '/') {
+                            event.preventDefault();
+                            if (surfMap) {
+                                surfMap.toggleSearchPanel();
+                            }
+                        }
                     });
                     
                     // Handle window resize

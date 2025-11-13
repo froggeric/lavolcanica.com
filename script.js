@@ -1620,6 +1620,55 @@
             };
             
             
+            // ==================== SURF MAP NAVIGATION VISIBILITY ====================
+
+        /**
+         * Controls the visibility of surf map navigation entries based on configuration.
+         * Checks the surfMapEnabled flag and shows/hides navigation items accordingly.
+         */
+        const setupSurfMapNavigationVisibility = () => {
+            // Check if surf map is enabled in configuration
+            const isSurfMapEnabled = dataLoader.config.app.surfMapEnabled;
+
+            // Find all navigation elements with navMap key
+            const surfMapNavItems = document.querySelectorAll('[data-key="navMap"]');
+
+            if (isSurfMapEnabled === false) {
+                // Hide surf map navigation items
+                surfMapNavItems.forEach(item => {
+                    item.classList.add('surf-map-disabled');
+                    item.setAttribute('aria-hidden', 'true');
+
+                    // Also hide the parent list item for proper navigation structure
+                    const parentLi = item.closest('li');
+                    if (parentLi) {
+                        parentLi.classList.add('surf-map-disabled');
+                        parentLi.setAttribute('aria-hidden', 'true');
+                    }
+                });
+
+                console.log('Surf map navigation: Hidden (surfMapEnabled = false)');
+            } else {
+                // Ensure surf map navigation items are visible (default behavior)
+                surfMapNavItems.forEach(item => {
+                    item.classList.remove('surf-map-disabled');
+                    item.removeAttribute('aria-hidden');
+
+                    // Also ensure parent list item is visible
+                    const parentLi = item.closest('li');
+                    if (parentLi) {
+                        parentLi.classList.remove('surf-map-disabled');
+                        parentLi.removeAttribute('aria-hidden');
+                    }
+                });
+
+                console.log('Surf map navigation: Visible (surfMapEnabled =', isSurfMapEnabled, ')');
+            }
+        };
+
+        // Initialize surf map navigation visibility
+        setupSurfMapNavigationVisibility();
+
             // Auto-run tests in development mode
             setTimeout(() => {
                 if (window.testPanels) window.testPanels();

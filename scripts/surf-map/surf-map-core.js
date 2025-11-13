@@ -70,6 +70,13 @@ export class SurfMap {
         // Event listeners
         this.eventListeners = new Map();
         
+        // State preservation for panel operations
+        this.savedMapState = null;
+
+        // Search panel state
+        this.searchPanelCollapsed = false;
+        this.searchPanelAutoCollapsed = false;
+        
         // Performance optimization state
         this.lastRenderTime = 0;
         this.renderFrameId = null;
@@ -356,19 +363,8 @@ export class SurfMap {
      * Zooms to a specific level with animation.
      */
     zoomTo(newZoom, x, y) {
-        // Apply zoom changes with animation if renderer supports it
-        if (this.renderer && typeof this.renderer.startTransition === 'function') {
-            this.renderer.startTransition({
-                zoom: newZoom,
-                panX: this.state.panX,
-                panY: this.state.panY
-            });
-        } else {
-            // Fallback: direct zoom without animation
-            this.state.zoom = newZoom;
-            this.constrainPan();
-            this.forceRender();
-        }
+        // Just use zoomToPoint with the provided coordinates
+        this.zoomToPoint(newZoom, x, y);
     }
 
     /**
@@ -378,7 +374,7 @@ export class SurfMap {
         const centerX = this.canvas.width / 2;
         const centerY = this.canvas.height / 2;
         const newZoom = this.state.zoom + amount;
-        this.zoomTo(newZoom, centerX, centerY);
+        this.zoomToPoint(newZoom, centerX, centerY);
     }
 
     /**
@@ -388,7 +384,39 @@ export class SurfMap {
         const centerX = this.canvas.width / 2;
         const centerY = this.canvas.height / 2;
         const newZoom = this.state.zoom - amount;
-        this.zoomTo(newZoom, centerX, centerY);
+        this.zoomToPoint(newZoom, centerX, centerY);
+    }
+
+    /**
+     * Zooms to a specific point on the map.
+     */
+    zoomToPoint(targetZoom, screenX, screenY) {
+        // Strictly enforce zoom limits
+        const clampedZoom = Math.max(this.options.minZoom, Math.min(this.options.maxZoom, targetZoom));
+        
+        // If zoom didn't actually change, do nothing
+        if (Math.abs(clampedZoom - this.state.zoom) < 1e-6) {
+            return;
+        }
+        
+        // Calculate the image point under the screen point
+        const rect = this.viewport.getVisibleRect();
+        const mouseX = screenX - rect.left;
+        const mouseY = screenY - rect.top;
+        
+        const imageX = (mouseX - rect.width / 2 - this.state.panX) / this.state.zoom;
+        const imageY = (mouseY - rect.height / 2 - this.state.panY) / this.state.zoom;
+        
+        // Apply the new zoom
+        this.state.zoom = clampedZoom;
+        
+        // Adjust pan to keep the same image point under the screen point
+        this.state.panX = (mouseX - rect.width / 2) - imageX * this.state.zoom;
+        this.state.panY = (mouseY - rect.height / 2) - imageY * this.state.zoom;
+        
+        this.constrainPan();
+        this.forceRender();
+        this.emit('zoomChanged', { zoom: this.state.zoom });
     }
 
     /**
@@ -582,153 +610,93 @@ export class SurfMap {
      */
     updateMarkerVisibility() {
         if (!this.markersManager || !this.state.imageLoaded) return;
-        
+
         // Calculate viewport bounds in image coordinates
         const viewportLeft = (-this.canvas.width / 2 - this.state.panX) / this.state.zoom + this.state.image.width / 2;
         const viewportTop = (-this.canvas.height / 2 - this.state.panY) / this.state.zoom + this.state.image.height / 2;
         const viewportRight = (this.canvas.width / 2 - this.state.panX) / this.state.zoom + this.state.image.width / 2;
-        const viewportBottom = (this.canvas.height / 2 - this.state.panY) / this.state.zoom + this.state.image.height / 2;
-        
+        const viewportBottom = (-this.canvas.height / 2 - this.state.panY) / this.state.zoom + this.state.image.height / 2;
+
         const viewport = {
             left: viewportLeft,
             top: viewportTop,
             right: viewportRight,
             bottom: viewportBottom
         };
-        
+
         // Update marker visibility
         this.markersManager.updateVisibility(viewport);
     }
 
     /**
-     * Handles marker click events.
+     * Toggles the search panel collapsed state.
      */
+    toggleSearchPanel() {
+        this.searchPanelCollapsed = !this.searchPanelCollapsed;
+
+        const panel = document.getElementById('left-side-search');
+        const toggleBtn = document.getElementById('search-panel-toggle');
+
+        if (!panel || !toggleBtn) return;
+
+        if (this.searchPanelCollapsed) {
+            panel.classList.add('collapsed');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            toggleBtn.setAttribute('aria-label', 'Expand search panel');
+        } else {
+            panel.classList.remove('collapsed');
+            toggleBtn.setAttribute('aria-expanded', 'true');
+            toggleBtn.setAttribute('aria-label', 'Collapse search panel');
+        }
+
+        // Emit event for other components
+        this.emit('searchPanelToggle', { collapsed: this.searchPanelCollapsed });
+    }
+
+    /**
+     * Collapses the search panel (mobile only).
+     */
+    collapseSearchPanel() {
+        if (!this.isMobile) return;
+
+        const panel = document.getElementById('left-side-search');
+        if (!panel) return;
+
+        this.searchPanelAutoCollapsed = true;
+        panel.classList.add('auto-collapsed');
+
+        // Emit event
+        this.emit('searchPanelAutoCollapse', { collapsed: true });
+    }
+
+    /**
+     * Expands the search panel.
+     */
+    expandSearchPanel() {
+        const panel = document.getElementById('left-side-search');
+        if (!panel) return;
+
+        this.searchPanelAutoCollapsed = false;
+        panel.classList.remove('auto-collapsed');
+
+        // Emit event
+        this.emit('searchPanelAutoCollapse', { collapsed: false });
+    }
     async handleMarkerClick(spot) {
         if (this.isPanelOpening) return;
         this.isPanelOpening = true;
 
         try {
+            // Save current map state before opening panel
+            this.saveMapState();
+            
             // Select the marker first to make the orange ring appear
             if (this.markersManager) {
                 this.markersManager.selectMarker(spot.id);
             }
 
-            // Force a render and wait for it to complete
-            await this.forceRenderAndWait();
-
-            // Call the global showSurfSpotPanel function from the main application
-            if (window.showSurfSpotPanel) {
-                window.showSurfSpotPanel(spot.id);
-            }
-
-            // Emit marker click event
-            this.emit('markerClick', { spot });
-        } finally {
-            // Reset the lock after a short delay to prevent rapid re-clicks
-            setTimeout(() => {
-                this.isPanelOpening = false;
-            }, 300);
-        }
-    }
-
-    /**
-     * Handles panel close events.
-     */
-    handlePanelClose() {
-        // Deselect marker
-        if (this.markersManager) {
-            this.markersManager.deselectMarker();
-        }
-        
-        // Emit panel close event
-        this.emit('panelClose');
-    }
-
-    /**
-     * Centers the view on a specific surf spot.
-     */
-    centerOnSpot(spot) {
-        if (!spot.pixelCoordinates) return;
-        
-        const { x, y } = spot.pixelCoordinates;
-        
-        // Calculate new pan position to center the spot
-        const canvasCenterX = this.canvas.width / 2;
-        const canvasCenterY = this.canvas.height / 2;
-        
-        const newPanX = canvasCenterX - x * this.state.zoom;
-        const newPanY = canvasCenterY - y * this.state.zoom;
-        
-        // Update state with animation
-        if (this.renderer) {
-            this.renderer.startTransition({
-                panX: newPanX,
-                panY: newPanY,
-                zoom: this.state.zoom
-            });
-        } else {
-            this.state.panX = newPanX;
-            this.state.panY = newPanY;
-            this.constrainPan();
-            this.forceRender();
-        }
-        
-        // Emit spot centered event
-        this.emit('spotCentered', { spot });
-    }
-
-    /**
-     * Updates marker visibility based on search criteria.
-     */
-    updateSearchVisibility() {
-        if (!this.markersManager) {
-            return;
-        }
-
-        // Get all spots
-        const allSpots = this.spotsManager.getAllSpots();
-        
-        // Determine search state and results
-        let searchResults = [];
-        if (this.searchManager && typeof this.searchManager.getSearchResults === 'function') {
-            try {
-                searchResults = this.searchManager.getSearchResults().map(r => r.spot);
-            } catch (e) {
-                searchResults = [];
-            }
-        }
-        const searchActive = Array.isArray(searchResults) && searchResults.length > 0;
-        
-        // Compute final visible set based on search state
-        let visibleSpots;
-        if (searchActive) {
-            visibleSpots = searchResults;
-        } else {
-            visibleSpots = allSpots;
-        }
-        
-        // Update marker visibility
-        this.markersManager.updateSpotVisibility(visibleSpots);
-        
-        // Update the surf spots counter
-        this.updateSpotsCounter(visibleSpots.length);
-    }
-
-    /**
-     * Handles search result click events.
-     */
-    async handleSearchResultClick(spot) {
-        if (this.isPanelOpening) return;
-        this.isPanelOpening = true;
-
-        try {
-            // Select the marker first to make the orange ring appear
-            if (this.markersManager) {
-                this.markersManager.selectMarker(spot.id);
-            }
-
-            // Center on the spot
-            this.centerOnSpot(spot);
+            // Auto-collapse search on mobile
+            this.collapseSearchPanel();
 
             // Force a render and wait for it to complete
             await this.forceRenderAndWait();
@@ -923,5 +891,167 @@ export class SurfMap {
         this.searchManager = null;
         this.spotsCounter = null;
         this.state.image = null;
+    }
+
+    /**
+     * Handles panel close events.
+     */
+    handlePanelClose() {
+        // Restore saved map state
+        this.restoreMapState();
+
+        // Deselect marker
+        if (this.markersManager) {
+            this.markersManager.deselectMarker();
+        }
+
+        // Re-expand search panel on mobile
+        this.expandSearchPanel();
+
+        // Emit panel close event
+        this.emit('panelClose');
+    }
+
+    /**
+     * Saves the current map state (zoom and pan position).
+     */
+    saveMapState() {
+        this.savedMapState = {
+            zoom: this.state.zoom,
+            panX: this.state.panX,
+            panY: this.state.panY,
+            timestamp: Date.now()
+        };
+    }
+
+    /**
+     * Restores the previously saved map state.
+     */
+    restoreMapState() {
+        if (this.savedMapState) {
+            // Restore zoom and pan
+            this.state.zoom = this.savedMapState.zoom;
+            this.state.panX = this.savedMapState.panX;
+            this.state.panY = this.savedMapState.panY;
+
+            // Constrain pan to valid bounds
+            this.constrainPan();
+
+            // Force render to show restored state
+            this.forceRender();
+
+            // Clear saved state
+            this.savedMapState = null;
+        }
+    }
+
+    /**
+     * Centers the view on a specific surf spot.
+     */
+    centerOnSpot(spot) {
+        if (!spot.pixelCoordinates) return;
+
+        const { x, y } = spot.pixelCoordinates;
+
+        // Calculate new pan position to center the spot
+        const canvasCenterX = this.canvas.width / 2;
+        const canvasCenterY = this.canvas.height / 2;
+
+        const newPanX = canvasCenterX - x * this.state.zoom;
+        const newPanY = canvasCenterY - y * this.state.zoom;
+
+        // Update state with animation
+        if (this.renderer) {
+            this.renderer.startTransition({
+                panX: newPanX,
+                panY: newPanY,
+                zoom: this.state.zoom
+            });
+        } else {
+            this.state.panX = newPanX;
+            this.state.panY = newPanY;
+            this.constrainPan();
+            this.forceRender();
+        }
+
+        // Emit spot centered event
+        this.emit('spotCentered', { spot });
+    }
+
+    /**
+     * Updates marker visibility based on search criteria.
+     */
+    updateSearchVisibility() {
+        if (!this.markersManager) {
+            return;
+        }
+
+        // Get all spots
+        const allSpots = this.spotsManager.getAllSpots();
+
+        // Determine search state and results
+        let searchResults = [];
+        if (this.searchManager && typeof this.searchManager.getSearchResults === 'function') {
+            try {
+                searchResults = this.searchManager.getSearchResults().map(r => r.spot);
+            } catch (e) {
+                searchResults = [];
+            }
+        }
+        const searchActive = Array.isArray(searchResults) && searchResults.length > 0;
+
+        // Compute final visible set based on search state
+        let visibleSpots;
+        if (searchActive) {
+            visibleSpots = searchResults;
+        } else {
+            visibleSpots = allSpots;
+        }
+
+        // Update marker visibility
+        this.markersManager.updateSpotVisibility(visibleSpots);
+
+        // Update the surf spots counter
+        this.updateSpotsCounter(visibleSpots.length);
+    }
+
+    /**
+     * Handles search result click events.
+     */
+    async handleSearchResultClick(spot) {
+        if (this.isPanelOpening) return;
+        this.isPanelOpening = true;
+
+        try {
+            // Save current map state before opening panel
+            this.saveMapState();
+
+            // Select the marker first to make the orange ring appear
+            if (this.markersManager) {
+                this.markersManager.selectMarker(spot.id);
+            }
+
+            // Auto-collapse search on mobile
+            this.collapseSearchPanel();
+
+            // Center on the spot
+            this.centerOnSpot(spot);
+
+            // Force a render and wait for it to complete
+            await this.forceRenderAndWait();
+
+            // Call the global showSurfSpotPanel function from the main application
+            if (window.showSurfSpotPanel) {
+                window.showSurfSpotPanel(spot.id);
+            }
+
+            // Emit search result click event
+            this.emit('searchResultClick', { spot });
+        } finally {
+            // Reset the lock after a short delay to prevent rapid re-clicks
+            setTimeout(() => {
+                this.isPanelOpening = false;
+            }, 300);
+        }
     }
 }

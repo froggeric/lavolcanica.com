@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.11.0] - 2025-11-13
+
+### ✨ Enhancements
+*   **Collapsible Search Panel (Desktop & Mobile):** Implemented a sophisticated collapsible search panel for the surf map with manual toggle on desktop and intelligent auto-collapse on mobile devices.
+*   **Smooth Zoom Animations:** Added hardware-accelerated smooth zoom animations with customizable easing curves for mouse wheel zoom interactions.
+*   **Surf Map Navigation Control:** Added configuration-based visibility control for surf map navigation entries, allowing the feature to be safely hidden when disabled.
+*   **Enhanced Map State Management:** Implemented map state preservation and restoration when opening/closing surf spot detail panels, maintaining zoom and pan positions.
+
+### 🛠️ Technical Improvements
+*   **Advanced Zoom Control:** Refactored zoom system with `zoomToPoint()` method for precise zoom centering and strict zoom boundary enforcement.
+*   **Performance Optimizations:** Enhanced viewport culling, coordinate caching, and animation frame management for improved rendering performance.
+*   **Responsive Design:** Added comprehensive CSS for collapsible panel functionality with proper breakpoint handling and mobile optimization.
+
+### 🎨 UI/UX Enhancements
+*   **Keyboard Accessibility:** Added Ctrl+/ keyboard shortcut to toggle the search panel, improving accessibility for power users.
+*   **Visual Feedback:** Implemented pulsing glow indicators for collapsed state and smooth transitions with proper ARIA attributes.
+*   **Mobile Optimization:** Auto-collapse behavior on mobile maximizes screen space when viewing surf spot details.
+
+### 📱 Mobile Enhancements
+*   **Auto-Collapse Behavior:** Search panel automatically collapses when surf spot details are opened, providing more screen space for content.
+*   **Smart Expansion:** Panel automatically re-expands when returning from surf spot details, maintaining seamless user flow.
+*   **Touch Optimization:** Improved touch targets and gesture handling for better mobile user experience.
+
+### 🔧 Accessibility Features
+*   **Full ARIA Support:** Proper `aria-expanded`, `aria-label`, and `aria-controls` attributes throughout the collapsible panel.
+*   **Screen Reader Support:** Live region announcements for state changes and comprehensive keyboard navigation.
+*   **Reduced Motion:** Respects user's motion preferences with `prefers-reduced-motion` support.
+*   **High Contrast Mode:** Enhanced visual indicators for users with high contrast preferences.
+
+### 📚 Documentation Updates
+*   **Developer Guide:** Added comprehensive documentation for the new collapsible search panel feature in the developer guide.
+*   **Architecture Documentation:** Updated technical documentation to reflect new interaction patterns and state management.
+
 ## [1.10.7] - 2025-11-13
 
 ### Changed

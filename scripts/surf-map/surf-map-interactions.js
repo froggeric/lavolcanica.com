@@ -280,11 +280,14 @@ export class SurfMapInteractions {
         const imageX = (mouseX - rect.width / 2 - this.state.panX) / this.state.zoom;
         const imageY = (mouseY - rect.height / 2 - this.state.panY) / this.state.zoom;
         
+        // Calculate target zoom and strictly enforce limits
+        const targetZoom = this.state.zoom * scale;
         const newZoom = Math.max(
             this.surfMap.options.minZoom,
-            Math.min(this.surfMap.options.maxZoom, this.state.zoom * scale)
+            Math.min(this.surfMap.options.maxZoom, targetZoom)
         );
         
+        // Only update if within valid range and actually changed
         if (Math.abs(newZoom - this.state.zoom) > 1e-6) {
             this.state.zoom = newZoom;
             this.state.panX = (mouseX - rect.width / 2) - imageX * newZoom;
@@ -304,7 +307,7 @@ export class SurfMapInteractions {
     }
 
     /**
-     * Handles wheel zoom.
+     * Handles wheel zoom with smooth animation.
      */
     handleZoom(event) {
         const { detail } = event;
@@ -319,23 +322,85 @@ export class SurfMapInteractions {
         const imageX = (mouseX - rect.width / 2 - this.state.panX) / this.state.zoom;
         const imageY = (mouseY - rect.height / 2 - this.state.panY) / this.state.zoom;
         
-        // Apply delta directly as a multiplicative factor (no extra sensitivity multiplier)
+        // Calculate target zoom
         const zoomFactor = 1 + delta * this.options.zoomSensitivity;
-        const newZoom = Math.max(
+        const targetZoom = Math.max(
             this.surfMap.options.minZoom,
             Math.min(this.surfMap.options.maxZoom, this.state.zoom * zoomFactor)
         );
         
-        if (Math.abs(newZoom - this.state.zoom) > 1e-6) {
-            this.state.zoom = newZoom;
-            this.state.panX = (mouseX - rect.width / 2) - imageX * newZoom;
-            this.state.panY = (mouseY - rect.height / 2) - imageY * newZoom;
-            
-            this.surfMap.constrainPan();
-            this.surfMap.forceRender();
-            this.invalidateViewport();
+        if (Math.abs(targetZoom - this.state.zoom) > 1e-6) {
+            // Start smooth zoom animation
+            this.startZoomAnimation(targetZoom, mouseX, mouseY, imageX, imageY);
+        }
+    }
+
+    /**
+     * Starts a smooth zoom animation.
+     */
+    startZoomAnimation(targetZoom, centerX, centerY, imageX, imageY) {
+        // Stop any existing zoom animation
+        this.stopZoomAnimation();
+        
+        this.zoomAnimation.active = true;
+        this.zoomAnimation.startZoom = this.state.zoom;
+        this.zoomAnimation.targetZoom = targetZoom;
+        this.zoomAnimation.startTime = performance.now();
+        this.zoomAnimation.centerX = centerX;
+        this.zoomAnimation.centerY = centerY;
+        this.zoomAnimation.imageX = imageX;
+        this.zoomAnimation.imageY = imageY;
+        
+        this.animateZoom();
+    }
+
+    /**
+     * Animates the zoom transition.
+     */
+    animateZoom() {
+        if (!this.zoomAnimation.active) return;
+        
+        const now = performance.now();
+        const elapsed = now - this.zoomAnimation.startTime;
+        const progress = Math.min(elapsed / this.zoomAnimation.duration, 1);
+        
+        // easeOutCubic for smooth deceleration
+        const easedProgress = 1 - Math.pow(1 - progress, 3);
+        
+        // Interpolate zoom
+        const currentZoom = this.zoomAnimation.startZoom + 
+            (this.zoomAnimation.targetZoom - this.zoomAnimation.startZoom) * easedProgress;
+        
+        // Update state
+        this.state.zoom = currentZoom;
+        
+        const rect = this.getViewport();
+        this.state.panX = (this.zoomAnimation.centerX - rect.width / 2) - 
+            this.zoomAnimation.imageX * currentZoom;
+        this.state.panY = (this.zoomAnimation.centerY - rect.height / 2) - 
+            this.zoomAnimation.imageY * currentZoom;
+        
+        this.surfMap.constrainPan();
+        this.surfMap.forceRender();
+        this.invalidateViewport();
+        
+        if (progress < 1) {
+            this.zoomAnimation.animationFrame = requestAnimationFrame(() => this.animateZoom());
+        } else {
+            this.stopZoomAnimation();
             this.surfMap.emit('zoomChanged', { zoom: this.state.zoom });
         }
+    }
+
+    /**
+     * Stops zoom animation.
+     */
+    stopZoomAnimation() {
+        if (this.zoomAnimation.animationFrame) {
+            cancelAnimationFrame(this.zoomAnimation.animationFrame);
+            this.zoomAnimation.animationFrame = null;
+        }
+        this.zoomAnimation.active = false;
     }
 
     /**
@@ -343,6 +408,7 @@ export class SurfMapInteractions {
      */
     destroy() {
         this.stopMomentum();
+        this.stopZoomAnimation();
         
         if (this.interactionManager) {
             this.interactionManager.destroy();

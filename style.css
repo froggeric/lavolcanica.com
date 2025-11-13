@@ -112,6 +112,18 @@ ul {
     display: none !important;
 }
 
+/* Class to hide surf map navigation based on configuration */
+.surf-map-disabled {
+    display: none !important;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.surf-map-disabled[aria-hidden="true"] {
+    display: none !important;
+}
+
 /* Skip to main content link for accessibility */
 .skip-link {
     position: absolute;
@@ -3552,4 +3564,154 @@ body.player-active .side-panel-content {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* =============================================================================
+   COLLAPSIBLE SEARCH PANEL STYLES - Fix #3
+   Add these styles to the END of your existing style.css file
+   ============================================================================= */
+
+/* --- Toggle button for search panel --- */
+.search-panel-toggle {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 32px;
+    height: 32px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: var(--text-salt-crystal);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    z-index: 10;
+}
+
+.search-panel-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.search-panel-toggle:focus-visible {
+    outline: 2px solid var(--accent-canary-teal);
+    outline-offset: 2px;
+}
+
+.search-panel-toggle svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+}
+
+/* Rotate chevron when collapsed */
+.left-side-search-container.collapsed .search-panel-toggle svg {
+    transform: rotate(180deg);
+}
+
+/* --- Collapsed state for search panel --- */
+.left-side-search-container.collapsed {
+    transform: translateX(calc(-100% + 50px));
+    opacity: 0.9;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.3s ease;
+}
+
+/* Keep toggle button visible when collapsed */
+.left-side-search-container.collapsed .search-panel-toggle {
+    transform: translateX(0);
+}
+
+/* Hover effect on collapsed panel */
+.left-side-search-container.collapsed:hover {
+    opacity: 1;
+}
+
+/* --- Mobile auto-collapse state --- */
+@media (max-width: 768px) {
+    .left-side-search-container.auto-collapsed {
+        transform: translateX(-100%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                    opacity 0.3s ease;
+    }
+    
+    /* Don't show toggle button when auto-collapsed */
+    .left-side-search-container.auto-collapsed .search-panel-toggle {
+        opacity: 0;
+        pointer-events: none;
+    }
+    
+    /* Smoother expansion animation */
+    .left-side-search-container:not(.auto-collapsed) {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                    opacity 0.3s ease;
+    }
+}
+
+/* --- Ensure search results don't overflow when collapsed --- */
+.left-side-search-container.collapsed .surf-map-search-results {
+    pointer-events: none;
+}
+
+/* Re-enable pointer events when expanded */
+.left-side-search-container:not(.collapsed) .surf-map-search-results {
+    pointer-events: auto;
+}
+
+/* --- Visual indicator for collapsed state --- */
+.left-side-search-container.collapsed::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 2px;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        var(--accent-canary-teal) 50%,
+        transparent
+    );
+    opacity: 0.5;
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* --- Accessibility: High contrast mode --- */
+@media (prefers-contrast: high) {
+    .search-panel-toggle {
+        border-width: 2px;
+        border-color: var(--text-salt-crystal);
+    }
+    
+    .left-side-search-container.collapsed::before {
+        width: 3px;
+        opacity: 1;
+    }
+}
+
+/* --- Reduced motion support --- */
+@media (prefers-reduced-motion: reduce) {
+    .left-side-search-container,
+    .left-side-search-container.collapsed,
+    .left-side-search-container.auto-collapsed,
+    .search-panel-toggle svg {
+        transition: none;
+    }
+    
+    .left-side-search-container.collapsed::before {
+        animation: none;
+        opacity: 0.5;
+    }
 }

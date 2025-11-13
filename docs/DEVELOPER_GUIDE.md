@@ -135,7 +135,64 @@ To facilitate updates, a dedicated tool, `gps-calculator.html`, is included in t
 -   **Purpose:** This tool allows an operator to upload a new map image and visually align four boundary lines with the edges of the landmass. It then automatically calculates the precise GPS coordinates for the image's four corners.
 -   **Workflow:** When the main surf map image is replaced, the operator must use this tool to generate the new `mapBounds` values. These values are then manually copied into the `data/config/app-config.js` configuration file. This ensures that all surf spot GPS coordinates are correctly translated into pixel positions on the new map.
 
-### 6.2. Multi-Language Lyrics Feature
+### 6.2. Collapsible Search Panel Feature
+
+The collapsible search panel is a responsive UI enhancement that improves the user experience on both desktop and mobile devices by providing intelligent panel management for the surf map search interface.
+
+#### Core Components
+
+- **[`SurfMap.searchPanelCollapsed`](scripts/surf-map/surf-map-core.js:77)**: Boolean state tracking manual collapse state on desktop
+- **[`SurfMap.searchPanelAutoCollapsed`](scripts/surf-map/surf-map-core.js:78)**: Boolean state tracking automatic collapse state on mobile
+- **[`SurfMap.toggleSearchPanel()`](scripts/surf-map/surf-map-core.js:634)**: Manually toggles the search panel collapsed state
+- **[`SurfMap.collapseSearchPanel()`](scripts/surf-map/surf-map-core.js:659)**: Auto-collapses the panel on mobile when surf spot details are opened
+- **[`SurfMap.expandSearchPanel()`](scripts/surf-map/surf-map-core.js:675)**: Re-expands the panel when returning from surf spot details
+
+#### Desktop Functionality
+
+- **Manual Toggle Button**: A chevron button in the top-right corner of the search panel allows users to manually collapse/expand the panel
+- **Visual Indicators**:
+  - Rotating chevron icon indicates panel state
+  - Pulsing glow effect on the collapsed edge provides visual feedback
+  - Smooth CSS transitions with hardware acceleration
+- **Keyboard Accessibility**: Ctrl+/ keyboard shortcut for power users
+- **High Contrast Mode**: Enhanced visual indicators for users with high contrast preferences
+
+#### Mobile Functionality
+
+- **Auto-Collapse Behavior**: The search panel automatically collapses when surf spot details are opened, maximizing screen space
+- **Smart Expansion**: The panel automatically re-expands when users return from surf spot details
+- **Touch Optimization**: Improved touch targets and gesture handling
+- **Performance**: Adaptive frame rates optimized for mobile devices
+
+#### CSS Implementation
+
+The collapsible panel functionality is implemented through extensive CSS additions (130+ lines) in [`style.css`](style.css:3557-3705):
+
+- **`.search-panel-toggle`**: Toggle button styling with hover and focus states
+- **`.left-side-search-container.collapsed`**: Collapsed state with transform animations
+- **`.left-side-search-container.auto-collapsed`**: Mobile auto-collapse state
+- **Responsive Breakpoints**: Different behavior patterns for desktop vs mobile
+- **Accessibility Features**: Reduced motion support, high contrast mode, screen reader optimizations
+
+#### Event Integration
+
+The collapsible panel integrates seamlessly with existing surf map events:
+
+- **`searchPanelToggle`**: Emitted when manual toggle is activated
+- **`searchPanelAutoCollapse`**: Emitted when mobile auto-collapse occurs
+- **Panel State Coordination**: Works with marker click events and panel open/close workflows
+- **Search State Preservation**: Search queries and results are maintained during collapse/expand cycles
+
+#### Accessibility Features
+
+- **ARIA Attributes**: Proper `aria-expanded`, `aria-label`, and `aria-controls` attributes
+- **Keyboard Navigation**: Full keyboard support with Tab, Enter, Space, and shortcut keys
+- **Screen Reader Support**: Live region announcements for state changes
+- **Reduced Motion**: Respects user's motion preferences with `prefers-reduced-motion`
+- **High Contrast**: Enhanced visual indicators in high contrast mode
+- **Focus Management**: Proper focus trapping and visible focus indicators
+
+### 6.3. Multi-Language Lyrics Feature
 
 The multi-language lyrics feature allows users to switch between different language versions of song lyrics within the release information panel. This system is designed for flexibility, performance, and accessibility.
 
