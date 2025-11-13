@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.0] - 2025-11-13
+
+### ✨ Enhancements
+*   **Comprehensive Keyboard Navigation System:** Added full keyboard controls for surf map navigation including arrow keys for panning, +/- for zoom, 0 for reset view, Escape for panel closing, and ? for shortcuts panel.
+*   **Keyboard Shortcuts Panel:** Added a discoverable keyboard shortcuts panel with visual indicators and help documentation.
+*   **Accessibility Improvements:** Enhanced accessibility with proper ARIA attributes, keyboard focus management, and screen reader support for keyboard navigation.
+
+### 🛠️ Technical Improvements
+*   **New Keyboard Handler Module:** Created modular `KeyboardHandler` class for centralized keyboard event management with configurable options.
+*   **Smart Input Detection:** Implemented intelligent typing detection to prevent keyboard shortcuts from interfering with form inputs and search functionality.
+*   **Continuous Panning System:** Added smooth, hardware-accelerated continuous panning when holding arrow keys with performance optimizations.
+
+### 🎨 UI/UX Enhancements
+*   **Visual Keyboard Shortcuts:** Added discoverable "?" button and elegantly designed shortcuts panel with proper HTML entity encoding for cross-browser compatibility.
+*   **Responsive Shortcuts Panel:** Mobile-friendly keyboard shortcuts interface with smooth animations and proper positioning.
+*   **Enhanced User Feedback:** Added visual and audio feedback for keyboard interactions with proper focus management.
+
+### 🔧 Accessibility Features
+*   **Full Keyboard Support:** Complete keyboard navigation for all surf map functions without requiring mouse/touch input.
+*   **Screen Reader Optimization:** Enhanced ARIA labels and live regions for keyboard navigation state changes.
+*   **Focus Management:** Proper focus trapping and visual indicators for keyboard users.
+
+### 📚 Documentation Updates
+*   **Keyboard Navigation Documentation:** Added comprehensive documentation for all keyboard shortcuts and accessibility features.
+
 ## [Unreleased]
 
 ## [1.11.0] - 2025-11-13

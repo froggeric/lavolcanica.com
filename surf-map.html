@@ -174,6 +174,35 @@
                         <button class="map-control-btn" id="zoom-out-btn" aria-label="Zoom out" aria-controls="surf-map-container" tabindex="0">-</button>
                     </div>
                     <button class="map-control-btn" id="reset-view-btn" aria-label="Reset view" aria-controls="surf-map-container" tabindex="0">&#x21bb;</button>
+                    <button class="map-control-btn keyboard-shortcuts-btn" id="keyboard-shortcuts-btn" aria-label="Show keyboard shortcuts" aria-controls="surf-map-container" tabindex="0" title="Press ? for keyboard shortcuts">?</button>
+                </div>
+
+                <!-- Keyboard Shortcuts Panel -->
+                <div class="keyboard-shortcuts-panel" id="keyboard-shortcuts-panel" aria-hidden="true">
+                    <div class="keyboard-shortcuts-content">
+                        <h4>Keyboard Shortcuts</h4>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys">&uarr; &darr; &larr; &rarr;</span>
+                            <span class="shortcut-desc">Pan map</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys">+ / -</span>
+                            <span class="shortcut-desc">Zoom in/out</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys">0</span>
+                            <span class="shortcut-desc">Reset view</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys">Esc</span>
+                            <span class="shortcut-desc">Close panels</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys">Ctrl + /</span>
+                            <span class="shortcut-desc">Toggle search</span>
+                        </div>
+                    </div>
+                    <button class="close-shortcuts-btn" aria-label="Close keyboard shortcuts">&times;</button>
                 </div>
                 <!-- Main surf map container -->
                 <div class="surf-map-container" id="surf-map-container" role="application" aria-label="Interactive surf map of Fuerteventura">
@@ -509,7 +538,52 @@
                 }
             }
             
-            
+  
+            // Handle keyboard shortcuts panel
+            const keyboardShortcutsBtn = document.getElementById('keyboard-shortcuts-btn');
+            const keyboardShortcutsPanel = document.getElementById('keyboard-shortcuts-panel');
+            const closeShortcutsBtn = document.querySelector('.close-shortcuts-btn');
+
+            const toggleKeyboardShortcuts = () => {
+                const isHidden = keyboardShortcutsPanel.getAttribute('aria-hidden') === 'true';
+                keyboardShortcutsPanel.setAttribute('aria-hidden', isHidden ? 'false' : 'true');
+
+                // Blur the button to prevent focus outline when opening panel
+                if (isHidden && keyboardShortcutsBtn) {
+                    keyboardShortcutsBtn.blur();
+                }
+            };
+
+            const closeKeyboardShortcuts = () => {
+                keyboardShortcutsPanel.setAttribute('aria-hidden', 'true');
+            };
+
+            if (keyboardShortcutsBtn) {
+                keyboardShortcutsBtn.addEventListener('click', toggleKeyboardShortcuts);
+            }
+
+            if (closeShortcutsBtn) {
+                closeShortcutsBtn.addEventListener('click', closeKeyboardShortcuts);
+            }
+
+            // Close shortcuts panel when clicking outside
+            document.addEventListener('click', (event) => {
+                if (keyboardShortcutsPanel && keyboardShortcutsPanel.getAttribute('aria-hidden') === 'false') {
+                    const isClickInside = keyboardShortcutsPanel.contains(event.target) ||
+                                       (keyboardShortcutsBtn && keyboardShortcutsBtn.contains(event.target));
+                    if (!isClickInside) {
+                        closeKeyboardShortcuts();
+                    }
+                }
+            });
+
+            // Close shortcuts panel with Escape key
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && keyboardShortcutsPanel && keyboardShortcutsPanel.getAttribute('aria-hidden') === 'false') {
+                    closeKeyboardShortcuts();
+                }
+            });
+
             // Handle map control buttons
             const zoomInBtn = document.getElementById('zoom-in-btn');
             const zoomOutBtn = document.getElementById('zoom-out-btn');

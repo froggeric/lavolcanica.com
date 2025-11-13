@@ -8,6 +8,7 @@
 import { appConfig } from '../../data/config/app-config.js';
 import { Viewport } from './viewport.js';
 import { InteractionManager } from './interaction-manager.js';
+import { KeyboardHandler } from './keyboard-handler.js';
 
 /**
  * Core SurfMap class that manages the map state and coordinates between components.
@@ -66,6 +67,7 @@ export class SurfMap {
         this.spotModal = null;
         this.searchManager = null;
         this.spotsCounter = null;
+        this.keyboardHandler = null;
 
         // Event listeners
         this.eventListeners = new Map();
@@ -158,6 +160,14 @@ export class SurfMap {
                     doubleTapZoomFactor: 1.5 // 1.5x zoom on double tap
                 }
             );
+
+            // Initialize keyboard navigation
+            this.keyboardHandler = new KeyboardHandler(this, {
+                panStep: 50,
+                zoomStep: 0.2,
+                enableContinuousPan: true,
+                panSpeed: 16
+            });
 
             // Initialize the markers manager with mobile optimizations
             const { SurfMarkersManager } = await import('./surf-markers.js');
@@ -876,6 +886,9 @@ export class SurfMap {
         if (this.spotsCounter) {
             this.spotsCounter.destroy();
         }
+        if (this.keyboardHandler) {
+            this.keyboardHandler.destroy();
+        }
 
         // Remove canvas
         if (this.canvas && this.canvas.parentNode) {
@@ -890,6 +903,7 @@ export class SurfMap {
         this.markersManager = null;
         this.searchManager = null;
         this.spotsCounter = null;
+        this.keyboardHandler = null;
         this.state.image = null;
     }
 
