@@ -12,8 +12,8 @@
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.7268,
-          "lng": -13.993,
+          "lat": 28.726760,
+          "lng": -13.993009,
           "accuracy": "verified"
         }
       },
@@ -92,7 +92,7 @@
         "coordinates": {
           "lat": 28.2135,
           "lng": -14.226,
-          "accuracy": "verified"
+          "accuracy": "unverified"
         }
       },
       "waveDetails": {
@@ -173,7 +173,7 @@
         "coordinates": {
           "lat": 28.7415,
           "lng": -13.9353,
-          "accuracy": "verified"
+          "accuracy": "unverified"
         }
       },
       "waveDetails": {
@@ -254,7 +254,7 @@
         "coordinates": {
           "lat": 28.7415,
           "lng": -13.9353,
-          "accuracy": "verified"
+          "accuracy": "unverified"
         }
       },
       "waveDetails": {
@@ -341,8 +341,8 @@
           "La Pared"
         ],
         "coordinates": {
-          "lat": 28.687,
-          "lng": -13.83,
+          "lat": 28.231527,
+          "lng": -14.215697,
           "accuracy": "verified"
         }
       },
@@ -414,8 +414,8 @@
           "Morro Jable"
         ],
         "coordinates": {
-          "lat": 28.05,
-          "lng": -14.3,
+          "lat": 28.0442,
+          "lng": -14.3294,
           "accuracy": "verified"
         }
       },
@@ -498,8 +498,8 @@
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.687,
-          "lng": -13.83,
+          "lat": 28.6871,
+          "lng": -13.8208,
           "accuracy": "verified"
         }
       },
@@ -588,7 +588,7 @@
         "coordinates": {
           "lat": 28.6742,
           "lng": -14.0076,
-          "accuracy": "verified"
+          "accuracy": "unverified"
         }
       },
       "waveDetails": {
@@ -668,8 +668,8 @@
           "Lajares"
         ],
         "coordinates": {
-          "lat": 28.7167,
-          "lng": -13.85,
+          "lat": 28.6728,
+          "lng": -13.8336,
           "accuracy": "verified"
         }
       },
@@ -750,8 +750,8 @@
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.687,
-          "lng": -13.83,
+          "lat": 28.74248918,
+          "lng": -13.86294365,
           "accuracy": "verified"
         }
       },
@@ -826,8 +826,8 @@
           "Morro Jable"
         ],
         "coordinates": {
-          "lat": 28.05,
-          "lng": -14.3,
+          "lat": 28.0657,
+          "lng": -14.5071,
           "accuracy": "verified"
         }
       },
@@ -904,7 +904,7 @@
         "coordinates": {
           "lat": 28.68,
           "lng": -14.01,
-          "accuracy": "verified"
+          "accuracy": "unverified"
         }
       },
       "waveDetails": {
@@ -983,8 +983,8 @@
           "Costa Calma"
         ],
         "coordinates": {
-          "lat": 28.0721,
-          "lng": -14.3044,
+          "lat": 28.0714,
+          "lng": -14.3040,
           "accuracy": "verified"
         }
       },
@@ -1065,8 +1065,8 @@
           "Morro Jable"
         ],
         "coordinates": {
-          "lat": 28.6742,
-          "lng": -14.0076,
+          "lat": 28.0714,
+          "lng": -14.3040,
           "accuracy": "verified"
         }
       },
@@ -1145,9 +1145,9 @@
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.7167,
-          "lng": -13.85,
-          "accuracy": "unverified"
+          "lat": 28.7125,
+          "lng": -13.8423,
+          "accuracy": "verified"
         }
       },
       "waveDetails": {
@@ -1229,8 +1229,8 @@
           "Majanicho"
         ],
         "coordinates": {
-          "lat": 28.7512,
-          "lng": -13.878,
+          "lat": 28.756348,
+          "lng": -13.882551,
           "accuracy": "verified"
         }
       },
@@ -1315,9 +1315,9 @@
           "Morro Jable"
         ],
         "coordinates": {
-          "lat": 28.7415,
-          "lng": -13.9353,
-          "accuracy": "unverified"
+          "lat": 28.1118,
+          "lng": -14.3902,
+          "accuracy": "verified"
         }
       },
       "waveDetails": {
@@ -1399,7 +1399,7 @@
         "coordinates": {
           "lat": 28.6742,
           "lng": -14.0076,
-          "accuracy": "verified"
+          "accuracy": "unverified"
         }
       },
       "waveDetails": {
@@ -1480,7 +1480,7 @@
         "coordinates": {
           "lat": 28.7415,
           "lng": -13.9353,
-          "accuracy": "verified"
+          "accuracy": "unverified"
         }
       },
       "waveDetails": {
@@ -1556,8 +1556,8 @@
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.7415,
-          "lng": -13.9353,
+          "lat": 28.73923433,
+          "lng": -13.95529747,
           "accuracy": "verified"
         }
       },
@@ -1638,8 +1638,8 @@
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.7167,
-          "lng": -13.85,
+          "lat": 28.7155,
+          "lng": -13.8464,
           "accuracy": "verified"
         }
       },
@@ -1724,7 +1724,7 @@
         "coordinates": {
           "lat": 28.687,
           "lng": -13.83,
-          "accuracy": "verified"
+          "accuracy": "unverified"
         }
       },
       "waveDetails": {
@@ -1806,7 +1806,7 @@
         "coordinates": {
           "lat": 28.7415,
           "lng": -13.9353,
-          "accuracy": "verified"
+          "accuracy": "unverified"
         }
       },
       "waveDetails": {
@@ -1883,8 +1883,8 @@
           "Pájara"
         ],
         "coordinates": {
-          "lat": 28.6742,
-          "lng": -14.0076,
+          "lat": 28.213524,
+          "lng": -14.226007,
           "accuracy": "verified"
         }
       },
@@ -1971,8 +1971,8 @@
           "Morro Jable"
         ],
         "coordinates": {
-          "lat": 28.6742,
-          "lng": -14.0076,
+          "lat": 28.0848,
+          "lng": -14.4921,
           "accuracy": "verified"
         }
       },
@@ -2054,8 +2054,8 @@
           "Tindaya"
         ],
         "coordinates": {
-          "lat": 28.6742,
-          "lng": -14.0076,
+          "lat": 28.577580,
+          "lng": -14.043362,
           "accuracy": "verified"
         }
       },
@@ -2125,13 +2125,13 @@
       "alternativeNames": [],
       "description": "A fun and accessible breakwater wave that offers left-hand rides along a harbor wall. It's a wind-protected spot, making it a good option on bigger north shore days and a perfect wave for longboarders.",
       "location": {
-        "area": "North",
+        "area": "Southeast",
         "nearestTowns": [
-          "Las Playas"
+          "Las Playitas"
         ],
         "coordinates": {
-          "lat": 28.687,
-          "lng": -13.83,
+          "lat": 28.22774518,
+          "lng": -13.98512363,
           "accuracy": "verified"
         }
       },
@@ -2208,8 +2208,8 @@
           "Morro Jable"
         ],
         "coordinates": {
-          "lat": 28.6742,
-          "lng": -14.0076,
+          "lat": 28.0756,
+          "lng": -14.4719,
           "accuracy": "verified"
         }
       },
@@ -2282,8 +2282,8 @@
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.7502,
-          "lng": -13.8361,
+          "lat": 28.750188,
+          "lng": -13.836116,
           "accuracy": "verified"
         }
       },
@@ -2362,8 +2362,8 @@
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.717,
-          "lng": -13.85,
+          "lat": 28.7127,
+          "lng": -13.8395,
           "accuracy": "verified"
         }
       },
@@ -2446,8 +2446,8 @@
           "Lajares"
         ],
         "coordinates": {
-          "lat": 28.7415,
-          "lng": -13.9353,
+          "lat": 28.743887,
+          "lng": -13.936072,
           "accuracy": "verified"
         }
       },
@@ -2529,7 +2529,7 @@
         "coordinates": {
           "lat": 28.7415,
           "lng": -13.9353,
-          "accuracy": "verified"
+          "accuracy": "unverified"
         }
       },
       "waveDetails": {
@@ -2605,7 +2605,7 @@
         "coordinates": {
           "lat": 28.5167,
           "lng": -13.8667,
-          "accuracy": "verified"
+          "accuracy": "unverified"
         }
       },
       "waveDetails": {
@@ -2764,8 +2764,8 @@
           "Puerto del Rosario"
         ],
         "coordinates": {
-          "lat": 28.4833,
-          "lng": -13.85,
+          "lat": 28.533,
+          "lng": -13.833,
           "accuracy": "verified"
         }
       },
@@ -2845,8 +2845,8 @@
           "Majanicho"
         ],
         "coordinates": {
-          "lat": 28.7237,
-          "lng": -13.9885,
+          "lat": 28.725376,
+          "lng": -13.989917,
           "accuracy": "verified"
         }
       },
@@ -2927,8 +2927,8 @@
           "Pájara"
         ],
         "coordinates": {
-          "lat": 28.6742,
-          "lng": -14.0076,
+          "lat": 28.0806,
+          "lng": -14.504485,
           "accuracy": "verified"
         }
       },
@@ -3013,7 +3013,7 @@
         "coordinates": {
           "lat": 28.73,
           "lng": -13.94,
-          "accuracy": "verified"
+          "accuracy": "unverified"
         }
       },
       "waveDetails": {
@@ -3174,7 +3174,7 @@
         "coordinates": {
           "lat": 28.3465,
           "lng": -14.1782,
-          "accuracy": "verified"
+          "accuracy": "unverified"
         }
       },
       "waveDetails": {
@@ -3260,7 +3260,7 @@
         "coordinates": {
           "lat": 28.7556,
           "lng": -13.8951,
-          "accuracy": "verified"
+          "accuracy": "medium"
         }
       },
       "waveDetails": {
@@ -3341,7 +3341,7 @@
         "coordinates": {
           "lat": 28.73,
           "lng": -13.94,
-          "accuracy": "verified"
+          "accuracy": "unverified"
         }
       },
       "waveDetails": {
