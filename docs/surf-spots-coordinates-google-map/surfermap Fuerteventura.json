@@ -1,0 +1,476 @@
+{
+  "source_info": {
+    "site": "surfermap Fuerteventura",
+    "url": "https://surfermap.com/loc/fuerteventura/"
+  },
+  "surf_spots": [
+    {
+      "name": "Sotavento · Lagoon",
+      "description": "",
+      "gps": {
+        "latitude": 28.125851038277528,
+        "longitude": -14.249696731567383
+      },
+      "url": "https://surfermap.com/item/guide-kitesurf-spot-sotaventa-lagoon/"
+    },
+    {
+      "name": "Waikiki Beach",
+      "description": "",
+      "gps": {
+        "latitude": 28.73456354113835,
+        "longitude": -13.866929411888123
+      },
+      "url": "https://surfermap.com/item/guide-sup-spot-waikiki/"
+    },
+    {
+      "name": "Majanicho",
+      "description": "",
+      "gps": {
+        "latitude": 28.743204108197805,
+        "longitude": -13.9351487159729
+      },
+      "url": "https://surfermap.com/item/guide-sup-spot-majanicho/"
+    },
+    {
+      "name": "Sotavento · Playa Barca",
+      "description": "",
+      "gps": {
+        "latitude": 28.134896245920107,
+        "longitude": -14.241671562194824
+      },
+      "url": "https://surfermap.com/item/guide-kitesurf-spot-sotavento/"
+    },
+    {
+      "name": "La Entubadera",
+      "description": "",
+      "gps": {
+        "latitude": 28.71674864238865,
+        "longitude": -13.839383125305176
+      },
+      "url": "https://surfermap.com/item/guide-kitesurf-spot-entubadera/"
+    },
+    {
+      "name": "Flag Beach",
+      "description": "",
+      "gps": {
+        "latitude": 28.722318770564993,
+        "longitude": -13.842215538024902
+      },
+      "url": "https://surfermap.com/item/guide-kitesurf-spot-flagbeach/"
+    },
+    {
+      "name": "Bajo del Medio",
+      "description": "",
+      "gps": {
+        "latitude": 28.731952886320926,
+        "longitude": -13.858609199523926
+      },
+      "url": "https://surfermap.com/item/guide-kitesurf-spot-bajo-del-medio/"
+    },
+    {
+      "name": "Majanicho",
+      "description": "",
+      "gps": {
+        "latitude": 28.742809018925428,
+        "longitude": -13.93517017364502
+      },
+      "url": "https://surfermap.com/item/guide-kitesurf-spot-majanicho/"
+    },
+    {
+      "name": "El Hierro",
+      "description": "",
+      "gps": {
+        "latitude": 28.738763971370293,
+        "longitude": -13.952443599700928
+      },
+      "url": "https://surfermap.com/item/guide-kitesurf-spot-el-hierro/"
+    },
+    {
+      "name": "Bajo del Medio",
+      "description": "",
+      "gps": {
+        "latitude": 28.732084596594497,
+        "longitude": -13.85877013206482
+      },
+      "url": "https://surfermap.com/item/guide-sup-spot-bajo-del-medio/"
+    },
+    {
+      "name": "El Cotillo",
+      "description": "",
+      "gps": {
+        "latitude": 28.672544055644753,
+        "longitude": -14.009381532669067
+      },
+      "url": "https://surfermap.com/item/guide-kitesurf-spot-el-cotillo/"
+    },
+    {
+      "name": "Playa Sotavento · Risco del Paso",
+      "description": "",
+      "gps": {
+        "latitude": 28.110975878305155,
+        "longitude": -14.26300048828125
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-sotavento-rsico-del-paso/"
+    },
+    {
+      "name": "Playa Sotavento · Lagoon",
+      "description": "",
+      "gps": {
+        "latitude": 28.12437496960232,
+        "longitude": -14.250383377075195
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-sotavento-lagoon/"
+    },
+    {
+      "name": "Playa Sotavento · Playa Barca",
+      "description": "",
+      "gps": {
+        "latitude": 28.138188663343726,
+        "longitude": -14.239912033081055
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-sotavento-rene-egli/"
+    },
+    {
+      "name": "Costa Calma",
+      "description": "",
+      "gps": {
+        "latitude": 28.1606888701391,
+        "longitude": -14.224328398704529
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-costa-calma/"
+    },
+    {
+      "name": "Matas Blancas",
+      "description": "",
+      "gps": {
+        "latitude": 28.1712207663751,
+        "longitude": -14.203412532806396
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-matas-blancas/"
+    },
+    {
+      "name": "Puerto Lajas",
+      "description": "",
+      "gps": {
+        "latitude": 28.54343760518725,
+        "longitude": -13.836851119995117
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-puerto-lajas/"
+    },
+    {
+      "name": "El Burro",
+      "description": "",
+      "gps": {
+        "latitude": 28.687335894691245,
+        "longitude": -13.830982446670532
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-glass-beach/"
+    },
+    {
+      "name": "Flag Beach",
+      "description": "",
+      "gps": {
+        "latitude": 28.721340256018088,
+        "longitude": -13.842000961303711
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-flagbeach/"
+    },
+    {
+      "name": "La Concha",
+      "description": "",
+      "gps": {
+        "latitude": 28.739572993410285,
+        "longitude": -13.824255466461182
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-la-concha/"
+    },
+    {
+      "name": "Bajo del Medio",
+      "description": "",
+      "gps": {
+        "latitude": 28.7321786752597,
+        "longitude": -13.858780860900879
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-bajo-del-medio/"
+    },
+    {
+      "name": "Galera Beach",
+      "description": "",
+      "gps": {
+        "latitude": 28.733745072591855,
+        "longitude": -13.866688013076782
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-ventura/"
+    },
+    {
+      "name": "Waikiki Beach",
+      "description": "",
+      "gps": {
+        "latitude": 28.73491397542399,
+        "longitude": -13.866800665855408
+      },
+      "url": "https://surfermap.com/item/windsurf-spot-waikiki-beach/"
+    },
+    {
+      "name": "Bristol",
+      "description": "",
+      "gps": {
+        "latitude": 28.746947975227233,
+        "longitude": -13.873822689056396
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-bristol/"
+    },
+    {
+      "name": "La Caleta",
+      "description": "",
+      "gps": {
+        "latitude": 28.750202584764573,
+        "longitude": -13.922896385192871
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-la-caleta/"
+    },
+    {
+      "name": "Majanicho",
+      "description": "",
+      "gps": {
+        "latitude": 28.74585681175729,
+        "longitude": -13.932209014892578
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-majanicho/"
+    },
+    {
+      "name": "Punta Blanca",
+      "description": "",
+      "gps": {
+        "latitude": 28.725023751110008,
+        "longitude": -13.986963629722595
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-punta-blanca/"
+    },
+    {
+      "name": "El Puertito",
+      "description": "",
+      "gps": {
+        "latitude": 28.685571149327313,
+        "longitude": -14.0138179063797
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-puertito/"
+    },
+    {
+      "name": "El Cotillo",
+      "description": "",
+      "gps": {
+        "latitude": 28.670294270656978,
+        "longitude": -14.010207653045654
+      },
+      "url": "https://surfermap.com/item/guide-windsurf-spot-el-cotillo/"
+    },
+    {
+      "name": "Esquinzo",
+      "description": "",
+      "gps": {
+        "latitude": 28.634799641231574,
+        "longitude": -14.02680516242981
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-esquinzo/"
+    },
+    {
+      "name": "Playa de Jarugo",
+      "description": "",
+      "gps": {
+        "latitude": 28.571255942335103,
+        "longitude": -14.048396944999695
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-playa-de-jarugo/"
+    },
+    {
+      "name": "Playa de Garcey",
+      "description": "",
+      "gps": {
+        "latitude": 28.346643617010102,
+        "longitude": -14.176504611968994
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-american-star/"
+    },
+    {
+      "name": "La Pared",
+      "description": "",
+      "gps": {
+        "latitude": 28.214654468351718,
+        "longitude": -14.222965836524963
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-la-pared/"
+    },
+    {
+      "name": "Cofete",
+      "description": "",
+      "gps": {
+        "latitude": 28.108931801947506,
+        "longitude": -14.388742446899414
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-surf-cofete/"
+    },
+    {
+      "name": "Cruz Roja",
+      "description": "",
+      "gps": {
+        "latitude": 28.046653989760127,
+        "longitude": -14.328049421310425
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-cruz-roja/"
+    },
+    {
+      "name": "Playa Blanca",
+      "description": "",
+      "gps": {
+        "latitude": 28.47685864397556,
+        "longitude": -13.866913318634033
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-playa-blanca/"
+    },
+    {
+      "name": "Puerto Lajas",
+      "description": "",
+      "gps": {
+        "latitude": 28.543258533818257,
+        "longitude": -13.837054967880249
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-puerto-lajas/"
+    },
+    {
+      "name": "Playa del Moro",
+      "description": "",
+      "gps": {
+        "latitude": 28.674106639382938,
+        "longitude": -13.833836317062378
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-playa-del-moro/"
+    },
+    {
+      "name": "El Burro",
+      "description": "",
+      "gps": {
+        "latitude": 28.687190010202205,
+        "longitude": -13.831079006195068
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-el-burro/"
+    },
+    {
+      "name": "La Entubadera",
+      "description": "",
+      "gps": {
+        "latitude": 28.717576653189195,
+        "longitude": -13.83976936340332
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-entubadera/"
+    },
+    {
+      "name": "Bajo del Medio",
+      "description": "",
+      "gps": {
+        "latitude": 28.732131635937684,
+        "longitude": -13.858577013015747
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-bajo-del-medio/"
+    },
+    {
+      "name": "El Muelle",
+      "description": "",
+      "gps": {
+        "latitude": 28.746063757429248,
+        "longitude": -13.866323232650757
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-harbour-el-muelle/"
+    },
+    {
+      "name": "Generoso",
+      "description": "",
+      "gps": {
+        "latitude": 28.755215990012708,
+        "longitude": -13.88598918914795
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-generoso/"
+    },
+    {
+      "name": "Mejillones",
+      "description": "",
+      "gps": {
+        "latitude": 28.75284570458331,
+        "longitude": -13.899775743484497
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-mejillones/"
+    },
+    {
+      "name": "Majanicho",
+      "description": "",
+      "gps": {
+        "latitude": 28.748584699058835,
+        "longitude": -13.931125402450562
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-majanicho/"
+    },
+    {
+      "name": "Majanicho · Inside",
+      "description": "",
+      "gps": {
+        "latitude": 28.742959529300595,
+        "longitude": -13.935095071792603
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-majanicho-inside-righthander/"
+    },
+    {
+      "name": "Majanicho · El Pueblo",
+      "description": "",
+      "gps": {
+        "latitude": 28.741416787675124,
+        "longitude": -13.93689751625061
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-majanicho-el-pueblo/"
+    },
+    {
+      "name": "La Izquierda",
+      "description": "",
+      "gps": {
+        "latitude": 28.740363194936684,
+        "longitude": -13.950973749160767
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-la-izquierda/"
+    },
+    {
+      "name": "La Derecha de los Alemanes",
+      "description": "",
+      "gps": {
+        "latitude": 28.738049016446457,
+        "longitude": -13.953602313995361
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-derecha-alemanes/"
+    },
+    {
+      "name": "Punta Blanca",
+      "description": "",
+      "gps": {
+        "latitude": 28.725023751110033,
+        "longitude": -13.986904621124268
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-punta-blanca-surf/"
+    },
+    {
+      "name": "Punta Gorda",
+      "description": "",
+      "gps": {
+        "latitude": 28.72038995908734,
+        "longitude": -13.998405933380127
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-punta-gorda/"
+    },
+    {
+      "name": "El Cotillo · Piedra Playa",
+      "description": "",
+      "gps": {
+        "latitude": 28.67437020542724,
+        "longitude": -14.009188413619995
+      },
+      "url": "https://surfermap.com/item/guide-surf-spot-el-cotillo/"
+    }
+  ]
+}

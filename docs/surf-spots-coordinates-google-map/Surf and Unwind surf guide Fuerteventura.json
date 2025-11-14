@@ -1,0 +1,72 @@
+{
+  "source_info": {
+    "site": "Surf and Unwind surf guide Fuerteventura",
+    "url": "https://www.surfandunwind.com/surf-guide-fuerteventura/best-surf-spots-in-fuerteventura-and-for-beginners/"
+  },
+  "surf_spots": [
+    {
+      "name": "El Burro (Glass Beach)",
+      "description": "Surf Spot",
+      "gps": {
+        "latitude": 28.687271,
+        "longitude": -13.831125
+      }
+    },
+    {
+      "name": "Flag Beach",
+      "description": "Surf Spot",
+      "gps": {
+        "latitude": 28.720515,
+        "longitude": -13.840599
+      }
+    },
+    {
+      "name": "El Cotillo",
+      "description": "Surf Spot",
+      "gps": {
+        "latitude": 28.673937,
+        "longitude": -14.009591
+      }
+    },
+    {
+      "name": "Rocky Point",
+      "description": "Surf Spot",
+      "gps": {
+        "latitude": 28.732426,
+        "longitude": -13.856389
+      }
+    },
+    {
+      "name": "Playa Blanca",
+      "description": "Surf Spot",
+      "gps": {
+        "latitude": 28.476637,
+        "longitude": -13.866552
+      }
+    },
+    {
+      "name": "Los Lobos",
+      "description": "Surf Spot",
+      "gps": {
+        "latitude": 28.739152,
+        "longitude": -13.832321
+      }
+    },
+    {
+      "name": "The Bubble",
+      "description": "Surf Spot",
+      "gps": {
+        "latitude": 28.742951,
+        "longitude": -13.949868
+      }
+    },
+    {
+      "name": "El Hiero",
+      "description": "Surf Spot",
+      "gps": {
+        "latitude": 28.741798,
+        "longitude": -13.951681
+      }
+    }
+  ]
+}

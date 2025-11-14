@@ -1,0 +1,250 @@
+{
+  "source_info": {
+    "site": "FreshSurf surfspots aus Fuerteventura",
+    "url": "https://www.freshsurf.de/en/spotfinder/",
+    "map": "https://www.google.com/maps/d/viewer?mid=13WoX5MyB8v0Rjnd41YH9oy9Ewbk&femb=1",
+    "kml": "https://www.google.com/url?sa=E&q=https%3A%2F%2Fwww.google.com%2Fmaps%2Fd%2Fkml%3Fmid%3D13WoX5MyB8v0Rjnd41YH9oy9Ewbk"
+  },
+  "surf_spots": [
+    {
+      "name": "Piedra Playa El Cotillo",
+      "description": "A powerful beach break that often closes out when the swell is overhead or the tides are wrong for the sandbanks. The banks improve towards winter and can offer amazing barreling sections. It picks up swell from the north to the west. It's a great spot for intermediates, but also offers excellent whitewater conditions for beginners. This is our preferred beach for teaching, and you can practice here on your own before or after a lesson. El Cotillo works year-round, as long as the swell isn't too big or too small.",
+      "gps": {
+        "latitude": 28.6734195,
+        "longitude": -14.009285
+      }
+    },
+    {
+      "name": "Playa Ultima - El Cotillo",
+      "description": "A powerful beach break that often closes out when the swell is overhead or the tides are wrong for the sandbanks. The banks improve towards winter and can offer amazing barreling sections. It picks up swell from the north to the west. It's a great spot for intermediates, but also offers excellent whitewater conditions for beginners. This is our preferred beach for teaching, and you can practice here on your own before or after a lesson. El Cotillo works year-round, as long as the swell isn't too big or too small.",
+      "gps": {
+        "latitude": 28.6675455,
+        "longitude": -14.0110016
+      }
+    },
+    {
+      "name": "Playa de la Escalera",
+      "description": "A powerful beach break surrounded by beautiful steep cliffs. It's a fantastic spot for beginners and intermediates, especially in the summer on less windy days. It works on swells from the north to the west. The large cliffs offer protection from northeast winds. You'll definitely find longer waves here than in El Cotillo. Conditions can vary, so it's always best to check it on the day.",
+      "gps": {
+        "latitude": 28.6474736,
+        "longitude": -14.0217733
+      }
+    },
+    {
+      "name": "Esquinzo",
+      "description": "A powerful beach break featuring barreling sections. It picks up swell from the north to the west, with large cliffs providing shelter from northeast winds. The waves here are typically longer than in El Cotillo. Be respectful of the locals—if it's crowded and firing, it might be best to watch for a while. Conditions can be good at any time of year.",
+      "gps": {
+        "latitude": 28.6347996,
+        "longitude": -14.0267086
+      }
+    },
+    {
+      "name": "Playa de las Mujeres (Tindaya)",
+      "description": "When the North Shore is flat, you'll likely find waves here. This beach break picks up swell from the north to the west. It's an easy-to-surf wave suitable for all levels and works best with an east wind. The best season is from September to October.",
+      "gps": {
+        "latitude": 28.5714821,
+        "longitude": -14.0486813
+      }
+    },
+    {
+      "name": "Punta Gorda",
+      "description": "A sheltered surf spot, ideal when it's too big, messy, or windy everywhere else. It can even handle strong onshore winds. Large swells reform over a shallow take-off zone, creating a beautiful left with several smaller sections. Be aware of the strong current; constant paddling is essential.",
+      "gps": {
+        "latitude": 28.7199854,
+        "longitude": -13.998127
+      }
+    },
+    {
+      "name": "Punta Blanca",
+      "description": "A brilliant spot for beginners with calmer, somewhat disorganized waves. It's perfect for your first long whitewater rides and for catching smaller, reforming green waves further out. This spot is atypical for the North Shore as the waves don't break in a perfectly orderly fashion. You can almost always find a wave here, big or small. Sometimes it's great for longboarders when it's clean and small. Works all year round.",
+      "gps": {
+        "latitude": 28.7241252,
+        "longitude": -13.9890289
+      }
+    },
+    {
+      "name": "La Derecha de los Alemanes",
+      "description": "Known as the \"German's Right,\" this is a steep right-hand wave that picks up any swell from the north to the west. On a good day, it offers barrel sections. With a large west swell, this is the only spot on the North Shore that still works. On smaller days, a smaller left can be surfed. It works better at low tide. The wave breaks in front of a beautiful sandy beach, which is great for sunbathing. The best season is from October to March.",
+      "gps": {
+        "latitude": 28.7395166,
+        "longitude": -13.9551687
+      }
+    },
+    {
+      "name": "El Hierro",
+      "description": "Also known as \"La Izquierda\" (The Left), this is a superb reef wave that works best with a north swell. On a good day, you'll find some great barrel sections. It can get very crowded when it's good. It works best with an east wind and breaks in front of a beautiful beach. The best season is from October to March.",
+      "gps": {
+        "latitude": 28.740081,
+        "longitude": -13.9534521
+      }
+    },
+    {
+      "name": "The Bubble",
+      "description": "An expert-level wave. This is a shallow, barreling A-frame of exceptional quality that works best on a west swell with an east wind. It's known for snapping boards and is truly only for very advanced surfers. It gets crowded very quickly, especially when it's good. Respect the locals; it might be better to watch from the sidelines. The best season is from October to March.",
+      "gps": {
+        "latitude": 28.7410217,
+        "longitude": -13.9516926
+      }
+    },
+    {
+      "name": "Majanicho Inside (left)",
+      "description": "A famous A-frame that starts working perfectly when the other spots on the North Shore are too big. It remains surfable even with strong onshore wind. To avoid a tricky walk over the reef, enter the water from the corner of the small beach. The best season is from November to April.",
+      "gps": {
+        "latitude": 28.7414732,
+        "longitude": -13.9375734
+      }
+    },
+    {
+      "name": "Majanicho Inside (right)",
+      "description": "A mellow right-hander that starts working when the main spots on the North Shore are too big. It's still surfable with onshore wind. To avoid a tricky walk over the reef, enter the water from the corner of the small beach. It's perfect for intermediates or longboarders. The best season is from November to April.",
+      "gps": {
+        "latitude": 28.7439943,
+        "longitude": -13.9358568
+      }
+    },
+    {
+      "name": "Majanicho Outside",
+      "description": "An easy-to-surf right-hand wave that works best with a north swell. When the outer reef gets too big, the inner reef starts to work. The wave offers long rides and a solid shoulder, great for practicing cutbacks. It's a fantastic wave for intermediates and cruisers, working best with an east wind at low tide. During a \"Calima\" (strong east wind), you'll find many windsurfers here. The paddle-out is long, so you'll need some power. It has also become a famous SUP spot.",
+      "gps": {
+        "latitude": 28.74866,
+        "longitude": -13.9343977
+      }
+    },
+    {
+      "name": "Mejiones",
+      "description": "A famous big-wave spot that works best with a large south swell and southwest wind. When it gets big here, you might witness a tow-in session. It can get very crowded on smaller days. This spot has broken many boards and is only suitable for very advanced surfers. It works best between October and March.",
+      "gps": {
+        "latitude": 28.7538898,
+        "longitude": -13.9018679
+      }
+    },
+    {
+      "name": "La Concava",
+      "description": "A shallow beach break on the inside of Mejiones that breaks both left and right. The wave is also called \"Lazy's\" because you need very little paddling to catch a tube. It works best with a strong west swell and southwest wind. This spot is known for breaking boards and is only for advanced surfers. The best season is from October to March.",
+      "gps": {
+        "latitude": 28.7488481,
+        "longitude": -13.914957
+      }
+    },
+    {
+      "name": "La Caleta",
+      "description": null,
+      "gps": {
+        "latitude": 28.7530244,
+        "longitude": -13.9232826
+      }
+    },
+    {
+      "name": "La Caleta Inside",
+      "description": null,
+      "gps": {
+        "latitude": 28.74866,
+        "longitude": -13.9184332
+      }
+    },
+    {
+      "name": "La Concava",
+      "description": "A shallow reef break on the inside of Mejiones that breaks both left and right. The wave is also called \"Lazy's\" because you need very little paddling to catch a tube. It works best with a strong west swell and southwest wind. This spot is known for breaking boards and is only for advanced surfers. The best season is from October to March.",
+      "gps": {
+        "latitude": 28.7531373,
+        "longitude": -13.8965893
+      }
+    },
+    {
+      "name": "Generoso",
+      "description": "A rather mellow wave that breaks both left and right over a reef. It picks up swell best from the west. The left works from low to mid tide and is at its best with a west wind. The most suitable months are from October to March.",
+      "gps": {
+        "latitude": 28.7563353,
+        "longitude": -13.8847876
+      }
+    },
+    {
+      "name": "Bristol",
+      "description": null,
+      "gps": {
+        "latitude": 28.7462895,
+        "longitude": -13.8714409
+      }
+    },
+    {
+      "name": "Harbour Wall",
+      "description": "A long, wall-like left-hand wave that offers a super long shoulder. It breaks right at the Corralejo harbor and works best with a west swell and wind. Avoid surfing the left at high tide, as you can get slammed onto the hard lava reef. At high tide, the shorter right-hand wave is the better option. The best season is between November and April.",
+      "gps": {
+        "latitude": 28.7462519,
+        "longitude": -13.8644457
+      }
+    },
+    {
+      "name": "Corralejo Bay",
+      "description": null,
+      "gps": {
+        "latitude": 28.7337968,
+        "longitude": -13.865304
+      }
+    },
+    {
+      "name": "Punta Elena - Rocky Point",
+      "description": "When the North Shore is too big, a wave forms between Corralejo and Lobos Island. The outer reef breaks as a large right-hander with long rides. On the inside, a smaller wave breaks both left and right. The outside is a well-known SUP spot. This wave is well-suited for intermediates and longboarders. Enter the water 'around the corner' to avoid a long walk over sharp lava rock. It works best between November and March.",
+      "gps": {
+        "latitude": 28.7327055,
+        "longitude": -13.8567638
+      }
+    },
+    {
+      "name": "Flagbeach",
+      "description": null,
+      "gps": {
+        "latitude": 28.7211521,
+        "longitude": -13.8399196
+      }
+    },
+    {
+      "name": "La Entubadera",
+      "description": "A very powerful beach break with some beautiful tube sections over a sand-covered reef. Currently, there isn't much sand left, making the reef treacherous due to its many holes. It works well when the north is too big and picks up swell best from the northwest. Northwest winds create perfect offshore conditions. It's best surfed at high tide. The most suitable season is from November to April.",
+      "gps": {
+        "latitude": 28.7166922,
+        "longitude": -13.8379455
+      }
+    },
+    {
+      "name": "El Burro",
+      "description": null,
+      "gps": {
+        "latitude": 28.6876324,
+        "longitude": -13.8307571
+      }
+    },
+    {
+      "name": "Glass Beach",
+      "description": "A very powerful beach break with some beautiful sections over a sand-covered reef. It works well when the north gets too big and handles northwest swells best. With a northwest wind, you get offshore conditions that bring out the best in the waves. It's best surfed at high tide and runs well in the summer.",
+      "gps": {
+        "latitude": 28.6846205,
+        "longitude": -13.8320446
+      }
+    },
+    {
+      "name": "Playa del Moro",
+      "description": "A beach break suitable for all levels. It's very popular and well-known among local surf schools. It rarely works in the winter as it needs larger northwest swells. It's most frequently surfed in the summer with northeast wind swells. The best conditions are found between April and September.",
+      "gps": {
+        "latitude": 28.6741537,
+        "longitude": -13.8333964
+      }
+    },
+    {
+      "name": "Puerto Lajas",
+      "description": "A large bay located just north of the island's capital. It offers left and right waves that break over a reef. This spot is often surfed in the summer, as the wave is formed by northeast wind swells, which can produce head-high sets. It's best surfed in the morning and evening. During the day, wind and kite surfers often take over when the trade winds pick up. It works best between April and September.",
+      "gps": {
+        "latitude": 28.5401954,
+        "longitude": -13.8371086
+      }
+    },
+    {
+      "name": "Playa Blanca",
+      "description": "Playa Blanca is a large sandy beach located between the airport and Puerto del Rosario. It's most commonly surfed in the summer because it requires strong northeast wind swells. It's a great beginner spot, with relatively mellow and sometimes a bit messy waves. Works all year round.",
+      "gps": {
+        "latitude": 28.4804611,
+        "longitude": -13.8659477
+      }
+    }
+  ]
+}

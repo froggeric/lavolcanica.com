@@ -1,0 +1,282 @@
+{
+  "source_info": {
+    "website_name": "Surfspots Fuerteventura Planet Surfcamps",
+    "website_url": "https://planetsurfcamps.co.uk/surf-camps-canary-islands/surf-camp-fuerteventura/surfspots-fuerteventura/",
+    "google_map_url": "https://www.google.com/maps/d/viewer?mid=1UyI9MycC9JBhpzWEukQ8bomt1w8&femb=1",
+    "kml_download_link": "https://www.google.com/maps/d/kml?mid=1UyI9MycC9JBhpzWEukQ8bomt1w8"
+  },
+  "surf_spots": [
+    {
+      "name": "Punta Helena, Rocky Point",
+      "description": null,
+      "gps": {
+        "latitude": 28.7331947,
+        "longitude": -13.8558841
+      }
+    },
+    {
+      "name": "El Muelle",
+      "description": null,
+      "gps": {
+        "latitude": 28.7459133,
+        "longitude": -13.864274
+      }
+    },
+    {
+      "name": "Bristol",
+      "description": null,
+      "gps": {
+        "latitude": 28.7498263,
+        "longitude": -13.8742304
+      }
+    },
+    {
+      "name": "Machanicho",
+      "description": null,
+      "gps": {
+        "latitude": 28.74644,
+        "longitude": -13.9357495
+      }
+    },
+    {
+      "name": "Punta Blanca",
+      "description": null,
+      "gps": {
+        "latitude": 28.7256588,
+        "longitude": -13.989619
+      }
+    },
+    {
+      "name": "Lobos",
+      "description": null,
+      "gps": {
+        "latitude": 28.7404196,
+        "longitude": -13.833375
+      }
+    },
+    {
+      "name": "Derecha de los Alemanes",
+      "description": null,
+      "gps": {
+        "latitude": 28.7389333,
+        "longitude": -13.9555764
+      }
+    },
+    {
+      "name": "El Hierro",
+      "description": null,
+      "gps": {
+        "latitude": 28.7416802,
+        "longitude": -13.9523578
+      }
+    },
+    {
+      "name": "The Bubble ",
+      "description": "Surf and Bodyboard",
+      "gps": {
+        "latitude": 28.7432605,
+        "longitude": -13.9503193
+      }
+    },
+    {
+      "name": null,
+      "description": "SUP chill out",
+      "gps": {
+        "latitude": 28.6902865,
+        "longitude": -14.015336
+      }
+    },
+    {
+      "name": "Cotillio Beach",
+      "description": null,
+      "gps": {
+        "latitude": 28.6758292,
+        "longitude": -14.0098858
+      }
+    },
+    {
+      "name": "Cotillo Beach",
+      "description": null,
+      "gps": {
+        "latitude": 28.6748503,
+        "longitude": -14.0105724
+      }
+    },
+    {
+      "name": "Los Lagos",
+      "description": null,
+      "gps": {
+        "latitude": 28.7155443,
+        "longitude": -14.0098429
+      }
+    },
+    {
+      "name": "Los Lagos",
+      "description": null,
+      "gps": {
+        "latitude": 28.7149421,
+        "longitude": -14.0081692
+      }
+    },
+    {
+      "name": "Punta Blanca",
+      "description": null,
+      "gps": {
+        "latitude": 28.7255553,
+        "longitude": -13.9877415
+      }
+    },
+    {
+      "name": "Machanicho",
+      "description": null,
+      "gps": {
+        "latitude": 28.7452736,
+        "longitude": -13.9366293
+      }
+    },
+    {
+      "name": "Machanicho",
+      "description": null,
+      "gps": {
+        "latitude": 28.7445211,
+        "longitude": -13.9371872
+      }
+    },
+    {
+      "name": "Machanicho",
+      "description": null,
+      "gps": {
+        "latitude": 28.7441824,
+        "longitude": -13.9365864
+      }
+    },
+    {
+      "name": "Waikiki Beach",
+      "description": null,
+      "gps": {
+        "latitude": 28.7347564,
+        "longitude": -13.8661408
+      }
+    },
+    {
+      "name": "Waikiki Beach",
+      "description": null,
+      "gps": {
+        "latitude": 28.7348128,
+        "longitude": -13.8655829
+      }
+    },
+    {
+      "name": "Punta Helena, Rocky Point",
+      "description": null,
+      "gps": {
+        "latitude": 28.7343989,
+        "longitude": -13.8578153
+      }
+    },
+    {
+      "name": "Punta Helena, Rocky Point",
+      "description": null,
+      "gps": {
+        "latitude": 28.7343048,
+        "longitude": -13.856914
+      }
+    },
+    {
+      "name": "Punta Helena, Rocky Point",
+      "description": null,
+      "gps": {
+        "latitude": 28.733985,
+        "longitude": -13.8574505
+      }
+    },
+    {
+      "name": "Flag Beach",
+      "description": null,
+      "gps": {
+        "latitude": 28.7185928,
+        "longitude": -13.8387179
+      }
+    },
+    {
+      "name": "Flag Beach",
+      "description": null,
+      "gps": {
+        "latitude": 28.7203806,
+        "longitude": -13.839469
+      }
+    },
+    {
+      "name": "El Burro",
+      "description": null,
+      "gps": {
+        "latitude": 28.6855806,
+        "longitude": -13.8312078
+      }
+    },
+    {
+      "name": "Flag Beach",
+      "description": null,
+      "gps": {
+        "latitude": 28.7204746,
+        "longitude": -13.8407993
+      }
+    },
+    {
+      "name": "Entubadera",
+      "description": null,
+      "gps": {
+        "latitude": 28.7161464,
+        "longitude": -13.8382673
+      }
+    },
+    {
+      "name": "Playa del Moro",
+      "description": null,
+      "gps": {
+        "latitude": 28.6736454,
+        "longitude": -13.8332033
+      }
+    },
+    {
+      "name": "Playa Blanca\n",
+      "description": null,
+      "gps": {
+        "latitude": 28.4767455,
+        "longitude": -13.8662803
+      }
+    },
+    {
+      "name": "El Burro (Glass Beach)\n",
+      "description": null,
+      "gps": {
+        "latitude": 28.6875947,
+        "longitude": -13.8303817
+      }
+    },
+    {
+      "name": "La Caleta\n",
+      "description": null,
+      "gps": {
+        "latitude": 28.7474089,
+        "longitude": -13.9163411
+      }
+    },
+    {
+      "name": "El Cotillo\n",
+      "description": null,
+      "gps": {
+        "latitude": 28.6740172,
+        "longitude": -14.0098751
+      }
+    },
+    {
+      "name": "Escaleritas",
+      "description": null,
+      "gps": {
+        "latitude": 28.6479632,
+        "longitude": -14.0219665
+      }
+    }
+  ]
+}
