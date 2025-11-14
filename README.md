@@ -189,3 +189,28 @@ Deployment procedures for all environments are streamlined. The site is static a
 - **Troubleshooting**: If you encounter issues, check the browser's developer console for errors. The `TEST_FUNCTIONS_ANALYSIS.md` document provides insights into the test functions available in `script.js` for debugging.
 
 For more detailed maintenance and troubleshooting solutions, refer to the [**Developer Guide**](docs/DEVELOPER_GUIDE.md).
+
+## GPS Coordinate Research & Update System
+
+This project includes a comprehensive autonomous system for researching and verifying GPS coordinates for all 42 Fuerteventura surf spots with maximum accuracy. The system uses multi-language web research, cross-source verification, and map validation to ensure high-confidence coordinate updates while preserving JSON structure integrity.
+
+### Ultimate Research Prompt
+
+**Ready to execute**: Copy and paste the complete prompt from [ULTIMATE_PROMPT.md](ULTIMATE_PROMPT.md) to initiate comprehensive GPS coordinate research and updates for all surf spots.
+
+**System Capabilities**:
+- **Fully Autonomous**: Processes all 42 spots without human interaction
+- **Multi-Language Research**: English, Spanish, German, Italian, French
+- **High Confidence Standards**: Minimum 3 independent sources for verification
+- **Robust Context Management**: Multi-agent system prevents data loss
+- **Living Documentation**: Comprehensive research tracking with version control
+- **Quality Assurance**: Map validation and geographical consistency checks
+
+**Expected Outcomes**:
+- Verified GPS coordinates where high confidence achieved
+- Comprehensive research documentation for every surf spot
+- Updated JSON file with improved coordinate accuracy
+- Complete audit trail of research decisions and sources
+- Maintained application stability with preserved JSON structure
+
+**Documentation**: All research activities are tracked in `docs/surf-spots-coordinates-research/` with individual spot files, methodology documentation, and source directories.
