@@ -1,0 +1,376 @@
+{
+  "timestamp": "2025-11-14T21:32:29.979454",
+  "total_alerts": 41,
+  "requiring_action": 12,
+  "alerts": [
+    {
+      "spot_id": "bahia-la-pared",
+      "spot_name": "Bahia",
+      "change_type": "coordinate_accuracy",
+      "old_value": "unverified",
+      "new_value": "verification_needed",
+      "confidence": "HIGH",
+      "requires_action": true
+    },
+    {
+      "spot_id": "el-cotillo-piedra-playa",
+      "spot_name": "El Cotillo",
+      "change_type": "coordinate_accuracy",
+      "old_value": "unverified",
+      "new_value": "verification_needed",
+      "confidence": "HIGH",
+      "requires_action": true
+    },
+    {
+      "spot_id": "el-pozo",
+      "spot_name": "El Pozo",
+      "change_type": "coordinate_geographic_validation",
+      "old_value": "28.0657, -14.5071",
+      "new_value": "outside_fuerteventura_bounds",
+      "confidence": "HIGH",
+      "requires_action": true
+    },
+    {
+      "spot_id": "la-caleta-boneyard",
+      "spot_name": "La Caleta",
+      "change_type": "coordinate_accuracy",
+      "old_value": "unverified",
+      "new_value": "verification_needed",
+      "confidence": "HIGH",
+      "requires_action": true
+    },
+    {
+      "spot_id": "la-concava",
+      "spot_name": "La Concava",
+      "change_type": "coordinate_accuracy",
+      "old_value": "unverified",
+      "new_value": "verification_needed",
+      "confidence": "HIGH",
+      "requires_action": true
+    },
+    {
+      "spot_id": "la-escalera",
+      "spot_name": "La Escalera",
+      "change_type": "coordinate_accuracy",
+      "old_value": "unverified",
+      "new_value": "verification_needed",
+      "confidence": "HIGH",
+      "requires_action": true
+    },
+    {
+      "spot_id": "mejillones-popcorn-reef",
+      "spot_name": "Mejillones",
+      "change_type": "coordinate_accuracy",
+      "old_value": "unverified",
+      "new_value": "verification_needed",
+      "confidence": "HIGH",
+      "requires_action": true
+    },
+    {
+      "spot_id": "pico-de-las-motos",
+      "spot_name": "Pico de las Motos",
+      "change_type": "coordinate_accuracy",
+      "old_value": "unverified",
+      "new_value": "verification_needed",
+      "confidence": "HIGH",
+      "requires_action": true
+    },
+    {
+      "spot_id": "punta-del-tigre",
+      "spot_name": "Punta del Tigre",
+      "change_type": "coordinate_geographic_validation",
+      "old_value": "28.0806, -14.504485",
+      "new_value": "outside_fuerteventura_bounds",
+      "confidence": "HIGH",
+      "requires_action": true
+    },
+    {
+      "spot_id": "punta-elena",
+      "spot_name": "Punta Elena",
+      "change_type": "coordinate_accuracy",
+      "old_value": "unverified",
+      "new_value": "verification_needed",
+      "confidence": "HIGH",
+      "requires_action": true
+    },
+    {
+      "spot_id": "waikiki-beach",
+      "spot_name": "Waikiki Beach",
+      "change_type": "coordinate_accuracy",
+      "old_value": "unverified",
+      "new_value": "verification_needed",
+      "confidence": "HIGH",
+      "requires_action": true
+    },
+    {
+      "spot_id": "bahia-la-pared",
+      "spot_name": "Bahia",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "campo-de-futbol",
+      "spot_name": "Campo de Futbol",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "cruz-roja",
+      "spot_name": "Cruz Roja",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "el-pozo",
+      "spot_name": "El Pozo",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "spew-pits",
+      "spot_name": "Spew Pits",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "esquinzo-jandia",
+      "spot_name": "Esquinzo (Jandía)",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "esquinzo",
+      "spot_name": "Esquinzo",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "flag-beach",
+      "spot_name": "Flag Beach",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "cofete-graveyard",
+      "spot_name": "Cofete",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "la-caleta-boneyard",
+      "spot_name": "La Caleta",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "la-concava",
+      "spot_name": "La Concava",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "la-escalera",
+      "spot_name": "La Escalera",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "la-izquierda-del-hierro",
+      "spot_name": "La Izquierda del Hierro",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "la-pared",
+      "spot_name": "La Pared",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "la-turbia",
+      "spot_name": "Playa de la Turbia",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "playa-de-las-mujeres-jarugo",
+      "spot_name": "Playa de las Mujeres",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "las-playas-muelle",
+      "spot_name": "Las Playas Muelle",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "las-salinas",
+      "spot_name": "Las Salinas",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "isla-de-lobos",
+      "spot_name": "Isla de Lobos",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "los-hoteles",
+      "spot_name": "Los Hoteles",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "majanicho",
+      "spot_name": "Majanicho",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "mejillones-popcorn-reef",
+      "spot_name": "Mejillones",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "pico-de-las-motos",
+      "spot_name": "Pico de las Motos",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "punta-del-tigre",
+      "spot_name": "Punta del Tigre",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "punta-elena",
+      "spot_name": "Punta Elena",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "punta-gorda",
+      "spot_name": "Punta Gorda",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "playa-de-garcey-racetracks",
+      "spot_name": "Playa de Garcey",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "suicidios",
+      "spot_name": "Suicidios",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "waikiki-beach",
+      "spot_name": "Waikiki Beach",
+      "change_type": "google_maps_integration",
+      "old_value": "no_google_maps_data",
+      "new_value": "integration_opportunity",
+      "confidence": "LOW",
+      "requires_action": false
+    },
+    {
+      "spot_id": "system",
+      "spot_name": "Google Maps Source: surf_and_unwind",
+      "change_type": "source_availability",
+      "old_value": "available",
+      "new_value": "http_406",
+      "confidence": "MEDIUM",
+      "requires_action": true
+    }
+  ]
+}

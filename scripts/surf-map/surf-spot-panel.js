@@ -882,7 +882,7 @@ export class SurfSpotPanel {
             
             const descText = document.createElement('p');
             descText.className = 'description-text';
-            descText.textContent = spot.description;
+            descText.innerHTML = spot.description.replace(/\n/g, '<br>');
             descSection.appendChild(descText);
             
             container.appendChild(descSection);

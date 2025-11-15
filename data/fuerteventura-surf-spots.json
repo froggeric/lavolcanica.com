@@ -4,7 +4,7 @@
       "id": "acid-drop",
       "primaryName": "Acid Drop",
       "alternativeNames": [],
-      "description": "A powerful and exposed reef break near Majanicho, famous for its fast, hollow, and barreling waves that break over a sharp, shallow volcanic reef. It's a renowned spot for experienced surfers and is known to host jet-ski assisted tow-in sessions on its biggest days.",
+      "description": "Acid Drop is an expert-level reef break that delivers some of Fuerteventura's most powerful and hollow waves. This shallow A-frame near Majanicho produces barreling sections of exceptional quality that can connect with the nearby Majanicho break for incredibly long rides. The wave breaks over a razor-sharp volcanic reef that can dredge and create spit-filled barrels of terrifying beauty, making it one of the island's most challenging yet rewarding surf spots.\n\nThe wave is notorious for snapping boards and demands serious commitment - only very advanced surfers should attempt this spot. When conditions align, the wave transforms into a world-class venue, often requiring jet-ski assistance for the biggest days. The left offers longer, more workable walls while the right delivers shorter but more intense barrel sections that test even the most experienced tube riders.\n\nDespite its remote location, the lineup fills quickly with experienced surfers when this rare gem comes to life. The raw, untamed nature of the spot and its proximity to other quality breaks creates a competitive yet respectful atmosphere among the dedicated crew who know its secrets. The journey to Acid Drop is part of the experience - a rough 4WD track that weeds out casual surfers and ensures those who make the effort are truly committed to scoring this legendary wave.",
       "location": {
         "area": "North",
         "nearestTowns": [
@@ -12,7 +12,7 @@
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.726760,
+          "lat": 28.72676,
           "lng": -13.993009,
           "accuracy": "verified"
         }
@@ -83,7 +83,7 @@
       "alternativeNames": [
         "Bahia La Pared"
       ],
-      "description": "A picturesque and challenging right-hand reef break located in a small, dark sand bay adjacent to the main beach of La Pared. Known for its scenic cliff and large rock tunnel, this spot comes to life when the waves in the main La Pared beach become too large or start to close out. It offers a more sheltered and technical alternative for experienced surfers.",
+      "description": "Bahia is a stunning right-hand reef break nestled in a small dark sand bay beside La Pared's main beach. This scenic spot features a dramatic cliff backdrop and a natural rock tunnel that creates an unforgettable surfing atmosphere. The wave breaks over a mix of volcanic reef and sand, creating unique sections that offer both powerful walls and technical pocket rides, making every wave a new challenge.\n\nThe wave truly shines when La Pared's main beach becomes overwhelming - Bahia handles powerful long-period swells with grace, offering a more sheltered yet technical alternative. The south-facing bay provides natural wind protection, making it a reliable choice when other spots are blown out. The wave's unique geography creates a wedge effect that can amplify size and power, especially on incoming swells that hit the reef at just the right angle.\n\nAdvanced surfers appreciate the wave's consistency and the unique setting that makes every session memorable. The relatively small lineup means you'll often have the break to yourself or with just a few locals who understand its quirks. The cliff-lined bay creates a sense of intimacy with nature, while the rock tunnel adds an element of adventure to your surf session - you can literally walk through a natural rock formation to access the break, adding to the spot's mystical character.",
       "location": {
         "area": "West",
         "nearestTowns": [
@@ -164,16 +164,16 @@
         "Bristol Shooting Gallery",
         "Shooting Gallery"
       ],
-      "description": "A surfing and windsurfing spot marking the start of Fuerteventura's famous North Shore, located in Corralejo in front of the wind turbines. It is known for its left-hand reef break that produces fast, hollow, and tubular waves.",
+      "description": "Bristol marks the legendary beginning of Fuerteventura's North Shore, standing as a gateway to the island's most powerful waves. Located in Corralejo before the iconic wind turbines, this versatile spot serves both surfers and windsurfers with its dynamic left-hand reef break. The wave breaks over a mix of volcanic reef and rock outcrops that create interesting topography and multiple sections, offering both speed pockets and technical challenges.\n\nThe wave delivers fast, hollow sections that can throw impressive tubes, making it a favorite among intermediate surfers looking to progress their barrel riding skills. The consistent reef produces quality rides across various swell sizes, with the left being the primary attraction while occasional rights offer fun alternatives. The wave's unique position creates a natural focusing effect that can amplify incoming swell energy, producing powerful and consistent walls.\n\nThe scenic location overlooking the Atlantic provides the perfect backdrop for sessions that capture the essence of Fuerteventura's surfing culture. Bristol's accessibility from Corralejo makes it a popular morning session spot, and watching the wind turbines spin in the distance while you wait for sets creates a quintessentially Fuerteventuran experience. The mixed-use nature of the spot means you'll often share waves with windsurfers and kitesurfers, creating a diverse and vibrant ocean community that showcases the island's water sports culture at its best.",
       "location": {
         "area": "North",
         "nearestTowns": [
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.7415,
-          "lng": -13.9353,
-          "accuracy": "unverified"
+          "lat": 28.746947975227233,
+          "lng": -13.873822689056396,
+          "accuracy": "verified"
         }
       },
       "waveDetails": {
@@ -244,7 +244,7 @@
         "El Hierro",
         "La Derecha/Bubble"
       ],
-      "description": "A powerful and exposed reef break, famous for its perfect A-frame peak that produces fast, hollow right-handers and less intense lefts. Known as one of the most challenging and well-known spots on the island, it is a focal point for experienced surfers and contests.",
+      "description": "The Bubble is an expert-level A-frame reef break that delivers some of Fuerteventura's most perfect and hollow barrels. This shallow water wave produces exceptional tubing opportunities that attract the island's most skilled surfers. Located near Majanicho in a beautiful beach setting, The Bubble has earned its reputation for board-snapping power and world-class cylinder sections. The wave breaks over treacherous volcanic reef that can dredge and create terrifyingly perfect barrels when conditions align.\n\nThe spot demands serious respect - local surfers have priority, and visitors should consider observing from the sidelines before paddling out. When conditions align with winter swells, the wave transforms into a breathtaking spectacle of precision and power that showcases nature at its most raw and beautiful. Both rights and lefts offer tube riding opportunities, with each direction presenting unique challenges and rewards for the experienced surfer.\n\nThe name perfectly captures the wave's tendency to throw perfect, air-filled chambers that few surfers can successfully navigate. The intimate setting and challenging nature create a surf experience that's both terrifying and transformative, where successful rides feel like major accomplishments and wipeouts can be brutal. The spot's exclusivity and quality mean it remains a special destination for those who have earned their place in the lineup, making every session here a cherished memory among the island's surfing elite.",
       "location": {
         "area": "North",
         "nearestTowns": [
@@ -252,9 +252,9 @@
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.7415,
-          "lng": -13.9353,
-          "accuracy": "unverified"
+          "lat": 28.7410217,
+          "lng": -13.9516926,
+          "accuracy": "verified"
         }
       },
       "waveDetails": {
@@ -334,7 +334,7 @@
       "alternativeNames": [
         "Campo de Futbol La Pared"
       ],
-      "description": "A regular and reliable reef break known for its hollow and powerful waves over a flat rock bottom. It is considered a regional classic, offering longer rides on good days in a typically uncrowded setting.",
+      "description": "Campo de Futbol stands as a regional classic - a reliable reef break that consistently delivers hollow and powerful waves over a flat rock bottom. True to its name, this spot offers long, playing field-like rides when conditions align, attracting advanced surfers who appreciate quality waves without the crowds. The wave breaks in clean sections that provide both steep takeoffs and fast walls, perfect for executing powerful turns and drawing out long carves.\n\nThe wave's reputation for reliability makes it a go-to destination when other spots are inconsistent. Located in La Pared, this gem provides the perfect combination of power and length, working through various tide stages and swell directions. The surrounding landscape creates a dramatic backdrop, with volcanic cliffs framing the playing field of waves below, while offshore winds groom the faces into pristine perfection.\n\nIt rewards surfers with some of the West Coast's most memorable rides in a serene setting where the focus remains purely on the surfing experience. The spot's relative seclusion compared to other La Pared breaks means you'll often find yourself sharing waves with just a handful of dedicated locals who understand the spot's secrets and respect its power.",
       "location": {
         "area": "West",
         "nearestTowns": [
@@ -407,16 +407,16 @@
       "id": "cruz-roja",
       "primaryName": "Cruz Roja",
       "alternativeNames": [],
-      "description": "A world-class right-hand point break at the southernmost tip of Fuerteventura, famous for its long, perfectly walling waves that are often compared to the legendary point breaks of Australia's Gold Coast. Named after the former Red Cross lifeguard house on the beach, it serves as a primary refuge when the west coast spots are oversized, offering powerful yet ridable waves that wrap around the island.",
+      "description": "Cruz Roja represents Fuerteventura's premier point break - a world-class right-hander at the island's southernmost tip that delivers long, perfectly walling waves worthy of comparison to Australia's Gold Coast legends. Named after the distinctive Red Cross lifeguard house that once stood guard on the beach, this spot serves as the ultimate refuge when western swells overwhelm other breaks. The wave breaks over a combination of sand and volcanic reef that creates consistent shape and power through various tide stages.\n\nThe wave wraps gracefully around the island's southern point, offering powerful yet maneuverable faces that intermediate and advanced surfers dream about. In pristine conditions, Cruz Roja provides some of the longest, most satisfying rides in the Canaries, with sections that can run for hundreds of yards when the swell direction is just right. The wave's unique topography creates both faster sections for racing turns and slower pockets for stylish maneuvers.\n\nIt's well worth the journey to this remote corner of paradise. The spot's location at the southern extremity of the island means it catches swells that other spots miss, while the dramatic coastal setting provides a stunning backdrop to your sessions. The relatively small but dedicated local crew maintains a welcoming atmosphere for respectful visitors, creating a sense of community that's rare at waves of this caliber. The journey through the southern peninsula adds to the adventure, with stunning coastal views building anticipation for what lies around the final bend.",
       "location": {
         "area": "South",
         "nearestTowns": [
           "Morro Jable"
         ],
         "coordinates": {
-          "lat": 28.0442,
-          "lng": -14.3294,
-          "accuracy": "verified"
+          "lat": 28.04665398976013,
+          "lng": -14.328049421310425,
+          "accuracy": "google_maps_verified"
         }
       },
       "waveDetails": {
@@ -491,16 +491,16 @@
         "Playa del Burro",
         "Glasbeach"
       ],
-      "description": "A stunning, wide beach within the Dunas de Corralejo Natural Park, famous for its fine white sand, crystal-clear water, and dramatic dunes. The spot has a dual character: it features a powerful, hollow, and clean A-frame reef break over a lava shelf for advanced surfers, while the wider beach area offers more forgiving waves. It's a popular hub for surfing, windsurfing, and kitesurfing, with a lively and sometimes competitive atmosphere at the main peak.",
+      "description": "El Burro is a spectacular multi-sport destination within the Dunas de Corralejo Natural Park, where pristine white sand beaches meet some of the Northeast's most versatile waves. This stunning location features crystal-clear waters and dramatic dunes that create an unforgettable backdrop for surfing adventures.\n\nThe spot offers perfect duality - a powerful A-frame reef break over lava shelf challenges advanced surfers with hollow sections, while the broader beach area provides forgiving waves perfect for progression. As a hub for surfing, windsurfing, and kitesurfing, El Burro buzzes with energy.\n\nThe main peak sees friendly competition that keeps the atmosphere exciting. The reef handles sizeable northwest swells beautifully, while summer offshore winds transform the waves into pristine machines.",
       "location": {
         "area": "North East",
         "nearestTowns": [
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.6871,
-          "lng": -13.8208,
-          "accuracy": "verified"
+          "lat": 28.68748491452675,
+          "lng": -13.830869190270791,
+          "accuracy": "google_maps_verified"
         }
       },
       "waveDetails": {
@@ -579,7 +579,7 @@
         "Piedra Playa",
         "Cotillo Beach"
       ],
-      "description": "A very long sandy beach with multiple peaks offering both left and right breaks. Powerful beachbreak that can close out on overhead swells but offers makeable barrel sections when banks are good. North end cliffs provide north wind protection.",
+      "description": "A magnificent stretch of coastline featuring a very long sandy beach with multiple peaks offering both left and right breaks. This powerful beach break showcases its true character when winter swells arrive, transforming the sandbanks into perfectly shaped barreling sections that will have experienced surfers grinning from ear to ear.\n\nThe north end cliffs provide natural protection from northerly winds, creating cleaner conditions when other spots are blown out. While this beach can deliver challenging overhead waves that test even advanced surfers, it's also incredibly versatile.\n\nBeginners can find their groove in the forgiving whitewater, making it an ideal learning environment. The beauty of El Cotillo lies in its year-round consistency - as long as you catch it on the right swell and tide, you're in for an unforgettable session.",
       "location": {
         "area": "West",
         "nearestTowns": [
@@ -660,7 +660,7 @@
       "alternativeNames": [
         "El Moro Beach"
       ],
-      "description": "A stunning, 250-meter long golden-white sand beach within the Corralejo Dunes Natural Park, famous for its reliable and gentle beach break. It is exceptionally popular with surf schools and is a top destination for beginners and intermediates, especially in summer. The beach is family-friendly, has clear water, and is divided into zones for swimmers and surfers, with active lifeguard supervision.",
+      "description": "Nestled within the protected Corralejo Dunes Natural Park, this stunning 250-meter stretch of golden-white sand offers one of Fuerteventura's most welcoming surf experiences. The gentle, reliable beach break has made this spot a firm favorite among surf schools and beginners looking to catch their first waves in a safe, supervised environment.\n\nWhat makes Playa del Moro special is its family-friendly atmosphere and thoughtful organization - the beach is divided into designated zones for swimmers and surfers, with vigilant lifeguards keeping watch over everyone's safety. The crystal-clear waters and pristine sand create a tropical paradise vibe that's hard to beat.\n\nWhile this spot truly comes alive during the summer months when northeast wind swells provide perfect learning conditions, it's a year-round destination for those seeking to improve their skills in a beautiful, protected setting.",
       "location": {
         "area": "North East",
         "nearestTowns": [
@@ -668,9 +668,9 @@
           "Lajares"
         ],
         "coordinates": {
-          "lat": 28.6728,
-          "lng": -13.8336,
-          "accuracy": "verified"
+          "lat": 28.67396394001897,
+          "lng": -13.833475042758906,
+          "accuracy": "google_maps_verified"
         }
       },
       "waveDetails": {
@@ -743,16 +743,16 @@
       "alternativeNames": [
         "Harbour Wall"
       ],
-      "description": "A reliable and often crowded left-hand point break located right in Corralejo, offering long, sweet rides next to the harbor wall. This spot is known for its consistent surf but features a gnarly, sharp reef.",
+      "description": "Right in the heart of Corralejo, this reliable left-hand point break delivers some of the most consistent surf on the island, wrapping along the harbor wall with long, mesmerizing rides that seem to go on forever. The wave's legendary reputation draws a regular crowd, but for good reason - when conditions align, El Muelle serves up pure magic.\n\nThe main attraction is a spectacular left-hander that offers a super long shoulder perfect for stylish carves and drawn-out bottom turns. However, this spot demands respect - beneath the shimmering surface lies a sharp lava reef that shows no mercy, especially at high tide when the left becomes dangerously unforgiving. Smart surfers either wait for lower tides or switch to the shorter right-hand wave that peaks up when the water covers the reef.\n\nEl Muelle truly shines during the winter months when west swells march in, creating those picture-perfect walls that locals and visiting surfers dream about.",
       "location": {
         "area": "North",
         "nearestTowns": [
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.74248918,
-          "lng": -13.86294365,
-          "accuracy": "verified"
+          "lat": 28.746074921053435,
+          "lng": -13.864985902108891,
+          "accuracy": "google_maps_improved"
         }
       },
       "waveDetails": {
@@ -819,7 +819,7 @@
       "id": "el-pozo",
       "primaryName": "El Pozo",
       "alternativeNames": [],
-      "description": "The southernmost surf spot on Fuerteventura, located directly in front of the iconic Jandía lighthouse. Famous for its clean, wind-swell-generated left-hand waves that benefit from consistent offshore winds, making it a summer favorite. It offers a versatile wave, from a hollow and steep section right in front of the lighthouse perfect for tubes, to longer, gentler walls further down the beach.",
+      "description": "The southernmost sentinel of Fuerteventura's surfing coastline, El Pozo commands a premium position directly in front of the iconic Jandía lighthouse at the island's very tip. This strategic location creates perfect conditions for clean, wind-swell-generated left-hand waves that benefit from consistent offshore winds, establishing El Pozo as the ultimate summer favorite when other spots struggle. The lighthouse isn't just a landmark - it's the spot's defining feature, creating unique coastal geometry that shapes exceptional waves.\n\nEl Pozo offers remarkable wave versatility that caters to different skill levels and riding styles. Immediately in front of the lighthouse, a hollow and steep section develops, producing perfect tube opportunities for advanced surfers seeking that dream barrel. Further down the beach, the wave transforms into longer, gentler walls that provide ideal practice grounds for intermediates and endless fun for longboarders. This natural progression within one spot makes El Pozo uniquely accommodating, offering everything from high-performance tube riding to mellow cruising sessions.\n\nWhat truly elevates El Pozo above other southern spots is its remarkable reliability during summer months, when consistent offshore winds groom wind swells into pristine left-handers. The spot's unique positioning provides natural wind protection while maintaining wave quality that rarely falls flat. The iconic Jandía lighthouse serves not just as a navigational aid but as a symbol of the spot's premium status - this is where Fuerteventura's surfing journey begins or ends, depending on your perspective, making it an essential destination for any surfer exploring the island's southern reaches.",
       "location": {
         "area": "South",
         "nearestTowns": [
@@ -895,16 +895,16 @@
       "alternativeNames": [
         "El Puertito"
       ],
-      "description": "A fearsome and exposed reef break located just outside the harbor of El Cotillo, famous for its powerful, big-wave conditions. It is an expert-only spot where world-class competitions have been held, producing heavy, barreling waves that break over a shallow, rocky bottom.",
+      "description": "Spew Pits, known locally as 'El Puertito' (the little port), stands as one of Fuerteventura's most formidable big-wave arenas located just outside the old harbor of El Cotillo. This fearsome, exposed reef break has earned its terrifying reputation through decades of producing powerful, heavy waves that test the limits of even the most experienced surfers.\n\nThe spot's strategic harbor position creates perfect exposure for massive north-west swells, transforming into a world-class big-wave venue that has hosted prestigious competitions. When Spew Pits comes alive, it delivers monstrous barreling sections over a shallow, treacherous reef that demands absolute respect and precise local knowledge.\n\nThis is not a place for mistakes - the powerful reef break produces heavy, unforgiving waves that can reach terrifying sizes, making it suitable only for expert big-wave surfers with serious commitment to safety and skill.",
       "location": {
         "area": "West",
         "nearestTowns": [
           "El Cotillo"
         ],
         "coordinates": {
-          "lat": 28.68,
-          "lng": -14.01,
-          "accuracy": "unverified"
+          "lat": 28.685571149327316,
+          "lng": -14.0138179063797,
+          "accuracy": "google_maps_verified"
         }
       },
       "waveDetails": {
@@ -975,17 +975,17 @@
         "Playa de Esquinzo",
         "Esquinzo Este"
       ],
-      "description": "A gentle and picturesque beach break on the east coast of the Jandía peninsula, below a small tourist settlement. Famous for its long, mellow, left-hand waves generated by consistent northeasterly wind swells, offering rides reminiscent of classic surf films. It's a reliable and safe spot, particularly popular with beginners, longboarders, and families due to its clean conditions and lack of major hazards.",
+      "description": "A gentle and picturesque beach break gracing the eastern coastline of the Jandía peninsula, tucked beneath a charming tourist settlement where the waves seem to dance to their own peaceful rhythm. This slice of paradise is renowned for crafting long, mellow left-handers that flow endlessly, powered by reliable northeasterly wind swells that create those dreamy, cinematic rides straight out of classic surf films.\n\nWhat makes Esquinzo (Jandía) truly special is its welcoming nature - this is one of those rare spots where everyone feels at home. Beginners find their confidence here with forgiving, rolling waves, longboarders relish the endless shoulder time, and families appreciate the safe, clean environment free from major hazards. The protected bay creates a natural sanctuary where conditions remain consistently surfable throughout the year.\n\nThe dramatic cliffs that frame this bay don't just provide stunning backdrops - they offer valuable protection from northeast winds while helping to organize swells into those perfectly peeling lefts that seem to go on forever. It's the kind of spot that reminds you why you fell in love with surfing in the first place.",
       "location": {
         "area": "South",
         "nearestTowns": [
-          "Butihondo",
-          "Costa Calma"
+          "Esquinzo",
+          "Butihondo"
         ],
         "coordinates": {
-          "lat": 28.0714,
-          "lng": -14.3040,
-          "accuracy": "verified"
+          "lat": 28.078962392622064,
+          "lng": -14.294627083397355,
+          "accuracy": "google_maps_verified"
         }
       },
       "waveDetails": {
@@ -1056,7 +1056,7 @@
       "alternativeNames": [
         "Playa de Esquinzo"
       ],
-      "description": "A beautiful beach break below a tourist settlement, known for generating gentle, long-running left-hand waves reminiscent of classic surf films. It's a reliable spot powered by wind swells, making it a favorite for beginners and longboarders.",
+      "description": "A stunning beach break nestled below a charming tourist settlement, where the waves paint picture-perfect left-hand lines that could be lifted straight from classic surf films. This hidden gem thrives on consistent wind swells, creating those long, flowing rides that beginners and longboarders dream about, making it an absolute favorite for surfers seeking gentle, forgiving conditions.\n\nThe true magic of Esquinzo lies in its dramatic setting - massive cliffs form a natural amphitheater that provides shelter from pesky northeast winds while creating a protected bay where waves can organize into perfect, peeling lefts. When the conditions align, you'll find rides here that seem to stretch forever, often longer than what you'll find at the more famous El Cotillo.\n\nLike any quality spot, respect is paramount here. When it's firing and crowded, take a moment to observe and understand the local vibe before jumping in. The rewards are worth it - this spot can deliver good rides at any time of year, making it a reliable go-to when you need that perfect, soulful session.",
       "location": {
         "area": "South",
         "nearestTowns": [
@@ -1065,9 +1065,9 @@
           "Morro Jable"
         ],
         "coordinates": {
-          "lat": 28.0714,
-          "lng": -14.3040,
-          "accuracy": "verified"
+          "lat": 28.6347996,
+          "lng": -14.0267086,
+          "accuracy": "google_maps_corrected"
         }
       },
       "waveDetails": {
@@ -1138,7 +1138,7 @@
       "alternativeNames": [
         "Kite Beach"
       ],
-      "description": "A stunning, long sandy beach flanked by massive dunes, famous as the main kitesurfing hub on Fuerteventura but also popular with surfers, wing-foilers, and windsurfers. The bay is protected by reefs on both sides, creating a moderated, user-friendly environment. It offers a beautiful setting with turquoise water and views of Lanzarote and Isla de Lobos.",
+      "description": "The crown jewel of Fuerteventura's kitesurfing scene, Flag Beach reigns as probably the island's most popular watersports destination. This spectacular mile-long stretch marks the northern tip where Corralejo begins, offering a vast sandy playground directly opposite the Isle of Lobos with stunning views of Lanzarote. The beach features a dedicated 3km kite zone that creates flat water conditions in summer, making it the ultimate hub for kitesurfers, windsurfers, and wing-foilers.\n\nBeyond its kite surfing fame, Flag Beach delivers versatile surfing conditions with protected bay geography thanks to reefs flanking both sides. The turquoise waters and consistent winds create an ideal environment for multiple watersports, while the massive dune system provides a dramatic backdrop. Professional windsurf and kitesurf centers line the shore, offering lessons and equipment for all skill levels from beginners to advanced riders seeking to perfect their techniques.\n\nWhat truly sets Flag Beach apart is its accessibility and natural beauty. A short 60-meter walk across the dunes leads to the sea, where the protected environment creates user-friendly conditions rarely found elsewhere. The spot's unique position at the island's northeastern corner provides consistent wind patterns while the offshore Isle of Lobos creates a natural windbreak, resulting in those coveted flat water sections that make this a world-class destination for freestyle enthusiasts and learners alike.",
       "location": {
         "area": "North East",
         "nearestTowns": [
@@ -1221,7 +1221,7 @@
         "La Generosa",
         "Genarosa"
       ],
-      "description": "A dependable and exposed reef break on Fuerteventura's North Shore, offering long, mellow lefts and rights. It's a great spot for intermediates looking to build confidence on a reef, though it can pack power on bigger swells.",
+      "description": "Generoso offers a perfectly balanced introduction to Fuerteventura's North Shore reef breaks, delivering long, forgiving waves that build confidence without intimidation. This dependable spot produces mellow lefts and rights that make it ideal for intermediates transitioning from beach breaks to reef surfing.\n\nLocated in a prime position along the North Shore between Corralejo and Majanicho, Generoso picks up west swells beautifully and transforms into surprisingly fun rides when bigger swells energize the break. The spot's gentle nature and consistent performance during winter months make it a favorite for progression sessions, while its name meaning 'generous' perfectly captures the welcoming spirit of the waves.\n\nSurfers appreciate the relaxed atmosphere and the opportunity to practice reef surfing skills in a user-friendly environment that still delivers the occasional exciting boost of power. The uncrowded lineup and friendly vibe make it the perfect classroom for mastering reef techniques without pressure, creating memorable learning experiences in a stunning natural setting.",
       "location": {
         "area": "North",
         "nearestTowns": [
@@ -1229,9 +1229,9 @@
           "Majanicho"
         ],
         "coordinates": {
-          "lat": 28.756348,
-          "lng": -13.882551,
-          "accuracy": "verified"
+          "lat": 28.755806057680825,
+          "lng": -13.885355746299574,
+          "accuracy": "google_maps_confirmed"
         }
       },
       "waveDetails": {
@@ -1308,16 +1308,16 @@
         "Graveyard",
         "Cofete Beach"
       ],
-      "description": "A vast, wild, and breathtakingly beautiful beach on the remote Jandía peninsula, consistently ranked among the most spectacular beaches in the world. This is the longest and most isolated beach on Fuerteventura, backed by majestic mountains and featuring the mysterious Villa Winter. It offers an endless series of shifting sandbanks that provide left and right-hand beach breaks, ensuring an empty peak for those who make the journey. It is a place of raw nature, history, and profound solitude.",
+      "description": "The crown jewel of Fuerteventura's wild coastline, Cofete represents surfing in its most raw and untamed form. This vast, breathtakingly beautiful beach stretches along the remote Jandía peninsula, consistently ranked among the world's most spectacular coastal destinations. As the longest and most isolated beach on Fuerteventura, Cofete offers an unparalleled sense of freedom, backed by majestic mountains that create a dramatic natural amphitheater and featuring the mysterious Villa Winter that adds an air of intrigue to this already legendary location.\n\nCofete's surfing potential matches its natural grandeur through an endless series of shifting sandbanks that provide left and right-hand beach breaks along its extensive length. The spot's alternative name \"Graveyard\" hints at its more sinister side - treacherous currents and massive waves that demand respect from all who enter. This dual personality creates a unique surfing experience: mellow beach breaks for those seeking solitude and perfect peaks, alongside powerful sections that can deliver serious consequences to the unprepared. The beach's sheer size ensures an empty peak for those willing to make the arduous journey.\n\nReaching Cofete is an adventure in itself, accessible only via a challenging dirt road that winds through mountains, effectively creating a natural barrier that preserves the beach's pristine isolation. This journey transforms a surf session into a true expedition, where the reward is perfect waves in one of nature's most spectacular settings. The combination of raw power, profound solitude, and stunning beauty makes Cofete more than just a surf spot - it's a pilgrimage destination for those seeking the ultimate escape from civilization and a connection with the ocean in its most untamed state.",
       "location": {
         "area": "South",
         "nearestTowns": [
           "Morro Jable"
         ],
         "coordinates": {
-          "lat": 28.1118,
-          "lng": -14.3902,
-          "accuracy": "verified"
+          "lat": 28.108931801947506,
+          "lng": -14.388742446899414,
+          "accuracy": "google_maps_corrected"
         }
       },
       "waveDetails": {
@@ -1389,7 +1389,7 @@
       "alternativeNames": [
         "Boneyard"
       ],
-      "description": "A world-class left-hand reef break that mirrors Majanicho, offering long, medium-fast walls with various sections for aerial maneuvers. Features a deep channel that never closes out, handling massive swells up to double mast high.",
+      "description": "La Caleta stands as one of Fuerteventura's most spectacular reef breaks, delivering world-class left-handers that seem to go on forever. When this spot is firing, you'll find perfectly shaped walls that peel endlessly along the volcanic reef, offering plenty of opportunities for explosive aerial maneuvers and stylish carves. The wave face remains consistently smooth and predictable, allowing surfers to link multiple sections and truly express their style on one of the island's most canvassed waves.\n\nThe magic here lies in the deep channel that creates a natural escape route and ensures waves never close out, even when the swell builds to intimidating double mast-high proportions. This is a serious wave for experienced surfers seeking that perfect, long-running left that Fuerteventura's north coast is famous for. The wave's unique topography creates multiple speed zones where you can generate momentum for massive turns or floaters.\n\nGetting to La Caleta requires dedication and local knowledge, which helps keep crowds to a minimum even during peak season. The rugged coastline provides a stunning backdrop to your session, with crystal-clear waters offering glimpses of the reef below. The isolation adds to the experience - you're truly out there in raw nature, far from the island's more tourist-centric breaks, trading convenience for world-class quality and the chance to score perfect waves with just a few friends.",
       "location": {
         "area": "North",
         "nearestTowns": [
@@ -1397,9 +1397,9 @@
           "Majanicho"
         ],
         "coordinates": {
-          "lat": 28.6742,
-          "lng": -14.0076,
-          "accuracy": "unverified"
+          "lat": 28.7530244,
+          "lng": -13.9232826,
+          "accuracy": "google_maps_corrected"
         }
       },
       "waveDetails": {
@@ -1471,7 +1471,7 @@
         "Lazy's",
         "Concavas"
       ],
-      "description": "A shallow, hollow, and powerful reef break located on the inside of the Mejillones bay. It is an expert-only spot known for its fast, barreling waves that break over a sharp volcanic reef, offering a thrilling and technical ride.",
+      "description": "Tucked away inside the protected waters of Mejillones Bay, La Concava is a deceptively powerful reef break that earned its nickname 'Lazy's' not from a lack of intensity, but because the wave does all the work for you. This hollow, machine-like left-hander reels across a shallow volcanic reef, delivering perfect barrel sections with minimal paddling effort required. The wave's mechanical precision and reliable shape make it a favorite among advanced surfers seeking technical perfection.\n\nWhen the west swell lines up just right, this spot transforms into a tube-riding paradise where skilled surfers can get desperately pitted. The wave's shallow nature makes it notoriously unforgiving on equipment – hence its reputation as a board-breaker – but for expert surfers seeking perfect, technical barrels, La Concava offers an intimate and thrilling experience away from the crowds. The wave consistently throws over the shallow reef, creating cavernous sections that test even the most experienced tube riders.\n\nWhat truly sets La Concava apart is its combination of accessibility and consequence. The spot's location within the larger bay provides some protection from harsh conditions, yet the wave itself remains raw and powerful. The intimate setting means you're often sharing this special wave with just a handful of locals who understand its nuances. On good days, the atmosphere is electric as skilled surfers push their limits in pursuit of the perfect barrel, creating a spectacle that showcases the very essence of high-performance surfing in the Canaries.",
       "location": {
         "area": "North",
         "nearestTowns": [
@@ -1549,16 +1549,16 @@
         "The German Right",
         "Hierro"
       ],
-      "description": "A popular and exposed right-hand reef break on Fuerteventura's North Shore, famous for its long, fun walls that can provide rides of up to 150 meters. The spot is a consistent performer, attracting a dedicated crowd, especially on weekends.",
+      "description": "La Derecha de los Alemanes, affectionately known as 'German's Right,' stands as one of Fuerteventura's most consistent and beloved north shore waves. This exposed right-hander has an incredible ability to catch swell from almost any direction, making it the go-to spot when other breaks are going flat. On its day, the wave delivers steep, powerful walls that can offer mind-blowing barrel sections and rides stretching up to 150 meters along the volcanic reef.\n\nWhat makes this spot truly special is its reliability – when massive west swells are closing out everywhere else, German's Right often remains perfectly surfable. The wave breaks in front of a beautiful sandy beach, creating a stunning backdrop and making it equally popular with sunbathers as it is with surfers. While weekends can bring a dedicated crowd, the quality of the wave and the potential for long, fulfilling rides make it well worth sharing.\n\nThe wave's accessibility combined with its quality creates a unique surf experience that appeals to both intermediate and advanced surfers. The presence of a sandy bottom in some sections provides safer landings than typical reef breaks, while the consistency means you can build confidence through repeated sessions. The mix of local and visiting surfers creates an international atmosphere where different surfing styles converge, while the beach setting allows for extended sessions with the option to rest and watch other surfers between sets.",
       "location": {
         "area": "North",
         "nearestTowns": [
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.73923433,
-          "lng": -13.95529747,
-          "accuracy": "verified"
+          "lat": 28.738873060588595,
+          "lng": -13.954840799932198,
+          "accuracy": "google_maps_improved"
         }
       },
       "waveDetails": {
@@ -1631,16 +1631,16 @@
       "alternativeNames": [
         "Playa del Viejo"
       ],
-      "description": "A powerful beach break within the Corralejo Natural Park, known for its A-frame peaks and barrel sections on a sand-covered reef. It comes alive with the large winter swells, offering a more powerful alternative when the main north shore spots become oversized. The spot is family-friendly with lifeguard services and a relatively relaxed crowd.",
+      "description": "Tucked away in the protected beauty of Corralejo Natural Park, La Entubadera offers a powerful and unique surfing experience that comes alive when winter swells dominate the island. This beach break works over a sand-covered volcanic reef, creating perfect A-frame peaks that can deliver some of the most satisfying tube sections on the north coast. The wave's true character reveals itself when the main north shore spots become too large to handle – La Entubadera has a remarkable ability to transform massive northwest swell into perfectly formed, rideable waves.\n\nWhat makes this spot particularly special is its family-friendly atmosphere, complete with lifeguard services and a more relaxed crowd despite the wave's serious power. The combination of natural beauty, wave quality, and accessibility creates a surfing experience that appeals to both experienced barrel hunters and families looking for a spectacular day at the beach. The wave's ability to offer both intense tube rides and mellow sections means it can accommodate different skill levels on the same day.\n\nThe park setting creates an immersive natural experience where you share your sessions with native bird species and stunning dune landscapes. The protected status of this area ensures pristine conditions both in and out of the water, while the mix of surfers and beachgoers creates a vibrant, inclusive atmosphere that showcases the best of Fuerteventura's coastal culture. The spot's versatility means it can serve as a training ground for advancing surfers while still challenging experienced riders when conditions demand.",
       "location": {
         "area": "North East",
         "nearestTowns": [
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.7155,
-          "lng": -13.8464,
-          "accuracy": "verified"
+          "lat": 28.71680334893953,
+          "lng": -13.838868284051935,
+          "accuracy": "google_maps_improved"
         }
       },
       "waveDetails": {
@@ -1715,16 +1715,16 @@
         "Playa del Aguila",
         "Playa de las Escaleras"
       ],
-      "description": "A beautiful and secluded beach break accessed by a steep staircase, offering a mix of left and right-hand waves. Known for its picturesque, rugged setting and often uncrowded line-ups, it is a great spot for beginners and those seeking a peaceful surf session, though waves can often be close-outs.",
+      "description": "La Escalera earns its name from the dramatic steep staircase that leads you down to one of Fuerteventura's most picturesque and secluded beaches. Tucked between towering cliffs that create a natural amphitheater, this beautiful beach break offers a peaceful escape from the crowds and a genuine connection with nature.\n\nThe waves here are a mixed bag of left and right-handers that can range from gentle beginner-friendly rollers to more powerful walls when the conditions align. What makes La Escalera truly special is its atmosphere – the rugged beauty of the surroundings, the sound of waves echoing off the cliffs, and the feeling of having discovered your own private slice of paradise.\n\nThe cliffs provide excellent protection from northeast winds, making this spot particularly reliable on days when other west coast breaks are blown out. While the waves can be inconsistent, the uncrowded lineups and stunning setting make every session memorable, whether you're a beginner finding your feet or an experienced surfer seeking solitude.",
       "location": {
         "area": "North West",
         "nearestTowns": [
           "El Cotillo"
         ],
         "coordinates": {
-          "lat": 28.687,
-          "lng": -13.83,
-          "accuracy": "unverified"
+          "lat": 28.6474736,
+          "lng": -14.0217733,
+          "accuracy": "google_maps_corrected"
         }
       },
       "waveDetails": {
@@ -1796,7 +1796,7 @@
         "La Izquierda",
         "Yarro"
       ],
-      "description": "One of the most renowned and consistent left-hand reef breaks in Fuerteventura, forming part of the famous El Hierro section. This formidable wave breaks over a volcanic reef, offering long, powerful, and fast rides with tubular sections that are highly prized by expert surfers.",
+      "description": "La Izquierda del Hierro stands as one of Fuerteventura's most legendary and consistent left-hand reef breaks, earning its reputation through countless perfect sessions over the years. As part of the famous El Hierro section, this wave is the stuff of local lore – a powerful, fast-running left that reels endlessly along the volcanic reef, serving up machine-like barrels that draw expert surfers from across the island.\n\nWhen the north swell lines up with precision, La Izquierda transforms into a tube-riding masterpiece, offering long, hollow sections that test even the most skilled surfers. The wave breaks in front of a stunning beach, creating a beautiful contrast between the powerful reef action and the serene shoreline.\n\nDue to its incredible consistency and quality, this spot attracts a dedicated crowd whenever it's firing, but for those willing to share the lineup, the rewards are unforgettable – this is Fuerteventura surfing at its finest.",
       "location": {
         "area": "North",
         "nearestTowns": [
@@ -1804,9 +1804,9 @@
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.7415,
-          "lng": -13.9353,
-          "accuracy": "unverified"
+          "lat": 28.741071639293903,
+          "lng": -13.95132295887504,
+          "accuracy": "google_maps_confirmed"
         }
       },
       "waveDetails": {
@@ -1874,18 +1874,19 @@
       "primaryName": "La Pared",
       "alternativeNames": [
         "Playa de La Pared",
-        "El Viejo Rey Beach"
+        "El Viejo Rey Beach",
+        "Playa del Viejo Rey"
       ],
-      "description": "A legendary and expansive beach break on the west coast, situated at the narrowest part of the island. Known locally as 'El Viejo Rey,' it is one of the most famous and wave-safe spots in southern Fuerteventura, virtually guaranteed to have surfable waves year-round. It's a foundational spot where many surfers catch their first white water waves and a reliable canvas for all levels, thanks to its long, shifting sandbanks.",
+      "description": "La Pared, known affectionately as 'El Viejo Rey' (The Old King), reigns as one of Fuerteventura's most iconic and reliable beach breaks. Positioned at the island's narrowest point, this expansive stretch of west coast coastline is virtually guaranteed to deliver rideable waves 365 days a year, making it a true surfing sanctuary.\n\nThe beauty of La Pared lies in its incredible versatility – this is where countless surfers have caught their first whitewater waves, yet on its day, the same beach can serve up powerful, hollow barrels that test even the most experienced riders.\n\nThe long, shifting sandbanks create a constantly changing canvas of peaks and sections, offering something for everyone from nervous beginners to seasoned wave hunters. The raw power of the Atlantic meets the island here, creating a dramatic backdrop and an authentic surfing experience that captures the essence of why people fall in love with the sport.",
       "location": {
         "area": "West",
         "nearestTowns": [
           "Pájara"
         ],
         "coordinates": {
-          "lat": 28.213524,
-          "lng": -14.226007,
-          "accuracy": "verified"
+          "lat": 28.214654468351718,
+          "lng": -14.222965836524963,
+          "accuracy": "google_maps_verified"
         }
       },
       "waveDetails": {
@@ -1962,7 +1963,7 @@
       "id": "la-turbia",
       "primaryName": "Playa de la Turbia",
       "alternativeNames": [],
-      "description": "A wild, remote beach located in the scenic and untamed Jandía Natural Park, known for its dramatic landscape of cliffs meeting dark blue water. This secluded spot offers a powerful beach break in a rugged, undeveloped setting for experienced surfers seeking to escape the crowds.",
+      "description": "Playa de la Turbia represents the raw, untamed heart of Fuerteventura's southern coast – a wild and remote stretch of coastline where dramatic volcanic cliffs plunge into deep blue Atlantic waters. Hidden away in the pristine Jandía Natural Park, this secluded beach offers a powerful and challenging beach break for experienced surfers willing to venture off the beaten path. The journey here is part of the adventure, taking you through some of the island's most spectacular landscapes where development gives way to nature's raw beauty.\n\nWhen the swell arrives, Playa de la Turbia comes alive with powerful peaks that demand respect and reward skill, offering surfers the rare opportunity to ride quality waves in complete solitude. This is pure, unfiltered Fuerteventura – no crowds, no facilities, just you, the waves, and one of the most dramatic backdrops you'll ever experience. The beach break can produce both lefts and rights, with A-frame sections that offer exciting opportunities for both regular and goofy-footed surfers.\n\nThe isolation and natural splendor create a surfing experience that transcends the mere act of riding waves – it's a journey into one of the island's last truly wild coastal environments. The lack of infrastructure means you need to come fully prepared, but the rewards include complete solitude, pristine conditions, and the chance to witness spectacular sunrises and sunsets without another soul in sight. This is where surfing returns to its adventurous roots, where the journey and destination merge into a single, unforgettable experience that connects you deeply with nature's power and beauty.",
       "location": {
         "area": "South",
         "nearestTowns": [
@@ -2047,16 +2048,16 @@
         "Playa de Jarubio",
         "Jarubio Beach"
       ],
-      "description": "A wild, expansive, and remote sandy beach on Fuerteventura's west coast, famous for its powerful surf and rugged Atlantic charm. It's a reliable spot that picks up swell when other parts of the island are flat, offering a chance to escape the crowds.",
+      "description": "Playa de las Mujeres is one of those magical west coast spots that seems to operate on its own swell schedule, often delivering perfect waves when the rest of the island is eerily flat. This wild and expansive stretch of sandy coastline captures the raw, untamed spirit of Fuerteventura's Atlantic-facing shores – powerful, reliable, and beautifully uncrowded.\n\nThe beach has an incredible ability to pick up swell from virtually any direction, making it the ultimate backup spot for savvy locals who know that when the north shore goes quiet, Las Mujeres is likely firing. The waves here are versatile enough to suit all skill levels, from gentle peelers perfect for beginners to more powerful walls that will challenge experienced surfers.\n\nWhat makes this spot truly special is its rugged charm and sense of isolation – here, you're surfing in a pristine natural environment where the dramatic cliffs and endless horizon create a backdrop that feels a world away from the developed tourist areas.",
       "location": {
         "area": "West",
         "nearestTowns": [
           "Tindaya"
         ],
         "coordinates": {
-          "lat": 28.577580,
-          "lng": -14.043362,
-          "accuracy": "verified"
+          "lat": 28.571255942335103,
+          "lng": -14.048396944999695,
+          "accuracy": "google_maps_verified"
         }
       },
       "waveDetails": {
@@ -2123,7 +2124,7 @@
       "id": "las-playas-muelle",
       "primaryName": "Las Playas Muelle",
       "alternativeNames": [],
-      "description": "A fun and accessible breakwater wave that offers left-hand rides along a harbor wall. It's a wind-protected spot, making it a good option on bigger north shore days and a perfect wave for longboarders.",
+      "description": "Las Playas Muelle offers a unique and charming surfing experience that you won't find anywhere else on the island – a perfectly shaped left-hander that peels along the protective harbor wall, creating a rare wind-protected haven when other spots are being hammered by strong winds. This man-made wave works like clockwork, transforming northern swell into clean, long-running walls that are absolutely perfect for longboarders but equally enjoyable on any craft. The wave's predictable nature and gentle power make it ideal for skill development and pure surfing enjoyment.\n\nWhat makes this spot so special is its accessibility and consistency – it's the kind of place where you can practice your turns, work on your cross-stepping, or simply enjoy a mellow session without worrying about massive crowds or challenging conditions. The harbor setting creates a surreal backdrop where fishing boats and surfers share the same space, making for a truly distinctive Fuerteventura experience that blends the island's maritime heritage with its surf culture.\n\nThe unique environment fosters a special sense of community where locals and visitors gather to share waves and stories in a relaxed, family-friendly atmosphere. The convenience of nearby amenities and the safety of the harbor environment make it perfect for extended sessions and progression-focused practice. This is surfing at its most accessible and enjoyable, where the combination of protection, consistency, and scenic surroundings creates a memorable experience that keeps surfers returning day after day.",
       "location": {
         "area": "Southeast",
         "nearestTowns": [
@@ -2200,7 +2201,7 @@
       "alternativeNames": [
         "Playa de Salinas"
       ],
-      "description": "An exposed and consistent reef break located in the remote south of Fuerteventura, within the Jandía peninsula. This right-hand point offers a reliable wave in a less crowded setting, making it a spot for surfers seeking to escape the crowds.",
+      "description": "Tucked away in Fuerteventura's remote southern Jandía peninsula, Las Salinas offers a pristine escape from the island's crowded surf spots. This exposed right-hand point break delivers consistent waves in a spectacular setting where rugged volcanic landscapes meet the Atlantic. The spot's strategic position on the southern coast provides optimal exposure to north-west swells, creating reliable surf conditions that work when many other locations are flat.\n\nThe journey to this uncrowded gem rewards surfers with quality rides and the freedom to share waves with just a handful of like-minded souls. The right-hand point wraps along the rocky headland, offering long walls that peel perfectly in the pristine southern swells. What makes Las Salinas truly special is its perfect balance of power and consistency - the waves here are strong enough to be exciting but manageable enough for intermediate surfers to progress their skills.\n\nPerfect for those seeking solitude and reliable surf away from the tourist trail, Las Salinas represents the essence of adventure surfing. The dramatic journey through the Jandía Natural Park, combined with the promise of empty lineups and quality waves, creates an unforgettable experience that captures the raw beauty of Fuerteventura's southern coast. When the swell aligns, this spot delivers some of the most memorable rides in the Canaries.",
       "location": {
         "area": "South",
         "nearestTowns": [
@@ -2275,16 +2276,16 @@
       "alternativeNames": [
         "Los Lobos"
       ],
-      "description": "A legendary and exposed reef break off the coast of Fuerteventura, offering one of the longest and most mechanical right-hand waves in the entire Atlantic region. Accessible only by boat, this spot transforms into a reeling, world-class point break on large NW swells, creating rides of several hundred meters in a dramatic lunar landscape.",
+      "description": "A true Atlantic legend, Isla de Lobos guards one of the most coveted right-hand point breaks in the entire region. This boat-access only sanctuary delivers extraordinary mechanical waves that peel for several hundred meters across a surreal lunar landscape that feels like surfing on another planet. The small island, located just 2km northeast of Fuerteventura, creates a perfect natural wave chamber that transforms Atlantic swells into precision-engineered perfection.\n\nWhen powerful NW swells march across the Atlantic, the island transforms into a world-class surfing arena where perfectly formed sections offer endless rides. The right-hand point break works with remarkable consistency, producing fast walls that hold their shape for hundreds of meters. What makes Isla de Lobos truly magical is the combination of perfect wave mechanics, pristine water clarity, and the dramatic volcanic scenery that creates an otherworldly surfing experience found nowhere else in the Canaries.\n\nThe dramatic volcanic backdrop and crystalline waters create an unforgettable experience that ranks among the most coveted surfing pilgrimages in the Atlantic. The journey itself adds to the adventure - requiring a short boat ride from Corralejo that separates the everyday from the extraordinary. Once there, surfers are rewarded with not just world-class waves but also the complete serenity of a protected natural environment where the only sounds are the crashing waves and calling seabirds. This is surfing in its purest, most magnificent form.",
       "location": {
         "area": "Offshore",
         "nearestTowns": [
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.750188,
-          "lng": -13.836116,
-          "accuracy": "verified"
+          "lat": 28.73980929574009,
+          "lng": -13.83286753653365,
+          "accuracy": "google_maps_confirmed"
         }
       },
       "waveDetails": {
@@ -2355,7 +2356,7 @@
       "alternativeNames": [
         "Grandes Playas"
       ],
-      "description": "A hidden gem on the famous Grandes Playas, located directly in front of the Riu hotels. This spot is unique for its completely soft, sandy bottom, making it exceptionally safe and forgiving. It's a perfect, mellow beach break for beginners and intermediates, but surfing is only permitted in the evening after the lifeguards finish their duty.",
+      "description": "Nestled along Corralejo's iconic Grandes Playas, Los Hoteles offers a unique surfing experience directly in front of the Riu resorts. What makes this spot special is its completely soft sandy bottom that creates a forgiving playground perfect for beginners and intermediates. The wave breaks in predictable patterns that help developing surfers understand wave dynamics without the pressure of more demanding breaks.\n\nThe gentle, rolling waves provide an ideal learning environment where you can practice without worry. The spot's consistency and mellow nature make it perfect for working on fundamental skills - from paddle technique and timing to pop-ups and basic maneuvers. The shallow sandbars create perfect small waves that peel softly, allowing for extended practice sessions and rapid skill development.\n\nThere's a magical quality to this evening-only sanctuary - once the lifeguards finish their duties, the beach transforms into your private surf domain where you can catch mellow rides during the golden hours as the sun sets over the Atlantic. The tourist-friendly location means you'll have an audience of admiring hotel guests, while the nearby amenities provide convenient access to showers, restaurants, and equipment rental, making it one of the most comfortable surf experiences on the island.",
       "location": {
         "area": "North East",
         "nearestTowns": [
@@ -2437,7 +2438,7 @@
         "Majanicho Inside",
         "Majanicho La Baja"
       ],
-      "description": "A picturesque, tranquil fishing village with a consistent reef break offering long, predictable right-handers perfect for cutbacks and intermediate practice. The spot features multiple breaks including a main peak and inside sections.",
+      "description": "Majanicho enchants visitors with its rustic fishing village charm and a remarkably reliable reef break that serves up long, predictable right-handers. This spot is a dream for intermediate surfers looking to perfect their cutbacks and flow, with multiple sections including a main peak and gentler inside areas. The wave breaks over volcanic reef that creates consistent shape and offers both performance sections and more mellow rides depending on swell size.\n\nWhat makes Majanicho special is its adaptability - when other north shore spots are maxing out, this sheltered cove comes alive with perfectly shaped A-frames. Even on days with stubborn onshore winds, you'll find surfable conditions here thanks to the natural protection offered by the surrounding coastline. The spot's unique position means it can handle a wide range of swell directions and still produce quality waves.\n\nThe laid-back atmosphere and stunning coastal setting create a perfect learning environment where you can progress your skills in peace. The traditional fishing village adds authentic character to your surf experience, with colorful boats and the occasional fisherman heading out to sea creating a living backdrop to your sessions. The short but scenic drive from Corralejo takes you through some of the island's most beautiful landscapes, while the local crew is known for their welcoming attitude toward respectful visitors who appreciate the spot's mellow vibe.",
       "location": {
         "area": "North",
         "nearestTowns": [
@@ -2520,7 +2521,7 @@
         "Popcorn Reef",
         "Pop Corn Reef"
       ],
-      "description": "Famous big-wave spot known for powerful waves over shallow reef. Features the unique 'Popcorn Beach' with white coral fragments. When pumping, you might witness tow-in surfing. A serious board-snapper spot for experts only.",
+      "description": "Mejillones commands respect as one of Fuerteventura's most formidable big-wave arenas, where powerful Pacific-style energy detonates over a shallow volcanic reef. This spot is famously situated beside the unique 'Popcorn Beach' - a stunning stretch of white coral fragments that create an otherworldly landscape. The wave breaks over treacherous underwater volcanic formations that can hold enormous size while maintaining terrifyingly perfect shape.\n\nWhen the swell really turns on, Mejillones transforms into a serious board-breaking machine that attracts the island's most experienced chargers, sometimes even requiring tow-in assistance to catch the mountainous faces. This is definitely expert-only territory where courage meets consequence in spectacular fashion. The wave offers both rights and lefts, with the left being the longer, more coveted option that can stretch for hundreds of yards when the conditions align perfectly.\n\nThe location itself adds to the mystique - the popcorn-like coral fragments that give the beach its name create a surreal backdrop to one of the island's most serious waves. On big days, the atmosphere here is electric with anticipation as locals and visiting big-wave specialists gather to witness and attempt these oceanic giants. The isolation and raw power of Mejillones create an experience that's both terrifying and transformative for those brave enough to paddle out when it's truly firing.",
       "location": {
         "area": "North",
         "nearestTowns": [
@@ -2596,7 +2597,7 @@
       "alternativeNames": [
         "Pico de la Moto"
       ],
-      "description": "A little-known but high-quality reef break located just north of Puerto del Rosario. This spot is powerful and exposed, capable of producing excellent waves that are occasionally featured in local surfing competitions. It remains a more local and uncrowded alternative to the island's famous north shore spots.",
+      "description": "Pico de las Motos flies under the radar as one of Fuerteventura's hidden treasures, tucked away just north of the capital. This powerful and exposed reef break delivers exceptional quality waves that have earned it recognition in local competitions, yet somehow maintains its uncrowded, local feel. The wave breaks over volcanic reef that creates both hollow sections and long walls, offering variety that keeps sessions interesting and challenging.\n\nThe spot serves up punchy, well-shaped sections that test your skills without the overwhelming crowds of the famous north shore breaks. When the conditions align, Pico de las Motos can produce world-class waves that rival the island's most famous spots, making it a well-kept secret among those in the know. The right-hander here offers steep takeoffs followed by fast, down-the-line racing sections that favor powerful surfers with good positioning skills.\n\nWhat makes Pico de las Motos truly special is its accessibility combined with quality - just minutes from the capital city yet delivering waves that feel remote and pristine. The local crew who frequent this spot are friendly and welcoming to respectful visitors, creating a relaxed atmosphere that's rare for waves of this quality. The spot's east coast location means it can work on different swell and wind combinations than the more famous breaks, providing valuable options when the usual spots aren't cooperating.",
       "location": {
         "area": "East",
         "nearestTowns": [
@@ -2673,7 +2674,7 @@
       "id": "playa-blanca",
       "primaryName": "Playa Blanca",
       "alternativeNames": [],
-      "description": "A long, sandy beach break located in the capital city of Puerto del Rosario on the east coast. Known for its gentle, sloppy, and less powerful waves, it is a prime learning ground and a reliable fallback spot when the west coast is too strong. It's very popular with surf schools and ideal for beginners making their first attempts on unbroken green waves, thanks to its consistent wind swells and evenly sloping sandy bottom.",
+      "description": "Playa Blanca stretches along the east coast between the airport and Puerto del Rosario, offering a welcoming introduction to surfing for beginners and a reliable fallback when the powerful west coast swells become too intense. This expansive sandy beach serves up gentle, forgiving waves that are perfect for those first-time encounters with unbroken green waves. The beach's unique orientation provides natural protection from the largest swells, making it one of the island's safest and most predictable surf locations.\n\nThe consistently mellow wind swells and evenly sloping sandy bottom create an ideal classroom environment where surf schools thrive and nervous newcomers can build confidence in waist-deep water. The gentle wave dynamics allow for extended practice sessions without the fatigue factor of more challenging breaks, helping beginners develop proper technique and ocean awareness in a controlled setting.\n\nWhile summer northeast winds provide the best conditions, this friendly spot delivers rideable waves year-round, making it a cornerstone of the island's surf education scene. The beach's proximity to the capital means it's easily accessible for locals and tourists alike, while the stunning white sand and clear waters create a picture-perfect learning environment. The relaxed atmosphere and supportive community make Playa Blanca not just a place to learn surfing, but a place to fall in love with the sport and the island's laid-back lifestyle.",
       "location": {
         "area": "East",
         "nearestTowns": [
@@ -2757,16 +2758,16 @@
       "id": "puerto-lajas",
       "primaryName": "Puerto Lajas",
       "alternativeNames": [],
-      "description": "A large, powerful bay located just north of the island's capital, Puerto del Rosario. This spot features an A-frame reef break over a rocky bottom known for its stone slabs ('lajas'). It comes alive with northeastern wind swells, offering a mix of left and right-hand waves. It's a multi-purpose spot popular with surfers, wing-foilers, windsurfers, and kitesurfers, especially in the morning and evening before the trade winds pick up.",
+      "description": "Puerto Lajas unfolds as a commanding bay just north of Fuerteventura's capital, where powerful A-frame waves detonate over characteristic stone slabs that give the spot its name. This east coast powerhouse comes alive during summer months when northeastern wind swells march across the bay, serving up head-high sets that break both left and right. The unique underwater topography creates multiple takeoff zones, offering variety that keeps experienced surfers engaged and challenged.\n\nThe spot operates on a natural timetable - early morning and evening sessions belong to surfers chasing clean walls, while midday trade winds transform the arena into a playground for wing-foilers, windsurfers, and kitesurfers. The rocky reef demands respect and rewards experienced riders with challenging, powerful waves in a spectacular setting. The A-frame nature means you can choose your preferred direction based on your style or the day's conditions.\n\nWhat makes Puerto Lajas truly special is its dual-sport nature and community atmosphere. The bay becomes a hub of water sports activity throughout the day, creating a vibrant scene where different disciplines coexist and interact. The proximity to Puerto del Rosario means you can grab coffee or lunch between sessions, while the historic fishing village setting adds character and authenticity to your surfing experience. The spot's exposure to varied conditions means it can deliver quality waves when other spots are flat, making it an essential part of any local surfer's spot rotation.",
       "location": {
         "area": "East",
         "nearestTowns": [
           "Puerto del Rosario"
         ],
         "coordinates": {
-          "lat": 28.533,
-          "lng": -13.833,
-          "accuracy": "verified"
+          "lat": 28.5401954,
+          "lng": -13.8371086,
+          "accuracy": "google_maps_verified"
         }
       },
       "waveDetails": {
@@ -2837,7 +2838,7 @@
       "id": "punta-blanca",
       "primaryName": "Punta Blanca",
       "alternativeNames": [],
-      "description": "A fun and mellow reef break perfect for beginners and improvers. Known for its mushy, sometimes disordered waves that are great for long white water rides. It's a swell magnet that consistently picks up waves, though it can often be messy. Importantly, it is a primary windsurfing spot, so surfers need to be mindful of sharing the water.",
+      "description": "Punta Blanca offers a refreshing contrast to the powerful north shore breaks, delivering gentle, forgiving waves that create the perfect learning environment for beginners and improving surfers. This welcoming reef break specializes in mushy, disorganized waves that are ideal for those epic long whitewater rides that build confidence and skills.\n\nWhat makes this spot special is its remarkable consistency as a swell magnet - you'll almost always find rideable waves here regardless of conditions. While the waves may not break in picture-perfect formation like other north shore spots, they provide endless opportunities for practice and progression.\n\nLongboarders particularly enjoy the clean, small days when the reforming green waves offer endless glide time. Do note that this is prime windsurfing territory, so sharing the waves is part of the experience.",
       "location": {
         "area": "North",
         "nearestTowns": [
@@ -2845,9 +2846,9 @@
           "Majanicho"
         ],
         "coordinates": {
-          "lat": 28.725376,
-          "lng": -13.989917,
-          "accuracy": "verified"
+          "lat": 28.725089427907317,
+          "lng": -13.988137396355274,
+          "accuracy": "google_maps_improved"
         }
       },
       "waveDetails": {
@@ -2918,8 +2919,10 @@
     {
       "id": "punta-del-tigre",
       "primaryName": "Punta del Tigre",
-      "alternativeNames": [],
-      "description": "A secluded and exposed reef break located in the scenic south of Fuerteventura near Punta de Jandía. Known for its powerful, tubular waves breaking over a rocky, volcanic seabed, this spot offers a solitary surfing experience amid dramatic natural beauty.",
+      "alternativeNames": [
+        "La Turbia"
+      ],
+      "description": "Punta del Tigre roars to life in Fuerteventura's dramatic southern wilderness near Punta de Jandía, where raw Atlantic energy detonates over a rugged volcanic reef. This exposed beast is famous for delivering powerful, hollow cylinders that challenge even the most experienced surfers seeking tube time. The spot's remote location ensures solitude, with just the dramatic coastal landscape as your audience. The left-hander here wraps around the point, creating long, perfectly shaped walls that can hold size and offer multiple barrel sections.\n\nWhen the swell aligns, Punta del Tigre serves up thrilling, barreling sections that test your nerve and reward courage with unforgettable rides in one of the island's most spectacular settings. This is serious territory for advanced surfers who appreciate raw power and pristine natural beauty. The wave breaks over unforgiving volcanic rock that can create dredging barrels when the tide is right, making every successful ride feel like a major accomplishment.\n\nThe journey to Punta del Tigre is part of the adventure - requiring a rugged 4WD trek through some of the island's most remote and beautiful landscapes. This isolation means you'll often have the wave to yourself or with a small crew of dedicated locals who understand its dangers and rewards. The dramatic cliffs and untouched coastline create a sense of timelessness here, where the only sounds are the crashing waves and the occasional calls of seabirds. It's a place where surfing returns to its purest form - just you, the ocean, and one of the most powerful waves in the Canaries.",
       "location": {
         "area": "South",
         "nearestTowns": [
@@ -3004,16 +3007,16 @@
         "Bajo del Medio",
         "Rocky Point"
       ],
-      "description": "A prominent and reliable reef break situated between the island of Lobos and Corralejo. When the North Shore gets big, this spot comes to life with a long, shoulder-breaking right-hand wave on the outside, while the inside offers faster, smaller lefts and rights. It has become a famous spot for intermediates, longboarders, and SUP riders.",
+      "description": "A prominent reef break strategically positioned between the island of Lobos and Corralejo, serving as a sanctuary when the North Shore swells grow too powerful. This spot transforms into a wave paradise with long, shoulder-breaking right-handers on the outside section, while the inside area offers playful, faster lefts and rights perfect for honing your skills.\n\nThe beauty of Punta Elena lies in its versatility - the outer reef delivers those dreamy, long rides that intermediate surfers crave, making it particularly famous among longboarders and SUP enthusiasts seeking quality wave time. When the main breaks are closing out, you'll find this spot working beautifully, offering consistent shoulders that seem to go on forever.\n\nSmart access is key here - instead of tackling the treacherous lava rock hike, paddle in 'around the corner' for a much safer entry. During the prime months between November and March, this spot really shows its character, providing that perfect escape when other spots are maxed out.",
       "location": {
         "area": "North East",
         "nearestTowns": [
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.73,
-          "lng": -13.94,
-          "accuracy": "unverified"
+          "lat": 28.7321787,
+          "lng": -13.8587809,
+          "accuracy": "google_maps_corrected"
         }
       },
       "waveDetails": {
@@ -3081,16 +3084,16 @@
       "id": "punta-gorda",
       "primaryName": "Punta Gorda",
       "alternativeNames": [],
-      "description": "A sheltered left-hand point break that reforms large swells into a wave that peels predictably into the bay. It's a go-to spot when conditions are too big, messy, or windy elsewhere on the North Shore, offering several sections to play with.",
+      "description": "A beautifully sheltered left-hand point break that serves as North Shore's ultimate sanctuary when conditions turn challenging elsewhere. This remarkable spot transforms unruly swells into perfectly shaped waves that peel predictably into the bay, offering multiple sections to play with and explore.\n\nWhat makes Punta Gorda truly special is its remarkable resilience - even when strong onshore winds are wreaking havoc on other breaks, this protected corner maintains clean, rideable faces. Large swells undergo a magical transformation as they reform over the shallow take-off zone, creating a beautiful left-hander with several distinct sections that allow for both strategic maneuvering and pure cruising pleasure.\n\nBe prepared for a workout though - the bay's natural geography creates a persistent current that demands constant paddling to maintain position. This physical challenge is more than worth it for the reward of perfectly formed waves when everywhere else is blown out or maxed out.",
       "location": {
         "area": "North",
         "nearestTowns": [
           "El Cotillo"
         ],
         "coordinates": {
-          "lat": 28.687,
-          "lng": -13.83,
-          "accuracy": "verified"
+          "lat": 28.7199854,
+          "lng": -13.998127,
+          "accuracy": "google_maps_corrected"
         }
       },
       "waveDetails": {
@@ -3164,7 +3167,7 @@
         "Racetracks",
         "American Star Wreck"
       ],
-      "description": "A remote and historically significant bay on the wild west coast, famed as the final resting place of the SS American Star shipwreck. Unlike other exposed west coast spots, its unique geography provides lighter and often offshore wind conditions. It features a versatile beach break with distinct left and right-hand peaks, a relatively safe channel for paddling out, and a friendly, sheltered vibe that attracts everyone from beginners in the white water to advanced surfers on the main peaks.",
+      "description": "Where maritime history meets surfing perfection, Playa de Garcey stands as one of Fuerteventura's most historically significant surf destinations. This remote wild west coast bay earned its place in history as the final resting place of the SS American Star shipwreck, which ran aground here on January 18, 1994, creating a legendary tale that still captivates visitors today. The rusting remnants of this once-majestic ocean liner served as a surreal surfing landmark for years, though time and tide have largely claimed the wreck back to the Atlantic.\n\nWhat makes Playa de Garcey truly special among west coast spots is its unique geography that creates an oasis of protection in an otherwise exposed coastline. Unlike its neighboring breaks that bear the full brunt of Atlantic force, this bay's configuration provides lighter and often offshore wind conditions, transforming what could be punishing sessions into perfect surfing opportunities. The spot delivers a versatile beach break with distinct left and right-hand peaks that work in harmony, while a relatively safe channel provides easy paddle-out access that eliminates the grueling battles common to other west coast locations.\n\nThe friendly, sheltered atmosphere of Playa de Garcey creates an inclusive environment that welcomes surfers of all abilities. Beginners can find their confidence in the manageable white water, while advanced surfers push their limits on the main peaks that offer both power and maneuverability. The bay's protected nature means consistent, rideable waves even when other spots are blown out or maxed out. This combination of historical significance, unique geography, and user-friendly conditions makes Playa de Garcey a must-visit destination where surfing culture and maritime heritage create an unforgettable experience on Fuerteventura's rugged west coast.",
       "location": {
         "area": "West",
         "nearestTowns": [
@@ -3172,9 +3175,9 @@
           "La Hermosa"
         ],
         "coordinates": {
-          "lat": 28.3465,
-          "lng": -14.1782,
-          "accuracy": "unverified"
+          "lat": 28.346643617010102,
+          "lng": -14.176504611968994,
+          "accuracy": "google_maps_verified"
         }
       },
       "waveDetails": {
@@ -3250,7 +3253,7 @@
       "alternativeNames": [
         "Suicides"
       ],
-      "description": "A heavy and exposed reef break on the infamous North Shore, aptly named for its gnarly and suicidal right-hand wave that breaks over a sharp lava reef. The main break features two very fast, hollow, and powerful sections, with the first being notoriously difficult to make. It is a spot for experts with local knowledge only, where mastering the wave can offer the barrel of a lifetime.",
+      "description": "The legendary terror of Fuerteventura's infamous North Shore advanced breaks cluster, Suicidios earns its ominous alternative name \"Suicides\" through sheer wave brutality. Situated between Corralejo and El Cotillo, this spot forms part of the island's most feared coastline, where exposed reef formations create some of the heaviest waves in the Canaries. The name itself serves as a warning - this is genuinely gnarly and suicidal territory that demands total respect from those who dare to challenge it.\n\nWhen conditions align, Suicidios unleashes a terrifying right-hand monster that breaks over sharp lava reef with unapologetic force. The wave's two distinct sections offer different kinds of punishment: the first section is notoriously impossible to make, serving as a testing ground for only the most committed, while the second provides those rare, makeable barrels that become lifelong achievements. Both right and left reef breaks work here, but the right-handers are the stuff of local legend, capable of producing freight-train tubes across the exposed reef shelf.\n\nThis is unequivocally expert-only territory where local knowledge isn't just recommended - it's essential for survival. The wave's reputation as \"suicidal\" comes from its combination of extreme shallow water razor-sharp reef, raw power, and unforgiving sections that rarely offer mistakes. For the select few who master this break, Suicidios delivers the barrel of a lifetime, but the price of failure is severe. This spot represents the ultimate test of courage, skill, and wave-reading ability on Fuerteventura's treacherous North Shore.",
       "location": {
         "area": "North",
         "nearestTowns": [
@@ -3332,16 +3335,16 @@
         "Playa Waikiki",
         "Galera Beach"
       ],
-      "description": "A sheltered and versatile bay in the heart of Corralejo, famous as a primary hub for wing foiling and windsurfing. On smaller days, it also offers a gentle, accessible wave in the middle of the bay, making it a popular spot for beginner surfers thanks to its easy access from town and protection from strong wind and currents.",
+      "description": "Waikiki Beach, also known as Playa Waikiki or Galera Beach, sits as a sheltered oasis in the very heart of Corralejo town, offering one of the most accessible and versatile surfing experiences on the island. This prime beachfront location features a dedicated Waikiki Beach Club right on the sand with sweeping sea views, surrounded by a vibrant tourism infrastructure of hotels and apartments.\n\nThe bay's natural protection creates perfect conditions for multiple watersports - it's famous as a primary hub for wing foiling and windsurfing, while also offering gentle, accessible waves in the middle of the bay that make it ideal for beginner surfers. The easy access from town center means you can walk from your accommodation to the water within minutes.\n\nWhat makes Waikiki Beach truly special is its year-round consistency and protection from harsh conditions. The sheltered bay shields beginners from strong winds and currents while providing reliable learning waves, yet still offers enough power for progression when the conditions align. Near the magnificent Corralejo Dunes, this spot combines convenience with natural beauty.",
       "location": {
         "area": "North East",
         "nearestTowns": [
           "Corralejo"
         ],
         "coordinates": {
-          "lat": 28.73,
-          "lng": -13.94,
-          "accuracy": "unverified"
+          "lat": 28.7345635,
+          "lng": -13.8669294,
+          "accuracy": "google_maps_corrected"
         }
       },
       "waveDetails": {

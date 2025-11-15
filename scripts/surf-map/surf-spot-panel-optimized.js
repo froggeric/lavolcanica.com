@@ -147,7 +147,7 @@ export class SurfSpotPanelOptimized {
         const activeMonths = spot.waveDetails.bestSeason.flatMap(season => seasonMap[season] || []);
         
         return `
-            <p class="panel-section__description">${spot.description}</p>
+            <p class="panel-section__description">${spot.description.replace(/\n/g, '<br>')}</p>
             <div class="panel-section">
                 ${this._createSeasonChart(activeMonths)}
             </div>

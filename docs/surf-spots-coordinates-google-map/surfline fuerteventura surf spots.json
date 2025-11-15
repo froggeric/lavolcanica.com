@@ -1,0 +1,256 @@
+{
+  "source_info": {
+    "site": "Surfline surf report for Fuerteventura",
+    "url": "https://www.surfline.com/surf-reports-forecasts-cams/spain/canary-islands/las-palmas/p-jara/fuerteventura/2517481"
+  },
+  "surf_spots": [
+    {
+      "name": "Shipwreck",
+      "gps": {
+        "latitude": 28.3464,
+        "longitude": -14.1784
+      },
+      "url": "https://www.surfline.com/surf-report/shipwreck/640b88e445190544e6db961f"
+    },
+    {
+      "name": "Playa de Cofete",
+      "gps": {
+        "latitude": 28.1118,
+        "longitude": -14.3902
+      },
+      "url": "https://www.surfline.com/surf-report/playa-de-cofete/640b890e4878eb4e711955fa"
+    },
+    {
+      "name": "Playa Barlovento",
+      "gps": {
+        "latitude": 28.1331,
+        "longitude": -14.3363
+      },
+      "url": "https://www.surfline.com/surf-report/playa-barlovento/640b891ade81d5d05a094736"
+    },
+    {
+      "name": "Majanicho",
+      "gps": {
+        "latitude": 28.749293,
+        "longitude": -13.93319
+      },
+      "url": "https://www.surfline.com/surf-report/majanicho/584204204e65fad6a77096a2"
+    },
+    {
+      "name": "The Bubble (Hierro Right)",
+      "gps": {
+        "latitude": 28.74416667,
+        "longitude": -13.94806
+      },
+      "url": "https://www.surfline.com/surf-report/the-bubble-hierro-right-/5842041f4e65fad6a7708cbf"
+    },
+    {
+      "name": "Playa Punta Blanca",
+      "gps": {
+        "latitude": 28.7239671,
+        "longitude": -13.98912
+      },
+      "url": "https://www.surfline.com/surf-report/playa-punta-blanca/666b3248646e832432d19dd2"
+    },
+    {
+      "name": "Los Lobos",
+      "gps": {
+        "latitude": 28.75027778,
+        "longitude": -13.83528
+      },
+      "url": "https://www.surfline.com/surf-report/los-lobos/5842041f4e65fad6a7708cb9"
+    },
+    {
+      "name": "Playa Jarugo",
+      "gps": {
+        "latitude": 28.5716,
+        "longitude": -14.0482
+      },
+      "url": "https://www.surfline.com/surf-report/playa-jarugo/640b8902e9203003b2dcc458"
+    },
+    {
+      "name": "La Pared",
+      "gps": {
+        "latitude": 28.21453,
+        "longitude": -14.22557
+      },
+      "url": "https://www.surfline.com/surf-report/la-pared/584204204e65fad6a77096a7"
+    },
+    {
+      "name": "Cotillo",
+      "gps": {
+        "latitude": 28.6754,
+        "longitude": -14.0104
+      },
+      "url": "https://www.surfline.com/surf-report/cotillo/6052148c589a23368a742cb4"
+    },
+    {
+      "name": "Rocky Point",
+      "gps": {
+        "latitude": 28.73282,
+        "longitude": -13.85688
+      },
+      "url": "https://www.surfline.com/surf-report/rocky-point/584204204e65fad6a77096a0"
+    },
+    {
+      "name": "Generosa",
+      "gps": {
+        "latitude": 28.756,
+        "longitude": -13.8849
+      },
+      "url": "https://www.surfline.com/surf-report/generosa/640b892d606c4576c6ef960a"
+    },
+    {
+      "name": "Bristol",
+      "gps": {
+        "latitude": 28.748903,
+        "longitude": -13.87342
+      },
+      "url": "https://www.surfline.com/surf-report/bristol/584204204e65fad6a77096a3"
+    },
+    {
+      "name": "Playa los Matos",
+      "gps": {
+        "latitude": 28.6984,
+        "longitude": -13.8313
+      },
+      "url": "https://www.surfline.com/surf-report/playa-los-matos/640b893a4878eb50bf195f71"
+    },
+    {
+      "name": "El Burro (Glasbeach)",
+      "gps": {
+        "latitude": 28.69,
+        "longitude": -13.83
+      },
+      "url": "https://www.surfline.com/surf-report/el-burro-glasbeach-/640b89264519055221dba4e8"
+    },
+    {
+      "name": "Playa de las Pilas",
+      "gps": {
+        "latitude": 28.0729,
+        "longitude": -14.4478
+      },
+      "url": "https://www.surfline.com/surf-report/playa-de-las-pilas/640b88fc606c458379ef8b0e"
+    },
+    {
+      "name": "Flag Beach",
+      "gps": {
+        "latitude": 28.7229,
+        "longitude": -13.8416
+      },
+      "url": "https://www.surfline.com/surf-report/flag-beach/640b894d4519055a3bdbaeaf"
+    },
+    {
+      "name": "Playa del Moro",
+      "gps": {
+        "latitude": 28.6845,
+        "longitude": -13.8321
+      },
+      "url": "https://www.surfline.com/surf-report/playa-del-moro/640b89598284fe91dbacaee1"
+    },
+    {
+      "name": "Playa La Cabezuela",
+      "gps": {
+        "latitude": 28.6217,
+        "longitude": -13.8269
+      },
+      "url": "https://www.surfline.com/surf-report/playa-la-cabezuela/640b89334878eb9f5e195ddc"
+    },
+    {
+      "name": "Playa Los Picachos",
+      "gps": {
+        "latitude": 28.617,
+        "longitude": -13.8257
+      },
+      "url": "https://www.surfline.com/surf-report/playa-los-picachos/640b8940b6d7696b02902c97"
+    },
+    {
+      "name": "Playa Puerto Rico",
+      "gps": {
+        "latitude": 28.1752,
+        "longitude": -14.1712
+      },
+      "url": "https://www.surfline.com/surf-report/playa-puerto-rico/640b89148284fe0275ac9e82"
+    },
+    {
+      "name": "Cruz Roja",
+      "gps": {
+        "latitude": 28.0437,
+        "longitude": -14.3313
+      },
+      "url": "https://www.surfline.com/surf-report/cruz-roja/640b88eab6d769da88901861"
+    },
+    {
+      "name": "Las Salinas",
+      "gps": {
+        "latitude": 28.07692,
+        "longitude": -14.47738
+      },
+      "url": "https://www.surfline.com/surf-report/las-salinas/584204204e65fad6a77096a5"
+    },
+    {
+      "name": "Playa de los Valdivias",
+      "gps": {
+        "latitude": 28.5733,
+        "longitude": -13.8293
+      },
+      "url": "https://www.surfline.com/surf-report/playa-de-los-valdivias/640b8946e92030397fdcd44c"
+    },
+    {
+      "name": "Jandia",
+      "gps": {
+        "latitude": 28.1006,
+        "longitude": -14.2713
+      },
+      "url": "https://www.surfline.com/surf-report/jandia/640b88f08284fe01a2ac95c9"
+    },
+    {
+      "name": "Playa del Esquinzo",
+      "gps": {
+        "latitude": 28.0727,
+        "longitude": -14.3027
+      },
+      "url": "https://www.surfline.com/surf-report/playa-del-esquinzo/640b88f6451905854cdb99bc"
+    },
+    {
+      "name": "Corralejo Beach",
+      "gps": {
+        "latitude": 28.696627,
+        "longitude": -13.82747
+      },
+      "url": "https://www.surfline.com/surf-report/corralejo-beach/584204204e65fad6a77096a4"
+    },
+    {
+      "name": "Playa del Perchel",
+      "gps": {
+        "latitude": 28.5789,
+        "longitude": -13.8296
+      },
+      "url": "https://www.surfline.com/surf-report/playa-del-perchel/640b89534519055a3bdbb036"
+    },
+    {
+      "name": "Caleta de Fuste Beach",
+      "gps": {
+        "latitude": 28.3949,
+        "longitude": -13.8579
+      },
+      "url": "https://www.surfline.com/surf-report/caleta-de-fuste-beach/640b8920e920306c5edccad9"
+    },
+    {
+      "name": "Pozo Negro",
+      "gps": {
+        "latitude": 28.323487,
+        "longitude": -13.895123
+      },
+      "url": "https://www.surfline.com/surf-report/pozo-negro/584204204e65fad6a77096a6"
+    },
+    {
+      "name": "Playa de los James",
+      "gps": {
+        "latitude": 28.2383,
+        "longitude": -13.9311
+      },
+      "url": "https://www.surfline.com/surf-report/playa-de-los-james/640b8908e920300ba8dcc5e9"
+    }
+  ]
+}

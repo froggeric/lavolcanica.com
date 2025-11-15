@@ -1,0 +1,2295 @@
+{
+  "inspection_date": "2025-11-14",
+  "total_spots": 42,
+  "results": [
+    {
+      "index": 1,
+      "spot_id": "acid-drop",
+      "spot_name": "Acid Drop",
+      "alternative_names": [],
+      "current_lat": 28.72676,
+      "current_lng": -13.993009,
+      "current_accuracy": "verified",
+      "matches_count": 0,
+      "best_match": null,
+      "all_matches": [],
+      "status": "❌ NO MATCHES",
+      "recommended_action": "Investigate if spot exists or needs Google Maps submission"
+    },
+    {
+      "index": 2,
+      "spot_id": "bahia-la-pared",
+      "spot_name": "Bahia",
+      "alternative_names": [
+        "Bahia La Pared"
+      ],
+      "current_lat": 28.2135,
+      "current_lng": -14.226,
+      "current_accuracy": "unverified",
+      "matches_count": 1,
+      "best_match": {
+        "source": "surfermap_fuerteventura",
+        "google_name": "La Pared",
+        "google_lat": 28.214654468351718,
+        "google_lng": -14.222965836524963,
+        "google_description": "",
+        "match_type": "name_match",
+        "search_term": "bahia la pared",
+        "distance_m": 323.8291255405959,
+        "distance_km": 0.3238291255405959
+      },
+      "all_matches": [
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "La Pared",
+          "google_lat": 28.214654468351718,
+          "google_lng": -14.222965836524963,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "bahia la pared",
+          "distance_m": 323.8291255405959,
+          "distance_km": 0.3238291255405959
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 3,
+      "spot_id": "bristol-shooting-gallery",
+      "spot_name": "Bristol",
+      "alternative_names": [
+        "Bristol Shooting Gallery",
+        "Shooting Gallery"
+      ],
+      "current_lat": 28.746947975227233,
+      "current_lng": -13.873822689056396,
+      "current_accuracy": "verified",
+      "matches_count": 3,
+      "best_match": {
+        "source": "surfermap_fuerteventura",
+        "google_name": "Bristol",
+        "google_lat": 28.746947975227233,
+        "google_lng": -13.873822689056396,
+        "google_description": "",
+        "match_type": "name_match",
+        "search_term": "bristol",
+        "distance_m": 0.0,
+        "distance_km": 0.0
+      },
+      "all_matches": [
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Bristol",
+          "google_lat": 28.746947975227233,
+          "google_lng": -13.873822689056396,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "bristol",
+          "distance_m": 0.0,
+          "distance_km": 0.0
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Bristol",
+          "google_lat": 28.7462895,
+          "google_lng": -13.8714409,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "bristol",
+          "distance_m": 243.47271529614866,
+          "distance_km": 0.24347271529614867
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Bristol",
+          "google_lat": 28.7498263,
+          "google_lng": -13.8742304,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "bristol",
+          "distance_m": 322.51376322658086,
+          "distance_km": 0.3225137632265809
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 4,
+      "spot_id": "the-bubble",
+      "spot_name": "The Bubble",
+      "alternative_names": [
+        "Hierro Right",
+        "El Hierro",
+        "La Derecha/Bubble"
+      ],
+      "current_lat": 28.7410217,
+      "current_lng": -13.9516926,
+      "current_accuracy": "verified",
+      "matches_count": 6,
+      "best_match": {
+        "source": "freshsurf_surfspots_aus_fuerteventura",
+        "google_name": "The Bubble",
+        "google_lat": 28.7410217,
+        "google_lng": -13.9516926,
+        "google_description": "An expert-level wave. This is a shallow, barreling A-frame of exceptional quality that works best on a west swell with an east wind. It's known for snapping boards and is truly only for very advanced surfers. It gets crowded very quickly, especially when it's good. Respect the locals; it might be better to watch from the sidelines. The best season is from October to March.",
+        "match_type": "name_match",
+        "search_term": "the bubble",
+        "distance_m": 0.0,
+        "distance_km": 0.0
+      },
+      "all_matches": [
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "The Bubble",
+          "google_lat": 28.7410217,
+          "google_lng": -13.9516926,
+          "google_description": "An expert-level wave. This is a shallow, barreling A-frame of exceptional quality that works best on a west swell with an east wind. It's known for snapping boards and is truly only for very advanced surfers. It gets crowded very quickly, especially when it's good. Respect the locals; it might be better to watch from the sidelines. The best season is from October to March.",
+          "match_type": "name_match",
+          "search_term": "the bubble",
+          "distance_m": 0.0,
+          "distance_km": 0.0
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "El Hierro",
+          "google_lat": 28.7416802,
+          "google_lng": -13.9523578,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "el hierro",
+          "distance_m": 97.81357213502979,
+          "distance_km": 0.09781357213502978
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "El Hierro",
+          "google_lat": 28.740081,
+          "google_lng": -13.9534521,
+          "google_description": "Also known as \"La Izquierda\" (The Left), this is a superb reef wave that works best with a north swell. On a good day, you'll find some great barrel sections. It can get very crowded when it's good. It works best with an east wind and breaks in front of a beautiful beach. The best season is from October to March.",
+          "match_type": "name_match",
+          "search_term": "el hierro",
+          "distance_m": 200.92046427160966,
+          "distance_km": 0.20092046427160967
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "El Hierro",
+          "google_lat": 28.738763971370293,
+          "google_lng": -13.952443599700928,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "el hierro",
+          "distance_m": 261.5077116824361,
+          "distance_km": 0.2615077116824361
+        },
+        {
+          "source": "surf_and_unwind_surf_guide_fuerteventura",
+          "google_name": "The Bubble",
+          "google_lat": 28.742951,
+          "google_lng": -13.949868,
+          "google_description": "Surf Spot",
+          "match_type": "name_match",
+          "search_term": "the bubble",
+          "distance_m": 278.6881468507922,
+          "distance_km": 0.2786881468507922
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "The Bubble ",
+          "google_lat": 28.7432605,
+          "google_lng": -13.9503193,
+          "google_description": "Surf and Bodyboard",
+          "match_type": "name_match",
+          "search_term": "the bubble",
+          "distance_m": 282.6644348050875,
+          "distance_km": 0.2826644348050875
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 5,
+      "spot_id": "campo-de-futbol",
+      "spot_name": "Campo de Futbol",
+      "alternative_names": [
+        "Campo de Futbol La Pared"
+      ],
+      "current_lat": 28.231527,
+      "current_lng": -14.215697,
+      "current_accuracy": "verified",
+      "matches_count": 1,
+      "best_match": {
+        "source": "surfermap_fuerteventura",
+        "google_name": "La Pared",
+        "google_lat": 28.214654468351718,
+        "google_lng": -14.222965836524963,
+        "google_description": "",
+        "match_type": "name_match",
+        "search_term": "campo de futbol la pared",
+        "distance_m": 2006.759055468784,
+        "distance_km": 2.006759055468784
+      },
+      "all_matches": [
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "La Pared",
+          "google_lat": 28.214654468351718,
+          "google_lng": -14.222965836524963,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "campo de futbol la pared",
+          "distance_m": 2006.759055468784,
+          "distance_km": 2.006759055468784
+        }
+      ],
+      "status": "⚠️ FAIR",
+      "recommended_action": "Review recommended"
+    },
+    {
+      "index": 6,
+      "spot_id": "cruz-roja",
+      "spot_name": "Cruz Roja",
+      "alternative_names": [],
+      "current_lat": 28.04665398976013,
+      "current_lng": -14.328049421310425,
+      "current_accuracy": "google_maps_verified",
+      "matches_count": 1,
+      "best_match": {
+        "source": "surfermap_fuerteventura",
+        "google_name": "Cruz Roja",
+        "google_lat": 28.046653989760127,
+        "google_lng": -14.328049421310425,
+        "google_description": "",
+        "match_type": "name_match",
+        "search_term": "cruz roja",
+        "distance_m": 3.536615444943436e-10,
+        "distance_km": 3.536615444943436e-13
+      },
+      "all_matches": [
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Cruz Roja",
+          "google_lat": 28.046653989760127,
+          "google_lng": -14.328049421310425,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "cruz roja",
+          "distance_m": 3.536615444943436e-10,
+          "distance_km": 3.536615444943436e-13
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 7,
+      "spot_id": "el-burro",
+      "spot_name": "El Burro",
+      "alternative_names": [
+        "Glass Beach",
+        "Playa del Burro",
+        "Glasbeach"
+      ],
+      "current_lat": 28.68748491452675,
+      "current_lng": -13.830869190270791,
+      "current_accuracy": "google_maps_verified",
+      "matches_count": 7,
+      "best_match": {
+        "source": "freshsurf_surfspots_aus_fuerteventura",
+        "google_name": "El Burro",
+        "google_lat": 28.6876324,
+        "google_lng": -13.8307571,
+        "google_description": null,
+        "match_type": "name_match",
+        "search_term": "el burro",
+        "distance_m": 19.710378011822442,
+        "distance_km": 0.019710378011822443
+      },
+      "all_matches": [
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "El Burro",
+          "google_lat": 28.6876324,
+          "google_lng": -13.8307571,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "el burro",
+          "distance_m": 19.710378011822442,
+          "distance_km": 0.019710378011822443
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "El Burro",
+          "google_lat": 28.687335894691245,
+          "google_lng": -13.830982446670532,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "el burro",
+          "distance_m": 19.91544322276553,
+          "distance_km": 0.01991544322276553
+        },
+        {
+          "source": "surf_and_unwind_surf_guide_fuerteventura",
+          "google_name": "El Burro (Glass Beach)",
+          "google_lat": 28.687271,
+          "google_lng": -13.831125,
+          "google_description": "Surf Spot",
+          "match_type": "name_match",
+          "search_term": "el burro",
+          "distance_m": 34.47384977527146,
+          "distance_km": 0.03447384977527146
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "El Burro",
+          "google_lat": 28.687190010202205,
+          "google_lng": -13.831079006195068,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "el burro",
+          "distance_m": 38.65478482711346,
+          "distance_km": 0.03865478482711346
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "El Burro (Glass Beach)\n",
+          "google_lat": 28.6875947,
+          "google_lng": -13.8303817,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "el burro",
+          "distance_m": 49.09458526285024,
+          "distance_km": 0.04909458526285024
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "El Burro",
+          "google_lat": 28.6855806,
+          "google_lng": -13.8312078,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "el burro",
+          "distance_m": 214.31077940798838,
+          "distance_km": 0.21431077940798837
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Glass Beach",
+          "google_lat": 28.6846205,
+          "google_lng": -13.8320446,
+          "google_description": "A very powerful beach break with some beautiful sections over a sand-covered reef. It works well when the north gets too big and handles northwest swells best. With a northwest wind, you get offshore conditions that bring out the best in the waves. It's best surfed at high tide and runs well in the summer.",
+          "match_type": "name_match",
+          "search_term": "glass beach",
+          "distance_m": 338.5173815087072,
+          "distance_km": 0.3385173815087072
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 8,
+      "spot_id": "el-cotillo-piedra-playa",
+      "spot_name": "El Cotillo",
+      "alternative_names": [
+        "Piedra Playa",
+        "Cotillo Beach"
+      ],
+      "current_lat": 28.6742,
+      "current_lng": -14.0076,
+      "current_accuracy": "unverified",
+      "matches_count": 8,
+      "best_match": {
+        "source": "surfermap_fuerteventura",
+        "google_name": "El Cotillo · Piedra Playa",
+        "google_lat": 28.67437020542724,
+        "google_lng": -14.009188413619995,
+        "google_description": "",
+        "match_type": "name_match",
+        "search_term": "el cotillo",
+        "distance_m": 156.11416929942504,
+        "distance_km": 0.15611416929942504
+      },
+      "all_matches": [
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "El Cotillo · Piedra Playa",
+          "google_lat": 28.67437020542724,
+          "google_lng": -14.009188413619995,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "el cotillo",
+          "distance_m": 156.11416929942504,
+          "distance_km": 0.15611416929942504
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Piedra Playa El Cotillo",
+          "google_lat": 28.6734195,
+          "google_lng": -14.009285,
+          "google_description": "A powerful beach break that often closes out when the swell is overhead or the tides are wrong for the sandbanks. The banks improve towards winter and can offer amazing barreling sections. It picks up swell from the north to the west. It's a great spot for intermediates, but also offers excellent whitewater conditions for beginners. This is our preferred beach for teaching, and you can practice here on your own before or after a lesson. El Cotillo works year-round, as long as the swell isn't too big or too small.",
+          "match_type": "name_match",
+          "search_term": "el cotillo",
+          "distance_m": 185.88956875086916,
+          "distance_km": 0.18588956875086915
+        },
+        {
+          "source": "surf_and_unwind_surf_guide_fuerteventura",
+          "google_name": "El Cotillo",
+          "google_lat": 28.673937,
+          "google_lng": -14.009591,
+          "google_description": "Surf Spot",
+          "match_type": "name_match",
+          "search_term": "el cotillo",
+          "distance_m": 196.42784512050312,
+          "distance_km": 0.19642784512050313
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "El Cotillo\n",
+          "google_lat": 28.6740172,
+          "google_lng": -14.0098751,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "el cotillo",
+          "distance_m": 222.8837368201349,
+          "distance_km": 0.2228837368201349
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "El Cotillo",
+          "google_lat": 28.672544055644753,
+          "google_lng": -14.009381532669067,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "el cotillo",
+          "distance_m": 253.205142988654,
+          "distance_km": 0.253205142988654
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Cotillo Beach",
+          "google_lat": 28.6748503,
+          "google_lng": -14.0105724,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "cotillo beach",
+          "distance_m": 298.86091398933235,
+          "distance_km": 0.29886091398933234
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "El Cotillo",
+          "google_lat": 28.670294270656978,
+          "google_lng": -14.010207653045654,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "el cotillo",
+          "distance_m": 503.32386037477806,
+          "distance_km": 0.503323860374778
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Playa Ultima - El Cotillo",
+          "google_lat": 28.6675455,
+          "google_lng": -14.0110016,
+          "google_description": "A powerful beach break that often closes out when the swell is overhead or the tides are wrong for the sandbanks. The banks improve towards winter and can offer amazing barreling sections. It picks up swell from the north to the west. It's a great spot for intermediates, but also offers excellent whitewater conditions for beginners. This is our preferred beach for teaching, and you can practice here on your own before or after a lesson. El Cotillo works year-round, as long as the swell isn't too big or too small.",
+          "match_type": "name_match",
+          "search_term": "el cotillo",
+          "distance_m": 810.9594133142481,
+          "distance_km": 0.810959413314248
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 9,
+      "spot_id": "playa-del-moro",
+      "spot_name": "Playa del Moro",
+      "alternative_names": [
+        "El Moro Beach"
+      ],
+      "current_lat": 28.67396394001897,
+      "current_lng": -13.833475042758906,
+      "current_accuracy": "google_maps_verified",
+      "matches_count": 3,
+      "best_match": {
+        "source": "freshsurf_surfspots_aus_fuerteventura",
+        "google_name": "Playa del Moro",
+        "google_lat": 28.6741537,
+        "google_lng": -13.8333964,
+        "google_description": "A beach break suitable for all levels. It's very popular and well-known among local surf schools. It rarely works in the winter as it needs larger northwest swells. It's most frequently surfed in the summer with northeast wind swells. The best conditions are found between April and September.",
+        "match_type": "name_match",
+        "search_term": "playa del moro",
+        "distance_m": 22.45190892834245,
+        "distance_km": 0.02245190892834245
+      },
+      "all_matches": [
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Playa del Moro",
+          "google_lat": 28.6741537,
+          "google_lng": -13.8333964,
+          "google_description": "A beach break suitable for all levels. It's very popular and well-known among local surf schools. It rarely works in the winter as it needs larger northwest swells. It's most frequently surfed in the summer with northeast wind swells. The best conditions are found between April and September.",
+          "match_type": "name_match",
+          "search_term": "playa del moro",
+          "distance_m": 22.45190892834245,
+          "distance_km": 0.02245190892834245
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Playa del Moro",
+          "google_lat": 28.674106639382938,
+          "google_lng": -13.833836317062378,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "playa del moro",
+          "distance_m": 38.652423170930135,
+          "distance_km": 0.038652423170930136
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Playa del Moro",
+          "google_lat": 28.6736454,
+          "google_lng": -13.8332033,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "playa del moro",
+          "distance_m": 44.24255541615159,
+          "distance_km": 0.04424255541615159
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 10,
+      "spot_id": "el-muelle",
+      "spot_name": "El Muelle",
+      "alternative_names": [
+        "Harbour Wall"
+      ],
+      "current_lat": 28.746074921053435,
+      "current_lng": -13.864985902108891,
+      "current_accuracy": "google_maps_improved",
+      "matches_count": 3,
+      "best_match": {
+        "source": "freshsurf_surfspots_aus_fuerteventura",
+        "google_name": "Harbour Wall",
+        "google_lat": 28.7462519,
+        "google_lng": -13.8644457,
+        "google_description": "A long, wall-like left-hand wave that offers a super long shoulder. It breaks right at the Corralejo harbor and works best with a west swell and wind. Avoid surfing the left at high tide, as you can get slammed onto the hard lava reef. At high tide, the shorter right-hand wave is the better option. The best season is between November and April.",
+        "match_type": "name_match",
+        "search_term": "harbour wall",
+        "distance_m": 56.2215580734935,
+        "distance_km": 0.0562215580734935
+      },
+      "all_matches": [
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Harbour Wall",
+          "google_lat": 28.7462519,
+          "google_lng": -13.8644457,
+          "google_description": "A long, wall-like left-hand wave that offers a super long shoulder. It breaks right at the Corralejo harbor and works best with a west swell and wind. Avoid surfing the left at high tide, as you can get slammed onto the hard lava reef. At high tide, the shorter right-hand wave is the better option. The best season is between November and April.",
+          "match_type": "name_match",
+          "search_term": "harbour wall",
+          "distance_m": 56.2215580734935,
+          "distance_km": 0.0562215580734935
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "El Muelle",
+          "google_lat": 28.7459133,
+          "google_lng": -13.864274,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "el muelle",
+          "distance_m": 71.69326972521448,
+          "distance_km": 0.07169326972521448
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "El Muelle",
+          "google_lat": 28.746063757429248,
+          "google_lng": -13.866323232650757,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "el muelle",
+          "distance_m": 130.38391701797323,
+          "distance_km": 0.13038391701797322
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 11,
+      "spot_id": "el-pozo",
+      "spot_name": "El Pozo",
+      "alternative_names": [],
+      "current_lat": 28.0657,
+      "current_lng": -14.5071,
+      "current_accuracy": "verified",
+      "matches_count": 0,
+      "best_match": null,
+      "all_matches": [],
+      "status": "❌ NO MATCHES",
+      "recommended_action": "Investigate if spot exists or needs Google Maps submission"
+    },
+    {
+      "index": 12,
+      "spot_id": "spew-pits",
+      "spot_name": "Spew Pits",
+      "alternative_names": [
+        "El Puertito"
+      ],
+      "current_lat": 28.685571149327316,
+      "current_lng": -14.0138179063797,
+      "current_accuracy": "google_maps_verified",
+      "matches_count": 1,
+      "best_match": {
+        "source": "surfermap_fuerteventura",
+        "google_name": "El Puertito",
+        "google_lat": 28.685571149327313,
+        "google_lng": -14.0138179063797,
+        "google_description": "",
+        "match_type": "name_match",
+        "search_term": "el puertito",
+        "distance_m": 7.073230889886872e-10,
+        "distance_km": 7.073230889886872e-13
+      },
+      "all_matches": [
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "El Puertito",
+          "google_lat": 28.685571149327313,
+          "google_lng": -14.0138179063797,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "el puertito",
+          "distance_m": 7.073230889886872e-10,
+          "distance_km": 7.073230889886872e-13
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 13,
+      "spot_id": "esquinzo-jandia",
+      "spot_name": "Esquinzo (Jandía)",
+      "alternative_names": [
+        "Playa de Esquinzo",
+        "Esquinzo Este"
+      ],
+      "current_lat": 28.6347996,
+      "current_lng": -14.0267086,
+      "current_accuracy": "google_maps_corrected",
+      "matches_count": 2,
+      "best_match": {
+        "source": "freshsurf_surfspots_aus_fuerteventura",
+        "google_name": "Esquinzo",
+        "google_lat": 28.6347996,
+        "google_lng": -14.0267086,
+        "google_description": "A powerful beach break featuring barreling sections. It picks up swell from the north to the west, with large cliffs providing shelter from northeast winds. The waves here are typically longer than in El Cotillo. Be respectful of the locals—if it's crowded and firing, it might be best to watch for a while. Conditions can be good at any time of year.",
+        "match_type": "name_match",
+        "search_term": "esquinzo (jandía)",
+        "distance_m": 0.0,
+        "distance_km": 0.0
+      },
+      "all_matches": [
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Esquinzo",
+          "google_lat": 28.6347996,
+          "google_lng": -14.0267086,
+          "google_description": "A powerful beach break featuring barreling sections. It picks up swell from the north to the west, with large cliffs providing shelter from northeast winds. The waves here are typically longer than in El Cotillo. Be respectful of the locals—if it's crowded and firing, it might be best to watch for a while. Conditions can be good at any time of year.",
+          "match_type": "name_match",
+          "search_term": "esquinzo (jandía)",
+          "distance_m": 0.0,
+          "distance_km": 0.0
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Esquinzo",
+          "google_lat": 28.634799641231574,
+          "google_lng": -14.02680516242981,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "esquinzo (jandía)",
+          "distance_m": 9.424002327070838,
+          "distance_km": 0.009424002327070838
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 14,
+      "spot_id": "esquinzo",
+      "spot_name": "Esquinzo",
+      "alternative_names": [
+        "Playa de Esquinzo"
+      ],
+      "current_lat": 28.0721,
+      "current_lng": -14.3044,
+      "current_accuracy": "verified",
+      "matches_count": 2,
+      "best_match": {
+        "source": "surfermap_fuerteventura",
+        "google_name": "Esquinzo",
+        "google_lat": 28.634799641231574,
+        "google_lng": -14.02680516242981,
+        "google_description": "",
+        "match_type": "name_match",
+        "search_term": "esquinzo",
+        "distance_m": 68211.45585074602,
+        "distance_km": 68.21145585074602
+      },
+      "all_matches": [
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Esquinzo",
+          "google_lat": 28.634799641231574,
+          "google_lng": -14.02680516242981,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "esquinzo",
+          "distance_m": 68211.45585074602,
+          "distance_km": 68.21145585074602
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Esquinzo",
+          "google_lat": 28.6347996,
+          "google_lng": -14.0267086,
+          "google_description": "A powerful beach break featuring barreling sections. It picks up swell from the north to the west, with large cliffs providing shelter from northeast winds. The waves here are typically longer than in El Cotillo. Be respectful of the locals—if it's crowded and firing, it might be best to watch for a while. Conditions can be good at any time of year.",
+          "match_type": "name_match",
+          "search_term": "esquinzo",
+          "distance_m": 68215.21511724821,
+          "distance_km": 68.2152151172482
+        }
+      ],
+      "status": "❌ POOR",
+      "recommended_action": "Coordinate correction needed"
+    },
+    {
+      "index": 15,
+      "spot_id": "flag-beach",
+      "spot_name": "Flag Beach",
+      "alternative_names": [
+        "Kite Beach"
+      ],
+      "current_lat": 28.7125,
+      "current_lng": -13.8423,
+      "current_accuracy": "verified",
+      "matches_count": 6,
+      "best_match": {
+        "source": "surfspots_fuerteventura_planet_surfcamps",
+        "google_name": "Flag Beach",
+        "google_lat": 28.7185928,
+        "google_lng": -13.8387179,
+        "google_description": null,
+        "match_type": "name_match",
+        "search_term": "flag beach",
+        "distance_m": 762.2458939548623,
+        "distance_km": 0.7622458939548623
+      },
+      "all_matches": [
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Flag Beach",
+          "google_lat": 28.7185928,
+          "google_lng": -13.8387179,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "flag beach",
+          "distance_m": 762.2458939548623,
+          "distance_km": 0.7622458939548623
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Flag Beach",
+          "google_lat": 28.7204746,
+          "google_lng": -13.8407993,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "flag beach",
+          "distance_m": 898.7304223944702,
+          "distance_km": 0.8987304223944702
+        },
+        {
+          "source": "surf_and_unwind_surf_guide_fuerteventura",
+          "google_name": "Flag Beach",
+          "google_lat": 28.720515,
+          "google_lng": -13.840599,
+          "google_description": "Surf Spot",
+          "match_type": "name_match",
+          "search_term": "flag beach",
+          "distance_m": 906.5330528921528,
+          "distance_km": 0.9065330528921528
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Flag Beach",
+          "google_lat": 28.7203806,
+          "google_lng": -13.839469,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "flag beach",
+          "distance_m": 918.7433612608938,
+          "distance_km": 0.9187433612608938
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Flag Beach",
+          "google_lat": 28.721340256018088,
+          "google_lng": -13.842000961303711,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "flag beach",
+          "distance_m": 983.4240863230496,
+          "distance_km": 0.9834240863230496
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Flag Beach",
+          "google_lat": 28.722318770564993,
+          "google_lng": -13.842215538024902,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "flag beach",
+          "distance_m": 1091.8285407314456,
+          "distance_km": 1.0918285407314456
+        }
+      ],
+      "status": "✅ GOOD",
+      "recommended_action": "Minor adjustment optional"
+    },
+    {
+      "index": 16,
+      "spot_id": "generoso",
+      "spot_name": "Generoso",
+      "alternative_names": [
+        "La Generosa",
+        "Genarosa"
+      ],
+      "current_lat": 28.755806057680825,
+      "current_lng": -13.885355746299574,
+      "current_accuracy": "google_maps_confirmed",
+      "matches_count": 2,
+      "best_match": {
+        "source": "freshsurf_surfspots_aus_fuerteventura",
+        "google_name": "Generoso",
+        "google_lat": 28.7563353,
+        "google_lng": -13.8847876,
+        "google_description": "A rather mellow wave that breaks both left and right over a reef. It picks up swell best from the west. The left works from low to mid tide and is at its best with a west wind. The most suitable months are from October to March.",
+        "match_type": "name_match",
+        "search_term": "generoso",
+        "distance_m": 80.81211102104798,
+        "distance_km": 0.08081211102104799
+      },
+      "all_matches": [
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Generoso",
+          "google_lat": 28.7563353,
+          "google_lng": -13.8847876,
+          "google_description": "A rather mellow wave that breaks both left and right over a reef. It picks up swell best from the west. The left works from low to mid tide and is at its best with a west wind. The most suitable months are from October to March.",
+          "match_type": "name_match",
+          "search_term": "generoso",
+          "distance_m": 80.81211102104798,
+          "distance_km": 0.08081211102104799
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Generoso",
+          "google_lat": 28.755215990012708,
+          "google_lng": -13.88598918914795,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "generoso",
+          "distance_m": 90.10000188928406,
+          "distance_km": 0.09010000188928406
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 17,
+      "spot_id": "cofete-graveyard",
+      "spot_name": "Cofete",
+      "alternative_names": [
+        "Playa de Cofete",
+        "Graveyard",
+        "Cofete Beach"
+      ],
+      "current_lat": 28.108931801947506,
+      "current_lng": -14.388742446899414,
+      "current_accuracy": "google_maps_corrected",
+      "matches_count": 1,
+      "best_match": {
+        "source": "surfermap_fuerteventura",
+        "google_name": "Cofete",
+        "google_lat": 28.108931801947506,
+        "google_lng": -14.388742446899414,
+        "google_description": "",
+        "match_type": "name_match",
+        "search_term": "cofete",
+        "distance_m": 0.0,
+        "distance_km": 0.0
+      },
+      "all_matches": [
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Cofete",
+          "google_lat": 28.108931801947506,
+          "google_lng": -14.388742446899414,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "cofete",
+          "distance_m": 0.0,
+          "distance_km": 0.0
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 18,
+      "spot_id": "la-caleta-boneyard",
+      "spot_name": "La Caleta",
+      "alternative_names": [
+        "Boneyard"
+      ],
+      "current_lat": 28.7530244,
+      "current_lng": -13.9232826,
+      "current_accuracy": "google_maps_corrected",
+      "matches_count": 4,
+      "best_match": {
+        "source": "freshsurf_surfspots_aus_fuerteventura",
+        "google_name": "La Caleta",
+        "google_lat": 28.7530244,
+        "google_lng": -13.9232826,
+        "google_description": null,
+        "match_type": "name_match",
+        "search_term": "la caleta",
+        "distance_m": 0.0,
+        "distance_km": 0.0
+      },
+      "all_matches": [
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "La Caleta",
+          "google_lat": 28.7530244,
+          "google_lng": -13.9232826,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "la caleta",
+          "distance_m": 0.0,
+          "distance_km": 0.0
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "La Caleta",
+          "google_lat": 28.750202584764573,
+          "google_lng": -13.922896385192871,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "la caleta",
+          "distance_m": 316.02237708156485,
+          "distance_km": 0.31602237708156483
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "La Caleta Inside",
+          "google_lat": 28.74866,
+          "google_lng": -13.9184332,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "la caleta",
+          "distance_m": 677.5028274500613,
+          "distance_km": 0.6775028274500613
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "La Caleta\n",
+          "google_lat": 28.7474089,
+          "google_lng": -13.9163411,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "la caleta",
+          "distance_m": 920.7761311533975,
+          "distance_km": 0.9207761311533975
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 19,
+      "spot_id": "la-concava",
+      "spot_name": "La Concava",
+      "alternative_names": [
+        "Lazy's",
+        "Concavas"
+      ],
+      "current_lat": 28.7415,
+      "current_lng": -13.9353,
+      "current_accuracy": "unverified",
+      "matches_count": 2,
+      "best_match": {
+        "source": "freshsurf_surfspots_aus_fuerteventura",
+        "google_name": "La Concava",
+        "google_lat": 28.7488481,
+        "google_lng": -13.914957,
+        "google_description": "A shallow beach break on the inside of Mejiones that breaks both left and right. The wave is also called \"Lazy's\" because you need very little paddling to catch a tube. It works best with a strong west swell and southwest wind. This spot is known for breaking boards and is only for advanced surfers. The best season is from October to March.",
+        "match_type": "name_match",
+        "search_term": "la concava",
+        "distance_m": 2144.9965273730986,
+        "distance_km": 2.1449965273730984
+      },
+      "all_matches": [
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "La Concava",
+          "google_lat": 28.7488481,
+          "google_lng": -13.914957,
+          "google_description": "A shallow beach break on the inside of Mejiones that breaks both left and right. The wave is also called \"Lazy's\" because you need very little paddling to catch a tube. It works best with a strong west swell and southwest wind. This spot is known for breaking boards and is only for advanced surfers. The best season is from October to March.",
+          "match_type": "name_match",
+          "search_term": "la concava",
+          "distance_m": 2144.9965273730986,
+          "distance_km": 2.1449965273730984
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "La Concava",
+          "google_lat": 28.7531373,
+          "google_lng": -13.8965893,
+          "google_description": "A shallow reef break on the inside of Mejiones that breaks both left and right. The wave is also called \"Lazy's\" because you need very little paddling to catch a tube. It works best with a strong west swell and southwest wind. This spot is known for breaking boards and is only for advanced surfers. The best season is from October to March.",
+          "match_type": "name_match",
+          "search_term": "la concava",
+          "distance_m": 3989.592261556181,
+          "distance_km": 3.9895922615561807
+        }
+      ],
+      "status": "⚠️ FAIR",
+      "recommended_action": "Review recommended"
+    },
+    {
+      "index": 20,
+      "spot_id": "la-derecha-de-los-alemanes",
+      "spot_name": "La Derecha de los Alemanes",
+      "alternative_names": [
+        "La Derecha",
+        "Germans' Right",
+        "The German Right",
+        "Hierro"
+      ],
+      "current_lat": 28.738873060588595,
+      "current_lng": -13.954840799932198,
+      "current_accuracy": "google_maps_improved",
+      "matches_count": 6,
+      "best_match": {
+        "source": "surfspots_fuerteventura_planet_surfcamps",
+        "google_name": "Derecha de los Alemanes",
+        "google_lat": 28.7389333,
+        "google_lng": -13.9555764,
+        "google_description": null,
+        "match_type": "name_match",
+        "search_term": "la derecha de los alemanes",
+        "distance_m": 72.0315985053834,
+        "distance_km": 0.0720315985053834
+      },
+      "all_matches": [
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Derecha de los Alemanes",
+          "google_lat": 28.7389333,
+          "google_lng": -13.9555764,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "la derecha de los alemanes",
+          "distance_m": 72.0315985053834,
+          "distance_km": 0.0720315985053834
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "La Derecha de los Alemanes",
+          "google_lat": 28.7395166,
+          "google_lng": -13.9551687,
+          "google_description": "Known as the \"German's Right,\" this is a steep right-hand wave that picks up any swell from the north to the west. On a good day, it offers barrel sections. With a large west swell, this is the only spot on the North Shore that still works. On smaller days, a smaller left can be surfed. It works better at low tide. The wave breaks in front of a beautiful sandy beach, which is great for sunbathing. The best season is from October to March.",
+          "match_type": "name_match",
+          "search_term": "la derecha de los alemanes",
+          "distance_m": 78.37500175090459,
+          "distance_km": 0.07837500175090459
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "La Derecha de los Alemanes",
+          "google_lat": 28.738049016446457,
+          "google_lng": -13.953602313995361,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "la derecha de los alemanes",
+          "distance_m": 151.58037418759346,
+          "distance_km": 0.15158037418759346
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "El Hierro",
+          "google_lat": 28.740081,
+          "google_lng": -13.9534521,
+          "google_description": "Also known as \"La Izquierda\" (The Left), this is a superb reef wave that works best with a north swell. On a good day, you'll find some great barrel sections. It can get very crowded when it's good. It works best with an east wind and breaks in front of a beautiful beach. The best season is from October to March.",
+          "match_type": "name_match",
+          "search_term": "hierro",
+          "distance_m": 190.71624822161752,
+          "distance_km": 0.1907162482216175
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "El Hierro",
+          "google_lat": 28.738763971370293,
+          "google_lng": -13.952443599700928,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "hierro",
+          "distance_m": 234.036800924374,
+          "distance_km": 0.234036800924374
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "El Hierro",
+          "google_lat": 28.7416802,
+          "google_lng": -13.9523578,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "hierro",
+          "distance_m": 395.0138055663955,
+          "distance_km": 0.3950138055663955
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 21,
+      "spot_id": "la-entubadera",
+      "spot_name": "La Entubadera",
+      "alternative_names": [
+        "Playa del Viejo"
+      ],
+      "current_lat": 28.71680334893953,
+      "current_lng": -13.838868284051935,
+      "current_accuracy": "google_maps_improved",
+      "matches_count": 4,
+      "best_match": {
+        "source": "surfermap_fuerteventura",
+        "google_name": "La Entubadera",
+        "google_lat": 28.71674864238865,
+        "google_lng": -13.839383125305176,
+        "google_description": "",
+        "match_type": "name_match",
+        "search_term": "la entubadera",
+        "distance_m": 50.57375461105974,
+        "distance_km": 0.05057375461105974
+      },
+      "all_matches": [
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "La Entubadera",
+          "google_lat": 28.71674864238865,
+          "google_lng": -13.839383125305176,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "la entubadera",
+          "distance_m": 50.57375461105974,
+          "distance_km": 0.05057375461105974
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "La Entubadera",
+          "google_lat": 28.7166922,
+          "google_lng": -13.8379455,
+          "google_description": "A very powerful beach break with some beautiful tube sections over a sand-covered reef. Currently, there isn't much sand left, making the reef treacherous due to its many holes. It works well when the north is too big and picks up swell best from the northwest. Northwest winds create perfect offshore conditions. It's best surfed at high tide. The most suitable season is from November to April.",
+          "match_type": "name_match",
+          "search_term": "la entubadera",
+          "distance_m": 90.83335258091783,
+          "distance_km": 0.09083335258091783
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Entubadera",
+          "google_lat": 28.7161464,
+          "google_lng": -13.8382673,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "la entubadera",
+          "distance_m": 93.65375287234075,
+          "distance_km": 0.09365375287234075
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "La Entubadera",
+          "google_lat": 28.717576653189195,
+          "google_lng": -13.83976936340332,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "la entubadera",
+          "distance_m": 122.94418569238874,
+          "distance_km": 0.12294418569238874
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 22,
+      "spot_id": "la-escalera",
+      "spot_name": "La Escalera",
+      "alternative_names": [
+        "Playa de la Escalera",
+        "Playa del Aguila",
+        "Playa de las Escaleras"
+      ],
+      "current_lat": 28.6474736,
+      "current_lng": -14.0217733,
+      "current_accuracy": "google_maps_corrected",
+      "matches_count": 1,
+      "best_match": {
+        "source": "freshsurf_surfspots_aus_fuerteventura",
+        "google_name": "Playa de la Escalera",
+        "google_lat": 28.6474736,
+        "google_lng": -14.0217733,
+        "google_description": "A powerful beach break surrounded by beautiful steep cliffs. It's a fantastic spot for beginners and intermediates, especially in the summer on less windy days. It works on swells from the north to the west. The large cliffs offer protection from northeast winds. You'll definitely find longer waves here than in El Cotillo. Conditions can vary, so it's always best to check it on the day.",
+        "match_type": "name_match",
+        "search_term": "la escalera",
+        "distance_m": 0.0,
+        "distance_km": 0.0
+      },
+      "all_matches": [
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Playa de la Escalera",
+          "google_lat": 28.6474736,
+          "google_lng": -14.0217733,
+          "google_description": "A powerful beach break surrounded by beautiful steep cliffs. It's a fantastic spot for beginners and intermediates, especially in the summer on less windy days. It works on swells from the north to the west. The large cliffs offer protection from northeast winds. You'll definitely find longer waves here than in El Cotillo. Conditions can vary, so it's always best to check it on the day.",
+          "match_type": "name_match",
+          "search_term": "la escalera",
+          "distance_m": 0.0,
+          "distance_km": 0.0
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 23,
+      "spot_id": "la-izquierda-del-hierro",
+      "spot_name": "La Izquierda del Hierro",
+      "alternative_names": [
+        "Izquierda del Hierro",
+        "El Hierro",
+        "La Izquierda",
+        "Yarro"
+      ],
+      "current_lat": 28.741071639293903,
+      "current_lng": -13.95132295887504,
+      "current_accuracy": "google_maps_confirmed",
+      "matches_count": 4,
+      "best_match": {
+        "source": "surfermap_fuerteventura",
+        "google_name": "La Izquierda",
+        "google_lat": 28.740363194936684,
+        "google_lng": -13.950973749160767,
+        "google_description": "",
+        "match_type": "name_match",
+        "search_term": "la izquierda del hierro",
+        "distance_m": 85.81806111181297,
+        "distance_km": 0.08581806111181296
+      },
+      "all_matches": [
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "La Izquierda",
+          "google_lat": 28.740363194936684,
+          "google_lng": -13.950973749160767,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "la izquierda del hierro",
+          "distance_m": 85.81806111181297,
+          "distance_km": 0.08581806111181296
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "El Hierro",
+          "google_lat": 28.7416802,
+          "google_lng": -13.9523578,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "la izquierda del hierro",
+          "distance_m": 121.48401630943587,
+          "distance_km": 0.12148401630943587
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "El Hierro",
+          "google_lat": 28.740081,
+          "google_lng": -13.9534521,
+          "google_description": "Also known as \"La Izquierda\" (The Left), this is a superb reef wave that works best with a north swell. On a good day, you'll find some great barrel sections. It can get very crowded when it's good. It works best with an east wind and breaks in front of a beautiful beach. The best season is from October to March.",
+          "match_type": "name_match",
+          "search_term": "la izquierda del hierro",
+          "distance_m": 234.999645775906,
+          "distance_km": 0.234999645775906
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "El Hierro",
+          "google_lat": 28.738763971370293,
+          "google_lng": -13.952443599700928,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "la izquierda del hierro",
+          "distance_m": 278.89353682815363,
+          "distance_km": 0.27889353682815365
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 24,
+      "spot_id": "la-pared",
+      "spot_name": "La Pared",
+      "alternative_names": [
+        "Playa de La Pared",
+        "El Viejo Rey Beach",
+        "Playa del Viejo Rey"
+      ],
+      "current_lat": 28.214654468351718,
+      "current_lng": -14.222965836524963,
+      "current_accuracy": "google_maps_verified",
+      "matches_count": 1,
+      "best_match": {
+        "source": "surfermap_fuerteventura",
+        "google_name": "La Pared",
+        "google_lat": 28.214654468351718,
+        "google_lng": -14.222965836524963,
+        "google_description": "",
+        "match_type": "name_match",
+        "search_term": "la pared",
+        "distance_m": 0.0,
+        "distance_km": 0.0
+      },
+      "all_matches": [
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "La Pared",
+          "google_lat": 28.214654468351718,
+          "google_lng": -14.222965836524963,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "la pared",
+          "distance_m": 0.0,
+          "distance_km": 0.0
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 25,
+      "spot_id": "la-turbia",
+      "spot_name": "Playa de la Turbia",
+      "alternative_names": [],
+      "current_lat": 28.0848,
+      "current_lng": -14.4921,
+      "current_accuracy": "verified",
+      "matches_count": 0,
+      "best_match": null,
+      "all_matches": [],
+      "status": "❌ NO MATCHES",
+      "recommended_action": "Investigate if spot exists or needs Google Maps submission"
+    },
+    {
+      "index": 26,
+      "spot_id": "playa-de-las-mujeres-jarugo",
+      "spot_name": "Playa de las Mujeres",
+      "alternative_names": [
+        "Playa de Jarugo",
+        "Playa de Jarubio",
+        "Jarubio Beach"
+      ],
+      "current_lat": 28.571255942335103,
+      "current_lng": -14.048396944999695,
+      "current_accuracy": "google_maps_verified",
+      "matches_count": 2,
+      "best_match": {
+        "source": "surfermap_fuerteventura",
+        "google_name": "Playa de Jarugo",
+        "google_lat": 28.571255942335103,
+        "google_lng": -14.048396944999695,
+        "google_description": "",
+        "match_type": "name_match",
+        "search_term": "playa de jarugo",
+        "distance_m": 0.0,
+        "distance_km": 0.0
+      },
+      "all_matches": [
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Playa de Jarugo",
+          "google_lat": 28.571255942335103,
+          "google_lng": -14.048396944999695,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "playa de jarugo",
+          "distance_m": 0.0,
+          "distance_km": 0.0
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Playa de las Mujeres (Tindaya)",
+          "google_lat": 28.5714821,
+          "google_lng": -14.0486813,
+          "google_description": "When the North Shore is flat, you'll likely find waves here. This beach break picks up swell from the north to the west. It's an easy-to-surf wave suitable for all levels and works best with an east wind. The best season is from September to October.",
+          "match_type": "name_match",
+          "search_term": "playa de las mujeres",
+          "distance_m": 37.46308447284859,
+          "distance_km": 0.037463084472848594
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 27,
+      "spot_id": "las-playas-muelle",
+      "spot_name": "Las Playas Muelle",
+      "alternative_names": [],
+      "current_lat": 28.22774518,
+      "current_lng": -13.98512363,
+      "current_accuracy": "verified",
+      "matches_count": 0,
+      "best_match": null,
+      "all_matches": [],
+      "status": "❌ NO MATCHES",
+      "recommended_action": "Investigate if spot exists or needs Google Maps submission"
+    },
+    {
+      "index": 28,
+      "spot_id": "las-salinas",
+      "spot_name": "Las Salinas",
+      "alternative_names": [
+        "Playa de Salinas"
+      ],
+      "current_lat": 28.0756,
+      "current_lng": -14.4719,
+      "current_accuracy": "verified",
+      "matches_count": 0,
+      "best_match": null,
+      "all_matches": [],
+      "status": "❌ NO MATCHES",
+      "recommended_action": "Investigate if spot exists or needs Google Maps submission"
+    },
+    {
+      "index": 29,
+      "spot_id": "isla-de-lobos",
+      "spot_name": "Isla de Lobos",
+      "alternative_names": [
+        "Los Lobos"
+      ],
+      "current_lat": 28.73980929574009,
+      "current_lng": -13.83286753653365,
+      "current_accuracy": "google_maps_confirmed",
+      "matches_count": 2,
+      "best_match": {
+        "source": "surfspots_fuerteventura_planet_surfcamps",
+        "google_name": "Lobos",
+        "google_lat": 28.7404196,
+        "google_lng": -13.833375,
+        "google_description": null,
+        "match_type": "name_match",
+        "search_term": "isla de lobos",
+        "distance_m": 83.98352056740416,
+        "distance_km": 0.08398352056740416
+      },
+      "all_matches": [
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Lobos",
+          "google_lat": 28.7404196,
+          "google_lng": -13.833375,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "isla de lobos",
+          "distance_m": 83.98352056740416,
+          "distance_km": 0.08398352056740416
+        },
+        {
+          "source": "surf_and_unwind_surf_guide_fuerteventura",
+          "google_name": "Los Lobos",
+          "google_lat": 28.739152,
+          "google_lng": -13.832321,
+          "google_description": "Surf Spot",
+          "match_type": "name_match",
+          "search_term": "los lobos",
+          "distance_m": 90.45017403922876,
+          "distance_km": 0.09045017403922875
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 30,
+      "spot_id": "los-hoteles",
+      "spot_name": "Los Hoteles",
+      "alternative_names": [
+        "Grandes Playas"
+      ],
+      "current_lat": 28.7127,
+      "current_lng": -13.8395,
+      "current_accuracy": "verified",
+      "matches_count": 0,
+      "best_match": null,
+      "all_matches": [],
+      "status": "❌ NO MATCHES",
+      "recommended_action": "Investigate if spot exists or needs Google Maps submission"
+    },
+    {
+      "index": 31,
+      "spot_id": "majanicho",
+      "spot_name": "Majanicho",
+      "alternative_names": [
+        "Majanicho Inside",
+        "Majanicho La Baja"
+      ],
+      "current_lat": 28.743887,
+      "current_lng": -13.936072,
+      "current_accuracy": "verified",
+      "matches_count": 9,
+      "best_match": {
+        "source": "freshsurf_surfspots_aus_fuerteventura",
+        "google_name": "Majanicho Inside (right)",
+        "google_lat": 28.7439943,
+        "google_lng": -13.9358568,
+        "google_description": "A mellow right-hander that starts working when the main spots on the North Shore are too big. It's still surfable with onshore wind. To avoid a tricky walk over the reef, enter the water from the corner of the small beach. It's perfect for intermediates or longboarders. The best season is from November to April.",
+        "match_type": "name_match",
+        "search_term": "majanicho",
+        "distance_m": 24.135803924758317,
+        "distance_km": 0.024135803924758316
+      },
+      "all_matches": [
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Majanicho Inside (right)",
+          "google_lat": 28.7439943,
+          "google_lng": -13.9358568,
+          "google_description": "A mellow right-hander that starts working when the main spots on the North Shore are too big. It's still surfable with onshore wind. To avoid a tricky walk over the reef, enter the water from the corner of the small beach. It's perfect for intermediates or longboarders. The best season is from November to April.",
+          "match_type": "name_match",
+          "search_term": "majanicho",
+          "distance_m": 24.135803924758317,
+          "distance_km": 0.024135803924758316
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Majanicho",
+          "google_lat": 28.743204108197805,
+          "google_lng": -13.9351487159729,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "majanicho",
+          "distance_m": 117.76484194088015,
+          "distance_km": 0.11776484194088015
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Majanicho · Inside",
+          "google_lat": 28.742959529300595,
+          "google_lng": -13.935095071792603,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "majanicho",
+          "distance_m": 140.38265863381224,
+          "distance_km": 0.14038265863381225
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Majanicho",
+          "google_lat": 28.742809018925428,
+          "google_lng": -13.93517017364502,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "majanicho",
+          "distance_m": 148.65470963486072,
+          "distance_km": 0.14865470963486072
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Majanicho · El Pueblo",
+          "google_lat": 28.741416787675124,
+          "google_lng": -13.93689751625061,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "majanicho",
+          "distance_m": 286.22360029845237,
+          "distance_km": 0.28622360029845234
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Majanicho Inside (left)",
+          "google_lat": 28.7414732,
+          "google_lng": -13.9375734,
+          "google_description": "A famous A-frame that starts working perfectly when the other spots on the North Shore are too big. It remains surfable even with strong onshore wind. To avoid a tricky walk over the reef, enter the water from the corner of the small beach. The best season is from November to April.",
+          "match_type": "name_match",
+          "search_term": "majanicho",
+          "distance_m": 305.7226646789943,
+          "distance_km": 0.3057226646789943
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Majanicho",
+          "google_lat": 28.74585681175729,
+          "google_lng": -13.932209014892578,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "majanicho",
+          "distance_m": 435.6738659155244,
+          "distance_km": 0.4356738659155244
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Majanicho Outside",
+          "google_lat": 28.74866,
+          "google_lng": -13.9343977,
+          "google_description": "An easy-to-surf right-hand wave that works best with a north swell. When the outer reef gets too big, the inner reef starts to work. The wave offers long rides and a solid shoulder, great for practicing cutbacks. It's a fantastic wave for intermediates and cruisers, working best with an east wind at low tide. During a \"Calima\" (strong east wind), you'll find many windsurfers here. The paddle-out is long, so you'll need some power. It has also become a famous SUP spot.",
+          "match_type": "name_match",
+          "search_term": "majanicho",
+          "distance_m": 555.2672476933226,
+          "distance_km": 0.5552672476933226
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Majanicho",
+          "google_lat": 28.748584699058835,
+          "google_lng": -13.931125402450562,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "majanicho",
+          "distance_m": 710.9321481813428,
+          "distance_km": 0.7109321481813428
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 32,
+      "spot_id": "mejillones-popcorn-reef",
+      "spot_name": "Mejillones",
+      "alternative_names": [
+        "Popcorn Reef",
+        "Pop Corn Reef"
+      ],
+      "current_lat": 28.7415,
+      "current_lng": -13.9353,
+      "current_accuracy": "unverified",
+      "matches_count": 1,
+      "best_match": {
+        "source": "surfermap_fuerteventura",
+        "google_name": "Mejillones",
+        "google_lat": 28.75284570458331,
+        "google_lng": -13.899775743484497,
+        "google_description": "",
+        "match_type": "name_match",
+        "search_term": "mejillones",
+        "distance_m": 3685.8940535743322,
+        "distance_km": 3.6858940535743323
+      },
+      "all_matches": [
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Mejillones",
+          "google_lat": 28.75284570458331,
+          "google_lng": -13.899775743484497,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "mejillones",
+          "distance_m": 3685.8940535743322,
+          "distance_km": 3.6858940535743323
+        }
+      ],
+      "status": "⚠️ FAIR",
+      "recommended_action": "Review recommended"
+    },
+    {
+      "index": 33,
+      "spot_id": "pico-de-las-motos",
+      "spot_name": "Pico de las Motos",
+      "alternative_names": [
+        "Pico de la Moto"
+      ],
+      "current_lat": 28.5167,
+      "current_lng": -13.8667,
+      "current_accuracy": "unverified",
+      "matches_count": 0,
+      "best_match": null,
+      "all_matches": [],
+      "status": "❌ NO MATCHES",
+      "recommended_action": "Investigate if spot exists or needs Google Maps submission"
+    },
+    {
+      "index": 34,
+      "spot_id": "playa-blanca",
+      "spot_name": "Playa Blanca",
+      "alternative_names": [],
+      "current_lat": 28.4833,
+      "current_lng": -13.85,
+      "current_accuracy": "verified",
+      "matches_count": 4,
+      "best_match": {
+        "source": "freshsurf_surfspots_aus_fuerteventura",
+        "google_name": "Playa Blanca",
+        "google_lat": 28.4804611,
+        "google_lng": -13.8659477,
+        "google_description": "Playa Blanca is a large sandy beach located between the airport and Puerto del Rosario. It's most commonly surfed in the summer because it requires strong northeast wind swells. It's a great beginner spot, with relatively mellow and sometimes a bit messy waves. Works all year round.",
+        "match_type": "name_match",
+        "search_term": "playa blanca",
+        "distance_m": 1590.321286797081,
+        "distance_km": 1.590321286797081
+      },
+      "all_matches": [
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Playa Blanca",
+          "google_lat": 28.4804611,
+          "google_lng": -13.8659477,
+          "google_description": "Playa Blanca is a large sandy beach located between the airport and Puerto del Rosario. It's most commonly surfed in the summer because it requires strong northeast wind swells. It's a great beginner spot, with relatively mellow and sometimes a bit messy waves. Works all year round.",
+          "match_type": "name_match",
+          "search_term": "playa blanca",
+          "distance_m": 1590.321286797081,
+          "distance_km": 1.590321286797081
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Playa Blanca\n",
+          "google_lat": 28.4767455,
+          "google_lng": -13.8662803,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "playa blanca",
+          "distance_m": 1750.1842325825987,
+          "distance_km": 1.7501842325825987
+        },
+        {
+          "source": "surf_and_unwind_surf_guide_fuerteventura",
+          "google_name": "Playa Blanca",
+          "google_lat": 28.476637,
+          "google_lng": -13.866552,
+          "google_description": "Surf Spot",
+          "match_type": "name_match",
+          "search_term": "playa blanca",
+          "distance_m": 1779.3525227570312,
+          "distance_km": 1.7793525227570313
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Playa Blanca",
+          "google_lat": 28.47685864397556,
+          "google_lng": -13.866913318634033,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "playa blanca",
+          "distance_m": 1801.578985079383,
+          "distance_km": 1.801578985079383
+        }
+      ],
+      "status": "✅ GOOD",
+      "recommended_action": "Minor adjustment optional"
+    },
+    {
+      "index": 35,
+      "spot_id": "puerto-lajas",
+      "spot_name": "Puerto Lajas",
+      "alternative_names": [],
+      "current_lat": 28.5401954,
+      "current_lng": -13.8371086,
+      "current_accuracy": "google_maps_verified",
+      "matches_count": 3,
+      "best_match": {
+        "source": "freshsurf_surfspots_aus_fuerteventura",
+        "google_name": "Puerto Lajas",
+        "google_lat": 28.5401954,
+        "google_lng": -13.8371086,
+        "google_description": "A large bay located just north of the island's capital. It offers left and right waves that break over a reef. This spot is often surfed in the summer, as the wave is formed by northeast wind swells, which can produce head-high sets. It's best surfed in the morning and evening. During the day, wind and kite surfers often take over when the trade winds pick up. It works best between April and September.",
+        "match_type": "name_match",
+        "search_term": "puerto lajas",
+        "distance_m": 0.0,
+        "distance_km": 0.0
+      },
+      "all_matches": [
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Puerto Lajas",
+          "google_lat": 28.5401954,
+          "google_lng": -13.8371086,
+          "google_description": "A large bay located just north of the island's capital. It offers left and right waves that break over a reef. This spot is often surfed in the summer, as the wave is formed by northeast wind swells, which can produce head-high sets. It's best surfed in the morning and evening. During the day, wind and kite surfers often take over when the trade winds pick up. It works best between April and September.",
+          "match_type": "name_match",
+          "search_term": "puerto lajas",
+          "distance_m": 0.0,
+          "distance_km": 0.0
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Puerto Lajas",
+          "google_lat": 28.543258533818257,
+          "google_lng": -13.837054967880249,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "puerto lajas",
+          "distance_m": 340.64522736946327,
+          "distance_km": 0.3406452273694633
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Puerto Lajas",
+          "google_lat": 28.54343760518725,
+          "google_lng": -13.836851119995117,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "puerto lajas",
+          "distance_m": 361.3930149777566,
+          "distance_km": 0.3613930149777566
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 36,
+      "spot_id": "punta-blanca",
+      "spot_name": "Punta Blanca",
+      "alternative_names": [],
+      "current_lat": 28.725089427907317,
+      "current_lng": -13.988137396355274,
+      "current_accuracy": "google_maps_improved",
+      "matches_count": 5,
+      "best_match": {
+        "source": "surfspots_fuerteventura_planet_surfcamps",
+        "google_name": "Punta Blanca",
+        "google_lat": 28.7255553,
+        "google_lng": -13.9877415,
+        "google_description": null,
+        "match_type": "name_match",
+        "search_term": "punta blanca",
+        "distance_m": 64.60484810086125,
+        "distance_km": 0.06460484810086124
+      },
+      "all_matches": [
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Punta Blanca",
+          "google_lat": 28.7255553,
+          "google_lng": -13.9877415,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "punta blanca",
+          "distance_m": 64.60484810086125,
+          "distance_km": 0.06460484810086124
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Punta Blanca",
+          "google_lat": 28.725023751110008,
+          "google_lng": -13.986963629722595,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "punta blanca",
+          "distance_m": 114.68772146089405,
+          "distance_km": 0.11468772146089405
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Punta Blanca",
+          "google_lat": 28.725023751110033,
+          "google_lng": -13.986904621124268,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "punta blanca",
+          "distance_m": 120.43057969962902,
+          "distance_km": 0.12043057969962902
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Punta Blanca",
+          "google_lat": 28.7241252,
+          "google_lng": -13.9890289,
+          "google_description": "A brilliant spot for beginners with calmer, somewhat disorganized waves. It's perfect for your first long whitewater rides and for catching smaller, reforming green waves further out. This spot is atypical for the North Shore as the waves don't break in a perfectly orderly fashion. You can almost always find a wave here, big or small. Sometimes it's great for longboarders when it's clean and small. Works all year round.",
+          "match_type": "name_match",
+          "search_term": "punta blanca",
+          "distance_m": 138.03133633335412,
+          "distance_km": 0.13803133633335413
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Punta Blanca",
+          "google_lat": 28.7256588,
+          "google_lng": -13.989619,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "punta blanca",
+          "distance_m": 157.73544989286594,
+          "distance_km": 0.15773544989286595
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 37,
+      "spot_id": "punta-del-tigre",
+      "spot_name": "Punta del Tigre",
+      "alternative_names": [
+        "La Turbia"
+      ],
+      "current_lat": 28.0806,
+      "current_lng": -14.504485,
+      "current_accuracy": "verified",
+      "matches_count": 0,
+      "best_match": null,
+      "all_matches": [],
+      "status": "❌ NO MATCHES",
+      "recommended_action": "Investigate if spot exists or needs Google Maps submission"
+    },
+    {
+      "index": 38,
+      "spot_id": "punta-elena",
+      "spot_name": "Punta Elena",
+      "alternative_names": [
+        "Bajo del Medio",
+        "Rocky Point"
+      ],
+      "current_lat": 28.73,
+      "current_lng": -13.94,
+      "current_accuracy": "unverified",
+      "matches_count": 10,
+      "best_match": {
+        "source": "surfermap_fuerteventura",
+        "google_name": "Bajo del Medio",
+        "google_lat": 28.7321786752597,
+        "google_lng": -13.858780860900879,
+        "google_description": "",
+        "match_type": "name_match",
+        "search_term": "bajo del medio",
+        "distance_m": 7922.993980770515,
+        "distance_km": 7.922993980770515
+      },
+      "all_matches": [
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Bajo del Medio",
+          "google_lat": 28.7321786752597,
+          "google_lng": -13.858780860900879,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "bajo del medio",
+          "distance_m": 7922.993980770515,
+          "distance_km": 7.922993980770515
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Bajo del Medio",
+          "google_lat": 28.732084596594497,
+          "google_lng": -13.85877013206482,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "bajo del medio",
+          "distance_m": 7923.730250291049,
+          "distance_km": 7.923730250291049
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Bajo del Medio",
+          "google_lat": 28.731952886320926,
+          "google_lng": -13.858609199523926,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "bajo del medio",
+          "distance_m": 7939.006226075919,
+          "distance_km": 7.939006226075919
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Bajo del Medio",
+          "google_lat": 28.732131635937684,
+          "google_lng": -13.858577013015747,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "bajo del medio",
+          "distance_m": 7942.704915941955,
+          "distance_km": 7.942704915941955
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Punta Helena, Rocky Point",
+          "google_lat": 28.7343989,
+          "google_lng": -13.8578153,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "rocky point",
+          "distance_m": 8028.266059859127,
+          "distance_km": 8.028266059859128
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Punta Helena, Rocky Point",
+          "google_lat": 28.733985,
+          "google_lng": -13.8574505,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "rocky point",
+          "distance_m": 8061.124891357621,
+          "distance_km": 8.06112489135762
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Punta Helena, Rocky Point",
+          "google_lat": 28.7343048,
+          "google_lng": -13.856914,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "rocky point",
+          "distance_m": 8115.364826140503,
+          "distance_km": 8.115364826140503
+        },
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Punta Elena - Rocky Point",
+          "google_lat": 28.7327055,
+          "google_lng": -13.8567638,
+          "google_description": "When the North Shore is too big, a wave forms between Corralejo and Lobos Island. The outer reef breaks as a large right-hander with long rides. On the inside, a smaller wave breaks both left and right. The outside is a well-known SUP spot. This wave is well-suited for intermediates and longboarders. Enter the water 'around the corner' to avoid a long walk over sharp lava rock. It works best between November and March.",
+          "match_type": "name_match",
+          "search_term": "punta elena",
+          "distance_m": 8121.516648153381,
+          "distance_km": 8.121516648153381
+        },
+        {
+          "source": "surf_and_unwind_surf_guide_fuerteventura",
+          "google_name": "Rocky Point",
+          "google_lat": 28.732426,
+          "google_lng": -13.856389,
+          "google_description": "Surf Spot",
+          "match_type": "name_match",
+          "search_term": "rocky point",
+          "distance_m": 8156.960485445399,
+          "distance_km": 8.1569604854454
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Punta Helena, Rocky Point",
+          "google_lat": 28.7331947,
+          "google_lng": -13.8558841,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "rocky point",
+          "distance_m": 8209.388231171899,
+          "distance_km": 8.209388231171898
+        }
+      ],
+      "status": "❌ POOR",
+      "recommended_action": "Coordinate correction needed"
+    },
+    {
+      "index": 39,
+      "spot_id": "punta-gorda",
+      "spot_name": "Punta Gorda",
+      "alternative_names": [],
+      "current_lat": 28.7199854,
+      "current_lng": -13.998127,
+      "current_accuracy": "google_maps_corrected",
+      "matches_count": 2,
+      "best_match": {
+        "source": "freshsurf_surfspots_aus_fuerteventura",
+        "google_name": "Punta Gorda",
+        "google_lat": 28.7199854,
+        "google_lng": -13.998127,
+        "google_description": "A sheltered surf spot, ideal when it's too big, messy, or windy everywhere else. It can even handle strong onshore winds. Large swells reform over a shallow take-off zone, creating a beautiful left with several smaller sections. Be aware of the strong current; constant paddling is essential.",
+        "match_type": "name_match",
+        "search_term": "punta gorda",
+        "distance_m": 0.0,
+        "distance_km": 0.0
+      },
+      "all_matches": [
+        {
+          "source": "freshsurf_surfspots_aus_fuerteventura",
+          "google_name": "Punta Gorda",
+          "google_lat": 28.7199854,
+          "google_lng": -13.998127,
+          "google_description": "A sheltered surf spot, ideal when it's too big, messy, or windy everywhere else. It can even handle strong onshore winds. Large swells reform over a shallow take-off zone, creating a beautiful left with several smaller sections. Be aware of the strong current; constant paddling is essential.",
+          "match_type": "name_match",
+          "search_term": "punta gorda",
+          "distance_m": 0.0,
+          "distance_km": 0.0
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Punta Gorda",
+          "google_lat": 28.72038995908734,
+          "google_lng": -13.998405933380127,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "punta gorda",
+          "distance_m": 52.56899197816718,
+          "distance_km": 0.05256899197816718
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 40,
+      "spot_id": "playa-de-garcey-racetracks",
+      "spot_name": "Playa de Garcey",
+      "alternative_names": [
+        "The Shipwreck",
+        "Racetracks",
+        "American Star Wreck"
+      ],
+      "current_lat": 28.346643617010102,
+      "current_lng": -14.176504611968994,
+      "current_accuracy": "google_maps_verified",
+      "matches_count": 1,
+      "best_match": {
+        "source": "surfermap_fuerteventura",
+        "google_name": "Playa de Garcey",
+        "google_lat": 28.346643617010102,
+        "google_lng": -14.176504611968994,
+        "google_description": "",
+        "match_type": "name_match",
+        "search_term": "playa de garcey",
+        "distance_m": 0.0,
+        "distance_km": 0.0
+      },
+      "all_matches": [
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Playa de Garcey",
+          "google_lat": 28.346643617010102,
+          "google_lng": -14.176504611968994,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "playa de garcey",
+          "distance_m": 0.0,
+          "distance_km": 0.0
+        }
+      ],
+      "status": "✅ EXCELLENT",
+      "recommended_action": "Coordinates confirmed accurate"
+    },
+    {
+      "index": 41,
+      "spot_id": "suicidios",
+      "spot_name": "Suicidios",
+      "alternative_names": [
+        "Suicides"
+      ],
+      "current_lat": 28.7556,
+      "current_lng": -13.8951,
+      "current_accuracy": "medium",
+      "matches_count": 0,
+      "best_match": null,
+      "all_matches": [],
+      "status": "❌ NO MATCHES",
+      "recommended_action": "Investigate if spot exists or needs Google Maps submission"
+    },
+    {
+      "index": 42,
+      "spot_id": "waikiki-beach",
+      "spot_name": "Waikiki Beach",
+      "alternative_names": [
+        "Playa Waikiki",
+        "Galera Beach"
+      ],
+      "current_lat": 28.73,
+      "current_lng": -13.94,
+      "current_accuracy": "unverified",
+      "matches_count": 5,
+      "best_match": {
+        "source": "surfermap_fuerteventura",
+        "google_name": "Waikiki Beach",
+        "google_lat": 28.73456354113835,
+        "google_lng": -13.866929411888123,
+        "google_description": "",
+        "match_type": "name_match",
+        "search_term": "waikiki beach",
+        "distance_m": 7142.729940766396,
+        "distance_km": 7.142729940766396
+      },
+      "all_matches": [
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Waikiki Beach",
+          "google_lat": 28.73456354113835,
+          "google_lng": -13.866929411888123,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "waikiki beach",
+          "distance_m": 7142.729940766396,
+          "distance_km": 7.142729940766396
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Waikiki Beach",
+          "google_lat": 28.73491397542399,
+          "google_lng": -13.866800665855408,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "waikiki beach",
+          "distance_m": 7158.108602192263,
+          "distance_km": 7.158108602192263
+        },
+        {
+          "source": "surfermap_fuerteventura",
+          "google_name": "Galera Beach",
+          "google_lat": 28.733745072591855,
+          "google_lng": -13.866688013076782,
+          "google_description": "",
+          "match_type": "name_match",
+          "search_term": "galera beach",
+          "distance_m": 7160.36704846161,
+          "distance_km": 7.16036704846161
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Waikiki Beach",
+          "google_lat": 28.7347564,
+          "google_lng": -13.8661408,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "waikiki beach",
+          "distance_m": 7220.962997853615,
+          "distance_km": 7.220962997853615
+        },
+        {
+          "source": "surfspots_fuerteventura_planet_surfcamps",
+          "google_name": "Waikiki Beach",
+          "google_lat": 28.7348128,
+          "google_lng": -13.8655829,
+          "google_description": null,
+          "match_type": "name_match",
+          "search_term": "waikiki beach",
+          "distance_m": 7275.672116696977,
+          "distance_km": 7.2756721166969776
+        }
+      ],
+      "status": "❌ POOR",
+      "recommended_action": "Coordinate correction needed"
+    }
+  ]
+}
