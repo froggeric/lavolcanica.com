@@ -1,0 +1,61 @@
+{
+  "source_info": {
+    "site": "Surfline surf report for Fuerteventura",
+    "url": "https://www.surfline.com/surf-reports-forecasts-cams/spain/canary-islands/las-palmas/p-jara/fuerteventura/2517481"
+  },
+  "enrichment_info": {
+    "total_spots": 3,
+    "gps_mismatches": 0,
+    "enrichment_date": "2025-11-15 18:14:26"
+  },
+  "surf_spots": [
+    {
+      "name": "Shipwreck",
+      "gps": {
+        "latitude": 28.3464,
+        "longitude": -14.1784
+      },
+      "url": "https://www.surfline.com/surf-report/shipwreck/640b88e445190544e6db961f",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.3464,-14.1784&z=17/",
+        "extracted_gps": {
+          "latitude": 28.3464,
+          "longitude": -14.1784
+        }
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Playa de Cofete",
+      "gps": {
+        "latitude": 28.1118,
+        "longitude": -14.3902
+      },
+      "url": "https://www.surfline.com/surf-report/playa-de-cofete/640b890e4878eb4e711955fa",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.1118,-14.3902&z=17/",
+        "extracted_gps": {
+          "latitude": 28.1118,
+          "longitude": -14.3902
+        }
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Playa Barlovento",
+      "gps": {
+        "latitude": 28.1331,
+        "longitude": -14.3363
+      },
+      "url": "https://www.surfline.com/surf-report/playa-barlovento/640b891ade81d5d05a094736",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.1331,-14.3363&z=17/",
+        "extracted_gps": {
+          "latitude": 28.1331,
+          "longitude": -14.3363
+        }
+      },
+      "gps_verified": true
+    }
+  ]
+}

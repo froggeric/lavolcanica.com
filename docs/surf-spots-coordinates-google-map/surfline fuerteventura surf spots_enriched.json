@@ -1,0 +1,463 @@
+{
+  "source_info": {
+    "site": "Surfline surf report for Fuerteventura",
+    "url": "https://www.surfline.com/surf-reports-forecasts-cams/spain/canary-islands/las-palmas/p-jara/fuerteventura/2517481"
+  },
+  "enrichment_info": {
+    "total_spots": 31,
+    "gps_mismatches": 0,
+    "enrichment_date": "2025-11-15 18:24:17"
+  },
+  "surf_spots": [
+    {
+      "name": "Shipwreck",
+      "gps": {
+        "latitude": 28.3464,
+        "longitude": -14.1784
+      },
+      "url": "https://www.surfline.com/surf-report/shipwreck/640b88e445190544e6db961f",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.3464,-14.1784&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Playa de Cofete",
+      "gps": {
+        "latitude": 28.1118,
+        "longitude": -14.3902
+      },
+      "url": "https://www.surfline.com/surf-report/playa-de-cofete/640b890e4878eb4e711955fa",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.1118,-14.3902&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Playa Barlovento",
+      "gps": {
+        "latitude": 28.1331,
+        "longitude": -14.3363
+      },
+      "url": "https://www.surfline.com/surf-report/playa-barlovento/640b891ade81d5d05a094736",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.1331,-14.3363&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Majanicho",
+      "gps": {
+        "latitude": 28.749293,
+        "longitude": -13.93319
+      },
+      "url": "https://www.surfline.com/surf-report/majanicho/584204204e65fad6a77096a2",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.749293,-13.93319&z=17/",
+        "ideal_conditions": "Swell DirectionW, NWWindSESurf HeightWaist high to overhead.TideAll tides",
+        "swell_direction": "W, NW",
+        "surf_height": "Waist high to overhead.",
+        "tide_conditions": "All tides",
+        "ability_level": "Beginner - Intermediate",
+        "local_vibe": "Doable",
+        "crowd_factor": "Moderate",
+        "shoulder_burn": "Medium",
+        "water_quality": "Clean",
+        "hazards": "Reef, shallower at low. Exposed to rips when bigger.",
+        "recommended_gear": "Fish, Funboard, Longboard, SUP",
+        "access_info": "There's parking out on the end of the headland. Paddle out in the deep channel.",
+        "bottom_type": "Jagged reef",
+        "best_season": "December to February.",
+        "wave_character": "hollow"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "The Bubble (Hierro Right)",
+      "gps": {
+        "latitude": 28.74416667,
+        "longitude": -13.94806
+      },
+      "url": "https://www.surfline.com/surf-report/the-bubble-hierro-right-/5842041f4e65fad6a7708cbf",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.74416667,-13.94806&z=17/",
+        "ideal_conditions": "Swell DirectionN, NW, WWindSESurf HeightWaist high to double overhead.TideWorks on all tides.",
+        "swell_direction": "N, NW, W",
+        "surf_height": "Waist high to double overhead.",
+        "tide_conditions": "Works on all tides.",
+        "ability_level": "Intermediate - Advanced",
+        "local_vibe": "Doable",
+        "crowd_factor": "Moderate",
+        "shoulder_burn": "Medium",
+        "water_quality": "Clean",
+        "hazards": "Sharp rocks, heavy waves.",
+        "recommended_gear": "Shortboard, Fish, Bodyboard",
+        "access_info": "Drive along the North Track - park overlooking breaks.",
+        "bottom_type": "Lava reef",
+        "best_season": "Best October - March",
+        "wave_direction": "left hander",
+        "wave_character": "fast; hollow"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Playa Punta Blanca",
+      "gps": {
+        "latitude": 28.7239671,
+        "longitude": -13.98912
+      },
+      "url": "https://www.surfline.com/surf-report/playa-punta-blanca/666b3248646e832432d19dd2",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.7239671,-13.98912&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Los Lobos",
+      "gps": {
+        "latitude": 28.75027778,
+        "longitude": -13.83528
+      },
+      "url": "https://www.surfline.com/surf-report/los-lobos/5842041f4e65fad6a7708cb9",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.75027778,-13.83528&z=17/",
+        "ideal_conditions": "Swell DirectionN, NWWindESESurf HeightChest-2x overheadTideAll",
+        "swell_direction": "N, NW",
+        "surf_height": "Chest-2x overhead",
+        "ability_level": "Intermediate",
+        "local_vibe": "Doable",
+        "crowd_factor": "Moderate",
+        "spot_rating": "Perfect",
+        "shoulder_burn": "Medium",
+        "water_quality": "Clean",
+        "hazards": "Ultra sharp reef.",
+        "recommended_gear": "Shortboard, Gun",
+        "access_info": "A boat to the island, then a scramble over lava reef.",
+        "bottom_type": "Lava reef",
+        "best_season": "Fall-Spring"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Playa Jarugo",
+      "gps": {
+        "latitude": 28.5716,
+        "longitude": -14.0482
+      },
+      "url": "https://www.surfline.com/surf-report/playa-jarugo/640b8902e9203003b2dcc458",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.5716,-14.0482&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "La Pared",
+      "gps": {
+        "latitude": 28.21453,
+        "longitude": -14.22557
+      },
+      "url": "https://www.surfline.com/surf-report/la-pared/584204204e65fad6a77096a7",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.21453,-14.22557&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Cotillo",
+      "gps": {
+        "latitude": 28.6754,
+        "longitude": -14.0104
+      },
+      "url": "https://www.surfline.com/surf-report/cotillo/6052148c589a23368a742cb4",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.6754,-14.0104&z=17/",
+        "ideal_conditions": "Swell DirectionNW-WWindSE, E, NESurf HeightWaist to head highTideWorks on all tides.",
+        "swell_direction": "NW-W",
+        "wind_direction": "SE, E, NE",
+        "surf_height": "Waist to head high",
+        "tide_conditions": "Works on all tides.",
+        "ability_level": "Beginner - Intermediate",
+        "local_vibe": "Doable",
+        "crowd_factor": "Moderate",
+        "shoulder_burn": "Medium",
+        "water_quality": "Clean",
+        "hazards": "Heavy and rippy when big, occasional rocks.",
+        "recommended_gear": "Shortboard, Funboard, SUP, Fish, Longboard, Bodyboard",
+        "access_info": "There is cliff top parking all along the beach. Watch out for car crime.",
+        "bottom_type": "Sandbanks with occasional rocks.",
+        "best_season": "Best October - March",
+        "wave_type": "beach break",
+        "wave_character": "powerful; hollow"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Rocky Point",
+      "gps": {
+        "latitude": 28.73282,
+        "longitude": -13.85688
+      },
+      "url": "https://www.surfline.com/surf-report/rocky-point/584204204e65fad6a77096a0",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.73282,-13.85688&z=17/",
+        "ideal_conditions": "Swell DirectionBig NWWindSW, SSurf HeightWaist high to overhead.TideWorks on all tides.",
+        "swell_direction": "Big NW",
+        "wind_direction": "SW, S",
+        "surf_height": "Waist high to overhead.",
+        "tide_conditions": "Works on all tides.",
+        "ability_level": "Beginner - Intermediate",
+        "local_vibe": "Doable",
+        "crowd_factor": "Moderate",
+        "shoulder_burn": "Medium",
+        "water_quality": "Clean",
+        "hazards": "Rocks on inside, crowds.",
+        "recommended_gear": "Shortboard, Funboard, SUP, Fish, Longboard, Bodyboard",
+        "access_info": "Street parking close by, don't leave valuables in car. Easy paddle out in deep channel.",
+        "bottom_type": "Rocky reef",
+        "best_season": "Best October - March",
+        "wave_character": "fast; hollow"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Generosa",
+      "gps": {
+        "latitude": 28.756,
+        "longitude": -13.8849
+      },
+      "url": "https://www.surfline.com/surf-report/generosa/640b892d606c4576c6ef960a",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.756,-13.8849&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Bristol",
+      "gps": {
+        "latitude": 28.748903,
+        "longitude": -13.87342
+      },
+      "url": "https://www.surfline.com/surf-report/bristol/584204204e65fad6a77096a3",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.748903,-13.87342&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Playa los Matos",
+      "gps": {
+        "latitude": 28.6984,
+        "longitude": -13.8313
+      },
+      "url": "https://www.surfline.com/surf-report/playa-los-matos/640b893a4878eb50bf195f71",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.6984,-13.8313&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "El Burro (Glasbeach)",
+      "gps": {
+        "latitude": 28.69,
+        "longitude": -13.83
+      },
+      "url": "https://www.surfline.com/surf-report/el-burro-glasbeach-/640b89264519055221dba4e8",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.69,-13.83&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Playa de las Pilas",
+      "gps": {
+        "latitude": 28.0729,
+        "longitude": -14.4478
+      },
+      "url": "https://www.surfline.com/surf-report/playa-de-las-pilas/640b88fc606c458379ef8b0e",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.0729,-14.4478&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Flag Beach",
+      "gps": {
+        "latitude": 28.7229,
+        "longitude": -13.8416
+      },
+      "url": "https://www.surfline.com/surf-report/flag-beach/640b894d4519055a3bdbaeaf",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.7229,-13.8416&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Playa del Moro",
+      "gps": {
+        "latitude": 28.6845,
+        "longitude": -13.8321
+      },
+      "url": "https://www.surfline.com/surf-report/playa-del-moro/640b89598284fe91dbacaee1",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.6845,-13.8321&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Playa La Cabezuela",
+      "gps": {
+        "latitude": 28.6217,
+        "longitude": -13.8269
+      },
+      "url": "https://www.surfline.com/surf-report/playa-la-cabezuela/640b89334878eb9f5e195ddc",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.6217,-13.8269&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Playa Los Picachos",
+      "gps": {
+        "latitude": 28.617,
+        "longitude": -13.8257
+      },
+      "url": "https://www.surfline.com/surf-report/playa-los-picachos/640b8940b6d7696b02902c97",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.617,-13.8257&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Playa Puerto Rico",
+      "gps": {
+        "latitude": 28.1752,
+        "longitude": -14.1712
+      },
+      "url": "https://www.surfline.com/surf-report/playa-puerto-rico/640b89148284fe0275ac9e82",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.1752,-14.1712&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Cruz Roja",
+      "gps": {
+        "latitude": 28.0437,
+        "longitude": -14.3313
+      },
+      "url": "https://www.surfline.com/surf-report/cruz-roja/640b88eab6d769da88901861",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.0437,-14.3313&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Las Salinas",
+      "gps": {
+        "latitude": 28.07692,
+        "longitude": -14.47738
+      },
+      "url": "https://www.surfline.com/surf-report/las-salinas/584204204e65fad6a77096a5",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.07692,-14.47738&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Playa de los Valdivias",
+      "gps": {
+        "latitude": 28.5733,
+        "longitude": -13.8293
+      },
+      "url": "https://www.surfline.com/surf-report/playa-de-los-valdivias/640b8946e92030397fdcd44c",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.5733,-13.8293&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Jandia",
+      "gps": {
+        "latitude": 28.1006,
+        "longitude": -14.2713
+      },
+      "url": "https://www.surfline.com/surf-report/jandia/640b88f08284fe01a2ac95c9",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.1006,-14.2713&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Playa del Esquinzo",
+      "gps": {
+        "latitude": 28.0727,
+        "longitude": -14.3027
+      },
+      "url": "https://www.surfline.com/surf-report/playa-del-esquinzo/640b88f6451905854cdb99bc",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.0727,-14.3027&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Corralejo Beach",
+      "gps": {
+        "latitude": 28.696627,
+        "longitude": -13.82747
+      },
+      "url": "https://www.surfline.com/surf-report/corralejo-beach/584204204e65fad6a77096a4",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.696627,-13.82747&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Playa del Perchel",
+      "gps": {
+        "latitude": 28.5789,
+        "longitude": -13.8296
+      },
+      "url": "https://www.surfline.com/surf-report/playa-del-perchel/640b89534519055a3bdbb036",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.5789,-13.8296&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Caleta de Fuste Beach",
+      "gps": {
+        "latitude": 28.3949,
+        "longitude": -13.8579
+      },
+      "url": "https://www.surfline.com/surf-report/caleta-de-fuste-beach/640b8920e920306c5edccad9",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.3949,-13.8579&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Pozo Negro",
+      "gps": {
+        "latitude": 28.323487,
+        "longitude": -13.895123
+      },
+      "url": "https://www.surfline.com/surf-report/pozo-negro/584204204e65fad6a77096a6",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.323487,-13.895123&z=17/"
+      },
+      "gps_verified": true
+    },
+    {
+      "name": "Playa de los James",
+      "gps": {
+        "latitude": 28.2383,
+        "longitude": -13.9311
+      },
+      "url": "https://www.surfline.com/surf-report/playa-de-los-james/640b8908e920300ba8dcc5e9",
+      "surfline_characteristics": {
+        "google_maps_url": "https://www.google.com/maps?q=28.2383,-13.9311&z=17/"
+      },
+      "gps_verified": true
+    }
+  ]
+}
