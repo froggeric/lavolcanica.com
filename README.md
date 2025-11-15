@@ -41,7 +41,7 @@ All content is managed through a structured set of JavaScript modules located in
 - **Text Content**: Stories and biographies are managed in `data/content/release-stories.js` and `data/content/collaborator-bios.js`.
 - **Collaborators**: To add a new collaborator, open `data/collaborators/collaborator-data.js` and add a new object to the `collaboratorData` array.
 - **External Links**: Links to streaming platforms are managed in `data/config/platform-config.js` and `data/config/artist-data.js`.
-- **Surf Spots**: Information about Fuerteventura surf spots, including their characteristics and GPS coordinates, is managed in [`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json).
+- **Surf Spots**: Information about Fuerteventura surf spots, including their characteristics and GPS coordinates, is managed in [`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json). For detailed editorial standards and content guidelines when adding or modifying surf spot entries, please refer to the [**Surf Spot Content Guidelines**](docs/surf-spots-content-guidelines.md).
 
 For a detailed guide on how to add or modify content, please see the [**Developer Guide**](docs/DEVELOPER_GUIDE.md).
 

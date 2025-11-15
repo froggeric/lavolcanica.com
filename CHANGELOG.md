@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.12.5] - 2025-11-15
+
+### Added
+- **Comprehensive documentation**: Created detailed surf spot content guidelines (`surf-spots-content-guidelines.md`) with editorial standards and writing requirements
+- **Description analysis**: Documented the sophisticated 200+ word narrative structure for surf spot descriptions with four-paragraph format
+- **Quality standards**: Established rigorous content creation guidelines including research requirements and validation processes
+- **Documentation integration**: Updated DEVELOPER_GUIDE.md and README.md to reference new content guidelines
+
+### Documentation
+- Added comprehensive editorial standards for surf spot database maintenance
+- Documented narrative structure patterns and writing style requirements
+- Established quality assurance workflows and review processes
+- Created guidelines for information sourcing and verification procedures
+
 ## [1.12.4] - 2025-11-15
 
 ### Fixed

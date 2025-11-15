@@ -115,7 +115,10 @@ The Fuerteventura Surf Map is a significant new feature designed to provide an i
 - **[`SurfFilters`](scripts/surf-map/surf-filters.js)**: Provides filtering capabilities, enabling users to narrow down surf spots based on various attributes like ability level, wave type, and location.
 
 #### Data Structure
-All surf spot data is consolidated into a single JSON file: [`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json). This file contains an array of objects, each representing a surf spot with detailed information such as `id`, `primaryName`, `location` (including `lat` and `lng` coordinates), `waveDetails`, `characteristics`, and `practicalities`. A full schema is available in [`surf-spots-data-structure.md`](surf-spots-data-structure.md).
+All surf spot data is consolidated into a single JSON file: [`data/fuerteventura-surf-spots.json`](data/fuerteventura-surf-spots.json). This file contains an array of objects, each representing a surf spot with detailed information such as `id`, `primaryName`, `location` (including `lat` and `lng` coordinates), `waveDetails`, `characteristics`, and `practicalities.
+
+- **Technical Schema**: A full data structure specification is available in [`surf-spots-data-structure.md`](surf-spots-data-structure.md)
+- **Content Guidelines**: Comprehensive editorial standards and writing guidelines are documented in [`surf-spots-content-guidelines.md`](surf-spots-content-guidelines.md), including detailed analysis of the 200+ word narrative descriptions and quality standards
 
 #### Configuration
 The visibility of the surf map feature in the main navigation is controlled by the `surfMapEnabled` flag in [`data/config/app-config.js`](data/config/app-config.js:57).
