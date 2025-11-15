@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.12.4] - 2025-11-15
+
+### Fixed
+- **Character encoding**: Fixed Unicode character display issues in surf spots data (Pájara, Jandía, etc.)
+- **GPS coordinates**: Refined coordinates accuracy for several surf spots including Majanicho, Majanichito, and El Hierro
+- **Data consistency**: Standardized coordinate precision across surf spot database
+
 ## [1.12.3] - 2025-11-15
 
 ### Changed
