@@ -42,7 +42,7 @@ A comprehensive text description of the surf spot, including its characteristics
 ### `location` (Object)
 Contains geographical and administrative information about the surf spot.
 *   **Fields:**
-    *   `area` (String): The general region where the spot is located. **Allowed values:** `"North"`, `"North East"`, `"East"`, `"South"`, `"West"`, `"North West"`, `"Offshore"`.
+    *   `area` (String): The general region where the spot is located. **Allowed values:** `"North"`, `"North East"`, `"East"`, `"South"`, `"West"`, `"Offshore"`.
     *   `nearestTowns` (Array of Strings): A list of nearby towns or villages.
     *   `coordinates` (Object):
         *   `lat` (Number): Latitude coordinate.

@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.12.6] - 2025-11-16
+
+### Fixed
+- **Location accuracy**: Comprehensive correction of area classifications for 18 surf spots (33% of database)
+- **Invalid classifications**: Eliminated "Central East", "Southeast", "Corralejo Area", and "North West" area values
+- **Geographic boundaries**: Applied consistent coordinate-based area classifications across all 54 spots
+- **NearestTowns accuracy**: Corrected Esquinzo location properties with geographically accurate towns (El Cotillo, Tindaya, La Oliva)
+- **Database standards**: Ensured 100% compliance with established enumeration values for area classifications
+
+### Documentation
+- Added comprehensive location accuracy improvement documentation
+- Updated surf-spots-data-structure.md to remove "North West" from allowed area values
+- Documented geographic boundary definitions and correction methodology
+
+### Changed
+- **Area distribution**: Final distribution - North: 26, South: 13, West: 9, East: 5, Offshore: 1 spots
+- **Search accuracy**: Regional queries now return geographically correct results
+
 ## [1.12.5] - 2025-11-15
 
 ### Added
